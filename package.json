@@ -15,11 +15,24 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "@types/enzyme": "^3.1.10",
+    "@types/enzyme-adapter-react-16": "^1.0.2",
     "@types/jest": "^22.2.3",
     "@types/node": "^10.1.2",
     "@types/react": "^16.3.14",
     "@types/react-dom": "^16.0.5",
+    "enzyme": "^3.3.0",
+    "enzyme-to-json": "^3.3.4",
+    "enzyme-adapter-react-16": "^1.1.1",
     "typescript": "^2.8.3"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/App.tsx",
+      "src/*/**/*.{js,jsx,ts,tsx}",
+      "!src/types/**/*"
+    ],
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
   },
   "license": "GPL-3.0"
 }
