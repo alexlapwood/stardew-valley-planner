@@ -8,7 +8,9 @@ describe("Crop", () => {
     age: 0,
     id: "test_crop",
     name: "Test Crop",
-    stages: [1, 2, 2, 5]
+    stages: [1, 2, 2, 5],
+    x: 0,
+    y: 0
   };
 
   it("renders correctly", () => {

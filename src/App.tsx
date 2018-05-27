@@ -1,26 +1,27 @@
 import * as React from "react";
 
-import Crop from "./components/Crop/Crop";
+import Farm from "./components/Farm/Farm";
 
-// tslint:disable-next-line:no-var-requires
-const { crops }: ISDVData = require("./data/sdv.json");
+import { getDay, getSeason, getYear } from "./helpers/date";
 
-interface ISDVData {
-  crops: ICrop[];
+interface IState {
+  day: number;
 }
 
 class App extends React.Component {
-  public state = {
+  public state: IState = {
     day: 1
   };
 
   public render() {
+    const { day } = this.state;
     return (
       <div className="App">
-        {crops.map(crop => (
-          <Crop key={crop.id} {...crop} age={this.state.day} />
-        ))}
-
+        <Farm day={day} />
+        <br />
+        Day {getDay(day)} of{" "}
+        {["Spring", "Summer", "Fall", "Winter"][getSeason(day)]} Year{" "}
+        {getYear(day)}
         <input
           type="number"
           onChange={

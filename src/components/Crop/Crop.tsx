@@ -9,6 +9,8 @@ interface IProps {
   name: string;
   regrow?: number;
   stages: number[];
+  x: number;
+  y: number;
 }
 
 const cropMap = [
@@ -51,42 +53,46 @@ const cropMap = [
 
 class Crop extends React.Component<IProps> {
   public render() {
-    const { age, id, isFlower, name, regrow, stages } = this.props;
+    const { age, isFlower, name, regrow, stages, x, y } = this.props;
 
     const stage = this.calculateStageOfCrop(age, stages, regrow);
 
     if (stage === undefined) {
-      return (
-        <div
-          key={id}
-          style={{ display: "inline-block", height: "32px", width: "16px" }}
-        />
-      );
+      console.log("This should never happen");
+      return <div />;
     }
 
     const spriteIndex = stage + 1;
 
     return (
-      <div style={{ display: "inline-block", position: "relative" }}>
-        <Sprite
-          height={32}
-          src="/images/crops.png"
-          width={16}
-          x={spriteIndex * 16}
-          y={cropMap.indexOf(name) * 32}
-        />
-        {isFlower &&
-          spriteIndex > stages.length && (
-            <div style={{ position: "absolute", top: 0 }}>
-              <Sprite
-                height={32}
-                src="/images/crops.png"
-                width={16}
-                x={(spriteIndex + 1) * 16}
-                y={cropMap.indexOf(name) * 32}
-              />
-            </div>
-          )}
+      <div
+        style={{
+          left: `${x * 16}px`,
+          position: "absolute",
+          top: `${y * 16}px`
+        }}
+      >
+        <div style={{ display: "block", position: "relative" }}>
+          <Sprite
+            height={32}
+            src="/images/crops.png"
+            width={16}
+            x={spriteIndex * 16}
+            y={cropMap.indexOf(name) * 32}
+          />
+          {isFlower &&
+            spriteIndex > stages.length && (
+              <div style={{ position: "absolute", top: 0 }}>
+                <Sprite
+                  height={32}
+                  src="/images/crops.png"
+                  width={16}
+                  x={(spriteIndex + 1) * 16}
+                  y={cropMap.indexOf(name) * 32}
+                />
+              </div>
+            )}
+        </div>
       </div>
     );
   }

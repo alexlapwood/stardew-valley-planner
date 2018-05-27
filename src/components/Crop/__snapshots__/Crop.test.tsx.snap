@@ -2,47 +2,51 @@
 
 exports[`Crop renders correctly 1`] = `
 <div
-  style="display:inline-block;position:relative"
+  style="left:0px;position:absolute;top:0px"
 >
   <div
-    style="position:relative"
-  >
-    <div
-      class="sprite"
-      style="background-image:url(/images/crops.png);background-position:-16px --32px;height:32px;width:16px"
-    />
-  </div>
-</div>
-`;
-
-exports[`Crop renders correctly after it has been removed 1`] = `
-<div
-  style="display:inline-block;height:32px;width:16px"
-/>
-`;
-
-exports[`Crop renders flower head correctly 1`] = `
-<div
-  style="display:inline-block;position:relative"
->
-  <div
-    style="position:relative"
-  >
-    <div
-      class="sprite"
-      style="background-image:url(/images/crops.png);background-position:-80px --32px;height:32px;width:16px"
-    />
-  </div>
-  <div
-    style="position:absolute;top:0"
+    style="display:block;position:relative"
   >
     <div
       style="position:relative"
     >
       <div
         class="sprite"
-        style="background-image:url(/images/crops.png);background-position:-96px --32px;height:32px;width:16px"
+        style="background-image:url(/images/crops.png);background-position:-16px --32px;height:32px;width:16px"
       />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Crop renders correctly after it has been removed 1`] = `<div />`;
+
+exports[`Crop renders flower head correctly 1`] = `
+<div
+  style="left:0px;position:absolute;top:0px"
+>
+  <div
+    style="display:block;position:relative"
+  >
+    <div
+      style="position:relative"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(/images/crops.png);background-position:-80px --32px;height:32px;width:16px"
+      />
+    </div>
+    <div
+      style="position:absolute;top:0"
+    >
+      <div
+        style="position:relative"
+      >
+        <div
+          class="sprite"
+          style="background-image:url(/images/crops.png);background-position:-96px --32px;height:32px;width:16px"
+        />
+      </div>
     </div>
   </div>
 </div>
