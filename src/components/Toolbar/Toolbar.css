@@ -1,0 +1,10 @@
+.Toolbar {
+  left: 0px;
+  position: absolute;
+  top: 0px;
+}
+
+.Toolbar--tool {
+  height: 16px;
+  width: 16px;
+}

@@ -1,8 +1,12 @@
 import * as React from "react";
 
 import Farm from "./components/Farm/Farm";
+import Menu from "./components/Menu/Menu";
+import Toolbar from "./components/Toolbar/Toolbar";
 
 import { getDay, getSeason, getYear } from "./helpers/date";
+
+import "./App.css";
 
 interface IState {
   day: number;
@@ -17,18 +21,23 @@ class App extends React.Component {
     const { day } = this.state;
     return (
       <div className="App">
-        <Farm day={day} />
-        <br />
-        Day {getDay(day)} of{" "}
-        {["Spring", "Summer", "Fall", "Winter"][getSeason(day)]} Year{" "}
-        {getYear(day)}
-        <input
-          type="number"
-          onChange={
-            // tslint:disable-next-line:jsx-no-lambda
-            e => this.changeDay(Number(e.target.value))
-          }
-        />
+        <Menu menuItems={["New", "Open", "Save"]} />
+        <div className="DatePicker">
+          Day {getDay(day)} of{" "}
+          {["Spring", "Summer", "Fall", "Winter"][getSeason(day)]} Year{" "}
+          {getYear(day)}
+          <input
+            type="number"
+            onChange={
+              // tslint:disable-next-line:jsx-no-lambda
+              e => this.changeDay(Number(e.target.value))
+            }
+          />
+        </div>
+        <div className="MainWindow">
+          <Farm day={day} />
+          <Toolbar />
+        </div>
       </div>
     );
   }

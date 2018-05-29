@@ -69,7 +69,7 @@ class Crop extends React.Component<IProps> {
         style={{
           left: `${x * 16}px`,
           position: "absolute",
-          top: `${y * 16}px`
+          top: `${(y - 1) * 16}px`
         }}
       >
         <div style={{ display: "block", position: "relative" }}>

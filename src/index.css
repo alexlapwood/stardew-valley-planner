@@ -1,10 +1,47 @@
-body {
-  background: url("/images/ground.png");
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
+* {
+  box-sizing: border-box;
+  cursor: url("/images/cursor.png"), auto;
 }
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
 html {
   image-rendering: pixelated;
   zoom: 300%;
+}
+
+body {
+  font-family: monospace;
+  font-size: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.sdv-button {
+  background: url("/images/button.png");
+  height: 27px;
+  line-height: 27px;
+  width: 59px;
+  text-align: center;
+}
+
+.sdv-button:hover {
+  background: url("/images/button-hover.png");
+}
+
+.sdv-toolbar-border {
+  background: #febd67;
+  background-clip: padding-box;
+  border: 4px solid transparent;
+  border-image: url("/images/toolbar-border.png") 4 stretch;
+}
+
+.sdv-tool-border {
+  border: 1px solid transparent;
+  border-image: url("/images/tool-border.png") 1 stretch;
 }

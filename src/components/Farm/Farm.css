@@ -1,0 +1,9 @@
+.Farm {
+  background: url("/images/ground.png");
+  flex: 1;
+  height: 100%;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}

@@ -4,6 +4,8 @@ import Crop from "../Crop/Crop";
 
 import { getCropsLastDay } from "../../helpers/date";
 
+import "./Farm.css";
+
 // tslint:disable-next-line:no-var-requires
 const crops: ICrop[] = require("../../data/sdv.json").crops;
 
@@ -64,15 +66,15 @@ class App extends React.Component<IProps> {
   public state: IState = { crops: [] };
 
   public async componentDidMount() {
-    for (let i = 0; i < 100; i += 1) {
-      const cropName = Math.floor(Math.random() * (cropMap.length - 1));
+    for (let i = 0; i < 400; i += 1) {
+      const cropId = Math.floor(Math.random() * (cropMap.length - 1));
+      const cropName = cropMap[cropId].toLowerCase().replace(/ /g, "_");
 
-      await this.plantCrop(
-        cropMap[cropName].toLowerCase().replace(/ /g, "_"),
-        1,
-        i % 10,
-        Math.floor(i / 10)
-      );
+      const crop = crops.find(c => c.id === cropName);
+
+      if (crop && crop.seasons.find(season => season === "spring")) {
+        await this.plantCrop(cropName, 1, i % 25 + 1, Math.floor(i / 25) + 1);
+      }
     }
   }
 
