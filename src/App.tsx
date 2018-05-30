@@ -21,7 +21,7 @@ class App extends React.Component {
     const { day } = this.state;
     return (
       <div className="App">
-        <Menu menuItems={["New", "Open", "Save"]} />
+        <Menu menuItems={["New", "Open", "Save", "Share", "Options"]} />
         <div className="DatePicker">
           Day {getDay(day)} of{" "}
           {["Spring", "Summer", "Fall", "Winter"][getSeason(day)]} Year{" "}

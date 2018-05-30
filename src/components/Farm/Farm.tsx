@@ -1,51 +1,19 @@
 import * as React from "react";
 
-import Crop from "../Crop/Crop";
-
-import { getCropsLastDay } from "../../helpers/date";
+import {
+  calculateStageOfCrop,
+  getCropsLastDay,
+  renderCrop
+} from "../../helpers/crop";
+import { getSeason } from "../../helpers/date";
 
 import "./Farm.css";
 
 // tslint:disable-next-line:no-var-requires
 const crops: ICrop[] = require("../../data/sdv.json").crops;
 
-const cropMap = [
-  "Amaranth",
-  "Ancient Fruit",
-  "Artichoke",
-  "Beet",
-  "Blue Jazz",
-  "Blueberry",
-  "Bok Choy",
-  "Cauliflower",
-  "Corn",
-  "Cranberry",
-  "Eggplant",
-  "Fairy Rose",
-  "Garlic",
-  "Grape",
-  "Green Bean",
-  "Hops",
-  "Hot Pepper",
-  "Kale",
-  "Melon",
-  "Parsnip",
-  "Poppy",
-  "Potato",
-  "Pumpkin",
-  "Radish",
-  "Red Cabbage",
-  "Rhubarb",
-  "Starfruit",
-  "Strawberry",
-  "Summer Spangle",
-  "Sunflower",
-  "Sweet Gem Berry",
-  "Tomato",
-  "Tulip",
-  "Wheat",
-  "Yam"
-];
+// tslint:disable-next-line:no-var-requires
+// const cropMap: string[] = require("../../data/crops.json");
 
 interface IPlantedCrop {
   cropId: string;
@@ -65,58 +33,123 @@ interface IState {
 class App extends React.Component<IProps> {
   public state: IState = { crops: [] };
 
-  public async componentDidMount() {
-    for (let i = 0; i < 400; i += 1) {
-      const cropId = Math.floor(Math.random() * (cropMap.length - 1));
-      const cropName = cropMap[cropId].toLowerCase().replace(/ /g, "_");
+  private canvas?: HTMLCanvasElement;
 
-      const crop = crops.find(c => c.id === cropName);
-
-      if (crop && crop.seasons.find(season => season === "spring")) {
-        await this.plantCrop(cropName, 1, i % 25 + 1, Math.floor(i / 25) + 1);
-      }
-    }
+  public componentDidMount() {
+    // const cropsToPlant: IPlantedCrop[] = [];
+    // for (let i = 0; i < 80 * 60; i += 1) {
+    //   const cropNumber = Math.floor(Math.random() * (cropMap.length - 1));
+    //   const cropId = cropMap[cropNumber].toLowerCase().replace(/ /g, "_");
+    //   const crop = crops.find(c => c.id === cropId);
+    //   if (crop && crop.seasons.find(season => season === "spring")) {
+    //     cropsToPlant.push({
+    //       cropId,
+    //       dayPlanted: 1,
+    //       x: i % 80 + 1,
+    //       y: Math.floor(i / 80) + 1
+    //     });
+    //   }
+    // }
+    // this.plantCrops(cropsToPlant);
   }
 
   public render() {
-    const { day } = this.props;
+    this.updateCanvas();
 
-    const cropsToRender = this.state.crops
-      .sort((a, b) => a.y - b.y)
-      .map(({ cropId, dayPlanted, x, y }, i) => {
-        const crop = crops.find(c => c.id === cropId);
+    const season = ["spring", "summer", "fall", "winter"][
+      getSeason(this.props.day)
+    ];
 
-        if (crop === undefined || day < dayPlanted) {
-          return;
-        }
-
-        const cropsLastDay = getCropsLastDay(crop, dayPlanted);
-        if (cropsLastDay === undefined || day > cropsLastDay) {
-          return;
-        }
-
-        return (
-          <Crop key={i} {...crop} {...{ x, y }} age={day - dayPlanted + 1} />
-        );
-      });
-
-    return <div className="Farm">{cropsToRender}</div>;
+    return (
+      <div className="Farm">
+        <canvas
+          height={65 * 16}
+          ref={ref => {
+            if (ref !== null) {
+              this.canvas = ref;
+            }
+          }}
+          style={{
+            background: `url("/images/background-${season}.png")`
+          }}
+          width={80 * 16}
+        />
+      </div>
+    );
   }
 
-  private plantCrop = (
-    cropId: string,
-    dayPlanted: number,
-    x: number,
-    y: number
-  ) => {
-    return new Promise((resolve, reject) => {
-      this.setState(
-        {
-          crops: [...this.state.crops, { cropId, dayPlanted, x, y }]
-        },
-        () => resolve()
-      );
-    });
+  // private plantCrop = (
+  //   cropId: string,
+  //   dayPlanted: number,
+  //   x: number,
+  //   y: number
+  // ) => {
+  //   this.setState({
+  //     crops: [...this.state.crops, { cropId, dayPlanted, x, y }]
+  //   });
+  // };
+
+  // private plantCrops = (cropsToPlant: IPlantedCrop[]) => {
+  //   this.setState({
+  //     crops: [...this.state.crops, ...cropsToPlant]
+  //   });
+  // };
+
+  private updateCanvas = () => {
+    const { day } = this.props;
+
+    if (this.canvas) {
+      const canvasHeight = this.canvas.height;
+      const canvasWidth = this.canvas.width;
+      const context = this.canvas.getContext("2d");
+
+      if (context === null) {
+        throw new Error("Could not get context for canvas");
+      }
+
+      const sprite = new Image();
+      sprite.src = "/images/crops.png";
+      sprite.onload = () => {
+        if (this.canvas === null || context === null) {
+          return;
+        }
+
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+        const sortedCrops = this.state.crops.sort(
+          (a, b) =>
+            a.x + a.y * canvasWidth / 16 - (b.x + b.y * canvasWidth / 16)
+        );
+
+        sortedCrops.map(({ cropId, dayPlanted, x, y }, i) => {
+          const crop = crops.find(c => c.id === cropId);
+
+          if (crop === undefined) {
+            return;
+          }
+
+          const cropsLastDay = getCropsLastDay(crop, dayPlanted);
+          if (
+            cropsLastDay === undefined ||
+            day < dayPlanted ||
+            day > cropsLastDay
+          ) {
+            return;
+          }
+
+          const stage = calculateStageOfCrop(
+            day - dayPlanted + 1,
+            crop.stages,
+            crop.regrow
+          );
+
+          const spriteIndex = stage + 1;
+          const isFlower = crop.isFlower && spriteIndex > crop.stages.length;
+
+          renderCrop(context, sprite, stage + 1, x, y, crop.name, isFlower);
+        });
+      };
+    }
   };
 }
 

@@ -1,9 +1,14 @@
 .Farm {
-  background: url("/images/ground.png");
   flex: 1;
   height: 100%;
   display: inline-block;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
+  overscroll-behavior: none;
   width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.Farm canvas {
+  display: block;
 }

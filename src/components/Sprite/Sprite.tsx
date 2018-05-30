@@ -1,7 +1,5 @@
 import * as React from "react";
 
-// import "./Sprite.css";
-
 interface IProps {
   height: number;
   src: string;
@@ -19,6 +17,7 @@ const Sprite: React.SFC<IProps> = props => {
       style={{
         backgroundImage: `url(${src})`,
         backgroundPosition: `-${x}px -${y}px`,
+        display: "inline-block",
         height: `${height}px`,
         width: `${width}px`
       }}
