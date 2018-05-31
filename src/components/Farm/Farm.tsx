@@ -52,30 +52,32 @@ class App extends React.Component<IProps> {
     //   }
     // }
     // this.plantCrops(cropsToPlant);
+
+    this.updateCanvas();
   }
 
   public render() {
-    const { date, zoom } = this.props;
+    const { zoom } = this.props;
 
     this.updateCanvas();
 
-    const season = ["spring", "summer", "fall", "winter"][getSeason(date)];
-
     return (
       <div className="Farm">
-        <canvas
-          height={65 * 16}
-          ref={ref => {
-            if (ref !== null) {
-              this.canvas = ref;
-            }
-          }}
-          style={{
-            background: `url("/images/background-${season}.png")`,
-            transform: `scale(${zoom})`
-          }}
-          width={80 * 16}
-        />
+        <div
+          className="Farm--canvas-wrapper"
+          style={{ transform: `scale(${zoom})` }}
+        >
+          <canvas
+            className="Farm--canvas"
+            height={65 * 16}
+            ref={ref => {
+              if (ref !== null) {
+                this.canvas = ref;
+              }
+            }}
+            width={80 * 16}
+          />
+        </div>
       </div>
     );
   }
@@ -109,6 +111,11 @@ class App extends React.Component<IProps> {
         throw new Error("Could not get context for canvas");
       }
 
+      context.mozImageSmoothingEnabled = false;
+      context.webkitImageSmoothingEnabled = false;
+      context.oImageSmoothingEnabled = false;
+      context.imageSmoothingEnabled = false;
+
       const sprite = new Image();
       sprite.src = "/images/crops.png";
       sprite.onload = () => {
@@ -117,6 +124,16 @@ class App extends React.Component<IProps> {
         }
 
         context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+        const season = ["spring", "summer", "fall", "winter"][getSeason(date)];
+
+        const background: HTMLImageElement | null = document.querySelector(
+          `img[src="/images/background-${season}.png"]`
+        );
+
+        if (background !== null) {
+          context.drawImage(background, 0, 0);
+        }
 
         const sortedCrops = this.state.crops.sort(
           (a, b) =>
