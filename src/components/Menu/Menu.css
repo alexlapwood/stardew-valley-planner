@@ -1,3 +1,8 @@
 .Menu {
   display: flex;
+  height: 0;
+}
+
+.Menu .flex-horizontal {
+  width: 100%;
 }

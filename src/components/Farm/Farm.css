@@ -11,4 +11,5 @@
 
 .Farm canvas {
   display: block;
+  transform-origin: 0 0;
 }

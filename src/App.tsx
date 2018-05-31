@@ -19,17 +19,19 @@ class App extends React.Component {
   public render() {
     const { date } = this.state;
     return (
-      <div className="App">
-        <div className="flex-horizontal">
-          <div className="flex-vertical flex overflow-hidden">
-            <Menu menuItems={["New", "Open", "Save", "Share", "Options"]} />
-            <div className="relative flex overflow-hidden">
-              <Farm date={date} zoom={2} />
-              <Toolbar />
-              <DatePicker date={date} changeDate={this.changeDate} />
-            </div>
+      <div className="App flex-horizontal">
+        <div className="flex-vertical flex overflow-hidden">
+          <Menu menuItems={["New", "Open", "Save", "Share", "Options"]} />
+          <div className="relative flex overflow-hidden">
+            <Farm date={date} zoom={1} />
+            <Toolbar />
+            <DatePicker date={date} changeDate={this.changeDate} />
           </div>
-          <div style={{ width: "128px" }} />
+        </div>
+        <div style={{ width: "128px" }}>
+          <div className="sdv-panel-big">
+            <div style={{ margin: "-5px 0" }}>Box</div>
+          </div>
         </div>
       </div>
     );

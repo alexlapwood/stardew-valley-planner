@@ -72,7 +72,7 @@ class App extends React.Component<IProps> {
           }}
           style={{
             background: `url("/images/background-${season}.png")`,
-            zoom: zoom / 2
+            transform: `scale(${zoom})`
           }}
           width={80 * 16}
         />

@@ -1,9 +1,8 @@
 .DatePicker {
-  padding: 0 16px;
   position: absolute;
-  left: 24px;
-  right: 6px;
-  top: 16px;
+  left: 8px;
+  right: 8px;
+  top: 8px;
 }
 
 .DatePicker .flex-horizontal {
@@ -24,7 +23,8 @@
 }
 
 .DatePicker--season {
-  padding: 0 16px;
+  overflow: hidden;
+  padding: 1px 16px;
 }
 
 .DatePicker--year {
