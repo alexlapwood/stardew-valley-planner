@@ -9,10 +9,8 @@ export function getCropsLastDay(crop: ICrop, dayPlanted: number) {
   const seasonPlanted = getSeason(dayPlanted);
 
   for (let i = 0; i < 4; i += 1) {
-    if (
-      !crop.seasons.find(season => seasons[seasonPlanted + i + 1] === season)
-    ) {
-      const lastDay = Math.ceil((dayPlanted + i * 28) / 28) * 28;
+    if (!crop.seasons.find(season => seasons[seasonPlanted + i] === season)) {
+      const lastDay = Math.ceil((dayPlanted + i * 28) / 28) * 28 - 1;
       if (crop.regrow) {
         return lastDay;
       }

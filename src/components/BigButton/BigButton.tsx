@@ -1,3 +1,4 @@
+import * as cn from "classnames";
 import * as React from "react";
 
 import BigText from "../BigText/BigText";
@@ -5,13 +6,19 @@ import BigText from "../BigText/BigText";
 import "./BigButton.css";
 
 interface IProps {
-  text: string;
+  selected?: boolean;
+  onClick?: ((event: React.MouseEvent<HTMLDivElement>) => void) | undefined;
 }
 
 const BigButton: React.SFC<IProps> = props => (
-  <div className="sdv-button">
+  <div
+    className={cn("sdv-button-big", "sdv-hover-effect", {
+      selected: props.selected
+    })}
+    onClick={props.onClick}
+  >
     <div className="BigButton">
-      <BigText text={props.text} />
+      <BigText>{props.children}</BigText>
     </div>
   </div>
 );

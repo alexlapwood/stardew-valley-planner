@@ -1,50 +1,43 @@
 import * as React from "react";
 
+import DatePicker from "./components/DatePicker/DatePicker";
 import Farm from "./components/Farm/Farm";
 import Menu from "./components/Menu/Menu";
 import Toolbar from "./components/Toolbar/Toolbar";
 
-import { getDay, getSeason, getYear } from "./helpers/date";
-
 import "./App.css";
 
 interface IState {
-  day: number;
+  date: number;
 }
 
 class App extends React.Component {
   public state: IState = {
-    day: 1
+    date: 0
   };
 
   public render() {
-    const { day } = this.state;
+    const { date } = this.state;
     return (
       <div className="App">
-        <Menu menuItems={["New", "Open", "Save", "Share", "Options"]} />
-        <div className="DatePicker">
-          Day {getDay(day)} of{" "}
-          {["Spring", "Summer", "Fall", "Winter"][getSeason(day)]} Year{" "}
-          {getYear(day)}
-          <input
-            type="number"
-            onChange={
-              // tslint:disable-next-line:jsx-no-lambda
-              e => this.changeDay(Number(e.target.value))
-            }
-          />
-        </div>
-        <div className="MainWindow">
-          <Farm day={day} />
-          <Toolbar />
+        <div className="flex-horizontal">
+          <div className="flex-vertical flex overflow-hidden">
+            <Menu menuItems={["New", "Open", "Save", "Share", "Options"]} />
+            <div className="relative flex overflow-hidden">
+              <Farm date={date} zoom={2} />
+              <Toolbar />
+              <DatePicker date={date} changeDate={this.changeDate} />
+            </div>
+          </div>
+          <div style={{ width: "128px" }} />
         </div>
       </div>
     );
   }
 
-  private changeDay = (day: number) => {
+  private changeDate = (date: number) => {
     this.setState({
-      day
+      date
     });
   };
 }

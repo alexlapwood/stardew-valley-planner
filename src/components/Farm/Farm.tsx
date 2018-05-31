@@ -23,7 +23,8 @@ interface IPlantedCrop {
 }
 
 interface IProps {
-  day: number;
+  date: number;
+  zoom: number;
 }
 
 interface IState {
@@ -44,7 +45,7 @@ class App extends React.Component<IProps> {
     //   if (crop && crop.seasons.find(season => season === "spring")) {
     //     cropsToPlant.push({
     //       cropId,
-    //       dayPlanted: 1,
+    //       dayPlanted: 0,
     //       x: i % 80 + 1,
     //       y: Math.floor(i / 80) + 1
     //     });
@@ -54,11 +55,11 @@ class App extends React.Component<IProps> {
   }
 
   public render() {
+    const { date, zoom } = this.props;
+
     this.updateCanvas();
 
-    const season = ["spring", "summer", "fall", "winter"][
-      getSeason(this.props.day)
-    ];
+    const season = ["spring", "summer", "fall", "winter"][getSeason(date)];
 
     return (
       <div className="Farm">
@@ -70,7 +71,8 @@ class App extends React.Component<IProps> {
             }
           }}
           style={{
-            background: `url("/images/background-${season}.png")`
+            background: `url("/images/background-${season}.png")`,
+            zoom: zoom / 2
           }}
           width={80 * 16}
         />
@@ -96,7 +98,7 @@ class App extends React.Component<IProps> {
   // };
 
   private updateCanvas = () => {
-    const { day } = this.props;
+    const { date } = this.props;
 
     if (this.canvas) {
       const canvasHeight = this.canvas.height;
@@ -131,14 +133,14 @@ class App extends React.Component<IProps> {
           const cropsLastDay = getCropsLastDay(crop, dayPlanted);
           if (
             cropsLastDay === undefined ||
-            day < dayPlanted ||
-            day > cropsLastDay
+            date < dayPlanted ||
+            date > cropsLastDay
           ) {
             return;
           }
 
           const stage = calculateStageOfCrop(
-            day - dayPlanted + 1,
+            date - dayPlanted + 1,
             crop.stages,
             crop.regrow
           );

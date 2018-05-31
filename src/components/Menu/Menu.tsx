@@ -11,7 +11,7 @@ interface IProps {
 const Menu: React.SFC<IProps> = props => (
   <div className="Menu">
     {props.menuItems.map((menuItem, i) => (
-      <MenuButton key={i} text={menuItem} />
+      <MenuButton key={i}>{menuItem}</MenuButton>
     ))}
   </div>
 );

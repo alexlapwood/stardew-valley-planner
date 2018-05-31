@@ -1,0 +1,36 @@
+.DatePicker {
+  padding: 0 16px;
+  position: absolute;
+  left: 24px;
+  right: 6px;
+  top: 16px;
+}
+
+.DatePicker .flex-horizontal {
+  align-items: center;
+}
+
+.DatePicker--day {
+  margin: -5px 0;
+}
+
+.DatePicker--day-text {
+  width: 48px;
+}
+
+.DatePicker--day-slider {
+  padding: 0 4px 0 0;
+  z-index: 0;
+}
+
+.DatePicker--season {
+  padding: 0 16px;
+}
+
+.DatePicker--year {
+  margin: -5px 0;
+}
+
+.DatePicker--year .BigText {
+  margin: 0 8px;
+}
