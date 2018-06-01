@@ -20,9 +20,11 @@ const DatePicker: React.SFC<IProps> = props => {
   const daysInAYear = daysInASeason * 4;
 
   const changeDay = (day: number) => {
-    changeDate(
+    const newDate = Math.max(
+      0,
       getYear(date) * daysInAYear + getSeason(date) * daysInASeason + day
     );
+    changeDate(newDate);
   };
 
   const changeSeason = (season: number) => {
@@ -30,11 +32,13 @@ const DatePicker: React.SFC<IProps> = props => {
   };
 
   const addYear = () => {
-    changeDate(date + daysInAYear);
+    const newYear = getYear(date) + 1;
+    changeDate(newYear * daysInAYear);
   };
 
   const subtractYear = () => {
-    changeDate(date - daysInAYear);
+    const newYear = getYear(date) - 1;
+    changeDate(newYear * daysInAYear);
   };
 
   return (

@@ -16,6 +16,25 @@ const DayPicker: React.SFC<IProps> = props => (
           min="0"
           // tslint:disable-next-line:jsx-no-lambda
           onChange={e => props.changeDay(Number(e.target.value))}
+          // tslint:disable-next-line:jsx-no-lambda
+          onKeyDown={e => {
+            switch (e.key) {
+              case "ArrowLeft":
+              case "ArrowDown":
+                if (props.day === 0) {
+                  e.preventDefault();
+                  props.changeDay(props.day - 1);
+                }
+                break;
+              case "ArrowRight":
+              case "ArrowUp":
+                if (props.day === 27) {
+                  e.preventDefault();
+                  props.changeDay(props.day + 1);
+                }
+                break;
+            }
+          }}
           value={props.day}
           type="range"
         />
