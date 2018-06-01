@@ -16,6 +16,7 @@ const crops: ICrop[] = require("./data/sdv.json").crops;
 
 interface IState {
   date: number;
+  selectedCropId?: string;
 }
 
 class App extends React.Component {
@@ -24,13 +25,13 @@ class App extends React.Component {
   };
 
   public render() {
-    const { date } = this.state;
+    const { date, selectedCropId } = this.state;
     return (
       <div className="App flex-horizontal">
         <div className="flex-vertical flex overflow-hidden">
           <Menu menuItems={["New", "Open", "Save", "Share", "Options"]} />
           <div className="relative flex overflow-hidden">
-            <Farm date={date} zoom={1} />
+            <Farm date={date} selectedCropId={selectedCropId} zoom={1} />
             <Toolbar />
             <DatePicker date={date} changeDate={this.changeDate} />
           </div>
@@ -47,7 +48,14 @@ class App extends React.Component {
                 )
               ) {
                 return (
-                  <div className="sdv-list-item" key={crop.id}>
+                  <div
+                    className="sdv-list-item"
+                    key={crop.id}
+                    // tslint:disable-next-line:jsx-no-lambda
+                    onClick={() => {
+                      this.setState({ selectedCropId: crop.id });
+                    }}
+                  >
                     <div className="sdv-list-item-icon">
                       <Sprite
                         height={16}

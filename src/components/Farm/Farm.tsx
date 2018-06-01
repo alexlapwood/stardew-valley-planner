@@ -24,6 +24,7 @@ interface IPlantedCrop {
 
 interface IProps {
   date: number;
+  selectedCropId?: string;
   zoom: number;
 }
 
@@ -185,6 +186,45 @@ class Farm extends React.Component<IProps> {
   };
 
   private onMouseUp = () => {
+    const cropsToPlant: IPlantedCrop[] = [];
+
+    if (
+      this.props.selectedCropId !== undefined &&
+      this.state.mousePosition &&
+      this.state.isMouseDown &&
+      this.state.mouseDownPosition
+    ) {
+      const x1 = Math.floor(
+        (this.state.mousePosition.x - this.state.mousePosition.left) / 16
+      );
+      const y1 = Math.floor(
+        (this.state.mousePosition.y - this.state.mousePosition.top) / 16
+      );
+      const x2 = Math.floor(
+        (this.state.mouseDownPosition.x - this.state.mouseDownPosition.left) /
+          16
+      );
+      const y2 = Math.floor(
+        (this.state.mouseDownPosition.y - this.state.mouseDownPosition.top) / 16
+      );
+
+      const xDirection = Math.sign(x2 - x1) || 1;
+      const yDirection = Math.sign(y2 - y1) || 1;
+
+      for (let y = y1; y !== y2 + yDirection; y += yDirection) {
+        for (let x = x1; x !== x2 + xDirection; x += xDirection) {
+          cropsToPlant.push({
+            cropId: this.props.selectedCropId,
+            dayPlanted: this.props.date,
+            x,
+            y
+          });
+        }
+      }
+    }
+
+    this.plantCrops(cropsToPlant);
+
     this.setState({
       isMouseDown: false,
       mouseDownPosition: undefined
@@ -214,11 +254,11 @@ class Farm extends React.Component<IProps> {
   //   });
   // };
 
-  // private plantCrops = (cropsToPlant: IPlantedCrop[]) => {
-  //   this.setState({
-  //     crops: [...this.state.crops, ...cropsToPlant]
-  //   });
-  // };
+  private plantCrops = (cropsToPlant: IPlantedCrop[]) => {
+    this.setState({
+      crops: [...this.state.crops, ...cropsToPlant]
+    });
+  };
 
   private renderCrops = (
     context: CanvasRenderingContext2D,
@@ -263,7 +303,7 @@ class Farm extends React.Component<IProps> {
     context: CanvasRenderingContext2D,
     selectedRegionImage: HTMLImageElement
   ) => {
-    if (this.state.mousePosition) {
+    if (this.state.mousePosition && this.props.selectedCropId !== undefined) {
       if (this.state.isMouseDown && this.state.mouseDownPosition) {
         const x1 = Math.floor(
           (this.state.mousePosition.x - this.state.mousePosition.left) / 16

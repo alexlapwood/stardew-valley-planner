@@ -74,7 +74,7 @@ export function renderCrop(
     16,
     32,
     x * 16,
-    y * 16,
+    (y - 1) * 16,
     16,
     32
   );
@@ -87,7 +87,7 @@ export function renderCrop(
       16,
       32,
       x * 16,
-      y * 16,
+      (y - 1) * 16,
       16,
       32
     );
