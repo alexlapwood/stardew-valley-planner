@@ -1,23 +1,32 @@
-import { getSeason } from "./date";
+import { getSeason, getYear } from "./date";
 
 // tslint:disable-next-line:no-var-requires
 const cropMap: string[] = require("../data/crops.json");
 
 const seasons = ["spring", "summer", "fall", "winter"];
 
-export function getCropsLastDay(crop: ICrop, dayPlanted: number) {
-  const seasonPlanted = getSeason(dayPlanted);
+export function getCropsLastDay(crop: ICrop, datePlanted: number) {
+  const seasonPlanted = getSeason(datePlanted);
+
+  const daysInASeason = 28;
+  const daysInAYear = daysInASeason * 4;
 
   for (let i = 0; i < 4; i += 1) {
-    if (!crop.seasons.find(season => seasons[seasonPlanted + i] === season)) {
-      const lastDay = Math.ceil((dayPlanted + i * 28) / 28) * 28 - 1;
+    if (
+      !crop.seasons.find(season => seasons[(seasonPlanted + i) % 4] === season)
+    ) {
+      const lastDay =
+        getYear(datePlanted) * daysInAYear +
+        (getSeason(datePlanted) + i) * daysInASeason -
+        1;
+
       if (crop.regrow) {
         return lastDay;
       }
 
       return Math.min(
         lastDay,
-        dayPlanted +
+        datePlanted +
           crop.stages.reduce((acc, val) => {
             return acc + val;
           })

@@ -13,10 +13,10 @@ describe("Crop helper", () => {
       stages: [1, 3, 2, 5]
     };
 
-    expect(getCropsLastDay(crop, 1)).toBe(12);
+    expect(getCropsLastDay(crop, 0)).toBe(11);
+    expect(getCropsLastDay(crop, 27)).toBe(38);
     expect(getCropsLastDay(crop, 28)).toBe(39);
-    expect(getCropsLastDay(crop, 29)).toBe(40);
-    expect(getCropsLastDay(crop, 56)).toBe(56);
+    expect(getCropsLastDay(crop, 55)).toBe(55);
   });
 
   it("gets the last day a crop that regrows will survive", () => {
@@ -32,9 +32,9 @@ describe("Crop helper", () => {
       stages: [1]
     };
 
-    expect(getCropsLastDay(crop, 1)).toBe(56);
-    expect(getCropsLastDay(crop, 28)).toBe(56);
-    expect(getCropsLastDay(crop, 29)).toBe(56);
-    expect(getCropsLastDay(crop, 56)).toBe(56);
+    expect(getCropsLastDay(crop, 0)).toBe(55);
+    expect(getCropsLastDay(crop, 27)).toBe(55);
+    expect(getCropsLastDay(crop, 28)).toBe(55);
+    expect(getCropsLastDay(crop, 55)).toBe(55);
   });
 });

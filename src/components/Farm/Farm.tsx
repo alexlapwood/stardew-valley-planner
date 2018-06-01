@@ -17,7 +17,7 @@ const crops: ICrop[] = require("../../data/sdv.json").crops;
 
 interface IPlantedCrop {
   cropId: string;
-  dayPlanted: number;
+  datePlanted: number;
   x: number;
   y: number;
 }
@@ -67,7 +67,7 @@ class Farm extends React.Component<IProps> {
     //   if (crop && crop.seasons.find(season => season === "spring")) {
     //     cropsToPlant.push({
     //       cropId,
-    //       dayPlanted: 0,
+    //       datePlanted: 0,
     //       x: i % 80 + 1,
     //       y: Math.floor(i / 80) + 1
     //     });
@@ -215,7 +215,7 @@ class Farm extends React.Component<IProps> {
         for (let x = x1; x !== x2 + xDirection; x += xDirection) {
           cropsToPlant.push({
             cropId: this.props.selectedCropId,
-            dayPlanted: this.props.date,
+            datePlanted: this.props.date,
             x,
             y
           });
@@ -245,12 +245,12 @@ class Farm extends React.Component<IProps> {
 
   // private plantCrop = (
   //   cropId: string,
-  //   dayPlanted: number,
+  //   datePlanted: number,
   //   x: number,
   //   y: number
   // ) => {
   //   this.setState({
-  //     crops: [...this.state.crops, { cropId, dayPlanted, x, y }]
+  //     crops: [...this.state.crops, { cropId, datePlanted, x, y }]
   //   });
   // };
 
@@ -270,24 +270,24 @@ class Farm extends React.Component<IProps> {
       (a, b) => a.x + a.y * this.farmWidth - (b.x + b.y * this.farmWidth)
     );
 
-    sortedCrops.map(({ cropId, dayPlanted, x, y }, i) => {
+    sortedCrops.map(({ cropId, datePlanted, x, y }, i) => {
       const crop = crops.find(c => c.id === cropId);
 
       if (crop === undefined) {
         return;
       }
 
-      const cropsLastDay = getCropsLastDay(crop, dayPlanted);
+      const cropsLastDay = getCropsLastDay(crop, datePlanted);
       if (
         cropsLastDay === undefined ||
-        date < dayPlanted ||
+        date < datePlanted ||
         date > cropsLastDay
       ) {
         return;
       }
 
       const stage = calculateStageOfCrop(
-        date - dayPlanted + 1,
+        date - datePlanted + 1,
         crop.stages,
         crop.regrow
       );
