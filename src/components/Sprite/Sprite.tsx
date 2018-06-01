@@ -19,6 +19,7 @@ const Sprite: React.SFC<IProps> = props => {
         backgroundPosition: `-${x}px -${y}px`,
         display: "inline-block",
         height: `${height}px`,
+        verticalAlign: "top",
         width: `${width}px`
       }}
     />

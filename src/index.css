@@ -121,6 +121,40 @@ body {
   border-style: solid;
 }
 
+.sdv-list {
+  background-clip: padding-box;
+  border-image: url("/images/list-border.png") 5 stretch;
+  border-width: 5px;
+  border-style: solid;
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sdv-list-item {
+  align-items: center;
+  background: #ffd284;
+  border-image: url("/images/list-item-border.png") 5 stretch;
+  border-width: 5px;
+  border-style: solid;
+  display: flex;
+  margin: -1px;
+}
+
+.sdv-list-item:hover {
+  background: #fdb452;
+  border-image: url("/images/list-item-hover-border.png") 5 stretch;
+}
+
+.sdv-list-item-icon {
+  background: #ffd284;
+  background-clip: padding-box;
+  border-image: url("/images/list-item-icon-border.png") 1 stretch;
+  border-width: 1px;
+  border-style: solid;
+  margin-right: 4px;
+}
+
 button {
   background: none;
   border: none;
