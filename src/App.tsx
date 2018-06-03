@@ -84,8 +84,14 @@ class App extends React.Component {
   }
 
   private changeDate = (date: number) => {
+    const selectedCropId =
+      getSeason(date) === getSeason(this.state.date)
+        ? this.state.selectedCropId
+        : undefined;
+
     this.setState({
-      date
+      date,
+      selectedCropId
     });
   };
 }
