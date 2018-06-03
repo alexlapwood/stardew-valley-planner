@@ -333,11 +333,7 @@ class Farm extends React.Component<IProps> {
   private plantCrops = (cropsToPlant: IPlantedCrop[]) => {
     const { plantableCrops } = this.checkCropsToPlant(cropsToPlant);
 
-    const newCrops: {
-      [y: number]: {
-        [x: number]: IPlantedCrop[];
-      };
-    } = {};
+    const newCrops = this.state.crops;
 
     plantableCrops.forEach(cropToPlant => {
       if (newCrops[cropToPlant.y] === undefined) {
