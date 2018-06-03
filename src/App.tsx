@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import * as cn from "classnames";
+
 import BigText from "./components/BigText/BigText";
 import DatePicker from "./components/DatePicker/DatePicker";
 import Farm from "./components/Farm/Farm";
@@ -49,7 +51,9 @@ class App extends React.Component {
               ) {
                 return (
                   <div
-                    className="sdv-list-item"
+                    className={cn("sdv-list-item", {
+                      selected: crop.id === selectedCropId
+                    })}
                     key={crop.id}
                     // tslint:disable-next-line:jsx-no-lambda
                     onClick={() => {

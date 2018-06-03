@@ -125,6 +125,10 @@ class Farm extends React.Component<IProps> {
     const createImage: HTMLImageElement | null = document.querySelector(
       `img[src="/images/create.png"]`
     );
+
+    const destroyImage: HTMLImageElement | null = document.querySelector(
+      `img[src="/images/destroy.png"]`
+    );
     const backgroundImage: HTMLImageElement | null = document.querySelector(
       `img[src="/images/background-${season}.png"]`
     );
@@ -135,12 +139,13 @@ class Farm extends React.Component<IProps> {
     if (
       backgroundImage === null ||
       createImage === null ||
-      cropsImage === null
+      cropsImage === null ||
+      destroyImage === null
     ) {
       throw new Error("Error loading images");
     }
 
-    return { backgroundImage, createImage, cropsImage };
+    return { backgroundImage, createImage, cropsImage, destroyImage };
   }
 
   private getCanvasPositionAndScale = () => {
@@ -310,31 +315,51 @@ class Farm extends React.Component<IProps> {
 
         if (plantedCropConflict === undefined) {
           return deepExtend(acc, {
-            plantableCrops: {
-              [cropToPlant.y]: {
-                [cropToPlant.x]: [...plantedCrops, cropToPlant]
-              }
-            }
+            plantableCrops: [...acc.plantableCrops, cropToPlant]
           });
         }
 
         return deepExtend(acc, {
-          unplantableCrops: {
-            [cropToPlant.y]: {
-              [cropToPlant.x]: [...plantedCrops, cropToPlant]
-            }
-          }
+          unplantableCrops: [...acc.unplantableCrops, cropToPlant]
         });
       },
-      { plantableCrops: {}, unplantableCrops: {} }
-    );
+      { plantableCrops: [], unplantableCrops: [] }
+    ) as {
+      plantableCrops: IPlantedCrop[];
+      unplantableCrops: IPlantedCrop[];
+    };
   };
 
   private plantCrops = (cropsToPlant: IPlantedCrop[]) => {
     const { plantableCrops } = this.checkCropsToPlant(cropsToPlant);
 
+    const newCrops: {
+      [y: number]: {
+        [x: number]: IPlantedCrop[];
+      };
+    } = {};
+
+    plantableCrops.forEach(cropToPlant => {
+      if (newCrops[cropToPlant.y] === undefined) {
+        newCrops[cropToPlant.y] = {};
+      }
+
+      if (newCrops[cropToPlant.y][cropToPlant.x] === undefined) {
+        newCrops[cropToPlant.y][cropToPlant.x] = [];
+      }
+
+      deepExtend(newCrops, {
+        [cropToPlant.y]: {
+          [cropToPlant.x]: [
+            ...newCrops[cropToPlant.y][cropToPlant.x],
+            cropToPlant
+          ]
+        }
+      });
+    });
+
     this.setState({
-      crops: deepExtend(this.state.crops, plantableCrops)
+      crops: deepExtend(this.state.crops, newCrops)
     });
   };
 
@@ -392,44 +417,67 @@ class Farm extends React.Component<IProps> {
 
   private renderSelectedRegion = (
     context: CanvasRenderingContext2D,
-    selectedRegionImage: HTMLImageElement
+    selectedRegionImage: HTMLImageElement,
+    selectedRegionErrorImage: HTMLImageElement
   ) => {
-    if (this.state.mousePosition && this.props.selectedCropId !== undefined) {
+    const { date, selectedCropId } = this.props;
+
+    if (this.state.mousePosition && selectedCropId !== undefined) {
+      const x1 = Math.floor(
+        (this.state.mousePosition.x - this.state.mousePosition.left) / 16
+      );
+      const y1 = Math.floor(
+        (this.state.mousePosition.y - this.state.mousePosition.top) / 16
+      );
+      let x2 = x1;
+      let y2 = y1;
+
       if (this.state.isMouseDown && this.state.mouseDownPosition) {
-        const x1 = Math.floor(
-          (this.state.mousePosition.x - this.state.mousePosition.left) / 16
-        );
-        const y1 = Math.floor(
-          (this.state.mousePosition.y - this.state.mousePosition.top) / 16
-        );
-        const x2 = Math.floor(
+        x2 = Math.floor(
           (this.state.mouseDownPosition.x - this.state.mouseDownPosition.left) /
             16
         );
-        const y2 = Math.floor(
+        y2 = Math.floor(
           (this.state.mouseDownPosition.y - this.state.mouseDownPosition.top) /
             16
         );
-
-        const xDirection = Math.sign(x2 - x1) || 1;
-        const yDirection = Math.sign(y2 - y1) || 1;
-
-        for (let y = y1; y !== y2 + yDirection; y += yDirection) {
-          for (let x = x1; x !== x2 + xDirection; x += xDirection) {
-            context.drawImage(selectedRegionImage, x * 16, y * 16);
-          }
-        }
-      } else {
-        const x =
-          Math.floor(
-            (this.state.mousePosition.x - this.state.mousePosition.left) / 16
-          ) * 16;
-        const y =
-          Math.floor(
-            (this.state.mousePosition.y - this.state.mousePosition.top) / 16
-          ) * 16;
-        context.drawImage(selectedRegionImage, x, y);
       }
+
+      const xDirection = Math.sign(x2 - x1) || 1;
+      const yDirection = Math.sign(y2 - y1) || 1;
+
+      const cropsToPlant: IPlantedCrop[] = [];
+
+      for (let y = y1; y !== y2 + yDirection; y += yDirection) {
+        for (let x = x1; x !== x2 + xDirection; x += xDirection) {
+          cropsToPlant.push({
+            cropId: selectedCropId,
+            datePlanted: date,
+            x,
+            y
+          });
+        }
+      }
+
+      const { plantableCrops, unplantableCrops } = this.checkCropsToPlant(
+        cropsToPlant
+      );
+
+      plantableCrops.forEach(cropToPlant => {
+        context.drawImage(
+          selectedRegionImage,
+          cropToPlant.x * 16,
+          cropToPlant.y * 16
+        );
+      });
+
+      unplantableCrops.forEach(cropToPlant => {
+        context.drawImage(
+          selectedRegionErrorImage,
+          cropToPlant.x * 16,
+          cropToPlant.y * 16
+        );
+      });
     }
   };
 
@@ -450,9 +498,12 @@ class Farm extends React.Component<IProps> {
       context.oImageSmoothingEnabled = false;
       context.imageSmoothingEnabled = false;
 
-      const { backgroundImage, createImage, cropsImage } = this.getCanvasImages(
-        date
-      );
+      const {
+        backgroundImage,
+        createImage,
+        cropsImage,
+        destroyImage
+      } = this.getCanvasImages(date);
 
       context.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -460,7 +511,7 @@ class Farm extends React.Component<IProps> {
 
       this.renderCrops(context, cropsImage);
 
-      this.renderSelectedRegion(context, createImage);
+      this.renderSelectedRegion(context, createImage, destroyImage);
     }
   };
 }

@@ -141,6 +141,7 @@ body {
   margin: -1px;
 }
 
+.sdv-list-item.selected,
 .sdv-list-item:hover {
   background: #fdb452;
   border-image: url("/images/list-item-hover-border.png") 5 stretch;
