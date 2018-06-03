@@ -5,7 +5,9 @@
   "private": true,
   "dependencies": {
     "@types/classnames": "^2.2.3",
+    "@types/deep-extend": "^0.4.31",
     "classnames": "^2.2.5",
+    "deep-extend": "^0.6.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-scripts-ts": "2.16.0"
@@ -34,9 +36,7 @@
       "src/*/**/*.{js,jsx,ts,tsx}",
       "!src/types/**/*"
     ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
   },
   "license": "GPL-3.0"
 }

@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import * as deepExtend from "deep-extend";
+
 import {
   calculateStageOfCrop,
   getCropsLastDay,
@@ -29,7 +31,11 @@ interface IProps {
 }
 
 interface IState {
-  crops: IPlantedCrop[];
+  crops: {
+    [y: number]: {
+      [x: number]: IPlantedCrop[];
+    };
+  };
   isMouseDown: boolean;
   mouseDownPosition?: {
     // Left and top are used for updating the the cursor position
@@ -52,7 +58,7 @@ interface IState {
 }
 
 class Farm extends React.Component<IProps> {
-  public state: IState = { crops: [], isMouseDown: false };
+  public state: IState = { crops: {}, isMouseDown: false };
 
   private canvas?: HTMLCanvasElement;
   private farmWidth = 80;
@@ -255,8 +261,56 @@ class Farm extends React.Component<IProps> {
   // };
 
   private plantCrops = (cropsToPlant: IPlantedCrop[]) => {
+    const plantableCrops = cropsToPlant.reduce((acc, cropToPlant) => {
+      let plantedCrops: IPlantedCrop[] = [];
+
+      if (
+        this.state.crops[cropToPlant.y] !== undefined &&
+        this.state.crops[cropToPlant.y][cropToPlant.x] !== undefined
+      ) {
+        plantedCrops = this.state.crops[cropToPlant.y][cropToPlant.x];
+      }
+
+      const plantedCropConflict = plantedCrops.find(plantedCrop => {
+        const plantedCropDetails = crops.find(
+          ({ id }) => id === plantedCrop.cropId
+        );
+
+        if (plantedCropDetails === undefined) {
+          return false;
+        }
+
+        const plantedCropsLastDay = getCropsLastDay(
+          plantedCropDetails,
+          plantedCrop.datePlanted
+        );
+
+        if (
+          cropToPlant.datePlanted >= plantedCrop.datePlanted &&
+          (plantedCropsLastDay === undefined ||
+            cropToPlant.datePlanted <= plantedCropsLastDay)
+        ) {
+          // Don't plant
+          return true;
+        }
+
+        // Do plant
+        return false;
+      });
+
+      if (plantedCropConflict === undefined) {
+        return deepExtend(acc, {
+          [cropToPlant.y]: {
+            [cropToPlant.x]: [...plantedCrops, cropToPlant]
+          }
+        });
+      }
+
+      return acc;
+    }, {});
+
     this.setState({
-      crops: [...this.state.crops, ...cropsToPlant]
+      crops: deepExtend(this.state.crops, plantableCrops)
     });
   };
 
@@ -266,37 +320,50 @@ class Farm extends React.Component<IProps> {
   ) => {
     const { date } = this.props;
 
-    const sortedCrops = this.state.crops.sort(
-      (a, b) => a.x + a.y * this.farmWidth - (b.x + b.y * this.farmWidth)
-    );
+    Object.keys(this.state.crops)
+      .sort((a, b) => Number(a) - Number(b))
+      .map(yKey => {
+        Object.keys(this.state.crops[yKey]).map(xKey => {
+          (this.state.crops[yKey][xKey] as IPlantedCrop[]).map(
+            ({ cropId, datePlanted, x, y }, i) => {
+              const crop = crops.find(c => c.id === cropId);
 
-    sortedCrops.map(({ cropId, datePlanted, x, y }, i) => {
-      const crop = crops.find(c => c.id === cropId);
+              if (crop === undefined) {
+                return;
+              }
 
-      if (crop === undefined) {
-        return;
-      }
+              const cropsLastDay = getCropsLastDay(crop, datePlanted);
+              if (
+                cropsLastDay === undefined ||
+                date < datePlanted ||
+                date > cropsLastDay
+              ) {
+                return;
+              }
 
-      const cropsLastDay = getCropsLastDay(crop, datePlanted);
-      if (
-        cropsLastDay === undefined ||
-        date < datePlanted ||
-        date > cropsLastDay
-      ) {
-        return;
-      }
+              const stage = calculateStageOfCrop(
+                date - datePlanted + 1,
+                crop.stages,
+                crop.regrow
+              );
 
-      const stage = calculateStageOfCrop(
-        date - datePlanted + 1,
-        crop.stages,
-        crop.regrow
-      );
+              const spriteIndex = stage + 1;
+              const isFlower =
+                crop.isFlower && spriteIndex > crop.stages.length;
 
-      const spriteIndex = stage + 1;
-      const isFlower = crop.isFlower && spriteIndex > crop.stages.length;
-
-      renderCrop(context, cropsImage, stage + 1, x, y, crop.name, isFlower);
-    });
+              renderCrop(
+                context,
+                cropsImage,
+                stage + 1,
+                x,
+                y,
+                crop.name,
+                isFlower
+              );
+            }
+          );
+        });
+      });
   };
 
   private renderSelectedRegion = (
