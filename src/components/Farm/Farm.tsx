@@ -260,54 +260,78 @@ class Farm extends React.Component<IProps> {
   //   });
   // };
 
-  private plantCrops = (cropsToPlant: IPlantedCrop[]) => {
-    const plantableCrops = cropsToPlant.reduce((acc, cropToPlant) => {
-      let plantedCrops: IPlantedCrop[] = [];
-
-      if (
-        this.state.crops[cropToPlant.y] !== undefined &&
-        this.state.crops[cropToPlant.y][cropToPlant.x] !== undefined
-      ) {
-        plantedCrops = this.state.crops[cropToPlant.y][cropToPlant.x];
-      }
-
-      const plantedCropConflict = plantedCrops.find(plantedCrop => {
-        const plantedCropDetails = crops.find(
-          ({ id }) => id === plantedCrop.cropId
-        );
-
-        if (plantedCropDetails === undefined) {
-          return false;
-        }
-
-        const plantedCropsLastDay = getCropsLastDay(
-          plantedCropDetails,
-          plantedCrop.datePlanted
-        );
+  private checkCropsToPlant = (cropsToPlant: IPlantedCrop[]) => {
+    return cropsToPlant.reduce(
+      (acc, cropToPlant) => {
+        let plantedCrops: IPlantedCrop[] = [];
 
         if (
-          cropToPlant.datePlanted >= plantedCrop.datePlanted &&
-          (plantedCropsLastDay === undefined ||
-            cropToPlant.datePlanted <= plantedCropsLastDay)
+          this.state.crops[cropToPlant.y] !== undefined &&
+          this.state.crops[cropToPlant.y][cropToPlant.x] !== undefined
         ) {
-          // Don't plant
-          return true;
+          plantedCrops = this.state.crops[cropToPlant.y][cropToPlant.x];
         }
 
-        // Do plant
-        return false;
-      });
+        const plantedCropConflict = plantedCrops.find(plantedCrop => {
+          const plantedCropDetails = crops.find(
+            ({ id }) => id === plantedCrop.cropId
+          );
 
-      if (plantedCropConflict === undefined) {
+          if (plantedCropDetails === undefined) {
+            return false;
+          }
+
+          const plantedCropsLastDay = getCropsLastDay(
+            plantedCropDetails,
+            plantedCrop.datePlanted
+          );
+
+          const cropToPlantsLastDay = getCropsLastDay(
+            plantedCropDetails,
+            cropToPlant.datePlanted
+          );
+
+          const cropConflictWhilePlanting =
+            cropToPlant.datePlanted >= plantedCrop.datePlanted &&
+            (plantedCropsLastDay === undefined ||
+              cropToPlant.datePlanted <= plantedCropsLastDay);
+
+          const cropConflictDuringGrowth =
+            cropToPlant.datePlanted < plantedCrop.datePlanted &&
+            (cropToPlantsLastDay === undefined ||
+              cropToPlantsLastDay >= plantedCrop.datePlanted);
+
+          if (cropConflictWhilePlanting || cropConflictDuringGrowth) {
+            return true;
+          }
+
+          return false;
+        });
+
+        if (plantedCropConflict === undefined) {
+          return deepExtend(acc, {
+            plantableCrops: {
+              [cropToPlant.y]: {
+                [cropToPlant.x]: [...plantedCrops, cropToPlant]
+              }
+            }
+          });
+        }
+
         return deepExtend(acc, {
-          [cropToPlant.y]: {
-            [cropToPlant.x]: [...plantedCrops, cropToPlant]
+          unplantableCrops: {
+            [cropToPlant.y]: {
+              [cropToPlant.x]: [...plantedCrops, cropToPlant]
+            }
           }
         });
-      }
+      },
+      { plantableCrops: {}, unplantableCrops: {} }
+    );
+  };
 
-      return acc;
-    }, {});
+  private plantCrops = (cropsToPlant: IPlantedCrop[]) => {
+    const { plantableCrops } = this.checkCropsToPlant(cropsToPlant);
 
     this.setState({
       crops: deepExtend(this.state.crops, plantableCrops)

@@ -29,7 +29,8 @@ export function getCropsLastDay(crop: ICrop, datePlanted: number) {
         datePlanted +
           crop.stages.reduce((acc, val) => {
             return acc + val;
-          })
+          }) -
+          1
       );
     }
   }

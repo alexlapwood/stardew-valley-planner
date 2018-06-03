@@ -13,9 +13,9 @@ describe("Crop helper", () => {
       stages: [1, 3, 2, 5]
     };
 
-    expect(getCropsLastDay(crop, 0)).toBe(11);
-    expect(getCropsLastDay(crop, 27)).toBe(38);
-    expect(getCropsLastDay(crop, 28)).toBe(39);
+    expect(getCropsLastDay(crop, 0)).toBe(10);
+    expect(getCropsLastDay(crop, 27)).toBe(37);
+    expect(getCropsLastDay(crop, 28)).toBe(38);
     expect(getCropsLastDay(crop, 55)).toBe(55);
   });
 
