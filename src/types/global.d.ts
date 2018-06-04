@@ -20,3 +20,16 @@ interface ICrop {
   sell: number;
   stages: number[];
 }
+
+interface IPlantedCrop {
+  cropId: string;
+  datePlanted: number;
+  x: number;
+  y: number;
+}
+
+interface IFarmCrops {
+  [y: number]: {
+    [x: number]: IPlantedCrop[];
+  };
+}

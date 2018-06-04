@@ -1,4 +1,9 @@
+import * as deepExtend from "deep-extend";
+
 import { getSeason, getYear } from "./date";
+
+// tslint:disable-next-line:no-var-requires
+const crops: ICrop[] = require("../data/sdv.json").crops;
 
 // tslint:disable-next-line:no-var-requires
 const cropMap: string[] = require("../data/crops.json");
@@ -102,4 +107,72 @@ export function renderCrop(
       32
     );
   }
+}
+
+export function checkCropsToPlant(
+  cropsToPlant: IPlantedCrop[],
+  currentCrops: IFarmCrops
+) {
+  return cropsToPlant.reduce(
+    (acc, cropToPlant) => {
+      let plantedCrops: IPlantedCrop[] = [];
+
+      if (
+        currentCrops[cropToPlant.y] !== undefined &&
+        currentCrops[cropToPlant.y][cropToPlant.x] !== undefined
+      ) {
+        plantedCrops = currentCrops[cropToPlant.y][cropToPlant.x];
+      }
+
+      const plantedCropConflict = plantedCrops.find(plantedCrop => {
+        const plantedCropDetails = crops.find(
+          ({ id }) => id === plantedCrop.cropId
+        );
+
+        if (plantedCropDetails === undefined) {
+          return false;
+        }
+
+        const plantedCropsLastDay = getCropsLastDay(
+          plantedCropDetails,
+          plantedCrop.datePlanted
+        );
+
+        const cropToPlantsLastDay = getCropsLastDay(
+          plantedCropDetails,
+          cropToPlant.datePlanted
+        );
+
+        const cropConflictWhilePlanting =
+          cropToPlant.datePlanted >= plantedCrop.datePlanted &&
+          (plantedCropsLastDay === undefined ||
+            cropToPlant.datePlanted <= plantedCropsLastDay);
+
+        const cropConflictDuringGrowth =
+          cropToPlant.datePlanted < plantedCrop.datePlanted &&
+          (cropToPlantsLastDay === undefined ||
+            cropToPlantsLastDay >= plantedCrop.datePlanted);
+
+        if (cropConflictWhilePlanting || cropConflictDuringGrowth) {
+          return true;
+        }
+
+        return false;
+      });
+
+      if (plantedCropConflict === undefined) {
+        return deepExtend(acc, {
+          plantableCrops: [...acc.plantableCrops, cropToPlant]
+        });
+      }
+
+      return deepExtend(acc, {
+        unplantableCrops: [...acc.unplantableCrops, cropToPlant]
+      });
+    },
+    { plantableCrops: [], unplantableCrops: [] }
+  ) as {
+    plantableCrops: IPlantedCrop[];
+    unplantableCrops: IPlantedCrop[];
+  };
 }

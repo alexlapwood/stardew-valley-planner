@@ -3,26 +3,16 @@ import * as React from "react";
 import * as deepExtend from "deep-extend";
 
 import {
-  calculateStageOfCrop,
-  getCropsLastDay,
-  renderCrop
-} from "../../helpers/crop";
-import { getSeason } from "../../helpers/date";
+  getCanvasImages,
+  getCanvasPositionAndScale
+} from "../../helpers/canvas";
+import { checkCropsToPlant } from "../../helpers/crop";
+import {
+  renderCropsToCanvas,
+  renderSelectedRegion
+} from "../../helpers/renderToCanvas";
 
 import "./Farm.css";
-
-// tslint:disable-next-line:no-var-requires
-const crops: ICrop[] = require("../../data/sdv.json").crops;
-
-// tslint:disable-next-line:no-var-requires
-// const cropMap: string[] = require("../../data/crops.json");
-
-interface IPlantedCrop {
-  cropId: string;
-  datePlanted: number;
-  x: number;
-  y: number;
-}
 
 interface IProps {
   date: number;
@@ -31,11 +21,7 @@ interface IProps {
 }
 
 interface IState {
-  crops: {
-    [y: number]: {
-      [x: number]: IPlantedCrop[];
-    };
-  };
+  crops: IFarmCrops;
   isMouseDown: boolean;
   mouseDownPosition?: {
     // Left and top are used for updating the the cursor position
@@ -65,22 +51,6 @@ class Farm extends React.Component<IProps> {
   private farmHeight = 65;
 
   public componentDidMount() {
-    // const cropsToPlant: IPlantedCrop[] = [];
-    // for (let i = 0; i < 80 * 60; i += 1) {
-    //   const cropNumber = Math.floor(Math.random() * (cropMap.length - 1));
-    //   const cropId = cropMap[cropNumber].toLowerCase().replace(/ /g, "_");
-    //   const crop = crops.find(c => c.id === cropId);
-    //   if (crop && crop.seasons.find(season => season === "spring")) {
-    //     cropsToPlant.push({
-    //       cropId,
-    //       datePlanted: 0,
-    //       x: i % 80 + 1,
-    //       y: Math.floor(i / 80) + 1
-    //     });
-    //   }
-    // }
-    // this.plantCrops(cropsToPlant);
-
     this.updateCanvas();
   }
 
@@ -114,56 +84,34 @@ class Farm extends React.Component<IProps> {
     );
   }
 
+  private getHighlightedRegion = () => {
+    const { isMouseDown, mouseDownPosition, mousePosition } = this.state;
+    if (mousePosition === undefined) {
+      return;
+    }
+
+    const x1 = Math.floor((mousePosition.x - mousePosition.left) / 16);
+    const y1 = Math.floor((mousePosition.y - mousePosition.top) / 16);
+    let x2 = x1;
+    let y2 = y1;
+
+    if (isMouseDown && mouseDownPosition) {
+      x2 = Math.floor((mouseDownPosition.x - mouseDownPosition.left) / 16);
+      y2 = Math.floor((mouseDownPosition.y - mouseDownPosition.top) / 16);
+    }
+
+    return { x1, x2, y1, y2 };
+  };
+
   private calculateMousePosition = (event: React.MouseEvent<HTMLElement>) => {
-    const { scaleX, scaleY } = this.getCanvasPositionAndScale();
+    const { scaleX, scaleY } = getCanvasPositionAndScale(this.canvas);
     return { x: event.clientX * scaleX, y: event.clientY * scaleY };
   };
 
-  private getCanvasImages(date: number) {
-    const season = ["spring", "summer", "fall", "winter"][getSeason(date)];
-
-    const createImage: HTMLImageElement | null = document.querySelector(
-      `img[src="/images/create.png"]`
-    );
-
-    const destroyImage: HTMLImageElement | null = document.querySelector(
-      `img[src="/images/destroy.png"]`
-    );
-    const backgroundImage: HTMLImageElement | null = document.querySelector(
-      `img[src="/images/background-${season}.png"]`
-    );
-    const cropsImage: HTMLImageElement | null = document.querySelector(
-      `img[src="/images/crops.png"]`
-    );
-
-    if (
-      backgroundImage === null ||
-      createImage === null ||
-      cropsImage === null ||
-      destroyImage === null
-    ) {
-      throw new Error("Error loading images");
-    }
-
-    return { backgroundImage, createImage, cropsImage, destroyImage };
-  }
-
-  private getCanvasPositionAndScale = () => {
-    if (this.canvas === undefined) {
-      throw new Error();
-    }
-
-    const rect = this.canvas.getBoundingClientRect();
-    const { left, top } = rect;
-
-    const scaleX = this.canvas.width / (rect.right - rect.left);
-    const scaleY = this.canvas.height / (rect.bottom - rect.top);
-
-    return { left, top, scaleX, scaleY };
-  };
-
   private onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
-    const { left, top, scaleX, scaleY } = this.getCanvasPositionAndScale();
+    const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(
+      this.canvas
+    );
 
     const { x, y } = this.calculateMousePosition(event);
 
@@ -179,7 +127,9 @@ class Farm extends React.Component<IProps> {
   };
 
   private onMouseMove = (event: React.MouseEvent<HTMLElement>) => {
-    const { left, top, scaleX, scaleY } = this.getCanvasPositionAndScale();
+    const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(
+      this.canvas
+    );
 
     const { x, y } = this.calculateMousePosition(event);
 
@@ -197,40 +147,31 @@ class Farm extends React.Component<IProps> {
   };
 
   private onMouseUp = () => {
-    const cropsToPlant: IPlantedCrop[] = [];
-
     if (
-      this.props.selectedCropId !== undefined &&
-      this.state.mousePosition &&
-      this.state.isMouseDown &&
-      this.state.mouseDownPosition
+      this.state.isMouseDown === false ||
+      this.props.selectedCropId === undefined
     ) {
-      const x1 = Math.floor(
-        (this.state.mousePosition.x - this.state.mousePosition.left) / 16
-      );
-      const y1 = Math.floor(
-        (this.state.mousePosition.y - this.state.mousePosition.top) / 16
-      );
-      const x2 = Math.floor(
-        (this.state.mouseDownPosition.x - this.state.mouseDownPosition.left) /
-          16
-      );
-      const y2 = Math.floor(
-        (this.state.mouseDownPosition.y - this.state.mouseDownPosition.top) / 16
-      );
+      return;
+    }
+    const highlightedRegion = this.getHighlightedRegion();
+    if (highlightedRegion === undefined) {
+      return;
+    }
 
-      const xDirection = Math.sign(x2 - x1) || 1;
-      const yDirection = Math.sign(y2 - y1) || 1;
+    const cropsToPlant: IPlantedCrop[] = [];
+    const { x1, y1, x2, y2 } = highlightedRegion;
 
-      for (let y = y1; y !== y2 + yDirection; y += yDirection) {
-        for (let x = x1; x !== x2 + xDirection; x += xDirection) {
-          cropsToPlant.push({
-            cropId: this.props.selectedCropId,
-            datePlanted: this.props.date,
-            x,
-            y
-          });
-        }
+    const xDirection = Math.sign(x2 - x1) || 1;
+    const yDirection = Math.sign(y2 - y1) || 1;
+
+    for (let y = y1; y !== y2 + yDirection; y += yDirection) {
+      for (let x = x1; x !== x2 + xDirection; x += xDirection) {
+        cropsToPlant.push({
+          cropId: this.props.selectedCropId,
+          datePlanted: this.props.date,
+          x,
+          y
+        });
       }
     }
 
@@ -243,7 +184,9 @@ class Farm extends React.Component<IProps> {
   };
 
   private onScroll = (event: React.UIEvent<HTMLElement>) => {
-    const { left, top, scaleX, scaleY } = this.getCanvasPositionAndScale();
+    const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(
+      this.canvas
+    );
 
     this.setState({
       mousePosition: {
@@ -254,84 +197,11 @@ class Farm extends React.Component<IProps> {
     });
   };
 
-  // private plantCrop = (
-  //   cropId: string,
-  //   datePlanted: number,
-  //   x: number,
-  //   y: number
-  // ) => {
-  //   this.setState({
-  //     crops: [...this.state.crops, { cropId, datePlanted, x, y }]
-  //   });
-  // };
-
-  private checkCropsToPlant = (cropsToPlant: IPlantedCrop[]) => {
-    return cropsToPlant.reduce(
-      (acc, cropToPlant) => {
-        let plantedCrops: IPlantedCrop[] = [];
-
-        if (
-          this.state.crops[cropToPlant.y] !== undefined &&
-          this.state.crops[cropToPlant.y][cropToPlant.x] !== undefined
-        ) {
-          plantedCrops = this.state.crops[cropToPlant.y][cropToPlant.x];
-        }
-
-        const plantedCropConflict = plantedCrops.find(plantedCrop => {
-          const plantedCropDetails = crops.find(
-            ({ id }) => id === plantedCrop.cropId
-          );
-
-          if (plantedCropDetails === undefined) {
-            return false;
-          }
-
-          const plantedCropsLastDay = getCropsLastDay(
-            plantedCropDetails,
-            plantedCrop.datePlanted
-          );
-
-          const cropToPlantsLastDay = getCropsLastDay(
-            plantedCropDetails,
-            cropToPlant.datePlanted
-          );
-
-          const cropConflictWhilePlanting =
-            cropToPlant.datePlanted >= plantedCrop.datePlanted &&
-            (plantedCropsLastDay === undefined ||
-              cropToPlant.datePlanted <= plantedCropsLastDay);
-
-          const cropConflictDuringGrowth =
-            cropToPlant.datePlanted < plantedCrop.datePlanted &&
-            (cropToPlantsLastDay === undefined ||
-              cropToPlantsLastDay >= plantedCrop.datePlanted);
-
-          if (cropConflictWhilePlanting || cropConflictDuringGrowth) {
-            return true;
-          }
-
-          return false;
-        });
-
-        if (plantedCropConflict === undefined) {
-          return deepExtend(acc, {
-            plantableCrops: [...acc.plantableCrops, cropToPlant]
-          });
-        }
-
-        return deepExtend(acc, {
-          unplantableCrops: [...acc.unplantableCrops, cropToPlant]
-        });
-      },
-      { plantableCrops: [], unplantableCrops: [] }
-    ) as {
-      plantableCrops: IPlantedCrop[];
-      unplantableCrops: IPlantedCrop[];
-    };
-  };
-
   private plantCrops = (cropsToPlant: IPlantedCrop[]) => {
-    const { plantableCrops } = this.checkCropsToPlant(cropsToPlant);
+    const { plantableCrops } = checkCropsToPlant(
+      cropsToPlant,
+      this.state.crops
+    );
 
     const newCrops = this.state.crops;
 
@@ -359,124 +229,6 @@ class Farm extends React.Component<IProps> {
     });
   };
 
-  private renderCrops = (
-    context: CanvasRenderingContext2D,
-    cropsImage: HTMLImageElement
-  ) => {
-    const { date } = this.props;
-
-    Object.keys(this.state.crops)
-      .sort((a, b) => Number(a) - Number(b))
-      .map(yKey => {
-        Object.keys(this.state.crops[yKey]).map(xKey => {
-          (this.state.crops[yKey][xKey] as IPlantedCrop[]).map(
-            ({ cropId, datePlanted, x, y }, i) => {
-              const crop = crops.find(c => c.id === cropId);
-
-              if (crop === undefined) {
-                return;
-              }
-
-              const cropsLastDay = getCropsLastDay(crop, datePlanted);
-              if (
-                cropsLastDay === undefined ||
-                date < datePlanted ||
-                date > cropsLastDay
-              ) {
-                return;
-              }
-
-              const stage = calculateStageOfCrop(
-                date - datePlanted + 1,
-                crop.stages,
-                crop.regrow
-              );
-
-              const spriteIndex = stage + 1;
-              const isFlower =
-                crop.isFlower && spriteIndex > crop.stages.length;
-
-              renderCrop(
-                context,
-                cropsImage,
-                stage + 1,
-                x,
-                y,
-                crop.name,
-                isFlower
-              );
-            }
-          );
-        });
-      });
-  };
-
-  private renderSelectedRegion = (
-    context: CanvasRenderingContext2D,
-    selectedRegionImage: HTMLImageElement,
-    selectedRegionErrorImage: HTMLImageElement
-  ) => {
-    const { date, selectedCropId } = this.props;
-
-    if (this.state.mousePosition && selectedCropId !== undefined) {
-      const x1 = Math.floor(
-        (this.state.mousePosition.x - this.state.mousePosition.left) / 16
-      );
-      const y1 = Math.floor(
-        (this.state.mousePosition.y - this.state.mousePosition.top) / 16
-      );
-      let x2 = x1;
-      let y2 = y1;
-
-      if (this.state.isMouseDown && this.state.mouseDownPosition) {
-        x2 = Math.floor(
-          (this.state.mouseDownPosition.x - this.state.mouseDownPosition.left) /
-            16
-        );
-        y2 = Math.floor(
-          (this.state.mouseDownPosition.y - this.state.mouseDownPosition.top) /
-            16
-        );
-      }
-
-      const xDirection = Math.sign(x2 - x1) || 1;
-      const yDirection = Math.sign(y2 - y1) || 1;
-
-      const cropsToPlant: IPlantedCrop[] = [];
-
-      for (let y = y1; y !== y2 + yDirection; y += yDirection) {
-        for (let x = x1; x !== x2 + xDirection; x += xDirection) {
-          cropsToPlant.push({
-            cropId: selectedCropId,
-            datePlanted: date,
-            x,
-            y
-          });
-        }
-      }
-
-      const { plantableCrops, unplantableCrops } = this.checkCropsToPlant(
-        cropsToPlant
-      );
-
-      plantableCrops.forEach(cropToPlant => {
-        context.drawImage(
-          selectedRegionImage,
-          cropToPlant.x * 16,
-          cropToPlant.y * 16
-        );
-      });
-
-      unplantableCrops.forEach(cropToPlant => {
-        context.drawImage(
-          selectedRegionErrorImage,
-          cropToPlant.x * 16,
-          cropToPlant.y * 16
-        );
-      });
-    }
-  };
-
   private updateCanvas = () => {
     const { date } = this.props;
 
@@ -499,15 +251,30 @@ class Farm extends React.Component<IProps> {
         createImage,
         cropsImage,
         destroyImage
-      } = this.getCanvasImages(date);
+      } = getCanvasImages(date);
 
       context.clearRect(0, 0, canvasWidth, canvasHeight);
 
       context.drawImage(backgroundImage, 0, 0);
 
-      this.renderCrops(context, cropsImage);
+      renderCropsToCanvas(context, cropsImage, this.state.crops, date);
 
-      this.renderSelectedRegion(context, createImage, destroyImage);
+      if (this.state.mousePosition && this.props.selectedCropId !== undefined) {
+        const highlightedRegion = this.getHighlightedRegion();
+        if (highlightedRegion === undefined) {
+          return;
+        }
+
+        renderSelectedRegion(
+          context,
+          this.state.crops,
+          date,
+          highlightedRegion,
+          this.props.selectedCropId,
+          createImage,
+          destroyImage
+        );
+      }
     }
   };
 }
