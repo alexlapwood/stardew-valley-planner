@@ -1,3 +1,5 @@
+# Stardew Valley Seasonal Planner
+
 All copyrighted content (images, textures, etc.) belong to their respective owners (ConcernedApe / Stardew Valley) and are not included under the GPL 3 license of this project.
 
 ## Available Scripts
@@ -14,5 +16,4 @@ You will also see any lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](#running-tests) for more information.
+Launches the test runner in the interactive watch mode.
