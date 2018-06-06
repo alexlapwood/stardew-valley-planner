@@ -36,7 +36,7 @@ export function renderCropsToCanvas(
             }
 
             const stage = calculateStageOfCrop(
-              date - datePlanted + 1,
+              date - datePlanted,
               crop.stages,
               crop.regrow
             );

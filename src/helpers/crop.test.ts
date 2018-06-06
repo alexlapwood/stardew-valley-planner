@@ -1,14 +1,4 @@
-import { getCropsLastDay } from "./crop";
-
-interface ITheory {
-  expected: number;
-  values: {
-    dayPlanted: number;
-    regrow?: number;
-    seasons: string[];
-    stages: number[];
-  };
-}
+import { calculateStageOfCrop, getCropsLastDay } from "./crop";
 
 describe("Crop helper", () => {
   const baseCrop = {
@@ -28,27 +18,35 @@ describe("Crop helper", () => {
     stages: [1]
   };
 
-  const tenDayGrowth = {
-    stages: [1, 3, 2, 5]
+  const greenBeanGrowth = {
+    stages: [1, 1, 1, 3, 4]
   };
 
   describe("can get the last day a crop will survive when it", () => {
-    const theories: ITheory[] = [
+    const theories: Array<{
+      expected: number;
+      values: {
+        dayPlanted: number;
+        regrow?: number;
+        seasons: string[];
+        stages: number[];
+      };
+    }> = [
       {
-        expected: 10,
-        values: { ...tenDayGrowth, ...twoSeasons, dayPlanted: 0 }
+        expected: 9,
+        values: { ...greenBeanGrowth, ...twoSeasons, dayPlanted: 0 }
+      },
+      {
+        expected: 36,
+        values: { ...greenBeanGrowth, ...twoSeasons, dayPlanted: 27 }
       },
       {
         expected: 37,
-        values: { ...tenDayGrowth, ...twoSeasons, dayPlanted: 27 }
-      },
-      {
-        expected: 38,
-        values: { ...tenDayGrowth, ...twoSeasons, dayPlanted: 28 }
+        values: { ...greenBeanGrowth, ...twoSeasons, dayPlanted: 28 }
       },
       {
         expected: 55,
-        values: { ...tenDayGrowth, ...twoSeasons, dayPlanted: 55 }
+        values: { ...greenBeanGrowth, ...twoSeasons, dayPlanted: 55 }
       },
       {
         expected: 55,
@@ -68,7 +66,7 @@ describe("Crop helper", () => {
       }
     ];
 
-    theories.map((theory: { values: any; expected: number }) => {
+    theories.map(theory => {
       const crop: ICrop = {
         ...baseCrop,
         regrow: theory.values.regrow,
@@ -76,21 +74,104 @@ describe("Crop helper", () => {
         stages: theory.values.stages
       };
 
-      const { dayPlanted, regrow } = theory.values;
-      const daysToGrow = theory.values.stages.reduce(
-        (acc: number, val: number) => acc + val
-      );
+      const { dayPlanted, regrow, stages } = theory.values;
+      const daysToGrow = stages.reduce((acc: number, val: number) => acc + val);
 
       it(`is planted on day ${dayPlanted}, takes ${daysToGrow} day${
         daysToGrow > 1 ? "s" : ""
       } to grow, ${
-        theory.values.regrow
+        regrow
           ? `will regrow every ${regrow} day${regrow > 1 ? "s" : ""}`
           : "doesn't regrow"
       }, and can grow during ${theory.values.seasons.join(" and ")}`, () => {
         expect(getCropsLastDay(crop, theory.values.dayPlanted)).toBe(
           theory.expected
         );
+      });
+    });
+  });
+
+  describe("can get the current stage of a crop when it", () => {
+    const theories: Array<{
+      expected: number;
+      values: {
+        dayChecked: number;
+        dayPlanted: number;
+        regrow?: number;
+        stages: number[];
+      };
+    }> = [
+      {
+        expected: 0,
+        values: { ...greenBeanGrowth, dayChecked: 0, dayPlanted: 0 }
+      },
+      {
+        expected: 1,
+        values: { ...greenBeanGrowth, dayChecked: 1, dayPlanted: 0 }
+      },
+      {
+        expected: 2,
+        values: { ...greenBeanGrowth, dayChecked: 2, dayPlanted: 0 }
+      },
+      {
+        expected: 3,
+        values: { ...greenBeanGrowth, dayChecked: 3, dayPlanted: 0 }
+      },
+      {
+        expected: 3,
+        values: { ...greenBeanGrowth, dayChecked: 5, dayPlanted: 0 }
+      },
+      {
+        expected: 4,
+        values: { ...greenBeanGrowth, dayChecked: 6, dayPlanted: 0 }
+      },
+      {
+        expected: 4,
+        values: { ...greenBeanGrowth, dayChecked: 9, dayPlanted: 0 }
+      },
+      {
+        expected: 5,
+        values: { ...greenBeanGrowth, dayChecked: 10, dayPlanted: 0 }
+      },
+      {
+        expected: 0,
+        values: { ...greenBeanGrowth, dayChecked: 0, dayPlanted: 0, regrow: 3 }
+      },
+      {
+        expected: 1,
+        values: { ...greenBeanGrowth, dayChecked: 1, dayPlanted: 0, regrow: 3 }
+      },
+      {
+        expected: 5,
+        values: { ...greenBeanGrowth, dayChecked: 10, dayPlanted: 0, regrow: 3 }
+      },
+      {
+        expected: 4,
+        values: { ...greenBeanGrowth, dayChecked: 11, dayPlanted: 0, regrow: 3 }
+      },
+      {
+        expected: 4,
+        values: { ...greenBeanGrowth, dayChecked: 12, dayPlanted: 0, regrow: 3 }
+      },
+      {
+        expected: 5,
+        values: { ...greenBeanGrowth, dayChecked: 13, dayPlanted: 0, regrow: 3 }
+      }
+    ];
+
+    theories.map(theory => {
+      const { dayChecked, dayPlanted, regrow, stages } = theory.values;
+
+      it(`is planted on day ${dayPlanted}, takes ${stages.join(
+        " + "
+      )} days to mature, ${
+        regrow
+          ? `will regrow every ${regrow} day${regrow > 1 ? "s" : ""}`
+          : "doesn't regrow"
+      }, and is checked on day ${dayChecked}`, () => {
+        expect(
+          calculateStageOfCrop(dayChecked - dayPlanted, stages, regrow)
+        ).toBe(theory.expected);
       });
     });
   });

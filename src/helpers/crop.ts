@@ -49,25 +49,16 @@ export function calculateStageOfCrop(
   regrow?: number
 ) {
   let stage = 0;
-  let day = 0;
+  let simulatedDay = 0;
 
-  while (age > day + stages[stage] && stages[stage] !== undefined) {
-    day += stages[stage];
+  while (simulatedDay + stages[stage] <= age && stage < stages.length) {
+    simulatedDay += stages[stage];
     stage += 1;
   }
 
-  if (age > day + 1 && stages[stage] === undefined) {
-    day += 1;
-    stage += 1;
-  }
-
-  if (stage > stages.length) {
-    if (regrow !== undefined) {
-      const daysSinceLastHarvest = (age - day) % regrow;
-      return daysSinceLastHarvest === 0 ? stage - 1 : stage;
-    }
-
-    throw new Error();
+  if (stage === stages.length && regrow !== undefined) {
+    const daysSinceLastHarvest = (age - simulatedDay) % regrow;
+    return daysSinceLastHarvest === 0 ? stage : stage - 1;
   }
 
   return stage;
