@@ -1,12 +1,50 @@
 import {
   calculateStageOfCrop,
   checkCropsToPlant,
-  getCropsLastDay,
-  renderCrop
+  getCropsLastDay
 } from "./crop";
 
 // tslint:disable-next-line:no-var-requires
 const crops: ICrop[] = require("../data/sdv.json").crops;
+
+// tslint:disable-next-line:no-var-requires
+const cropMap: string[] = require("../data/crops.json");
+
+export function renderCropToCanvas(
+  context: CanvasRenderingContext2D,
+  sprite: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement | ImageBitmap,
+  spriteIndex: number,
+  x: number,
+  y: number,
+  name: string,
+  isFlower?: boolean
+) {
+  context.drawImage(
+    sprite,
+    spriteIndex * 16,
+    cropMap.indexOf(name) * 32,
+    16,
+    32,
+    x * 16,
+    (y - 1) * 16,
+    16,
+    32
+  );
+
+  if (isFlower) {
+    context.drawImage(
+      sprite,
+      (spriteIndex + 1) * 16,
+      cropMap.indexOf(name) * 32,
+      16,
+      32,
+      x * 16,
+      (y - 1) * 16,
+      16,
+      32
+    );
+  }
+}
 
 export function renderCropsToCanvas(
   context: CanvasRenderingContext2D,
@@ -44,7 +82,7 @@ export function renderCropsToCanvas(
             const spriteIndex = stage + 1;
             const isFlower = crop.isFlower && spriteIndex > crop.stages.length;
 
-            renderCrop(
+            renderCropToCanvas(
               context,
               cropsImage,
               stage + 1,

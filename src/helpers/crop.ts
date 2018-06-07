@@ -5,9 +5,6 @@ import { getSeason, getYear } from "./date";
 // tslint:disable-next-line:no-var-requires
 const crops: ICrop[] = require("../data/sdv.json").crops;
 
-// tslint:disable-next-line:no-var-requires
-const cropMap: string[] = require("../data/crops.json");
-
 const seasons = ["spring", "summer", "fall", "winter"];
 
 export function getCropsLastDay(crop: ICrop, datePlanted: number) {
@@ -62,42 +59,6 @@ export function calculateStageOfCrop(
   }
 
   return stage;
-}
-
-export function renderCrop(
-  context: CanvasRenderingContext2D,
-  sprite: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement | ImageBitmap,
-  spriteIndex: number,
-  x: number,
-  y: number,
-  name: string,
-  isFlower?: boolean
-) {
-  context.drawImage(
-    sprite,
-    spriteIndex * 16,
-    cropMap.indexOf(name) * 32,
-    16,
-    32,
-    x * 16,
-    (y - 1) * 16,
-    16,
-    32
-  );
-
-  if (isFlower) {
-    context.drawImage(
-      sprite,
-      (spriteIndex + 1) * 16,
-      cropMap.indexOf(name) * 32,
-      16,
-      32,
-      x * 16,
-      (y - 1) * 16,
-      16,
-      32
-    );
-  }
 }
 
 export function checkCropsToPlant(

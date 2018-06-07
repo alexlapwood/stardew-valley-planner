@@ -1,4 +1,8 @@
-import { calculateStageOfCrop, getCropsLastDay } from "./crop";
+import {
+  calculateStageOfCrop,
+  checkCropsToPlant,
+  getCropsLastDay
+} from "./crop";
 
 describe("Crop helper", () => {
   const baseCrop = {
@@ -173,6 +177,71 @@ describe("Crop helper", () => {
           calculateStageOfCrop(dayChecked - dayPlanted, stages, regrow)
         ).toBe(theory.expected);
       });
+    });
+  });
+
+  describe("checkCropsToPlant", () => {
+    it("can detect overlapping crops", () => {
+      const cropsToPlant: IPlantedCrop[] = [
+        { cropId: "parsnip", datePlanted: 0, x: 0, y: 0 },
+        { cropId: "parsnip", datePlanted: 0, x: 1, y: 0 },
+        { cropId: "parsnip", datePlanted: 0, x: 2, y: 0 }
+      ];
+
+      const currentCrops: IFarmCrops = {
+        0: { 0: [{ cropId: "parsnip", datePlanted: 0, x: 0, y: 0 }] }
+      };
+      const { plantableCrops, unplantableCrops } = checkCropsToPlant(
+        cropsToPlant,
+        currentCrops
+      );
+
+      expect(plantableCrops).toHaveLength(2);
+      expect(unplantableCrops).toHaveLength(1);
+    });
+
+    it("can detect crops that are still growing here", () => {
+      const cropsToPlant: IPlantedCrop[] = [
+        { cropId: "parsnip", datePlanted: 0, x: 0, y: 0 },
+        { cropId: "parsnip", datePlanted: 1, x: 0, y: 0 },
+        { cropId: "parsnip", datePlanted: 2, x: 0, y: 0 },
+        { cropId: "parsnip", datePlanted: 3, x: 0, y: 0 },
+        { cropId: "parsnip", datePlanted: 4, x: 0, y: 0 },
+        { cropId: "parsnip", datePlanted: 5, x: 0, y: 0 }
+      ];
+
+      const currentCrops: IFarmCrops = {
+        0: { 0: [{ cropId: "parsnip", datePlanted: 0, x: 0, y: 0 }] }
+      };
+      const { plantableCrops, unplantableCrops } = checkCropsToPlant(
+        cropsToPlant,
+        currentCrops
+      );
+
+      expect(plantableCrops).toHaveLength(2);
+      expect(unplantableCrops).toHaveLength(4);
+    });
+
+    it("can detect crops that were planted after today", () => {
+      const cropsToPlant: IPlantedCrop[] = [
+        { cropId: "parsnip", datePlanted: 0, x: 0, y: 0 },
+        { cropId: "parsnip", datePlanted: 1, x: 0, y: 0 },
+        { cropId: "parsnip", datePlanted: 2, x: 0, y: 0 },
+        { cropId: "parsnip", datePlanted: 3, x: 0, y: 0 },
+        { cropId: "parsnip", datePlanted: 4, x: 0, y: 0 },
+        { cropId: "parsnip", datePlanted: 5, x: 0, y: 0 }
+      ];
+
+      const currentCrops: IFarmCrops = {
+        0: { 0: [{ cropId: "parsnip", datePlanted: 5, x: 0, y: 0 }] }
+      };
+      const { plantableCrops, unplantableCrops } = checkCropsToPlant(
+        cropsToPlant,
+        currentCrops
+      );
+
+      expect(plantableCrops).toHaveLength(2);
+      expect(unplantableCrops).toHaveLength(4);
     });
   });
 });
