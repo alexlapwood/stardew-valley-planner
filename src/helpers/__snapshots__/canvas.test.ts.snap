@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`getCanvasImages throws an error if there are no images 1`] = `"Error loading images"`;

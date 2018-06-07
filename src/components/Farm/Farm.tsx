@@ -2,20 +2,18 @@ import * as React from "react";
 
 import * as deepExtend from "deep-extend";
 
-import {
-  getCanvasImages,
-  getCanvasPositionAndScale
-} from "../../helpers/canvas";
+import { getCanvasPositionAndScale } from "../../helpers/canvas";
 import { checkCropsToPlant } from "../../helpers/crop";
+import { getSeason } from "../../helpers/date";
 import {
   renderCropsToContext,
   renderSelectedRegion
 } from "../../helpers/renderToCanvas";
 
 import "./Farm.css";
-
 interface IProps {
   date: number;
+  images: HTMLImageElement[];
   selectedCropId?: string;
   zoom: number;
 }
@@ -46,7 +44,7 @@ interface IState {
 class Farm extends React.Component<IProps> {
   public state: IState = { crops: {}, isMouseDown: false };
 
-  private canvas?: HTMLCanvasElement;
+  public canvas?: HTMLCanvasElement;
   private farmWidth = 80;
   private farmHeight = 65;
 
@@ -230,7 +228,7 @@ class Farm extends React.Component<IProps> {
   };
 
   private updateCanvas = () => {
-    const { date } = this.props;
+    const { date, images } = this.props;
 
     if (this.canvas) {
       const canvasHeight = this.canvas.height;
@@ -246,12 +244,29 @@ class Farm extends React.Component<IProps> {
       context.oImageSmoothingEnabled = false;
       context.imageSmoothingEnabled = false;
 
-      const {
-        backgroundImage,
-        createImage,
-        cropsImage,
-        destroyImage
-      } = getCanvasImages(date);
+      const season = ["spring", "summer", "fall", "winter"][getSeason(date)];
+
+      const backgroundImage = images.find(image =>
+        image.src.includes(`/background-${season}.png`)
+      );
+      const createImage = images.find(image =>
+        image.src.includes("/images/create.png")
+      );
+      const destroyImage = images.find(image =>
+        image.src.includes("/images/destroy.png")
+      );
+      const cropsImage = images.find(image =>
+        image.src.includes("/images/crops.png")
+      );
+
+      if (
+        backgroundImage === undefined ||
+        createImage === undefined ||
+        cropsImage === undefined ||
+        destroyImage === undefined
+      ) {
+        throw new Error("Error loading images");
+      }
 
       context.clearRect(0, 0, canvasWidth, canvasHeight);
 

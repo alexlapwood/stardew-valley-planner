@@ -8,39 +8,6 @@ exports[`renders the app without crashing 1`] = `
     class="flex-vertical flex overflow-hidden"
   >
     <div
-      class="Menu"
-    >
-      <div
-        class="flex-horizontal"
-      >
-        <div
-          class="MenuButton sdv-button-menu flex"
-        >
-          New
-        </div>
-        <div
-          class="MenuButton sdv-button-menu flex"
-        >
-          Open
-        </div>
-        <div
-          class="MenuButton sdv-button-menu flex"
-        >
-          Save
-        </div>
-        <div
-          class="MenuButton sdv-button-menu flex"
-        >
-          Share
-        </div>
-        <div
-          class="MenuButton sdv-button-menu flex"
-        >
-          Options
-        </div>
-      </div>
-    </div>
-    <div
       class="relative flex overflow-hidden"
     >
       <div

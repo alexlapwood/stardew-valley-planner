@@ -1,10 +1,4 @@
-import { getCanvasImages, getCanvasPositionAndScale } from "./canvas";
-
-describe("getCanvasImages", () => {
-  it("throws an error if there are no images", () => {
-    expect(getCanvasImages).toThrowErrorMatchingSnapshot();
-  });
-});
+import { getCanvasPositionAndScale } from "./canvas";
 
 describe("getCanvasPositionAndScale", () => {
   document.body.innerHTML = "<canvas />";

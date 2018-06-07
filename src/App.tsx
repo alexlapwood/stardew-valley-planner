@@ -5,7 +5,6 @@ import * as cn from "classnames";
 import BigText from "./components/BigText/BigText";
 import DatePicker from "./components/DatePicker/DatePicker";
 import Farm from "./components/Farm/Farm";
-import Menu from "./components/Menu/Menu";
 import Sprite from "./components/Sprite/Sprite";
 import Toolbar from "./components/Toolbar/Toolbar";
 
@@ -18,22 +17,70 @@ const crops: ICrop[] = require("./data/sdv.json").crops;
 
 interface IState {
   date: number;
+  images: HTMLImageElement[];
+  isLoading: boolean;
   selectedCropId?: string;
 }
 
 class App extends React.Component {
   public state: IState = {
-    date: 0
+    date: 0,
+    images: [],
+    isLoading: false
   };
 
+  public async componentDidMount() {
+    this.setState({
+      isLoading: true
+    });
+    const imageUrls: string[] = [
+      "/images/background-spring.png",
+      "/images/background-summer.png",
+      "/images/background-fall.png",
+      "/images/background-winter.png",
+      "/images/create.png",
+      "/images/crops.png",
+      "/images/destroy.png"
+    ];
+
+    const imagePromises = imageUrls.map(async imageUrl => {
+      const image = new Image();
+      image.src = imageUrl;
+      await new Promise((resolve, reject) => {
+        image.onerror = () => {
+          reject();
+        };
+        image.onload = () => {
+          resolve();
+        };
+      });
+      return image;
+    });
+
+    const images = await Promise.all(imagePromises);
+
+    this.setState({
+      images,
+      isLoading: false
+    });
+  }
+
   public render() {
-    const { date, selectedCropId } = this.state;
+    const { date, images, isLoading, selectedCropId } = this.state;
+    if (isLoading) {
+      return <div>loading...</div>;
+    }
+
     return (
       <div className="App flex-horizontal">
         <div className="flex-vertical flex overflow-hidden">
-          <Menu menuItems={["New", "Open", "Save", "Share", "Options"]} />
           <div className="relative flex overflow-hidden">
-            <Farm date={date} selectedCropId={selectedCropId} zoom={1} />
+            <Farm
+              date={date}
+              images={images}
+              selectedCropId={selectedCropId}
+              zoom={1}
+            />
             <Toolbar />
             <DatePicker date={date} changeDate={this.changeDate} />
           </div>

@@ -9,7 +9,7 @@ registerServiceWorker();
 
 const updatePageSize = () => {
   document.body.style.height =
-    800 * window.innerHeight / window.innerWidth + "px";
+    (800 * window.innerHeight) / window.innerWidth + "px";
   document.body.style.transform = "scale(" + window.innerWidth / 800 + ")";
 };
 
