@@ -4,10 +4,15 @@ export function getCanvasPositionAndScale(canvas?: HTMLCanvasElement) {
   }
 
   const rect = canvas.getBoundingClientRect();
-  const { left, top } = rect;
 
-  const scaleX = canvas.width / (rect.right - rect.left);
-  const scaleY = canvas.height / (rect.bottom - rect.top);
+  const { bottom, left, right, top } = rect;
+
+  const scaleX = canvas.width / (right - left);
+  const scaleY = canvas.height / (bottom - top);
+
+  if (isNaN(scaleX) || isNaN(scaleY)) {
+    return { left, top, scaleX: 1, scaleY: 1 };
+  }
 
   return { left, top, scaleX, scaleY };
 }

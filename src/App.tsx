@@ -26,13 +26,10 @@ class App extends React.Component {
   public state: IState = {
     date: 0,
     images: [],
-    isLoading: false
+    isLoading: true
   };
 
   public async componentDidMount() {
-    this.setState({
-      isLoading: true
-    });
     const imageUrls: string[] = [
       "/images/background-spring.png",
       "/images/background-summer.png",
