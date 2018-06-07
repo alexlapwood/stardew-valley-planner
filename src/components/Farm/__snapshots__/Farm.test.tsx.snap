@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the app without crashing 1`] = `
+<div
+  class="Farm"
+>
+  <div
+    class="Farm--canvas-wrapper"
+    style="transform:scale(1)"
+  >
+    <canvas
+      class="Farm--canvas"
+      height="1040"
+      width="1280"
+    />
+  </div>
+</div>
+`;
