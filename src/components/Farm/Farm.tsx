@@ -8,7 +8,7 @@ import {
 } from "../../helpers/canvas";
 import { checkCropsToPlant } from "../../helpers/crop";
 import {
-  renderCropsToCanvas,
+  renderCropsToContext,
   renderSelectedRegion
 } from "../../helpers/renderToCanvas";
 
@@ -257,7 +257,7 @@ class Farm extends React.Component<IProps> {
 
       context.drawImage(backgroundImage, 0, 0);
 
-      renderCropsToCanvas(context, cropsImage, this.state.crops, date);
+      renderCropsToContext(context, cropsImage, this.state.crops, date);
 
       if (this.state.mousePosition && this.props.selectedCropId !== undefined) {
         const highlightedRegion = this.getHighlightedRegion();

@@ -10,7 +10,7 @@ const crops: ICrop[] = require("../data/sdv.json").crops;
 // tslint:disable-next-line:no-var-requires
 const cropMap: string[] = require("../data/crops.json");
 
-export function renderCropToCanvas(
+export function renderCropToContext(
   context: CanvasRenderingContext2D,
   sprite: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement | ImageBitmap,
   spriteIndex: number,
@@ -46,7 +46,7 @@ export function renderCropToCanvas(
   }
 }
 
-export function renderCropsToCanvas(
+export function renderCropsToContext(
   context: CanvasRenderingContext2D,
   cropsImage: HTMLImageElement,
   currentCrops: IFarmCrops,
@@ -82,7 +82,7 @@ export function renderCropsToCanvas(
             const spriteIndex = stage + 1;
             const isFlower = crop.isFlower && spriteIndex > crop.stages.length;
 
-            renderCropToCanvas(
+            renderCropToContext(
               context,
               cropsImage,
               stage + 1,

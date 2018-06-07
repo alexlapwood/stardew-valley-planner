@@ -31,7 +31,7 @@ export function getCanvasImages(date: number) {
 
 export function getCanvasPositionAndScale(canvas?: HTMLCanvasElement) {
   if (canvas === undefined) {
-    throw new Error();
+    throw new Error("Canvas must be defined");
   }
 
   const rect = canvas.getBoundingClientRect();
