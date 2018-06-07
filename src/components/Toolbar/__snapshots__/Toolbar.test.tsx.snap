@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the app without crashing 1`] = `
+<div
+  class="Toolbar sdv-toolbar-border flex-horizontal"
+>
+  <div
+    class="Toolbar--tool sdv-tool-border"
+  />
+  <div
+    class="Toolbar--tool sdv-tool-border"
+  />
+  <div
+    class="Toolbar--tool sdv-tool-border"
+  />
+  <div
+    class="Toolbar--tool sdv-tool-border"
+  />
+  <div
+    class="Toolbar--tool sdv-tool-border"
+  />
+  <div
+    class="Toolbar--tool sdv-tool-border"
+  />
+  <div
+    class="Toolbar--tool sdv-tool-border"
+  />
+</div>
+`;
