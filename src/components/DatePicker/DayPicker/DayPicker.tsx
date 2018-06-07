@@ -12,6 +12,7 @@ const DayPicker: React.SFC<IProps> = props => (
     <div className="DatePicker--day flex-horizontal">
       <div className="DatePicker--day-slider flex-horizontal flex">
         <input
+          data-automation-id="DatePicker--day-slider-input"
           max="27"
           min="0"
           // tslint:disable-next-line:jsx-no-lambda

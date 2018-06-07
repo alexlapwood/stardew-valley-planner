@@ -98,6 +98,7 @@ exports[`renders the app without crashing 1`] = `
                 class="DatePicker--day-slider flex-horizontal flex"
               >
                 <input
+                  data-automation-id="DatePicker--day-slider-input"
                   max="27"
                   min="0"
                   type="range"
@@ -289,6 +290,7 @@ exports[`renders the app without crashing 1`] = `
               >
                 <button
                   class="sdv-button-subtract"
+                  data-automation-id="DatePicker--year-subtract"
                   disabled=""
                 />
                 <div
@@ -321,6 +323,7 @@ exports[`renders the app without crashing 1`] = `
                 </div>
                 <button
                   class="sdv-button-add"
+                  data-automation-id="DatePicker--year-add"
                 />
               </div>
             </div>

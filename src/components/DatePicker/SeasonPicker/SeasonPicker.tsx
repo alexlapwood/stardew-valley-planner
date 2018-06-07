@@ -10,30 +10,34 @@ interface IProps {
 const SeasonPicker: React.SFC<IProps> = props => (
   <div className="DatePicker--season flex-horizontal">
     <BigButton
-      selected={props.season === 0}
+      data-automation-id="DatePicker--season-spring"
       // tslint:disable-next-line:jsx-no-lambda
       onClick={() => props.changeSeason(0)}
+      selected={props.season === 0}
     >
       Spring
     </BigButton>
     <BigButton
-      selected={props.season === 1}
+      data-automation-id="DatePicker--season-summer"
       // tslint:disable-next-line:jsx-no-lambda
       onClick={() => props.changeSeason(1)}
+      selected={props.season === 1}
     >
       Summer
     </BigButton>
     <BigButton
-      selected={props.season === 2}
+      data-automation-id="DatePicker--season-fall"
       // tslint:disable-next-line:jsx-no-lambda
       onClick={() => props.changeSeason(2)}
+      selected={props.season === 2}
     >
       Fall
     </BigButton>
     <BigButton
-      selected={props.season === 3}
+      data-automation-id="DatePicker--season-winter"
       // tslint:disable-next-line:jsx-no-lambda
       onClick={() => props.changeSeason(3)}
+      selected={props.season === 3}
     >
       Winter
     </BigButton>

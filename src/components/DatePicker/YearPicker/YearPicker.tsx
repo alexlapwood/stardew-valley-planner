@@ -15,11 +15,16 @@ const YearPicker: React.SFC<IProps> = props => (
       <div className="DatePicker--year flex-horizontal">
         <button
           className="sdv-button-subtract"
+          data-automation-id="DatePicker--year-subtract"
           disabled={props.year === 0}
           onClick={props.subtractYear}
         />
         <BigText>Year {String(props.year + 1)}</BigText>
-        <button className="sdv-button-add" onClick={props.addYear} />
+        <button
+          className="sdv-button-add"
+          data-automation-id="DatePicker--year-add"
+          onClick={props.addYear}
+        />
       </div>
     </div>
     <div className="flex" />
