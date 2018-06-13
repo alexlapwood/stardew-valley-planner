@@ -1,19 +1,13 @@
 import * as React from "react";
 
-import * as cn from "classnames";
-
-import BigText from "./components/BigText/BigText";
 import DatePicker from "./components/DatePicker/DatePicker";
 import Farm from "./components/Farm/Farm";
-import Sprite from "./components/Sprite/Sprite";
+import ItemsMenu from "./components/ItemsMenu/ItemsMenu";
 import Toolbar from "./components/Toolbar/Toolbar";
 
 import { getSeason } from "./helpers/date";
 
 import "./App.css";
-
-// tslint:disable-next-line:no-var-requires
-const crops: ICrop[] = require("./data/sdv.json").crops;
 
 interface IProps {
   waitForImages?: boolean;
@@ -89,45 +83,14 @@ class App extends React.Component<IProps, IState> {
           </div>
         </div>
         <div style={{ width: "168px" }}>
-          <div className="sdv-list">
-            {crops.map((crop, i) => {
-              if (
-                crop &&
-                crop.seasons.find(
-                  season =>
-                    season ===
-                    ["spring", "summer", "fall", "winter"][getSeason(date)]
-                )
-              ) {
-                return (
-                  <div
-                    className={cn("sdv-list-item", {
-                      selected: crop.id === selectedCropId
-                    })}
-                    key={crop.id}
-                    // tslint:disable-next-line:jsx-no-lambda
-                    onClick={() => {
-                      this.setState({ selectedCropId: crop.id });
-                    }}
-                  >
-                    <div className="sdv-list-item-icon">
-                      <Sprite
-                        height={16}
-                        src="/images/seeds.png"
-                        width={16}
-                        x={i * 16}
-                        y={0}
-                      />
-                    </div>
-                    <div className="sdv-list-item-text">
-                      <BigText>{crop.name}</BigText>
-                    </div>
-                  </div>
-                );
-              }
-              return;
-            })}
-          </div>
+          <ItemsMenu
+            date={date}
+            // tslint:disable-next-line:jsx-no-lambda
+            selectCrop={(cropId: string) => {
+              this.setState({ selectedCropId: cropId });
+            }}
+            selectedCropId={selectedCropId}
+          />
         </div>
       </div>
     );
