@@ -3,16 +3,32 @@ import * as React from "react";
 
 import Farm from "./Farm";
 
+const imageUrls: string[] = [
+  "/images/background-spring.png",
+  "/images/background-summer.png",
+  "/images/background-fall.png",
+  "/images/background-winter.png",
+  "/images/create.png",
+  "/images/crops.png",
+  "/images/destroy.png"
+];
+
+const mockImages = imageUrls.map(imageUrl => {
+  const image = new Image();
+  image.src = imageUrl;
+  return image;
+});
+
 it("renders the app without crashing", () => {
-  const wrapper = render(<Farm date={0} images={[]} zoom={1} />);
-  expect(wrapper).toMatchSnapshot();
+  const farm = render(<Farm date={0} images={[]} zoom={1} />);
+  expect(farm).toMatchSnapshot();
 });
 
 describe("state", () => {
   it("initialises correctly", () => {
-    const wrapper = shallow(<Farm date={0} images={[]} zoom={1} />);
+    const farm = shallow(<Farm date={0} images={[]} zoom={1} />);
 
-    const actual = (wrapper.instance() as Farm).state;
+    const actual = (farm.instance() as Farm).state;
 
     expect(actual).toEqual({
       crops: {},
@@ -23,47 +39,76 @@ describe("state", () => {
 
 describe("selecting tiles", () => {
   it("can select a region of tiles", () => {
-    const imageUrls: string[] = [
-      "/images/background-spring.png",
-      "/images/background-summer.png",
-      "/images/background-fall.png",
-      "/images/background-winter.png",
-      "/images/create.png",
-      "/images/crops.png",
-      "/images/destroy.png"
-    ];
+    const farm = mount(<Farm date={0} images={mockImages} zoom={1} />);
 
-    const images = imageUrls.map(imageUrl => {
-      const image = new Image();
-      image.src = imageUrl;
-      return image;
-    });
-
-    const wrapper = mount(<Farm date={0} images={images} zoom={1} />);
-
-    const canvas = (wrapper.instance() as Farm).canvas;
+    const canvas = (farm.instance() as Farm).canvas;
 
     if (canvas === undefined) {
       throw new Error();
     }
 
-    wrapper.find("canvas").simulate("mouseDown", {
+    farm.find("canvas").simulate("mouseDown", {
       clientX: 0,
       clientY: 0
     });
 
-    wrapper.find("canvas").simulate("mouseMove", {
-      clientX: 10,
+    farm.find("canvas").simulate("mouseMove", {
+      clientX: 100,
       clientY: 0
     });
 
-    const actual = wrapper.instance().state;
+    const actual = farm.instance().state;
 
     expect(actual).toEqual({
       crops: {},
       isMouseDown: true,
       mouseDownPosition: { left: 0, top: 0, x: 0, y: 0 },
-      mousePosition: { left: 0, top: 0, x: 10, y: 0 }
+      mousePosition: { left: 0, top: 0, x: 100, y: 0 }
     });
+  });
+});
+
+describe("doing things with a selected region", () => {
+  it("won't do anything if we're not actually selecting a region of the farm", () => {
+    const farm = mount(<Farm date={0} images={mockImages} zoom={1} />);
+
+    const canvas = (farm.instance() as Farm).canvas;
+
+    if (canvas === undefined) {
+      throw new Error();
+    }
+
+    farm.find("canvas").simulate("mouseUp");
+
+    const actual = farm.instance().state;
+
+    expect(actual).toEqual({
+      crops: {},
+      isMouseDown: false
+    });
+  });
+
+  it("can plant crops", () => {
+    const farm = mount(
+      <Farm date={0} images={mockImages} selectedCropId={"parsnip"} zoom={1} />
+    );
+
+    const canvas = (farm.instance() as Farm).canvas;
+
+    if (canvas === undefined) {
+      throw new Error();
+    }
+
+    farm.instance().setState({
+      isMouseDown: true,
+      mouseDownPosition: { left: 0, top: 0, x: 0, y: 0 },
+      mousePosition: { left: 0, top: 0, x: 16, y: 16 }
+    });
+
+    farm.find("canvas").simulate("mouseUp");
+
+    const actual = farm.instance().state;
+
+    expect(actual).toMatchSnapshot();
   });
 });
