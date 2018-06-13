@@ -15,6 +15,10 @@ import "./App.css";
 // tslint:disable-next-line:no-var-requires
 const crops: ICrop[] = require("./data/sdv.json").crops;
 
+interface IProps {
+  waitForImages?: boolean;
+}
+
 interface IState {
   date: number;
   images: HTMLImageElement[];
@@ -22,7 +26,7 @@ interface IState {
   selectedCropId?: string;
 }
 
-class App extends React.Component {
+class App extends React.Component<IProps, IState> {
   public state: IState = {
     date: 0,
     images: [],
@@ -43,14 +47,16 @@ class App extends React.Component {
     const imagePromises = imageUrls.map(async imageUrl => {
       const image = new Image();
       image.src = imageUrl;
-      await new Promise((resolve, reject) => {
-        image.onerror = () => {
-          reject();
-        };
-        image.onload = () => {
-          resolve();
-        };
-      });
+      if (this.props.waitForImages === true) {
+        await new Promise((resolve, reject) => {
+          image.onerror = () => {
+            reject();
+          };
+          image.onload = () => {
+            resolve();
+          };
+        });
+      }
       return image;
     });
 

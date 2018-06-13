@@ -4,25 +4,9 @@ import * as React from "react";
 import App from "./App";
 
 it("renders the app without crashing", async () => {
-  const imageUrls: string[] = [
-    "/images/background-spring.png",
-    "/images/background-summer.png",
-    "/images/background-fall.png",
-    "/images/background-winter.png",
-    "/images/create.png",
-    "/images/crops.png",
-    "/images/destroy.png"
-  ];
-
-  const images = imageUrls.map(imageUrl => {
-    const image = new Image();
-    image.src = imageUrl;
-    return image;
-  });
-
   const wrapper = mount(<App />);
 
-  wrapper.instance().setState({ images, isLoading: false });
+  await (wrapper.instance() as App).componentDidMount();
 
   expect(wrapper.render()).toMatchSnapshot();
 });

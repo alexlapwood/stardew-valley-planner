@@ -4,7 +4,9 @@ import App from "./App";
 import "./index.css";
 import registerServiceWorker from "./registerServiceWorker";
 
-ReactDOM.render(<App />, document.getElementById("root") as HTMLElement);
+ReactDOM.render(<App waitForImages={true} />, document.getElementById(
+  "root"
+) as HTMLElement);
 registerServiceWorker();
 
 const updatePageSize = () => {
