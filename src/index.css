@@ -121,6 +121,10 @@ body {
   border-style: solid;
 }
 
+.sdv-tool-border.selected {
+  border-image: url("/images/tool-border-selected.png") 1 stretch;
+}
+
 .sdv-list {
   background-clip: padding-box;
   border-image: url("/images/list-border.png") 5 stretch;

@@ -18,6 +18,7 @@ interface IState {
   images: HTMLImageElement[];
   isLoading: boolean;
   selectedCropId?: string;
+  selectedToolId?: string;
 }
 
 class App extends React.Component<IProps, IState> {
@@ -35,7 +36,8 @@ class App extends React.Component<IProps, IState> {
       "/images/background-winter.png",
       "/images/create.png",
       "/images/crops.png",
-      "/images/destroy.png"
+      "/images/destroy.png",
+      "/images/pick-axe.png"
     ];
 
     const imagePromises = imageUrls.map(async imageUrl => {
@@ -63,7 +65,13 @@ class App extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { date, images, isLoading, selectedCropId } = this.state;
+    const {
+      date,
+      images,
+      isLoading,
+      selectedCropId,
+      selectedToolId
+    } = this.state;
     if (isLoading) {
       return <div>loading...</div>;
     }
@@ -78,7 +86,17 @@ class App extends React.Component<IProps, IState> {
               selectedCropId={selectedCropId}
               zoom={1}
             />
-            <Toolbar />
+            <Toolbar
+              images={images}
+              selectedToolId={selectedToolId}
+              // tslint:disable-next-line:jsx-no-lambda
+              selectTool={(toolId: string) => {
+                this.setState({
+                  selectedCropId: undefined,
+                  selectedToolId: toolId
+                });
+              }}
+            />
             <DatePicker date={date} changeDate={this.changeDate} />
           </div>
         </div>
@@ -87,7 +105,10 @@ class App extends React.Component<IProps, IState> {
             date={date}
             // tslint:disable-next-line:jsx-no-lambda
             selectCrop={(cropId: string) => {
-              this.setState({ selectedCropId: cropId });
+              this.setState({
+                selectedCropId: cropId,
+                selectedToolId: undefined
+              });
             }}
             selectedCropId={selectedCropId}
           />
