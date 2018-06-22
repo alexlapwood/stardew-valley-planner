@@ -8,9 +8,10 @@ const imageUrls: string[] = [
   "/images/background-summer.png",
   "/images/background-fall.png",
   "/images/background-winter.png",
-  "/images/create.png",
-  "/images/crops.png",
-  "/images/destroy.png"
+  "/images/highlight-green.png",
+  "/images/highlight-grey.png",
+  "/images/highlight-red.png",
+  "/images/crops.png"
 ];
 
 const mockImages = imageUrls.map(imageUrl => {
@@ -90,7 +91,12 @@ describe("doing things with a selected region", () => {
 
   it("can plant crops", () => {
     const farm = mount(
-      <Farm date={0} images={mockImages} selectedCropId={"parsnip"} zoom={1} />
+      <Farm
+        date={0}
+        images={mockImages}
+        selectedItem={{ id: "parsnip", type: "crop" }}
+        zoom={1}
+      />
     );
 
     const canvas = (farm.instance() as Farm).canvas;

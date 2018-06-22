@@ -13,11 +13,11 @@ const crops: ICrop[] = require("../../data/sdv.json").crops;
 interface IProps {
   date: number;
   selectCrop: (cropId: string) => void;
-  selectedCropId?: string;
+  selectedItem?: ISelectedItem;
 }
 
 const ItemsMenu: React.SFC<IProps> = props => {
-  const { date, selectCrop, selectedCropId } = props;
+  const { date, selectCrop, selectedItem } = props;
 
   return (
     <div className="sdv-list">
@@ -32,7 +32,10 @@ const ItemsMenu: React.SFC<IProps> = props => {
           return (
             <div
               className={cn("sdv-list-item", {
-                selected: crop.id === selectedCropId
+                selected:
+                  selectedItem !== undefined &&
+                  selectedItem.type === "crop" &&
+                  selectedItem.id === crop.id
               })}
               key={crop.id}
               // tslint:disable-next-line:jsx-no-lambda

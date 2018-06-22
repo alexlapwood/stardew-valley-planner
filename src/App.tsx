@@ -7,6 +7,9 @@ import Toolbar from "./components/Toolbar/Toolbar";
 
 import { getSeason } from "./helpers/date";
 
+// tslint:disable-next-line:no-var-requires
+const crops: ICrop[] = require("./data/sdv.json").crops;
+
 import "./App.css";
 
 interface IProps {
@@ -17,8 +20,7 @@ interface IState {
   date: number;
   images: HTMLImageElement[];
   isLoading: boolean;
-  selectedCropId?: string;
-  selectedToolId?: string;
+  selectedItem?: ISelectedItem;
 }
 
 class App extends React.Component<IProps, IState> {
@@ -34,9 +36,10 @@ class App extends React.Component<IProps, IState> {
       "/images/background-summer.png",
       "/images/background-fall.png",
       "/images/background-winter.png",
-      "/images/create.png",
+      "/images/highlight-green.png",
+      "/images/highlight-grey.png",
+      "/images/highlight-red.png",
       "/images/crops.png",
-      "/images/destroy.png",
       "/images/pick-axe.png"
     ];
 
@@ -65,13 +68,7 @@ class App extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const {
-      date,
-      images,
-      isLoading,
-      selectedCropId,
-      selectedToolId
-    } = this.state;
+    const { date, images, isLoading, selectedItem } = this.state;
     if (isLoading) {
       return <div>loading...</div>;
     }
@@ -83,17 +80,16 @@ class App extends React.Component<IProps, IState> {
             <Farm
               date={date}
               images={images}
-              selectedCropId={selectedCropId}
+              selectedItem={selectedItem}
               zoom={1}
             />
             <Toolbar
               images={images}
-              selectedToolId={selectedToolId}
+              selectedItem={selectedItem}
               // tslint:disable-next-line:jsx-no-lambda
               selectTool={(toolId: string) => {
                 this.setState({
-                  selectedCropId: undefined,
-                  selectedToolId: toolId
+                  selectedItem: { id: toolId, type: "tool" }
                 });
               }}
             />
@@ -106,11 +102,10 @@ class App extends React.Component<IProps, IState> {
             // tslint:disable-next-line:jsx-no-lambda
             selectCrop={(cropId: string) => {
               this.setState({
-                selectedCropId: cropId,
-                selectedToolId: undefined
+                selectedItem: { id: cropId, type: "crop" }
               });
             }}
-            selectedCropId={selectedCropId}
+            selectedItem={selectedItem}
           />
         </div>
       </div>
@@ -118,14 +113,25 @@ class App extends React.Component<IProps, IState> {
   }
 
   public changeDate = (date: number) => {
-    const selectedCropId =
-      getSeason(date) === getSeason(this.state.date)
-        ? this.state.selectedCropId
-        : undefined;
+    const { selectedItem } = this.state;
+
+    if (selectedItem === undefined || selectedItem.type !== "crop") {
+      this.setState({ date });
+      return;
+    }
+
+    const selectedCrop = crops.find(crop => crop.id === selectedItem.id);
+
+    const keepSelectedItem =
+      selectedCrop !== undefined &&
+      selectedCrop.seasons.find(
+        season =>
+          season === ["spring", "summer", "fall", "winter"][getSeason(date)]
+      );
 
     this.setState({
       date,
-      selectedCropId
+      selectedItem: keepSelectedItem ? selectedItem : undefined
     });
   };
 }

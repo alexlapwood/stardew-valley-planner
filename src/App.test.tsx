@@ -33,21 +33,37 @@ describe("state", () => {
     it("deselects the current crop if it is out of season", () => {
       const wrapper = shallow(<App />);
 
-      (wrapper.instance() as App).setState({ selectedCropId: "parsnip" });
+      (wrapper.instance() as App).setState({
+        selectedItem: { id: "parsnip", type: "crop" }
+      });
       (wrapper.instance() as App).changeDate(28 * 1);
 
-      const actual = (wrapper.instance() as App).state.selectedCropId;
+      const actual = (wrapper.instance() as App).state.selectedItem;
       expect(actual).toBeUndefined();
     });
 
     it("does not deselect the current crop if it is in season", () => {
       const wrapper = shallow(<App />);
 
-      (wrapper.instance() as App).setState({ selectedCropId: "ancient_fruit" });
+      (wrapper.instance() as App).setState({
+        selectedItem: { id: "ancient_fruit", type: "crop" }
+      });
       (wrapper.instance() as App).changeDate(28 * 1);
 
-      const actual = (wrapper.instance() as App).state.selectedCropId;
-      expect(actual).toBeUndefined();
+      const actual = (wrapper.instance() as App).state.selectedItem;
+      expect(actual).toEqual({ id: "ancient_fruit", type: "crop" });
+    });
+
+    it("does not deselect tools", () => {
+      const wrapper = shallow(<App />);
+
+      (wrapper.instance() as App).setState({
+        selectedItem: { id: "tool", type: "tool" }
+      });
+      (wrapper.instance() as App).changeDate(28 * 1);
+
+      const actual = (wrapper.instance() as App).state.selectedItem;
+      expect(actual).toEqual({ id: "tool", type: "tool" });
     });
   });
 });

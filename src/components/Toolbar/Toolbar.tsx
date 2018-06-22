@@ -6,7 +6,7 @@ import "./Toolbar.css";
 
 interface IProps {
   images: HTMLImageElement[];
-  selectedToolId?: string;
+  selectedItem?: ISelectedItem;
   selectTool: (tool: string) => void;
 }
 
@@ -14,7 +14,10 @@ const Toolbar: React.SFC<IProps> = props => (
   <div className="Toolbar sdv-toolbar-border flex-horizontal">
     <div
       className={cn("Toolbar--tool sdv-tool-border", {
-        selected: props.selectedToolId === "axe"
+        selected:
+          props.selectedItem !== undefined &&
+          props.selectedItem.type === "tool" &&
+          props.selectedItem.id === "axe"
       })}
       // tslint:disable-next-line:jsx-no-lambda
       onClick={() => {

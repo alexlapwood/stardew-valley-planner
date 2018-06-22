@@ -14,7 +14,7 @@ import "./Farm.css";
 interface IProps {
   date: number;
   images: HTMLImageElement[];
-  selectedCropId?: string;
+  selectedItem?: ISelectedItem;
   zoom: number;
 }
 
@@ -147,7 +147,7 @@ class Farm extends React.Component<IProps> {
   private onMouseUp = () => {
     if (
       this.state.isMouseDown === false ||
-      this.props.selectedCropId === undefined
+      this.props.selectedItem === undefined
     ) {
       return;
     }
@@ -156,24 +156,26 @@ class Farm extends React.Component<IProps> {
       return;
     }
 
-    const cropsToPlant: IPlantedCrop[] = [];
     const { x1, y1, x2, y2 } = highlightedRegion;
 
     const xDirection = Math.sign(x2 - x1) || 1;
     const yDirection = Math.sign(y2 - y1) || 1;
 
-    for (let y = y1; y !== y2 + yDirection; y += yDirection) {
-      for (let x = x1; x !== x2 + xDirection; x += xDirection) {
-        cropsToPlant.push({
-          cropId: this.props.selectedCropId,
-          datePlanted: this.props.date,
-          x,
-          y
-        });
+    if (this.props.selectedItem.type === "crop") {
+      const cropsToPlant: IPlantedCrop[] = [];
+      for (let y = y1; y !== y2 + yDirection; y += yDirection) {
+        for (let x = x1; x !== x2 + xDirection; x += xDirection) {
+          cropsToPlant.push({
+            cropId: this.props.selectedItem.id,
+            datePlanted: this.props.date,
+            x,
+            y
+          });
+        }
       }
-    }
 
-    this.plantCrops(cropsToPlant);
+      this.plantCrops(cropsToPlant);
+    }
 
     this.setState({
       isMouseDown: false,
@@ -249,11 +251,14 @@ class Farm extends React.Component<IProps> {
       const backgroundImage = images.find(image =>
         image.src.includes(`/background-${season}.png`)
       );
-      const createImage = images.find(image =>
-        image.src.includes("/images/create.png")
+      const highlightGreenImage = images.find(image =>
+        image.src.includes("/images/highlight-green.png")
       );
-      const destroyImage = images.find(image =>
-        image.src.includes("/images/destroy.png")
+      const highlightGreyImage = images.find(image =>
+        image.src.includes("/images/highlight-grey.png")
+      );
+      const highlightRedImage = images.find(image =>
+        image.src.includes("/images/highlight-red.png")
       );
       const cropsImage = images.find(image =>
         image.src.includes("/images/crops.png")
@@ -261,9 +266,10 @@ class Farm extends React.Component<IProps> {
 
       if (
         backgroundImage === undefined ||
-        createImage === undefined ||
-        cropsImage === undefined ||
-        destroyImage === undefined
+        highlightGreenImage === undefined ||
+        highlightGreyImage === undefined ||
+        highlightRedImage === undefined ||
+        cropsImage === undefined
       ) {
         throw new Error("Error loading images");
       }
@@ -274,7 +280,7 @@ class Farm extends React.Component<IProps> {
 
       renderCropsToContext(context, cropsImage, this.state.crops, date);
 
-      if (this.state.mousePosition && this.props.selectedCropId !== undefined) {
+      if (this.state.mousePosition && this.props.selectedItem !== undefined) {
         const highlightedRegion = this.getHighlightedRegion();
         if (highlightedRegion === undefined) {
           return;
@@ -285,9 +291,10 @@ class Farm extends React.Component<IProps> {
           this.state.crops,
           date,
           highlightedRegion,
-          this.props.selectedCropId,
-          createImage,
-          destroyImage
+          highlightGreenImage,
+          highlightGreyImage,
+          highlightRedImage,
+          this.props.selectedItem
         );
       }
     }

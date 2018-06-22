@@ -102,46 +102,49 @@ export function renderSelectedRegion(
   currentCrops: IFarmCrops,
   date: number,
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
-  selectedCropId: string,
-  selectedRegionImage: HTMLImageElement,
-  selectedRegionErrorImage: HTMLImageElement
+  highlightGreenImage: HTMLImageElement,
+  highlightGreyImage: HTMLImageElement,
+  highlightRedImage: HTMLImageElement,
+  selectedItem: ISelectedItem
 ) {
   const { x1, x2, y1, y2 } = highlightedRegion;
 
   const xDirection = Math.sign(x2 - x1) || 1;
   const yDirection = Math.sign(y2 - y1) || 1;
 
-  const cropsToPlant: IPlantedCrop[] = [];
+  if (selectedItem.type === "crop") {
+    const cropsToPlant: IPlantedCrop[] = [];
 
-  for (let y = y1; y !== y2 + yDirection; y += yDirection) {
-    for (let x = x1; x !== x2 + xDirection; x += xDirection) {
-      cropsToPlant.push({
-        cropId: selectedCropId,
-        datePlanted: date,
-        x,
-        y
-      });
+    for (let y = y1; y !== y2 + yDirection; y += yDirection) {
+      for (let x = x1; x !== x2 + xDirection; x += xDirection) {
+        cropsToPlant.push({
+          cropId: selectedItem.id,
+          datePlanted: date,
+          x,
+          y
+        });
+      }
     }
+
+    const { plantableCrops, unplantableCrops } = checkCropsToPlant(
+      cropsToPlant,
+      currentCrops
+    );
+
+    plantableCrops.forEach(cropToPlant => {
+      context.drawImage(
+        highlightGreenImage,
+        cropToPlant.x * 16,
+        cropToPlant.y * 16
+      );
+    });
+
+    unplantableCrops.forEach(cropToPlant => {
+      context.drawImage(
+        highlightRedImage,
+        cropToPlant.x * 16,
+        cropToPlant.y * 16
+      );
+    });
   }
-
-  const { plantableCrops, unplantableCrops } = checkCropsToPlant(
-    cropsToPlant,
-    currentCrops
-  );
-
-  plantableCrops.forEach(cropToPlant => {
-    context.drawImage(
-      selectedRegionImage,
-      cropToPlant.x * 16,
-      cropToPlant.y * 16
-    );
-  });
-
-  unplantableCrops.forEach(cropToPlant => {
-    context.drawImage(
-      selectedRegionErrorImage,
-      cropToPlant.x * 16,
-      cropToPlant.y * 16
-    );
-  });
 }

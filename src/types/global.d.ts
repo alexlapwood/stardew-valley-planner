@@ -33,3 +33,8 @@ interface IFarmCrops {
     [x: number]: IPlantedCrop[];
   };
 }
+
+interface ISelectedItem {
+  id: string;
+  type: "crop" | "tool";
+}
