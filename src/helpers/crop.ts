@@ -67,14 +67,11 @@ export function checkCropsToPlant(
 ) {
   return cropsToPlant.reduce(
     (acc, cropToPlant) => {
-      let plantedCrops: IPlantedCrop[] = [];
-
-      if (
-        currentCrops[cropToPlant.y] !== undefined &&
-        currentCrops[cropToPlant.y][cropToPlant.x] !== undefined
-      ) {
-        plantedCrops = currentCrops[cropToPlant.y][cropToPlant.x];
-      }
+      const plantedCrops = getCropsAtLocation(
+        currentCrops,
+        cropToPlant.x,
+        cropToPlant.y
+      );
 
       const plantedCropConflict = plantedCrops.find(plantedCrop => {
         const plantedCropDetails = crops.find(
@@ -127,4 +124,12 @@ export function checkCropsToPlant(
     plantableCrops: IPlantedCrop[];
     unplantableCrops: IPlantedCrop[];
   };
+}
+
+function getCropsAtLocation(currentCrops: IFarmCrops, x: number, y: number) {
+  if (currentCrops[y] !== undefined && currentCrops[y][x] !== undefined) {
+    return currentCrops[y][x];
+  }
+
+  return [] as IPlantedCrop[];
 }

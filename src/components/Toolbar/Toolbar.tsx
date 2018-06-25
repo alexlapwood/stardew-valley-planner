@@ -17,11 +17,11 @@ const Toolbar: React.SFC<IProps> = props => (
         selected:
           props.selectedItem !== undefined &&
           props.selectedItem.type === "tool" &&
-          props.selectedItem.id === "axe"
+          props.selectedItem.id === "pick-axe"
       })}
       // tslint:disable-next-line:jsx-no-lambda
       onClick={() => {
-        props.selectTool("axe");
+        props.selectTool("pick-axe");
       }}
     >
       <img src="/images/pick-axe.png" />

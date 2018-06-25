@@ -107,24 +107,17 @@ export function renderSelectedRegion(
   highlightRedImage: HTMLImageElement,
   selectedItem: ISelectedItem
 ) {
-  const { x1, x2, y1, y2 } = highlightedRegion;
-
-  const xDirection = Math.sign(x2 - x1) || 1;
-  const yDirection = Math.sign(y2 - y1) || 1;
-
   if (selectedItem.type === "crop") {
     const cropsToPlant: IPlantedCrop[] = [];
 
-    for (let y = y1; y !== y2 + yDirection; y += yDirection) {
-      for (let x = x1; x !== x2 + xDirection; x += xDirection) {
-        cropsToPlant.push({
-          cropId: selectedItem.id,
-          datePlanted: date,
-          x,
-          y
-        });
-      }
-    }
+    forEachTile(highlightedRegion, (x, y) => {
+      cropsToPlant.push({
+        cropId: selectedItem.id,
+        datePlanted: date,
+        x,
+        y
+      });
+    });
 
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
@@ -146,5 +139,27 @@ export function renderSelectedRegion(
         cropToPlant.y * 16
       );
     });
+  }
+
+  if (selectedItem.type === "tool") {
+    if (selectedItem.id === "pick-axe") {
+      // check crops and render tiles
+    }
+  }
+}
+
+function forEachTile(
+  highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
+  cb: (x: number, y: number) => any
+) {
+  const { x1, x2, y1, y2 } = highlightedRegion;
+
+  const xDirection = Math.sign(x2 - x1) || 1;
+  const yDirection = Math.sign(y2 - y1) || 1;
+
+  for (let y = y1; y !== y2 + yDirection; y += yDirection) {
+    for (let x = x1; x !== x2 + xDirection; x += xDirection) {
+      cb(x, y);
+    }
   }
 }
