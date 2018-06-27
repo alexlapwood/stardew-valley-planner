@@ -1,6 +1,7 @@
 import {
   calculateStageOfCrop,
   checkCropsToPlant,
+  findCropToDestroy,
   getCropsLastDay
 } from "./crop";
 
@@ -143,7 +144,17 @@ export function renderSelectedRegion(
 
   if (selectedItem.type === "tool") {
     if (selectedItem.id === "pick-axe") {
-      // check crops and render tiles
+      forEachTile(highlightedRegion, (x, y) => {
+        const plantedCrops = getCropsAtLocation(currentCrops, x, y);
+
+        const hasCropToDestroy = findCropToDestroy(plantedCrops, date);
+
+        if (hasCropToDestroy) {
+          context.drawImage(highlightRedImage, x * 16, y * 16);
+        } else {
+          context.drawImage(highlightGreyImage, x * 16, y * 16);
+        }
+      });
     }
   }
 }
@@ -162,4 +173,12 @@ function forEachTile(
       cb(x, y);
     }
   }
+}
+
+function getCropsAtLocation(currentCrops: IFarmCrops, x: number, y: number) {
+  if (currentCrops[y] !== undefined && currentCrops[y][x] !== undefined) {
+    return currentCrops[y][x];
+  }
+
+  return [] as IPlantedCrop[];
 }

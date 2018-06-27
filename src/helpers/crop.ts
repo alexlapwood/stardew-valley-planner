@@ -126,6 +126,36 @@ export function checkCropsToPlant(
   };
 }
 
+export function findCropToDestroy(
+  plantedCrops: IPlantedCrop[],
+  dateToDestroyOn: number
+) {
+  return plantedCrops.find(plantedCrop => {
+    const plantedCropDetails = crops.find(
+      ({ id }) => id === plantedCrop.cropId
+    );
+
+    if (plantedCropDetails === undefined) {
+      return false;
+    }
+
+    const plantedCropsLastDay = getCropsLastDay(
+      plantedCropDetails,
+      plantedCrop.datePlanted
+    );
+
+    if (
+      dateToDestroyOn >= plantedCrop.datePlanted &&
+      (plantedCropsLastDay === undefined ||
+        dateToDestroyOn <= plantedCropsLastDay)
+    ) {
+      return true;
+    }
+
+    return false;
+  });
+}
+
 function getCropsAtLocation(currentCrops: IFarmCrops, x: number, y: number) {
   if (currentCrops[y] !== undefined && currentCrops[y][x] !== undefined) {
     return currentCrops[y][x];

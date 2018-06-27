@@ -1,6 +1,7 @@
 import {
   calculateStageOfCrop,
   checkCropsToPlant,
+  findCropToDestroy,
   getCropsLastDay
 } from "./crop";
 
@@ -242,6 +243,44 @@ describe("Crop helper", () => {
 
       expect(plantableCrops).toHaveLength(2);
       expect(unplantableCrops).toHaveLength(4);
+    });
+  });
+
+  describe("findCropToDestroy", () => {
+    it("can find crops planted today", () => {
+      const currentCrops: IPlantedCrop[] = [
+        { cropId: "parsnip", datePlanted: 0, x: 0, y: 0 }
+      ];
+      const hasCropToDestroy = findCropToDestroy(currentCrops, 0);
+
+      expect(hasCropToDestroy).toBeTruthy();
+    });
+
+    it("can find crops after on their last day", () => {
+      const currentCrops: IPlantedCrop[] = [
+        { cropId: "parsnip", datePlanted: 0, x: 0, y: 0 }
+      ];
+      const hasCropToDestroy = findCropToDestroy(currentCrops, 3);
+
+      expect(hasCropToDestroy).toBeTruthy();
+    });
+
+    it("does not include crops that haven't been planted yet", () => {
+      const currentCrops: IPlantedCrop[] = [
+        { cropId: "parsnip", datePlanted: 1, x: 0, y: 0 }
+      ];
+      const hasCropToDestroy = findCropToDestroy(currentCrops, 0);
+
+      expect(hasCropToDestroy).toBeFalsy();
+    });
+
+    it("does not include crops that have died", () => {
+      const currentCrops: IPlantedCrop[] = [
+        { cropId: "parsnip", datePlanted: 0, x: 0, y: 0 }
+      ];
+      const hasCropToDestroy = findCropToDestroy(currentCrops, 4);
+
+      expect(hasCropToDestroy).toBeFalsy();
     });
   });
 });
