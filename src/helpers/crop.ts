@@ -1,6 +1,6 @@
-import * as deepExtend from "deep-extend";
-
 import { getSeason, getYear } from "./date";
+
+import merge from "../helpers/merge";
 
 // tslint:disable-next-line:no-var-requires
 const crops: ICrop[] = require("../data/sdv.json").crops;
@@ -110,12 +110,12 @@ export function checkCropsToPlant(
       });
 
       if (plantedCropConflict === undefined) {
-        return deepExtend(acc, {
+        return merge(acc, {
           plantableCrops: [...acc.plantableCrops, cropToPlant]
         });
       }
 
-      return deepExtend(acc, {
+      return merge(acc, {
         unplantableCrops: [...acc.unplantableCrops, cropToPlant]
       });
     },

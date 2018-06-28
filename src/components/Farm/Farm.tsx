@@ -1,16 +1,17 @@
 import * as React from "react";
 
-import * as deepExtend from "deep-extend";
-
 import { getCanvasPositionAndScale } from "../../helpers/canvas";
 import { checkCropsToPlant } from "../../helpers/crop";
 import { getSeason } from "../../helpers/date";
+import { forEachTile } from "../../helpers/farm";
+import merge from "../../helpers/merge";
 import {
   renderCropsToContext,
   renderSelectedRegion
 } from "../../helpers/renderToCanvas";
 
 import "./Farm.css";
+
 interface IProps {
   date: number;
   images: HTMLImageElement[];
@@ -145,10 +146,8 @@ class Farm extends React.Component<IProps> {
   };
 
   private onMouseUp = () => {
-    if (
-      this.state.isMouseDown === false ||
-      this.props.selectedItem === undefined
-    ) {
+    const { selectedItem } = this.props;
+    if (this.state.isMouseDown === false || selectedItem === undefined) {
       return;
     }
     const highlightedRegion = this.getHighlightedRegion();
@@ -156,23 +155,16 @@ class Farm extends React.Component<IProps> {
       return;
     }
 
-    const { x1, y1, x2, y2 } = highlightedRegion;
-
-    const xDirection = Math.sign(x2 - x1) || 1;
-    const yDirection = Math.sign(y2 - y1) || 1;
-
-    if (this.props.selectedItem.type === "crop") {
+    if (selectedItem.type === "crop") {
       const cropsToPlant: IPlantedCrop[] = [];
-      for (let y = y1; y !== y2 + yDirection; y += yDirection) {
-        for (let x = x1; x !== x2 + xDirection; x += xDirection) {
-          cropsToPlant.push({
-            cropId: this.props.selectedItem.id,
-            datePlanted: this.props.date,
-            x,
-            y
-          });
-        }
-      }
+      forEachTile(highlightedRegion, (x, y) => {
+        cropsToPlant.push({
+          cropId: selectedItem.id,
+          datePlanted: this.props.date,
+          x,
+          y
+        });
+      });
 
       this.plantCrops(cropsToPlant);
     }
@@ -203,29 +195,18 @@ class Farm extends React.Component<IProps> {
       this.state.crops
     );
 
-    const newCrops = this.state.crops;
+    let newCrops: IFarmCrops = {};
 
     plantableCrops.forEach(cropToPlant => {
-      if (newCrops[cropToPlant.y] === undefined) {
-        newCrops[cropToPlant.y] = {};
-      }
-
-      if (newCrops[cropToPlant.y][cropToPlant.x] === undefined) {
-        newCrops[cropToPlant.y][cropToPlant.x] = [];
-      }
-
-      deepExtend(newCrops, {
+      newCrops = merge(newCrops, {
         [cropToPlant.y]: {
-          [cropToPlant.x]: [
-            ...newCrops[cropToPlant.y][cropToPlant.x],
-            cropToPlant
-          ]
+          [cropToPlant.x]: [cropToPlant]
         }
       });
     });
 
     this.setState({
-      crops: deepExtend(this.state.crops, newCrops)
+      crops: merge(this.state.crops, newCrops)
     });
   };
 
