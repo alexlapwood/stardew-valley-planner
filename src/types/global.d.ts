@@ -24,6 +24,7 @@ interface ICrop {
 interface IPlantedCrop {
   cropId: string;
   datePlanted: number;
+  dateDestroyed?: number;
   x: number;
   y: number;
 }

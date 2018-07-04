@@ -1,9 +1,9 @@
 import * as React from "react";
 
 import { getCanvasPositionAndScale } from "../../helpers/canvas";
-import { checkCropsToPlant } from "../../helpers/crop";
+import { checkCropsToPlant, findCropToDestroy } from "../../helpers/crop";
 import { getSeason } from "../../helpers/date";
-import { forEachTile } from "../../helpers/farm";
+import { forEachTile, getCropsAtLocation } from "../../helpers/farm";
 import merge from "../../helpers/merge";
 import {
   renderCropsToContext,
@@ -13,6 +13,7 @@ import {
 import "./Farm.css";
 
 interface IProps {
+  crops?: IFarmCrops;
   date: number;
   images: HTMLImageElement[];
   selectedItem?: ISelectedItem;
@@ -43,6 +44,16 @@ interface IState {
 }
 
 class Farm extends React.Component<IProps> {
+  public static getDerivedStateFromProps(nextProps: IProps) {
+    if (nextProps.crops !== undefined) {
+      return {
+        crops: nextProps.crops
+      };
+    }
+
+    return null;
+  }
+
   public state: IState = { crops: {}, isMouseDown: false };
 
   public canvas?: HTMLCanvasElement;
@@ -146,7 +157,7 @@ class Farm extends React.Component<IProps> {
   };
 
   private onMouseUp = () => {
-    const { selectedItem } = this.props;
+    const { date, selectedItem } = this.props;
     if (this.state.isMouseDown === false || selectedItem === undefined) {
       return;
     }
@@ -167,6 +178,33 @@ class Farm extends React.Component<IProps> {
       });
 
       this.plantCrops(cropsToPlant);
+    }
+
+    if (selectedItem.type === "tool") {
+      if (selectedItem.id === "pick-axe") {
+        const currentCrops: IFarmCrops = merge({}, this.state.crops);
+        forEachTile(highlightedRegion, (x, y) => {
+          const plantedCrops = getCropsAtLocation(currentCrops, x, y);
+
+          const cropToDestroy = findCropToDestroy(plantedCrops, date);
+
+          if (cropToDestroy !== undefined) {
+            currentCrops[y][x] = currentCrops[y][x].map(cropToCheck => {
+              if (
+                cropToCheck.cropId === cropToDestroy.cropId &&
+                cropToCheck.datePlanted === cropToDestroy.datePlanted
+              ) {
+                cropToCheck.dateDestroyed = date;
+              }
+              return cropToCheck;
+            });
+          }
+        });
+
+        this.setState({
+          crops: currentCrops
+        });
+      }
     }
 
     this.setState({

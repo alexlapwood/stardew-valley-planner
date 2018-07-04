@@ -7,29 +7,37 @@ const crops: ICrop[] = require("../data/sdv.json").crops;
 
 const seasons = ["spring", "summer", "fall", "winter"];
 
-export function getCropsLastDay(crop: ICrop, datePlanted: number) {
-  const seasonPlanted = getSeason(datePlanted);
+export function getCropsLastDay(
+  plantedCrop: IPlantedCrop,
+  plantedCropDetails: ICrop
+) {
+  if (plantedCrop.dateDestroyed !== undefined) {
+    return plantedCrop.dateDestroyed - 1;
+  }
+  const seasonPlanted = getSeason(plantedCrop.datePlanted);
 
   const daysInASeason = 28;
   const daysInAYear = daysInASeason * 4;
 
   for (let i = 0; i < 4; i += 1) {
     if (
-      !crop.seasons.find(season => seasons[(seasonPlanted + i) % 4] === season)
+      !plantedCropDetails.seasons.find(
+        season => seasons[(seasonPlanted + i) % 4] === season
+      )
     ) {
       const lastDay =
-        getYear(datePlanted) * daysInAYear +
-        (getSeason(datePlanted) + i) * daysInASeason -
+        getYear(plantedCrop.datePlanted) * daysInAYear +
+        (getSeason(plantedCrop.datePlanted) + i) * daysInASeason -
         1;
 
-      if (crop.regrow) {
+      if (plantedCropDetails.regrow) {
         return lastDay;
       }
 
       return Math.min(
         lastDay,
-        datePlanted +
-          crop.stages.reduce((acc, val) => {
+        plantedCrop.datePlanted +
+          plantedCropDetails.stages.reduce((acc, val) => {
             return acc + val;
           }) -
           1
@@ -76,20 +84,20 @@ export function checkCropsToPlant(
       const plantedCropConflict = plantedCrops.find(plantedCrop => {
         const plantedCropDetails = crops.find(
           ({ id }) => id === plantedCrop.cropId
-        );
+        ) as ICrop;
 
-        if (plantedCropDetails === undefined) {
-          return false;
-        }
+        const cropToPlantsDetails = crops.find(
+          ({ id }) => id === plantedCrop.cropId
+        ) as ICrop;
 
         const plantedCropsLastDay = getCropsLastDay(
-          plantedCropDetails,
-          plantedCrop.datePlanted
+          plantedCrop,
+          plantedCropDetails
         );
 
         const cropToPlantsLastDay = getCropsLastDay(
-          plantedCropDetails,
-          cropToPlant.datePlanted
+          cropToPlant,
+          cropToPlantsDetails
         );
 
         const cropConflictWhilePlanting =
@@ -133,18 +141,16 @@ export function findCropToDestroy(
   return plantedCrops.find(plantedCrop => {
     const plantedCropDetails = crops.find(
       ({ id }) => id === plantedCrop.cropId
-    );
-
-    if (plantedCropDetails === undefined) {
-      return false;
-    }
+    ) as ICrop;
 
     const plantedCropsLastDay = getCropsLastDay(
-      plantedCropDetails,
-      plantedCrop.datePlanted
+      plantedCrop,
+      plantedCropDetails
     );
 
     if (
+      (plantedCrop.dateDestroyed === undefined ||
+        dateToDestroyOn < plantedCrop.dateDestroyed) &&
       dateToDestroyOn >= plantedCrop.datePlanted &&
       (plantedCropsLastDay === undefined ||
         dateToDestroyOn <= plantedCropsLastDay)

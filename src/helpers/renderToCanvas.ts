@@ -58,43 +58,41 @@ export function renderCropsToContext(
     .sort((a, b) => Number(a) - Number(b))
     .map(yKey => {
       Object.keys(currentCrops[yKey]).map(xKey => {
-        (currentCrops[yKey][xKey] as IPlantedCrop[]).map(
-          ({ cropId, datePlanted, x, y }, i) => {
-            const crop = crops.find(c => c.id === cropId);
+        (currentCrops[yKey][xKey] as IPlantedCrop[]).map((plantedCrop, i) => {
+          const plantedCropDetails = crops.find(
+            crop => crop.id === plantedCrop.cropId
+          ) as ICrop;
 
-            if (crop === undefined) {
-              return;
-            }
-
-            const cropsLastDay = getCropsLastDay(crop, datePlanted);
-            if (
-              cropsLastDay === undefined ||
-              date < datePlanted ||
-              date > cropsLastDay
-            ) {
-              return;
-            }
-
-            const stage = calculateStageOfCrop(
-              date - datePlanted,
-              crop.stages,
-              crop.regrow
-            );
-
-            const spriteIndex = stage + 1;
-            const isFlower = crop.isFlower && spriteIndex > crop.stages.length;
-
-            renderCropToContext(
-              context,
-              cropsImage,
-              stage + 1,
-              x,
-              y,
-              crop.name,
-              isFlower
-            );
+          const cropsLastDay = getCropsLastDay(plantedCrop, plantedCropDetails);
+          if (
+            cropsLastDay === undefined ||
+            date < plantedCrop.datePlanted ||
+            date > cropsLastDay
+          ) {
+            return;
           }
-        );
+
+          const stage = calculateStageOfCrop(
+            date - plantedCrop.datePlanted,
+            plantedCropDetails.stages,
+            plantedCropDetails.regrow
+          );
+
+          const spriteIndex = stage + 1;
+          const isFlower =
+            plantedCropDetails.isFlower &&
+            spriteIndex > plantedCropDetails.stages.length;
+
+          renderCropToContext(
+            context,
+            cropsImage,
+            stage + 1,
+            plantedCrop.x,
+            plantedCrop.y,
+            plantedCropDetails.name,
+            isFlower
+          );
+        });
       });
     });
 }

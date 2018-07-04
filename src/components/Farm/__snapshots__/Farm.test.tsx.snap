@@ -1,5 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`doing things with a selected region can destroy crops 1`] = `
+Object {
+  "crops": Object {
+    "0": Object {
+      "0": Array [
+        Object {
+          "cropId": "parsnip",
+          "dateDestroyed": 0,
+          "datePlanted": 0,
+          "x": 0,
+          "y": 0,
+        },
+      ],
+      "1": Array [
+        Object {
+          "cropId": "parsnip",
+          "dateDestroyed": 0,
+          "datePlanted": 0,
+          "x": 0,
+          "y": 0,
+        },
+      ],
+    },
+    "1": Object {
+      "0": Array [
+        Object {
+          "cropId": "parsnip",
+          "dateDestroyed": 0,
+          "datePlanted": 0,
+          "x": 0,
+          "y": 0,
+        },
+      ],
+      "1": Array [
+        Object {
+          "cropId": "parsnip",
+          "dateDestroyed": 0,
+          "datePlanted": 0,
+          "x": 0,
+          "y": 0,
+        },
+      ],
+    },
+  },
+  "isMouseDown": false,
+  "mouseDownPosition": undefined,
+  "mousePosition": Object {
+    "left": 0,
+    "top": 0,
+    "x": 16,
+    "y": 16,
+  },
+}
+`;
+
 exports[`doing things with a selected region can plant crops 1`] = `
 Object {
   "crops": Object {

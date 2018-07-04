@@ -117,4 +117,49 @@ describe("doing things with a selected region", () => {
 
     expect(actual).toMatchSnapshot();
   });
+
+  it("can destroy crops", () => {
+    const parsnip = {
+      cropId: "parsnip",
+      datePlanted: 0,
+      x: 0,
+      y: 0
+    };
+    const farm = mount(
+      <Farm
+        crops={{
+          "0": {
+            "0": [parsnip],
+            "1": [parsnip]
+          },
+          "1": {
+            "0": [parsnip],
+            "1": [parsnip]
+          }
+        }}
+        date={0}
+        images={mockImages}
+        selectedItem={{ id: "pick-axe", type: "tool" }}
+        zoom={1}
+      />
+    );
+
+    const canvas = (farm.instance() as Farm).canvas;
+
+    if (canvas === undefined) {
+      throw new Error();
+    }
+
+    farm.instance().setState({
+      isMouseDown: true,
+      mouseDownPosition: { left: 0, top: 0, x: 0, y: 0 },
+      mousePosition: { left: 0, top: 0, x: 16, y: 16 }
+    });
+
+    farm.find("canvas").simulate("mouseUp");
+
+    const actual = farm.instance().state;
+
+    expect(actual).toMatchSnapshot();
+  });
 });
