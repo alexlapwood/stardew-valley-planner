@@ -4,14 +4,14 @@ import * as React from "react";
 import Farm from "./Farm";
 
 const imageUrls: string[] = [
-  "/images/background-spring.png",
-  "/images/background-summer.png",
-  "/images/background-fall.png",
-  "/images/background-winter.png",
-  "/images/highlight-green.png",
-  "/images/highlight-grey.png",
-  "/images/highlight-red.png",
-  "/images/crops.png"
+  "images/background-spring.png",
+  "images/background-summer.png",
+  "images/background-fall.png",
+  "images/background-winter.png",
+  "images/highlight-green.png",
+  "images/highlight-grey.png",
+  "images/highlight-red.png",
+  "images/crops.png"
 ];
 
 const mockImages = imageUrls.map(imageUrl => {

@@ -39,5 +39,6 @@
       "enzyme-to-json/serializer"
     ]
   },
+  "homepage": "./",
   "license": "GPL-3.0"
 }

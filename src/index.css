@@ -1,6 +1,6 @@
 * {
   box-sizing: border-box;
-  cursor: url("/images/cursor.png"), default;
+  cursor: url("images/cursor.png"), default;
 }
 
 html,
@@ -46,7 +46,7 @@ body {
 .sdv-panel-big,
 .sdv-button-big {
   background: #ffd883;
-  border-image: url("/images/button-big.png") 13 stretch;
+  border-image: url("images/button-big.png") 13 stretch;
   border-width: 13px;
   border-style: solid;
   text-align: center;
@@ -54,7 +54,7 @@ body {
 
 .sdv-button-big:hover {
   background: #ffffbc;
-  border-image: url("/images/button-big-hover.png") 13 stretch;
+  border-image: url("images/button-big-hover.png") 13 stretch;
   border-width: 13px;
   border-style: solid;
 }
@@ -62,7 +62,7 @@ body {
 .sdv-button {
   background: #ffd883;
   background-clip: padding-box;
-  border-image: url("/images/button.png") 4 stretch;
+  border-image: url("images/button.png") 4 stretch;
   border-style: solid;
   border-width: 4px;
   padding: 2px;
@@ -72,7 +72,7 @@ body {
   background: #262626;
   background-clip: padding-box;
   color: #eee;
-  border-image: url("/images/button-menu-border.png") 4 stretch;
+  border-image: url("images/button-menu-border.png") 4 stretch;
   border-style: solid;
   border-width: 4px;
   padding: 2px;
@@ -87,7 +87,7 @@ body {
 .sdv-toolbar-border {
   background: #febd67;
   background-clip: padding-box;
-  border-image: url("/images/toolbar-border.png") 4 stretch;
+  border-image: url("images/toolbar-border.png") 4 stretch;
   border-style: solid;
   border-width: 4px;
   text-align: center;
@@ -100,34 +100,34 @@ body {
 }
 
 .sdv-button-add {
-  background-image: url("/images/button-add.png");
+  background-image: url("images/button-add.png");
 }
 
 .sdv-button-subtract {
-  background-image: url("/images/button-subtract.png");
+  background-image: url("images/button-subtract.png");
 }
 
 .sdv-button-add:disabled {
-  background-image: url("/images/button-add-disabled.png");
+  background-image: url("images/button-add-disabled.png");
 }
 
 .sdv-button-subtract:disabled {
-  background-image: url("/images/button-subtract-disabled.png");
+  background-image: url("images/button-subtract-disabled.png");
 }
 
 .sdv-tool-border {
-  border-image: url("/images/tool-border.png") 1 stretch;
+  border-image: url("images/tool-border.png") 1 stretch;
   border-width: 1px;
   border-style: solid;
 }
 
 .sdv-tool-border.selected {
-  border-image: url("/images/tool-border-selected.png") 1 stretch;
+  border-image: url("images/tool-border-selected.png") 1 stretch;
 }
 
 .sdv-list {
   background-clip: padding-box;
-  border-image: url("/images/list-border.png") 5 stretch;
+  border-image: url("images/list-border.png") 5 stretch;
   border-width: 5px;
   border-style: solid;
   max-height: 100%;
@@ -138,7 +138,7 @@ body {
 .sdv-list-item {
   align-items: center;
   background: #ffd284;
-  border-image: url("/images/list-item-border.png") 5 stretch;
+  border-image: url("images/list-item-border.png") 5 stretch;
   border-width: 5px;
   border-style: solid;
   display: flex;
@@ -148,13 +148,13 @@ body {
 .sdv-list-item.selected,
 .sdv-list-item:hover {
   background: #fdb452;
-  border-image: url("/images/list-item-hover-border.png") 5 stretch;
+  border-image: url("images/list-item-hover-border.png") 5 stretch;
 }
 
 .sdv-list-item-icon {
   background: #ffd284;
   background-clip: padding-box;
-  border-image: url("/images/list-item-icon-border.png") 1 stretch;
+  border-image: url("images/list-item-icon-border.png") 1 stretch;
   border-width: 1px;
   border-style: solid;
   margin-right: 4px;
@@ -183,7 +183,7 @@ input[type="range"]::before {
   content: " ";
   background: #bdac8f;
   background-clip: padding-box;
-  border-image: url("/images/slider-border.png") 2 stretch;
+  border-image: url("images/slider-border.png") 2 stretch;
   border-width: 2px;
   border-style: solid;
   display: block;
@@ -197,7 +197,7 @@ input[type="range"]::before {
 
 input[type="range"]::-webkit-slider-thumb {
   appearance: none;
-  background: url("/images/slider-thumb.png");
+  background: url("images/slider-thumb.png");
   height: 6px;
   margin: -2px 0;
   width: 10px;
@@ -205,7 +205,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type="range"]::-moz-range-thumb {
-  background: url("/images/slider-thumb.png");
+  background: url("images/slider-thumb.png");
   height: 6px;
   width: 10px;
 }
@@ -229,7 +229,7 @@ input[type="range"]::-moz-range-thumb {
   background-clip: padding-box;
   border: solid;
   border-width: 2px;
-  border-image: url("/images/slider-border.png") 2 stretch;
+  border-image: url("images/slider-border.png") 2 stretch;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -237,7 +237,7 @@ input[type="range"]::-moz-range-thumb {
   background-clip: padding-box;
   border: solid;
   border-width: 3px;
-  border-image: url("/images/slider-thumb-border.png") 3 stretch;
+  border-image: url("images/slider-thumb-border.png") 3 stretch;
 }
 
 .flex-horizontal {

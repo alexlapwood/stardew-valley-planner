@@ -13,17 +13,17 @@ test:
     - CI=true npm run test -- --coverage
   coverage: /All files\s*\|\s*([\d\.]+)/
 
-# pages:
-#   stage: deploy
-#   dependencies:
-#     - test
-#   script:
-#     - CI=true npm run build
-#     - rm -rf public/
-#     - mv build/ public/
-#   artifacts:
-#     paths:
-#       - public
-#     expire_in: 30 days
-#   only:
-#     - master
+pages:
+  stage: deploy
+  dependencies:
+    - test
+  script:
+    - CI=true npm run build
+    - rm -rf public/
+    - mv build/ public/
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  only:
+    - master

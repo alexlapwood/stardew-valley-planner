@@ -23,7 +23,7 @@ const BigText: React.SFC = props => {
           <Sprite
             height={16}
             key={i}
-            src="/images/sdv-font.png"
+            src="images/sdv-font.png"
             width={8}
             x={characterIndex * 8}
             y={0}

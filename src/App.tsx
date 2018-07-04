@@ -32,15 +32,15 @@ class App extends React.Component<IProps, IState> {
 
   public async componentDidMount() {
     const imageUrls: string[] = [
-      "/images/background-spring.png",
-      "/images/background-summer.png",
-      "/images/background-fall.png",
-      "/images/background-winter.png",
-      "/images/highlight-green.png",
-      "/images/highlight-grey.png",
-      "/images/highlight-red.png",
-      "/images/crops.png",
-      "/images/pick-axe.png"
+      "images/background-spring.png",
+      "images/background-summer.png",
+      "images/background-fall.png",
+      "images/background-winter.png",
+      "images/highlight-green.png",
+      "images/highlight-grey.png",
+      "images/highlight-red.png",
+      "images/crops.png",
+      "images/pick-axe.png"
     ];
 
     const imagePromises = imageUrls.map(async imageUrl => {

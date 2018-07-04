@@ -8,7 +8,7 @@ exports[`renders the app without crashing 1`] = `
     class="Toolbar--tool sdv-tool-border"
   >
     <img
-      src="/images/pick-axe.png"
+      src="images/pick-axe.png"
     />
   </div>
   <div

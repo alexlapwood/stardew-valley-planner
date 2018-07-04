@@ -24,7 +24,7 @@ const Toolbar: React.SFC<IProps> = props => (
         props.selectTool("pick-axe");
       }}
     >
-      <img src="/images/pick-axe.png" />
+      <img src="images/pick-axe.png" />
     </div>
     <div className="Toolbar--tool sdv-tool-border" />
     <div className="Toolbar--tool sdv-tool-border" />
