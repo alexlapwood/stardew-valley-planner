@@ -57,11 +57,16 @@ class Farm extends React.Component<IProps> {
   public state: IState = { crops: {}, isMouseDown: false };
 
   public canvas?: HTMLCanvasElement;
+  private farm: HTMLDivElement;
   private farmWidth = 80;
   private farmHeight = 65;
 
   public componentDidMount() {
     this.updateCanvas();
+    if (this.farm !== undefined) {
+      this.farm.scrollLeft = this.farm.scrollWidth;
+      this.farm.scrollTop = 16 * 4;
+    }
   }
 
   public render() {
@@ -70,7 +75,13 @@ class Farm extends React.Component<IProps> {
     this.updateCanvas();
 
     return (
-      <div className="Farm" onScroll={this.onScroll}>
+      <div
+        className="Farm"
+        onScroll={this.onScroll}
+        ref={farm => {
+          this.farm = farm as HTMLDivElement;
+        }}
+      >
         <div
           className="Farm--canvas-wrapper"
           style={{ transform: `scale(${zoom})` }}
