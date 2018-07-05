@@ -87,7 +87,7 @@ export function checkCropsToPlant(
         ) as ICrop;
 
         const cropToPlantsDetails = crops.find(
-          ({ id }) => id === plantedCrop.cropId
+          ({ id }) => id === cropToPlant.cropId
         ) as ICrop;
 
         const plantedCropsLastDay = getCropsLastDay(
@@ -119,12 +119,12 @@ export function checkCropsToPlant(
 
       if (plantedCropConflict === undefined) {
         return merge(acc, {
-          plantableCrops: [...acc.plantableCrops, cropToPlant]
+          plantableCrops: [cropToPlant]
         });
       }
 
       return merge(acc, {
-        unplantableCrops: [...acc.unplantableCrops, cropToPlant]
+        unplantableCrops: [cropToPlant]
       });
     },
     { plantableCrops: [], unplantableCrops: [] }

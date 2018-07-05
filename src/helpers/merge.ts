@@ -1,7 +1,5 @@
 function isObject(item: any) {
-  return (
-    item && typeof item === "object" && !Array.isArray(item) && item !== null
-  );
+  return typeof item === "object" && !Array.isArray(item) && item !== null;
 }
 
 function merge(target: any, source: any) {
@@ -12,9 +10,15 @@ function merge(target: any, source: any) {
           Object.assign(target, { [key]: {} });
         }
         merge(target[key], source[key]);
-      } else {
-        Object.assign(target, { [key]: source[key] });
+        return;
       }
+
+      if (Array.isArray(target[key]) && Array.isArray(source[key])) {
+        Object.assign(target, { [key]: [...target[key], ...source[key]] });
+        return;
+      }
+
+      Object.assign(target, { [key]: source[key] });
     });
   }
   return target;
