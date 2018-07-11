@@ -21,7 +21,7 @@ interface ICrop {
   stages: number[];
 }
 
-interface IBuilding {
+interface IConstructedBuilding {
   buildingId: string;
   dateConstructed: number;
   dateDestroyed?: number;
@@ -39,7 +39,7 @@ interface IPlantedCrop {
 
 interface IFarmBuildings {
   [y: number]: {
-    [x: number]: IBuilding[];
+    [x: number]: IConstructedBuilding[];
   };
 }
 
