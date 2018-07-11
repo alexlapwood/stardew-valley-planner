@@ -13,7 +13,6 @@ import {
 import "./Farm.css";
 
 interface IProps {
-  crops?: IFarmCrops;
   date: number;
   images: HTMLImageElement[];
   selectedItem?: ISelectedItem;
@@ -44,16 +43,6 @@ interface IState {
 }
 
 class Farm extends React.Component<IProps> {
-  public static getDerivedStateFromProps(nextProps: IProps) {
-    if (nextProps.crops !== undefined) {
-      return {
-        crops: nextProps.crops
-      };
-    }
-
-    return null;
-  }
-
   public state: IState = { crops: {}, isMouseDown: false };
 
   public canvas?: HTMLCanvasElement;

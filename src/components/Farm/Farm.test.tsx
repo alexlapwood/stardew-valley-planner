@@ -127,22 +127,25 @@ describe("doing things with a selected region", () => {
     };
     const farm = mount(
       <Farm
-        crops={{
-          "0": {
-            "0": [parsnip],
-            "1": [parsnip]
-          },
-          "1": {
-            "0": [parsnip],
-            "1": [parsnip]
-          }
-        }}
         date={0}
         images={mockImages}
         selectedItem={{ id: "pick-axe", type: "tool" }}
         zoom={1}
       />
     );
+
+    farm.setState({
+      crops: {
+        "0": {
+          "0": [parsnip],
+          "1": [parsnip]
+        },
+        "1": {
+          "0": [parsnip],
+          "1": [parsnip]
+        }
+      }
+    });
 
     const canvas = (farm.instance() as Farm).canvas;
 
