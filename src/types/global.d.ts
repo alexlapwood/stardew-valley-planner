@@ -21,12 +21,26 @@ interface ICrop {
   stages: number[];
 }
 
+interface IBuilding {
+  buildingId: string;
+  dateConstructed: number;
+  dateDestroyed?: number;
+  x: number;
+  y: number;
+}
+
 interface IPlantedCrop {
   cropId: string;
   datePlanted: number;
   dateDestroyed?: number;
   x: number;
   y: number;
+}
+
+interface IFarmBuildings {
+  [y: number]: {
+    [x: number]: IBuilding[];
+  };
 }
 
 interface IFarmCrops {

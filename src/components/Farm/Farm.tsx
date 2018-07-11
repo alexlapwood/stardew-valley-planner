@@ -20,6 +20,7 @@ interface IProps {
 }
 
 interface IState {
+  buildings: IFarmBuildings;
   crops: IFarmCrops;
   isMouseDown: boolean;
   mouseDownPosition?: {
@@ -43,7 +44,7 @@ interface IState {
 }
 
 class Farm extends React.Component<IProps> {
-  public state: IState = { crops: {}, isMouseDown: false };
+  public state: IState = { buildings: {}, crops: {}, isMouseDown: false };
 
   public canvas?: HTMLCanvasElement;
   private farm: HTMLDivElement;

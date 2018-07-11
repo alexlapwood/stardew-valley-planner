@@ -2,6 +2,7 @@
 
 exports[`doing things with a selected region can destroy crops 1`] = `
 Object {
+  "buildings": Object {},
   "crops": Object {
     "0": Object {
       "0": Array [
@@ -57,6 +58,7 @@ Object {
 
 exports[`doing things with a selected region can plant crops 1`] = `
 Object {
+  "buildings": Object {},
   "crops": Object {
     "0": Object {
       "0": Array [
@@ -121,4 +123,12 @@ exports[`renders the app without crashing 1`] = `
     />
   </div>
 </div>
+`;
+
+exports[`state initialises correctly 1`] = `
+Object {
+  "buildings": Object {},
+  "crops": Object {},
+  "isMouseDown": false,
+}
 `;

@@ -31,10 +31,7 @@ describe("state", () => {
 
     const actual = (farm.instance() as Farm).state;
 
-    expect(actual).toEqual({
-      crops: {},
-      isMouseDown: false
-    });
+    expect(actual).toMatchSnapshot();
   });
 });
 
@@ -58,14 +55,11 @@ describe("selecting tiles", () => {
       clientY: 0
     });
 
-    const actual = farm.instance().state;
+    const actual = (farm.instance() as Farm).state;
 
-    expect(actual).toEqual({
-      crops: {},
-      isMouseDown: true,
-      mouseDownPosition: { left: 0, top: 0, x: 0, y: 0 },
-      mousePosition: { left: 0, top: 0, x: 100, y: 0 }
-    });
+    expect(actual.isMouseDown).toBe(true);
+    expect(actual.mouseDownPosition).toEqual({ left: 0, top: 0, x: 0, y: 0 });
+    expect(actual.mousePosition).toEqual({ left: 0, top: 0, x: 100, y: 0 });
   });
 });
 
@@ -81,12 +75,10 @@ describe("doing things with a selected region", () => {
 
     farm.find("canvas").simulate("mouseUp");
 
-    const actual = farm.instance().state;
+    const actual = (farm.instance() as Farm).state;
 
-    expect(actual).toEqual({
-      crops: {},
-      isMouseDown: false
-    });
+    expect(actual.crops).toEqual({});
+    expect(actual.isMouseDown).toEqual(false);
   });
 
   it("can plant crops", () => {
