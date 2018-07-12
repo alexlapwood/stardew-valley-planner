@@ -5,6 +5,10 @@ import merge from "../helpers/merge";
 // tslint:disable-next-line:no-var-requires
 const crops: ICrop[] = require("../data/sdv.json").crops;
 
+const { standardFarm }: { [index: string]: string[] } =
+  // tslint:disable-next-line:no-var-requires
+  require("../data/sdv.json").farmLayouts;
+
 const seasons = ["spring", "summer", "fall", "winter"];
 
 export function getCropsLastDay(
@@ -117,7 +121,10 @@ export function checkCropsToPlant(
         return false;
       });
 
-      if (plantedCropConflict === undefined) {
+      const cropPlantedInSoil =
+        standardFarm[cropToPlant.y][cropToPlant.x] === " ";
+
+      if (plantedCropConflict === undefined && cropPlantedInSoil) {
         return merge(acc, {
           plantableCrops: [cropToPlant]
         });
