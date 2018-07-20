@@ -3,7 +3,7 @@ import { getSeason, getYear } from "./date";
 import merge from "../helpers/merge";
 
 // tslint:disable-next-line:no-var-requires
-const crops: ICrop[] = require("../data/sdv.json").crops;
+const crops: { [index: string]: ICrop } = require("../data/sdv.json").crops;
 
 const { standardFarm }: { [index: string]: string[] } =
   // tslint:disable-next-line:no-var-requires
@@ -86,13 +86,8 @@ export function checkCropsToPlant(
       );
 
       const plantedCropConflict = plantedCrops.find(plantedCrop => {
-        const plantedCropDetails = crops.find(
-          ({ id }) => id === plantedCrop.cropId
-        ) as ICrop;
-
-        const cropToPlantsDetails = crops.find(
-          ({ id }) => id === cropToPlant.cropId
-        ) as ICrop;
+        const plantedCropDetails = crops[plantedCrop.cropId];
+        const cropToPlantsDetails = crops[cropToPlant.cropId];
 
         const plantedCropsLastDay = getCropsLastDay(
           plantedCrop,
@@ -146,9 +141,7 @@ export function findCropToDestroy(
   dateToDestroyOn: number
 ) {
   return plantedCrops.find(plantedCrop => {
-    const plantedCropDetails = crops.find(
-      ({ id }) => id === plantedCrop.cropId
-    ) as ICrop;
+    const plantedCropDetails = crops[plantedCrop.cropId];
 
     const plantedCropsLastDay = getCropsLastDay(
       plantedCrop,

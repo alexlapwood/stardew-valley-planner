@@ -7,7 +7,7 @@ import {
 import { forEachTile, getCropsAtLocation } from "./farm";
 
 // tslint:disable-next-line:no-var-requires
-const crops: ICrop[] = require("../data/sdv.json").crops;
+const crops: { [index: string]: ICrop } = require("../data/sdv.json").crops;
 
 // tslint:disable-next-line:no-var-requires
 const cropMap: string[] = require("../data/crops.json");
@@ -59,9 +59,7 @@ export function renderCropsToContext(
     .map(yKey => {
       Object.keys(currentCrops[yKey]).map(xKey => {
         (currentCrops[yKey][xKey] as IPlantedCrop[]).map((plantedCrop, i) => {
-          const plantedCropDetails = crops.find(
-            crop => crop.id === plantedCrop.cropId
-          ) as ICrop;
+          const plantedCropDetails = crops[plantedCrop.cropId];
 
           const cropsLastDay = getCropsLastDay(plantedCrop, plantedCropDetails);
           if (

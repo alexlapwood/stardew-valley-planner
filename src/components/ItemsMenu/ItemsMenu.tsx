@@ -8,7 +8,7 @@ import Sprite from "../Sprite/Sprite";
 import { getSeason } from "../../helpers/date";
 
 // tslint:disable-next-line:no-var-requires
-const crops: ICrop[] = require("../../data/sdv.json").crops;
+const crops: { [index: string]: ICrop } = require("../../data/sdv.json").crops;
 
 interface IProps {
   date: number;
@@ -21,10 +21,10 @@ const ItemsMenu: React.SFC<IProps> = props => {
 
   return (
     <div className="sdv-list">
-      {crops.map((crop, i) => {
+      {Object.keys(crops).map((cropId, i) => {
         if (
-          crop &&
-          crop.seasons.find(
+          crops[cropId] &&
+          crops[cropId].seasons.find(
             season =>
               season === ["spring", "summer", "fall", "winter"][getSeason(date)]
           )
@@ -35,12 +35,12 @@ const ItemsMenu: React.SFC<IProps> = props => {
                 selected:
                   selectedItem !== undefined &&
                   selectedItem.type === "crop" &&
-                  selectedItem.id === crop.id
+                  selectedItem.id === cropId
               })}
-              key={crop.id}
+              key={cropId}
               // tslint:disable-next-line:jsx-no-lambda
               onClick={() => {
-                selectCrop(crop.id);
+                selectCrop(cropId);
               }}
             >
               <div className="sdv-list-item-icon">
@@ -53,7 +53,7 @@ const ItemsMenu: React.SFC<IProps> = props => {
                 />
               </div>
               <div className="sdv-list-item-text">
-                <BigText>{crop.name}</BigText>
+                <BigText>{crops[cropId].name}</BigText>
               </div>
             </div>
           );

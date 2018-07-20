@@ -8,7 +8,7 @@ import Toolbar from "./components/Toolbar/Toolbar";
 import { getSeason } from "./helpers/date";
 
 // tslint:disable-next-line:no-var-requires
-const crops: ICrop[] = require("./data/sdv.json").crops;
+const crops: { [index: string]: ICrop } = require("./data/sdv.json").crops;
 
 import "./App.css";
 
@@ -120,7 +120,7 @@ class App extends React.Component<IProps, IState> {
       return;
     }
 
-    const selectedCrop = crops.find(crop => crop.id === selectedItem.id);
+    const selectedCrop = crops[selectedItem.id];
 
     const keepSelectedItem =
       selectedCrop !== undefined &&
