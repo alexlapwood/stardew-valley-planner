@@ -3,6 +3,12 @@
   left: 8px;
   right: 8px;
   top: 8px;
+  transition: opacity 0.3s;
+}
+
+.DatePicker.disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .DatePicker .flex-horizontal {

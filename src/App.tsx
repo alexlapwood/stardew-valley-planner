@@ -21,13 +21,15 @@ interface IState {
   images: HTMLImageElement[];
   isLoading: boolean;
   selectedItem?: ISelectedItem;
+  toolbarsDisabled: boolean;
 }
 
 class App extends React.Component<IProps, IState> {
   public state: IState = {
     date: 0,
     images: [],
-    isLoading: true
+    isLoading: true,
+    toolbarsDisabled: false
   };
 
   public async componentDidMount() {
@@ -68,7 +70,13 @@ class App extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { date, images, isLoading, selectedItem } = this.state;
+    const {
+      date,
+      images,
+      isLoading,
+      selectedItem,
+      toolbarsDisabled
+    } = this.state;
     if (isLoading) {
       return <div>loading...</div>;
     }
@@ -81,9 +89,16 @@ class App extends React.Component<IProps, IState> {
               date={date}
               images={images}
               selectedItem={selectedItem}
+              // tslint:disable-next-line:jsx-no-lambda
+              disableToolbars={(disabled: boolean) => {
+                this.setState({
+                  toolbarsDisabled: disabled
+                });
+              }}
               zoom={1}
             />
             <Toolbar
+              isDisabled={toolbarsDisabled}
               images={images}
               selectedItem={selectedItem}
               // tslint:disable-next-line:jsx-no-lambda
@@ -93,7 +108,11 @@ class App extends React.Component<IProps, IState> {
                 });
               }}
             />
-            <DatePicker date={date} changeDate={this.changeDate} />
+            <DatePicker
+              changeDate={this.changeDate}
+              date={date}
+              isDisabled={toolbarsDisabled}
+            />
           </div>
         </div>
         <div style={{ width: "168px" }}>

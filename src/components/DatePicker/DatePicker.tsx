@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import * as cn from "classnames";
+
 import DayPicker from "./DayPicker/DayPicker";
 import SeasonPicker from "./SeasonPicker/SeasonPicker";
 import YearPicker from "./YearPicker/YearPicker";
@@ -11,10 +13,11 @@ import "./DatePicker.css";
 interface IProps {
   changeDate: (day: number) => void;
   date: number;
+  isDisabled?: boolean;
 }
 
 const DatePicker: React.SFC<IProps> = props => {
-  const { date, changeDate } = props;
+  const { changeDate, date, isDisabled } = props;
 
   const daysInASeason = 28;
   const daysInAYear = daysInASeason * 4;
@@ -42,7 +45,7 @@ const DatePicker: React.SFC<IProps> = props => {
   };
 
   return (
-    <div className="DatePicker">
+    <div className={cn("DatePicker", { disabled: isDisabled })}>
       <div className="flex-horizontal">
         <DayPicker changeDay={changeDay} day={getDay(date)} />
         <SeasonPicker changeSeason={changeSeason} season={getSeason(date)} />

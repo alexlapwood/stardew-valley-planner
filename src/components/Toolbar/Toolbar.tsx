@@ -6,12 +6,17 @@ import "./Toolbar.css";
 
 interface IProps {
   images: HTMLImageElement[];
+  isDisabled?: boolean;
   selectedItem?: ISelectedItem;
   selectTool: (tool: string) => void;
 }
 
 const Toolbar: React.SFC<IProps> = props => (
-  <div className="Toolbar sdv-toolbar-border flex-horizontal">
+  <div
+    className={cn("Toolbar", "sdv-toolbar-border", "flex-horizontal", {
+      disabled: props.isDisabled
+    })}
+  >
     <div
       className={cn("Toolbar--tool sdv-tool-border", {
         selected:

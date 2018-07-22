@@ -16,6 +16,7 @@ interface IProps {
   date: number;
   images: HTMLImageElement[];
   selectedItem?: ISelectedItem;
+  disableToolbars?: (disabled: boolean) => void;
   zoom: number;
 }
 
@@ -126,6 +127,10 @@ class Farm extends React.Component<IProps> {
 
     const { x, y } = this.calculateMousePosition(event);
 
+    if (this.props.disableToolbars !== undefined) {
+      this.props.disableToolbars(true);
+    }
+
     this.setState({
       isMouseDown: true,
       mouseDownPosition: {
@@ -150,6 +155,10 @@ class Farm extends React.Component<IProps> {
   };
 
   private onMouseOut = () => {
+    if (this.props.disableToolbars !== undefined) {
+      this.props.disableToolbars(false);
+    }
+
     this.setState({
       isMouseDown: false,
       mouseDownPosition: undefined,
@@ -206,6 +215,10 @@ class Farm extends React.Component<IProps> {
           crops: currentCrops
         });
       }
+    }
+
+    if (this.props.disableToolbars !== undefined) {
+      this.props.disableToolbars(false);
     }
 
     this.setState({
