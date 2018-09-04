@@ -4,6 +4,10 @@ export function forEachTile(
 ) {
   const { x1, x2, y1, y2 } = highlightedRegion;
 
+  if (isNaN(x1) || isNaN(x2) || isNaN(y1) || isNaN(y2)) {
+    return;
+  }
+
   const xDirection = Math.sign(x2 - x1) || 1;
   const yDirection = Math.sign(y2 - y1) || 1;
 

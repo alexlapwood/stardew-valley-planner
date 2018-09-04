@@ -41,6 +41,13 @@ describe("Farm helper", () => {
         });
       });
     });
+
+    it("doesn't crash when the coordinates are NaN", () => {
+      const highlightedRegion = { x1: NaN, x2: NaN, y1: NaN, y2: NaN };
+      const callBack = jest.fn();
+      forEachTile(highlightedRegion, callBack);
+      expect(callBack).not.toHaveBeenCalled();
+    });
   });
 
   describe("getCropsAtLocation", () => {
