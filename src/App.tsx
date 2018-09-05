@@ -38,11 +38,12 @@ class App extends React.Component<IProps, IState> {
       "images/background-summer.png",
       "images/background-fall.png",
       "images/background-winter.png",
+      "images/crops.png",
       "images/highlight-green.png",
       "images/highlight-grey.png",
       "images/highlight-red.png",
-      "images/crops.png",
-      "images/pick-axe.png"
+      "images/pick-axe.png",
+      "images/scarecrows.png"
     ];
 
     const imagePromises = imageUrls.map(async imageUrl => {
@@ -122,6 +123,12 @@ class App extends React.Component<IProps, IState> {
             selectCrop={(cropId: string) => {
               this.setState({
                 selectedItem: { id: cropId, type: "crop" }
+              });
+            }}
+            // tslint:disable-next-line:jsx-no-lambda
+            selectEquipment={(equipmentId: string) => {
+              this.setState({
+                selectedItem: { id: equipmentId, type: "equipment" }
               });
             }}
             selectedItem={selectedItem}

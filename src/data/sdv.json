@@ -426,6 +426,23 @@
       "stages": [1, 3, 3, 3]
     }
   },
+  "equipment": {
+    "scarecrow": {
+      "id": "scarecrow",
+      "name": "Scarecrow",
+      "skins": [
+        "Scarecrow",
+        "Rarecrow 1",
+        "Rarecrow 2",
+        "Rarecrow 3",
+        "Rarecrow 4",
+        "Rarecrow 5",
+        "Rarecrow 6",
+        "Rarecrow 7",
+        "Rarecrow 8"
+      ]
+    }
+  },
   "events": {
     "spring": [
       {

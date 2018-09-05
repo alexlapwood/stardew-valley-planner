@@ -4,7 +4,9 @@ import * as React from "react";
 import ItemsMenu from "./ItemsMenu";
 
 it("renders correctly", () => {
-  const itemsMenu = shallow(<ItemsMenu date={0} selectCrop={jest.fn()} />);
+  const itemsMenu = shallow(
+    <ItemsMenu date={0} selectCrop={jest.fn()} selectEquipment={jest.fn()} />
+  );
 
   expect(itemsMenu).toMatchSnapshot();
 });

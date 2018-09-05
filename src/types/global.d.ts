@@ -29,12 +29,8 @@ interface IConstructedBuilding {
   y: number;
 }
 
-interface IPlantedCrop {
-  cropId: string;
-  datePlanted: number;
-  dateDestroyed?: number;
-  x: number;
-  y: number;
+interface IEquipment {
+  scarecrow: IScarecrow;
 }
 
 interface IFarmBuildings {
@@ -49,7 +45,21 @@ interface IFarmCrops {
   };
 }
 
+interface IPlantedCrop {
+  cropId: string;
+  datePlanted: number;
+  dateDestroyed?: number;
+  x: number;
+  y: number;
+}
+
+interface IScarecrow {
+  id: string;
+  name: string;
+  skins: string[];
+}
+
 interface ISelectedItem {
   id: string;
-  type: "crop" | "tool";
+  type: "crop" | "equipment" | "tool";
 }
