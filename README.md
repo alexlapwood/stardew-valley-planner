@@ -2,6 +2,8 @@
 
 All copyrighted content (images, textures, etc.) belong to their respective owners (ConcernedApe / Stardew Valley) and are not included under the GPL 3 license of this project.
 
+https://alexlapwood.gitlab.io/stardew-valley-seasonal-planner
+
 ## Available Scripts
 
 In the project directory, you can run:
