@@ -45,10 +45,24 @@ interface IFarmCrops {
   };
 }
 
+interface IFarmEquipment {
+  [y: number]: {
+    [x: number]: IInstalledEquipment[];
+  };
+}
+
 interface IPlantedCrop {
   cropId: string;
   datePlanted: number;
   dateDestroyed?: number;
+  x: number;
+  y: number;
+}
+
+interface IInstalledEquipment {
+  dateInstalled: number;
+  dateDestroyed?: number;
+  equipmentId: string;
   x: number;
   y: number;
 }

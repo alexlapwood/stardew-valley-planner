@@ -1,12 +1,21 @@
 import * as React from "react";
 
 import { getCanvasPositionAndScale } from "../../helpers/canvas";
-import { checkCropsToPlant, findCropToDestroy } from "../../helpers/crop";
 import { getSeason } from "../../helpers/date";
-import { forEachTile, getCropsAtLocation } from "../../helpers/farm";
+import {
+  forEachTile,
+  getCropsAtLocation,
+  getEquipmentAtLocation
+} from "../../helpers/farm";
+import {
+  checkCropsToPlant,
+  checkEquipmentToInstall,
+  findCropToDestroy,
+  findEquipmentToDestroy
+} from "../../helpers/itemPlacement";
 import merge from "../../helpers/merge";
 import {
-  renderCropsToContext,
+  renderItemsToContext,
   renderSelectedRegion
 } from "../../helpers/renderToCanvas";
 
@@ -23,6 +32,7 @@ interface IProps {
 interface IState {
   buildings: IFarmBuildings;
   crops: IFarmCrops;
+  equipment: IFarmEquipment;
   isMouseDown: boolean;
   mouseDownPosition?: {
     // Left and top are used for updating the the cursor position
@@ -45,7 +55,12 @@ interface IState {
 }
 
 class Farm extends React.Component<IProps> {
-  public state: IState = { buildings: {}, crops: {}, isMouseDown: false };
+  public state: IState = {
+    buildings: {},
+    crops: {},
+    equipment: {},
+    isMouseDown: false
+  };
 
   public canvas?: HTMLCanvasElement;
   private farm: HTMLDivElement;
@@ -120,6 +135,29 @@ class Farm extends React.Component<IProps> {
     return { x: event.clientX * scaleX, y: event.clientY * scaleY };
   };
 
+  private installEquipment = (
+    equipmentToInstallList: IInstalledEquipment[]
+  ) => {
+    const { installableEquipment } = checkEquipmentToInstall(
+      equipmentToInstallList,
+      { currentCrops: this.state.crops, currentEquipment: this.state.equipment }
+    );
+
+    let newEquipment: IFarmEquipment = {};
+
+    installableEquipment.forEach(equipmentToInstall => {
+      newEquipment = merge(newEquipment, {
+        [equipmentToInstall.y]: {
+          [equipmentToInstall.x]: [equipmentToInstall]
+        }
+      });
+    });
+
+    this.setState({
+      equipment: merge(this.state.equipment, newEquipment)
+    });
+  };
+
   private onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(
       this.canvas
@@ -190,13 +228,41 @@ class Farm extends React.Component<IProps> {
       this.plantCrops(cropsToPlant);
     }
 
+    if (selectedItem.type === "equipment") {
+      const equipmentToInstall: IInstalledEquipment[] = [];
+      forEachTile(highlightedRegion, (x, y) => {
+        equipmentToInstall.push({
+          dateInstalled: this.props.date,
+          equipmentId: selectedItem.id,
+          x,
+          y
+        });
+      });
+
+      this.installEquipment(equipmentToInstall);
+    }
+
     if (selectedItem.type === "tool") {
       if (selectedItem.id === "pick-axe") {
         const currentCrops: IFarmCrops = merge({}, this.state.crops);
+        const currentEquipment: IFarmEquipment = merge(
+          {},
+          this.state.equipment
+        );
+
         forEachTile(highlightedRegion, (x, y) => {
           const plantedCrops = getCropsAtLocation(currentCrops, x, y);
+          const installedEquipment = getEquipmentAtLocation(
+            currentEquipment,
+            x,
+            y
+          );
 
           const cropToDestroy = findCropToDestroy(plantedCrops, date);
+          const equipmentToDestroy = findEquipmentToDestroy(
+            installedEquipment,
+            date
+          );
 
           if (cropToDestroy !== undefined) {
             currentCrops[y][x] = currentCrops[y][x].map(cropToCheck => {
@@ -209,10 +275,27 @@ class Farm extends React.Component<IProps> {
               return cropToCheck;
             });
           }
+
+          if (equipmentToDestroy !== undefined) {
+            currentEquipment[y][x] = currentEquipment[y][x].map(
+              equipmentToCheck => {
+                if (
+                  equipmentToCheck.equipmentId ===
+                    equipmentToDestroy.equipmentId &&
+                  equipmentToCheck.dateInstalled ===
+                    equipmentToDestroy.dateInstalled
+                ) {
+                  equipmentToCheck.dateDestroyed = date;
+                }
+                return equipmentToCheck;
+              }
+            );
+          }
         });
 
         this.setState({
-          crops: currentCrops
+          crops: currentCrops,
+          equipment: currentEquipment
         });
       }
     }
@@ -242,10 +325,10 @@ class Farm extends React.Component<IProps> {
   };
 
   private plantCrops = (cropsToPlant: IPlantedCrop[]) => {
-    const { plantableCrops } = checkCropsToPlant(
-      cropsToPlant,
-      this.state.crops
-    );
+    const { plantableCrops } = checkCropsToPlant(cropsToPlant, {
+      currentCrops: this.state.crops,
+      currentEquipment: this.state.equipment
+    });
 
     let newCrops: IFarmCrops = {};
 
@@ -296,13 +379,17 @@ class Farm extends React.Component<IProps> {
       const cropsImage = images.find(image =>
         image.src.includes("/images/crops.png")
       );
+      const equipmentImage = images.find(image =>
+        image.src.includes("/images/scarecrows.png")
+      );
 
       if (
         backgroundImage === undefined ||
         highlightGreenImage === undefined ||
         highlightGreyImage === undefined ||
         highlightRedImage === undefined ||
-        cropsImage === undefined
+        cropsImage === undefined ||
+        equipmentImage === undefined
       ) {
         throw new Error("Error loading images");
       }
@@ -311,7 +398,14 @@ class Farm extends React.Component<IProps> {
 
       context.drawImage(backgroundImage, 0, 0);
 
-      renderCropsToContext(context, cropsImage, this.state.crops, date);
+      renderItemsToContext(
+        context,
+        cropsImage,
+        equipmentImage,
+        this.state.crops,
+        this.state.equipment,
+        date
+      );
 
       if (this.state.mousePosition && this.props.selectedItem !== undefined) {
         const highlightedRegion = this.getHighlightedRegion();
@@ -322,6 +416,7 @@ class Farm extends React.Component<IProps> {
         renderSelectedRegion(
           context,
           this.state.crops,
+          this.state.equipment,
           date,
           highlightedRegion,
           highlightGreenImage,

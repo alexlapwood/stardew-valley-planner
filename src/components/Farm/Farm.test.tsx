@@ -11,7 +11,8 @@ const imageUrls: string[] = [
   "images/highlight-green.png",
   "images/highlight-grey.png",
   "images/highlight-red.png",
-  "images/crops.png"
+  "images/crops.png",
+  "images/scarecrows.png"
 ];
 
 const mockImages = imageUrls.map(imageUrl => {
@@ -135,6 +136,83 @@ describe("doing things with a selected region", () => {
         "1": {
           "0": [parsnip],
           "1": [parsnip]
+        }
+      }
+    });
+
+    const canvas = (farm.instance() as Farm).canvas;
+
+    if (canvas === undefined) {
+      throw new Error();
+    }
+
+    farm.instance().setState({
+      isMouseDown: true,
+      mouseDownPosition: { left: 0, top: 0, x: 0, y: 0 },
+      mousePosition: { left: 0, top: 0, x: 16, y: 16 }
+    });
+
+    farm.find("canvas").simulate("mouseUp");
+
+    const actual = farm.instance().state;
+
+    expect(actual).toMatchSnapshot();
+  });
+
+  it("can install equipment", () => {
+    const farm = mount(
+      <Farm
+        date={0}
+        images={mockImages}
+        selectedItem={{ id: "scarecrow", type: "equipment" }}
+        zoom={1}
+      />
+    );
+
+    const canvas = (farm.instance() as Farm).canvas;
+
+    if (canvas === undefined) {
+      throw new Error();
+    }
+
+    farm.instance().setState({
+      isMouseDown: true,
+      mouseDownPosition: { left: 0, top: 0, x: 0, y: 0 },
+      mousePosition: { left: 0, top: 0, x: 16, y: 16 }
+    });
+
+    farm.find("canvas").simulate("mouseUp");
+
+    const actual = farm.instance().state;
+
+    expect(actual).toMatchSnapshot();
+  });
+
+  it("can destroy equipment", () => {
+    const scarecrow = {
+      dateInstalled: 0,
+      equipmentId: "scarecrow",
+      x: 0,
+      y: 0
+    };
+    const farm = mount(
+      <Farm
+        date={0}
+        images={mockImages}
+        selectedItem={{ id: "pick-axe", type: "tool" }}
+        zoom={1}
+      />
+    );
+
+    farm.setState({
+      equipment: {
+        "0": {
+          "0": [scarecrow],
+          "1": [scarecrow]
+        },
+        "1": {
+          "0": [scarecrow],
+          "1": [scarecrow]
         }
       }
     });

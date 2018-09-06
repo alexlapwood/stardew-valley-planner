@@ -45,6 +45,121 @@ Object {
       ],
     },
   },
+  "equipment": Object {},
+  "isMouseDown": false,
+  "mouseDownPosition": undefined,
+  "mousePosition": Object {
+    "left": 0,
+    "top": 0,
+    "x": 16,
+    "y": 16,
+  },
+}
+`;
+
+exports[`doing things with a selected region can destroy equipment 1`] = `
+Object {
+  "buildings": Object {},
+  "crops": Object {},
+  "equipment": Object {
+    "0": Object {
+      "0": Array [
+        Object {
+          "dateDestroyed": 0,
+          "dateInstalled": 0,
+          "equipmentId": "scarecrow",
+          "x": 0,
+          "y": 0,
+        },
+      ],
+      "1": Array [
+        Object {
+          "dateDestroyed": 0,
+          "dateInstalled": 0,
+          "equipmentId": "scarecrow",
+          "x": 0,
+          "y": 0,
+        },
+      ],
+    },
+    "1": Object {
+      "0": Array [
+        Object {
+          "dateDestroyed": 0,
+          "dateInstalled": 0,
+          "equipmentId": "scarecrow",
+          "x": 0,
+          "y": 0,
+        },
+      ],
+      "1": Array [
+        Object {
+          "dateDestroyed": 0,
+          "dateInstalled": 0,
+          "equipmentId": "scarecrow",
+          "x": 0,
+          "y": 0,
+        },
+      ],
+    },
+  },
+  "isMouseDown": false,
+  "mouseDownPosition": undefined,
+  "mousePosition": Object {
+    "left": 0,
+    "top": 0,
+    "x": 16,
+    "y": 16,
+  },
+}
+`;
+
+exports[`doing things with a selected region can install equipment 1`] = `
+Object {
+  "buildings": Object {},
+  "crops": Object {},
+  "equipment": Object {
+    "0": Object {
+      "0": Array [
+        Object {
+          "dateDestroyed": undefined,
+          "dateInstalled": 0,
+          "equipmentId": "scarecrow",
+          "x": 0,
+          "y": 0,
+        },
+      ],
+      "1": Array [
+        Object {
+          "dateDestroyed": undefined,
+          "dateInstalled": 0,
+          "equipmentId": "scarecrow",
+          "x": 1,
+          "y": 0,
+        },
+      ],
+    },
+    "1": Object {
+      "0": Array [
+        Object {
+          "dateDestroyed": undefined,
+          "dateInstalled": 0,
+          "equipmentId": "scarecrow",
+          "x": 0,
+          "y": 1,
+        },
+      ],
+      "1": Array [
+        Object {
+          "dateDestroyed": undefined,
+          "dateInstalled": 0,
+          "equipmentId": "scarecrow",
+          "x": 1,
+          "y": 1,
+        },
+      ],
+    },
+  },
   "isMouseDown": false,
   "mouseDownPosition": undefined,
   "mousePosition": Object {
@@ -97,6 +212,7 @@ Object {
       ],
     },
   },
+  "equipment": Object {},
   "isMouseDown": false,
   "mouseDownPosition": undefined,
   "mousePosition": Object {
@@ -129,6 +245,7 @@ exports[`state initialises correctly 1`] = `
 Object {
   "buildings": Object {},
   "crops": Object {},
+  "equipment": Object {},
   "isMouseDown": false,
 }
 `;

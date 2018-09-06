@@ -29,3 +29,18 @@ export function getCropsAtLocation(
 
   return [] as IPlantedCrop[];
 }
+
+export function getEquipmentAtLocation(
+  currentEquipment: IFarmEquipment,
+  x: number,
+  y: number
+) {
+  if (
+    currentEquipment[y] !== undefined &&
+    currentEquipment[y][x] !== undefined
+  ) {
+    return currentEquipment[y][x];
+  }
+
+  return [] as IInstalledEquipment[];
+}
