@@ -15,6 +15,7 @@ import {
 } from "../../helpers/itemPlacement";
 import merge from "../../helpers/merge";
 import {
+  renderEquipmentBoundaries,
   renderItemsToContext,
   renderSelectedRegion
 } from "../../helpers/renderToCanvas";
@@ -382,6 +383,12 @@ class Farm extends React.Component<IProps> {
       const equipmentImage = images.find(image =>
         image.src.includes("/images/equipment.png")
       );
+      const scarecrowBoundaryImage = images.find(image =>
+        image.src.includes("/images/scarecrow-boundary.png")
+      );
+      const sprinklerBoundaryImage = images.find(image =>
+        image.src.includes("/images/sprinkler-boundary.png")
+      );
 
       if (
         backgroundImage === undefined ||
@@ -389,7 +396,9 @@ class Farm extends React.Component<IProps> {
         highlightGreyImage === undefined ||
         highlightRedImage === undefined ||
         cropsImage === undefined ||
-        equipmentImage === undefined
+        equipmentImage === undefined ||
+        scarecrowBoundaryImage === undefined ||
+        sprinklerBoundaryImage === undefined
       ) {
         throw new Error("Error loading images");
       }
@@ -397,6 +406,16 @@ class Farm extends React.Component<IProps> {
       context.clearRect(0, 0, canvasWidth, canvasHeight);
 
       context.drawImage(backgroundImage, 0, 0);
+
+      renderEquipmentBoundaries(
+        context,
+        {
+          scarecrow: scarecrowBoundaryImage,
+          sprinkler: sprinklerBoundaryImage
+        },
+        this.state.equipment,
+        date
+      );
 
       renderItemsToContext(
         context,
@@ -422,6 +441,11 @@ class Farm extends React.Component<IProps> {
           highlightGreenImage,
           highlightGreyImage,
           highlightRedImage,
+          equipmentImage,
+          {
+            scarecrow: scarecrowBoundaryImage,
+            sprinkler: sprinklerBoundaryImage
+          },
           this.props.selectedItem
         );
       }

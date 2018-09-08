@@ -11,6 +11,10 @@ import {
   findEquipmentToDestroy
 } from "./itemPlacement";
 
+const { standardFarm }: { [index: string]: string[] } =
+  // tslint:disable-next-line:no-var-requires
+  require("../data/sdv.json").farmLayouts;
+
 // tslint:disable-next-line:no-var-requires
 const crops: { [index: string]: ICrop } = require("../data/sdv.json").crops;
 
@@ -72,7 +76,7 @@ export function renderEquipmentToContext(
     16,
     spriteSize,
     x * 16,
-    y * 16 + 16 - spriteSize,
+    y * 16 + 16 - spriteSize - 4,
     16,
     spriteSize
   );
@@ -168,6 +172,8 @@ export function renderSelectedRegion(
   highlightGreenImage: HTMLImageElement,
   highlightGreyImage: HTMLImageElement,
   highlightRedImage: HTMLImageElement,
+  equipmentImage: HTMLImageElement,
+  equipmentBoundaryImages: { [index: string]: HTMLImageElement },
   selectedItem: ISelectedItem
 ) {
   if (selectedItem.type === "crop") {
@@ -225,10 +231,22 @@ export function renderSelectedRegion(
     });
 
     installableEquipment.forEach(equipmentToInstall => {
-      context.drawImage(
-        highlightGreenImage,
-        equipmentToInstall.x * 16,
-        equipmentToInstall.y * 16
+      renderEquipmentBoundaryToContext(
+        context,
+        equipmentBoundaryImages[equipmentToInstall.equipmentId],
+        equipmentToInstall.x,
+        equipmentToInstall.y,
+        equipmentToInstall.equipmentId
+      );
+
+      renderEquipmentToContext(
+        context,
+        equipmentImage,
+        0,
+        equipmentToInstall.equipmentId === "scarecrow" ? 32 : 16,
+        equipmentToInstall.x,
+        equipmentToInstall.y,
+        equipmentToInstall.equipmentId
       );
     });
 
@@ -265,5 +283,91 @@ export function renderSelectedRegion(
         }
       });
     }
+  }
+}
+
+export function renderEquipmentBoundaries(
+  context: CanvasRenderingContext2D,
+  equipmentBoundaryImages: { [index: string]: HTMLImageElement },
+  currentEquipment: IFarmEquipment,
+  date: number
+) {
+  Object.keys(currentEquipment).map(yKey => {
+    if (currentEquipment[yKey] !== undefined) {
+      Object.keys(currentEquipment[yKey]).map(xKey => {
+        (currentEquipment[yKey][xKey] as IInstalledEquipment[]).map(
+          (installedEquipment, i) => {
+            if (
+              date < installedEquipment.dateInstalled ||
+              (installedEquipment.dateDestroyed !== undefined &&
+                date > installedEquipment.dateDestroyed - 1)
+            ) {
+              return;
+            }
+
+            renderEquipmentBoundaryToContext(
+              context,
+              equipmentBoundaryImages[installedEquipment.equipmentId],
+              installedEquipment.x,
+              installedEquipment.y,
+              installedEquipment.equipmentId
+            );
+          }
+        );
+      });
+    }
+  });
+}
+
+export function renderEquipmentBoundaryToContext(
+  context: CanvasRenderingContext2D,
+  highlightGreenImage: HTMLImageElement,
+  x: number,
+  y: number,
+  equipmentId: string
+) {
+  switch (equipmentId) {
+    case "scarecrow":
+      for (let iy = -8; iy <= 8; iy++) {
+        for (
+          let ix = Math.max(-8, Math.abs(iy) - 12);
+          ix <= Math.min(8, 12 - Math.abs(iy));
+          ix++
+        ) {
+          if (
+            standardFarm[y + iy] &&
+            standardFarm[y + iy][x + ix] &&
+            standardFarm[y + iy][x + ix] === " "
+          ) {
+            context.drawImage(
+              highlightGreenImage,
+              (x + ix) * 16,
+              (y + iy) * 16
+            );
+          }
+        }
+      }
+      break;
+    case "sprinkler":
+      for (let iy = -1; iy <= 1; iy++) {
+        for (
+          let ix = Math.max(-1, Math.abs(iy) - 1);
+          ix <= Math.min(1, 1 - Math.abs(iy));
+          ix++
+        ) {
+          if (
+            standardFarm[y + iy] &&
+            standardFarm[y + iy][x + ix] &&
+            standardFarm[y + iy][x + ix] === " "
+          ) {
+            context.drawImage(
+              highlightGreenImage,
+              (x + ix) * 16,
+              (y + iy) * 16
+            );
+          }
+        }
+      }
+      break;
   }
 }
