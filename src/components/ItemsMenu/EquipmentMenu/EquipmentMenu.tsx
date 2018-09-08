@@ -35,8 +35,8 @@ const EquipmentMenu: React.SFC<IProps> = props => {
           >
             <div className="sdv-list-item-icon">
               <Sprite
-                height={32}
-                src="images/scarecrows.png"
+                height={16}
+                src="images/equipment.png"
                 width={16}
                 x={i * 16}
                 y={0}

@@ -17,6 +17,9 @@ const crops: { [index: string]: ICrop } = require("../data/sdv.json").crops;
 // tslint:disable-next-line:no-var-requires
 const cropMap: string[] = require("../data/crops.json");
 
+// tslint:disable-next-line:no-var-requires
+const equipmentMap: string[] = require("../data/equipment.json");
+
 export function renderCropToContext(
   context: CanvasRenderingContext2D,
   sprite: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement | ImageBitmap,
@@ -56,10 +59,23 @@ export function renderCropToContext(
 export function renderEquipmentToContext(
   context: CanvasRenderingContext2D,
   sprite: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement | ImageBitmap,
+  spriteIndex: number,
+  spriteSize: number,
   x: number,
-  y: number
+  y: number,
+  name: string
 ) {
-  context.drawImage(sprite, 0, 0, 16, 32, x * 16, (y - 1) * 16, 16, 32);
+  context.drawImage(
+    sprite,
+    equipmentMap.indexOf(name) * 16,
+    16 + spriteIndex * spriteSize,
+    16,
+    spriteSize,
+    x * 16,
+    y * 16 + 16 - spriteSize,
+    16,
+    spriteSize
+  );
 }
 
 export function renderItemsToContext(
@@ -130,8 +146,11 @@ export function renderItemsToContext(
               renderEquipmentToContext(
                 context,
                 equipmentImage,
+                0,
+                installedEquipment.equipmentId === "scarecrow" ? 32 : 16,
                 installedEquipment.x,
-                installedEquipment.y
+                installedEquipment.y,
+                installedEquipment.equipmentId
               );
             }
           );
@@ -186,42 +205,40 @@ export function renderSelectedRegion(
   }
 
   if (selectedItem.type === "equipment") {
-    if (selectedItem.id === "scarecrow") {
-      const equipmentToInstallList: IInstalledEquipment[] = [];
+    const equipmentToInstallList: IInstalledEquipment[] = [];
 
-      forEachTile(highlightedRegion, (x, y) => {
-        equipmentToInstallList.push({
-          dateInstalled: date,
-          equipmentId: selectedItem.id,
-          x,
-          y
-        });
+    forEachTile(highlightedRegion, (x, y) => {
+      equipmentToInstallList.push({
+        dateInstalled: date,
+        equipmentId: selectedItem.id,
+        x,
+        y
       });
+    });
 
-      const {
-        installableEquipment,
-        notInstallableEquipment
-      } = checkEquipmentToInstall(equipmentToInstallList, {
-        currentCrops,
-        currentEquipment
-      });
+    const {
+      installableEquipment,
+      notInstallableEquipment
+    } = checkEquipmentToInstall(equipmentToInstallList, {
+      currentCrops,
+      currentEquipment
+    });
 
-      installableEquipment.forEach(equipmentToInstall => {
-        context.drawImage(
-          highlightGreenImage,
-          equipmentToInstall.x * 16,
-          equipmentToInstall.y * 16
-        );
-      });
+    installableEquipment.forEach(equipmentToInstall => {
+      context.drawImage(
+        highlightGreenImage,
+        equipmentToInstall.x * 16,
+        equipmentToInstall.y * 16
+      );
+    });
 
-      notInstallableEquipment.forEach(equipmentToInstall => {
-        context.drawImage(
-          highlightRedImage,
-          equipmentToInstall.x * 16,
-          equipmentToInstall.y * 16
-        );
-      });
-    }
+    notInstallableEquipment.forEach(equipmentToInstall => {
+      context.drawImage(
+        highlightRedImage,
+        equipmentToInstall.x * 16,
+        equipmentToInstall.y * 16
+      );
+    });
   }
 
   if (selectedItem.type === "tool") {

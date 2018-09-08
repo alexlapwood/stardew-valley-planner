@@ -12,7 +12,7 @@ const imageUrls: string[] = [
   "images/highlight-grey.png",
   "images/highlight-red.png",
   "images/crops.png",
-  "images/scarecrows.png"
+  "images/equipment.png"
 ];
 
 const mockImages = imageUrls.map(imageUrl => {

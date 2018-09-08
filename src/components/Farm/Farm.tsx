@@ -380,7 +380,7 @@ class Farm extends React.Component<IProps> {
         image.src.includes("/images/crops.png")
       );
       const equipmentImage = images.find(image =>
-        image.src.includes("/images/scarecrows.png")
+        image.src.includes("/images/equipment.png")
       );
 
       if (

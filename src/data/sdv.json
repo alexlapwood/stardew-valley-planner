@@ -441,6 +441,11 @@
         "Rarecrow 7",
         "Rarecrow 8"
       ]
+    },
+    "sprinkler": {
+      "id": "sprinkler",
+      "name": "Sprinkler",
+      "skins": ["Sprinkler", "Quality Sprinkler", "Iridium Sprinkler"]
     }
   },
   "events": {
