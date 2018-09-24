@@ -221,6 +221,7 @@ class Farm extends React.Component<IProps> {
         cropsToPlant.push({
           cropId: selectedItem.id,
           datePlanted: this.props.date,
+          type: "crop",
           x,
           y
         });
@@ -235,6 +236,7 @@ class Farm extends React.Component<IProps> {
         equipmentToInstall.push({
           dateInstalled: this.props.date,
           equipmentId: selectedItem.id,
+          type: "equipment",
           x,
           y
         });

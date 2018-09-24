@@ -33,28 +33,21 @@ interface IEquipment {
   scarecrow: IScarecrow;
 }
 
-interface IFarmBuildings {
+interface IFarmItems<T> {
   [y: number]: {
-    [x: number]: IConstructedBuilding[];
+    [x: number]: T;
   };
 }
 
-interface IFarmCrops {
-  [y: number]: {
-    [x: number]: IPlantedCrop[];
-  };
-}
-
-interface IFarmEquipment {
-  [y: number]: {
-    [x: number]: IInstalledEquipment[];
-  };
-}
+interface IFarmBuildings extends IFarmItems<IConstructedBuilding[]> {}
+interface IFarmCrops extends IFarmItems<IPlantedCrop[]> {}
+interface IFarmEquipment extends IFarmItems<IInstalledEquipment[]> {}
 
 interface IPlantedCrop {
   cropId: string;
   datePlanted: number;
   dateDestroyed?: number;
+  type: "crop";
   x: number;
   y: number;
 }
@@ -63,6 +56,7 @@ interface IInstalledEquipment {
   dateInstalled: number;
   dateDestroyed?: number;
   equipmentId: string;
+  type: "equipment";
   x: number;
   y: number;
 }

@@ -89,6 +89,7 @@ describe("Crop helper", () => {
             {
               cropId: "test",
               datePlanted: theory.values.datePlanted,
+              type: "crop",
               x: 0,
               y: 0
             },

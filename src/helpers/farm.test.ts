@@ -52,18 +52,20 @@ describe("Farm helper", () => {
 
   describe("getCropsAtLocation", () => {
     it("gets the crops on the farm at the given location", () => {
-      const currentCrops = {
+      const currentCrops: IFarmCrops = {
         5: {
           5: [
             {
               cropId: "parsnip",
               datePlanted: 0,
+              type: "crop",
               x: 5,
               y: 5
             },
             {
               cropId: "parsnip",
               datePlanted: 10,
+              type: "crop",
               x: 5,
               y: 5
             }

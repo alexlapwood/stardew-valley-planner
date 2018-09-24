@@ -24,6 +24,23 @@ const cropMap: string[] = require("../data/crops.json");
 // tslint:disable-next-line:no-var-requires
 const equipmentMap: string[] = require("../data/equipment.json");
 
+export function forEachFarmItem<T>(
+  farmItems: IFarmItems<T>,
+  callback: (farmItem: T, x: number, y: number) => void
+) {
+  Object.keys(farmItems)
+    .sort((a, b) => Number(a) - Number(b))
+    // Remove duplicates - This is safe because all we want are the coordinates
+    .filter((value, index, array) => array.indexOf(value) === index)
+    .map(yKey => {
+      if (farmItems[yKey] !== undefined) {
+        Object.keys(farmItems[yKey]).map(xKey => {
+          callback(farmItems[yKey][xKey], Number(xKey), Number(yKey));
+        });
+      }
+    });
+}
+
 export function renderCropToContext(
   context: CanvasRenderingContext2D,
   sprite: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement | ImageBitmap,
@@ -90,77 +107,66 @@ export function renderItemsToContext(
   currentEquipment: IFarmEquipment,
   date: number
 ) {
-  Object.keys({ ...currentCrops, ...currentEquipment })
-    .sort((a, b) => Number(a) - Number(b))
-    .filter((value, index, array) => array.indexOf(value) === index) // Remove duplicates
-    .map(yKey => {
-      if (currentCrops[yKey] !== undefined) {
-        Object.keys(currentCrops[yKey]).map(xKey => {
-          (currentCrops[yKey][xKey] as IPlantedCrop[]).map((plantedCrop, i) => {
-            const plantedCropDetails = crops[plantedCrop.cropId];
+  forEachFarmItem<Array<IPlantedCrop | IInstalledEquipment>>(
+    { ...currentCrops, ...currentEquipment },
+    (farmItems, x, y) => {
+      farmItems.map(farmItem => {
+        if (farmItem.type === "crop") {
+          const plantedCropDetails = crops[farmItem.cropId];
 
-            const cropsLastDay = getCropsLastDay(
-              plantedCrop,
-              plantedCropDetails
-            );
-            if (
-              cropsLastDay === undefined ||
-              date < plantedCrop.datePlanted ||
-              date > cropsLastDay
-            ) {
-              return;
-            }
+          const cropsLastDay = getCropsLastDay(farmItem, plantedCropDetails);
+          if (
+            cropsLastDay === undefined ||
+            date < farmItem.datePlanted ||
+            date > cropsLastDay
+          ) {
+            return;
+          }
 
-            const stage = calculateStageOfCrop(
-              date - plantedCrop.datePlanted,
-              plantedCropDetails.stages,
-              plantedCropDetails.regrow
-            );
-
-            const spriteIndex = stage + 1;
-            const isFlower =
-              plantedCropDetails.isFlower &&
-              spriteIndex > plantedCropDetails.stages.length;
-
-            renderCropToContext(
-              context,
-              cropsImage,
-              stage + 1,
-              plantedCrop.x,
-              plantedCrop.y,
-              plantedCropDetails.name,
-              isFlower
-            );
-          });
-        });
-      }
-
-      if (currentEquipment[yKey] !== undefined) {
-        Object.keys(currentEquipment[yKey]).map(xKey => {
-          (currentEquipment[yKey][xKey] as IInstalledEquipment[]).map(
-            (installedEquipment, i) => {
-              if (
-                date < installedEquipment.dateInstalled ||
-                (installedEquipment.dateDestroyed !== undefined &&
-                  date > installedEquipment.dateDestroyed - 1)
-              ) {
-                return;
-              }
-
-              renderEquipmentToContext(
-                context,
-                equipmentImage,
-                0,
-                installedEquipment.equipmentId === "scarecrow" ? 32 : 16,
-                installedEquipment.x,
-                installedEquipment.y,
-                installedEquipment.equipmentId
-              );
-            }
+          const stage = calculateStageOfCrop(
+            date - farmItem.datePlanted,
+            plantedCropDetails.stages,
+            plantedCropDetails.regrow
           );
-        });
-      }
-    });
+
+          const spriteIndex = stage + 1;
+          const isFlower =
+            plantedCropDetails.isFlower &&
+            spriteIndex > plantedCropDetails.stages.length;
+
+          renderCropToContext(
+            context,
+            cropsImage,
+            stage + 1,
+            farmItem.x,
+            farmItem.y,
+            plantedCropDetails.name,
+            isFlower
+          );
+        }
+
+        if (farmItem.type === "equipment") {
+          if (
+            date < farmItem.dateInstalled ||
+            (farmItem.dateDestroyed !== undefined &&
+              date > farmItem.dateDestroyed - 1)
+          ) {
+            return;
+          }
+
+          renderEquipmentToContext(
+            context,
+            equipmentImage,
+            0,
+            farmItem.equipmentId === "scarecrow" ? 32 : 16,
+            farmItem.x,
+            farmItem.y,
+            farmItem.equipmentId
+          );
+        }
+      });
+    }
+  );
 }
 
 export function renderSelectedRegion(
@@ -183,6 +189,7 @@ export function renderSelectedRegion(
       cropsToPlant.push({
         cropId: selectedItem.id,
         datePlanted: date,
+        type: "crop",
         x,
         y
       });
@@ -217,6 +224,7 @@ export function renderSelectedRegion(
       equipmentToInstallList.push({
         dateInstalled: date,
         equipmentId: selectedItem.id,
+        type: "equipment",
         x,
         y
       });
@@ -292,31 +300,28 @@ export function renderEquipmentBoundaries(
   currentEquipment: IFarmEquipment,
   date: number
 ) {
-  Object.keys(currentEquipment).map(yKey => {
-    if (currentEquipment[yKey] !== undefined) {
-      Object.keys(currentEquipment[yKey]).map(xKey => {
-        (currentEquipment[yKey][xKey] as IInstalledEquipment[]).map(
-          (installedEquipment, i) => {
-            if (
-              date < installedEquipment.dateInstalled ||
-              (installedEquipment.dateDestroyed !== undefined &&
-                date > installedEquipment.dateDestroyed - 1)
-            ) {
-              return;
-            }
+  forEachFarmItem<IInstalledEquipment[]>(
+    currentEquipment,
+    (equipment, x, y) => {
+      equipment.forEach(installedEquipment => {
+        if (
+          date < installedEquipment.dateInstalled ||
+          (installedEquipment.dateDestroyed !== undefined &&
+            date > installedEquipment.dateDestroyed - 1)
+        ) {
+          return;
+        }
 
-            renderEquipmentBoundaryToContext(
-              context,
-              equipmentBoundaryImages[installedEquipment.equipmentId],
-              installedEquipment.x,
-              installedEquipment.y,
-              installedEquipment.equipmentId
-            );
-          }
+        renderEquipmentBoundaryToContext(
+          context,
+          equipmentBoundaryImages[installedEquipment.equipmentId],
+          installedEquipment.x,
+          installedEquipment.y,
+          installedEquipment.equipmentId
         );
       });
     }
-  });
+  );
 }
 
 export function renderEquipmentBoundaryToContext(
