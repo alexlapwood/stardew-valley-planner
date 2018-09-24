@@ -14,7 +14,8 @@ const imageUrls: string[] = [
   "images/crops.png",
   "images/equipment.png",
   "images/scarecrow-boundary.png",
-  "images/sprinkler-boundary.png"
+  "images/sprinkler-boundary.png",
+  "images/tileset-soil.png"
 ];
 
 const mockImages = imageUrls.map(imageUrl => {

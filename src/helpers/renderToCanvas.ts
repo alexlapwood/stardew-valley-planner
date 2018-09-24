@@ -1,8 +1,12 @@
-import { calculateStageOfCrop, getCropsLastDay } from "./crop";
+import { calculateStageOfCrop } from "./crop";
 import {
+  forEachFarmItem,
   forEachTile,
   getCropsAtLocation,
-  getEquipmentAtLocation
+  getEquipmentAtLocation,
+  getSoilMap,
+  isCropHereToday,
+  isEquipmentHereToday
 } from "./farm";
 import {
   checkCropsToPlant,
@@ -24,21 +28,111 @@ const cropMap: string[] = require("../data/crops.json");
 // tslint:disable-next-line:no-var-requires
 const equipmentMap: string[] = require("../data/equipment.json");
 
-export function forEachFarmItem<T>(
-  farmItems: IFarmItems<T>,
-  callback: (farmItem: T, x: number, y: number) => void
+export function renderSoilToContext(
+  context: CanvasRenderingContext2D,
+  tileset:
+    | HTMLImageElement
+    | HTMLCanvasElement
+    | HTMLVideoElement
+    | ImageBitmap,
+  currentCrops: IFarmCrops,
+  currentEquipment: IFarmEquipment,
+  date: number
 ) {
-  Object.keys(farmItems)
-    .sort((a, b) => Number(a) - Number(b))
-    // Remove duplicates - This is safe because all we want are the coordinates
-    .filter((value, index, array) => array.indexOf(value) === index)
-    .map(yKey => {
-      if (farmItems[yKey] !== undefined) {
-        Object.keys(farmItems[yKey]).map(xKey => {
-          callback(farmItems[yKey][xKey], Number(xKey), Number(yKey));
-        });
+  const soilMap = getSoilMap(currentCrops, currentEquipment, date);
+
+  soilMap.forEach((row, ix) => {
+    row.forEach((cell, iy) => {
+      const north =
+        soilMap[ix] !== undefined && soilMap[ix][iy - 1] !== undefined;
+      const east =
+        soilMap[ix - 1] !== undefined && soilMap[ix - 1][iy] !== undefined;
+      const west =
+        soilMap[ix + 1] !== undefined && soilMap[ix + 1][iy] !== undefined;
+      const south =
+        soilMap[ix] !== undefined && soilMap[ix][iy + 1] !== undefined;
+
+      const tileIndex = 1 * +north + 2 * +east + 4 * +west + 8 * +south;
+
+      const tileX = (tileIndex % 4) * 16;
+      const tileY = Math.floor(tileIndex / 4) * 16;
+
+      if (cell) {
+        context.drawImage(
+          tileset,
+          tileX,
+          tileY,
+          16,
+          16,
+          ix * 16,
+          iy * 16,
+          16,
+          16
+        );
       }
     });
+  });
+}
+
+export function renderItemsToContext(
+  context: CanvasRenderingContext2D,
+  cropsImage: HTMLImageElement,
+  equipmentImage: HTMLImageElement,
+  currentCrops: IFarmCrops,
+  currentEquipment: IFarmEquipment,
+  date: number
+) {
+  forEachFarmItem<Array<IPlantedCrop | IInstalledEquipment>>(
+    { ...currentCrops, ...currentEquipment },
+    (farmItems, x, y) => {
+      farmItems.map(farmItem => {
+        if (farmItem.type === "crop") {
+          if (!isCropHereToday(farmItem, date)) {
+            return;
+          }
+
+          const plantedCropDetails = crops[farmItem.cropId];
+
+          const stage = calculateStageOfCrop(
+            date - farmItem.datePlanted,
+            plantedCropDetails.stages,
+            plantedCropDetails.regrow
+          );
+
+          const spriteIndex = stage + 1;
+          const isFlower =
+            plantedCropDetails.isFlower &&
+            spriteIndex > plantedCropDetails.stages.length;
+
+          renderCropToContext(
+            context,
+            cropsImage,
+            stage + 1,
+            x,
+            y,
+            plantedCropDetails.name,
+            isFlower
+          );
+        }
+
+        if (farmItem.type === "equipment") {
+          if (!isEquipmentHereToday(farmItem, date)) {
+            return;
+          }
+
+          renderEquipmentToContext(
+            context,
+            equipmentImage,
+            0,
+            farmItem.equipmentId === "scarecrow" ? 32 : 16,
+            farmItem.x,
+            farmItem.y,
+            farmItem.equipmentId
+          );
+        }
+      });
+    }
+  );
 }
 
 export function renderCropToContext(
@@ -96,76 +190,6 @@ export function renderEquipmentToContext(
     y * 16 + 16 - spriteSize - 4,
     16,
     spriteSize
-  );
-}
-
-export function renderItemsToContext(
-  context: CanvasRenderingContext2D,
-  cropsImage: HTMLImageElement,
-  equipmentImage: HTMLImageElement,
-  currentCrops: IFarmCrops,
-  currentEquipment: IFarmEquipment,
-  date: number
-) {
-  forEachFarmItem<Array<IPlantedCrop | IInstalledEquipment>>(
-    { ...currentCrops, ...currentEquipment },
-    (farmItems, x, y) => {
-      farmItems.map(farmItem => {
-        if (farmItem.type === "crop") {
-          const plantedCropDetails = crops[farmItem.cropId];
-
-          const cropsLastDay = getCropsLastDay(farmItem, plantedCropDetails);
-          if (
-            cropsLastDay === undefined ||
-            date < farmItem.datePlanted ||
-            date > cropsLastDay
-          ) {
-            return;
-          }
-
-          const stage = calculateStageOfCrop(
-            date - farmItem.datePlanted,
-            plantedCropDetails.stages,
-            plantedCropDetails.regrow
-          );
-
-          const spriteIndex = stage + 1;
-          const isFlower =
-            plantedCropDetails.isFlower &&
-            spriteIndex > plantedCropDetails.stages.length;
-
-          renderCropToContext(
-            context,
-            cropsImage,
-            stage + 1,
-            farmItem.x,
-            farmItem.y,
-            plantedCropDetails.name,
-            isFlower
-          );
-        }
-
-        if (farmItem.type === "equipment") {
-          if (
-            date < farmItem.dateInstalled ||
-            (farmItem.dateDestroyed !== undefined &&
-              date > farmItem.dateDestroyed - 1)
-          ) {
-            return;
-          }
-
-          renderEquipmentToContext(
-            context,
-            equipmentImage,
-            0,
-            farmItem.equipmentId === "scarecrow" ? 32 : 16,
-            farmItem.x,
-            farmItem.y,
-            farmItem.equipmentId
-          );
-        }
-      });
-    }
   );
 }
 
@@ -337,27 +361,6 @@ export function renderEquipmentBoundaryToContext(
         for (
           let ix = Math.max(-8, Math.abs(iy) - 12);
           ix <= Math.min(8, 12 - Math.abs(iy));
-          ix++
-        ) {
-          if (
-            standardFarm[y + iy] &&
-            standardFarm[y + iy][x + ix] &&
-            standardFarm[y + iy][x + ix] === " "
-          ) {
-            context.drawImage(
-              highlightGreenImage,
-              (x + ix) * 16,
-              (y + iy) * 16
-            );
-          }
-        }
-      }
-      break;
-    case "sprinkler":
-      for (let iy = -1; iy <= 1; iy++) {
-        for (
-          let ix = Math.max(-1, Math.abs(iy) - 1);
-          ix <= Math.min(1, 1 - Math.abs(iy));
           ix++
         ) {
           if (

@@ -17,7 +17,8 @@ import merge from "../../helpers/merge";
 import {
   renderEquipmentBoundaries,
   renderItemsToContext,
-  renderSelectedRegion
+  renderSelectedRegion,
+  renderSoilToContext
 } from "../../helpers/renderToCanvas";
 
 import "./Farm.css";
@@ -391,6 +392,9 @@ class Farm extends React.Component<IProps> {
       const sprinklerBoundaryImage = images.find(image =>
         image.src.includes("/images/sprinkler-boundary.png")
       );
+      const soilImage = images.find(image =>
+        image.src.includes("/images/tileset-soil.png")
+      );
 
       if (
         backgroundImage === undefined ||
@@ -400,7 +404,8 @@ class Farm extends React.Component<IProps> {
         cropsImage === undefined ||
         equipmentImage === undefined ||
         scarecrowBoundaryImage === undefined ||
-        sprinklerBoundaryImage === undefined
+        sprinklerBoundaryImage === undefined ||
+        soilImage === undefined
       ) {
         throw new Error("Error loading images");
       }
@@ -408,6 +413,14 @@ class Farm extends React.Component<IProps> {
       context.clearRect(0, 0, canvasWidth, canvasHeight);
 
       context.drawImage(backgroundImage, 0, 0);
+
+      renderSoilToContext(
+        context,
+        soilImage,
+        this.state.crops,
+        this.state.equipment,
+        date
+      );
 
       renderEquipmentBoundaries(
         context,
