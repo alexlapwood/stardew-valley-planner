@@ -1,4 +1,10 @@
-import { forEachTile, getCropsAtLocation } from "./farm";
+import {
+  forEachFarmItem,
+  forEachTile,
+  getCropsAtLocation,
+  getSoilMap
+} from "./farm";
+import merge from "./merge";
 
 describe("Farm helper", () => {
   describe("forEachTile", () => {
@@ -50,6 +56,48 @@ describe("Farm helper", () => {
     });
   });
 
+  describe("forEachFarmItem", () => {
+    it("calls a function for each farm item", () => {
+      const x = 10;
+      const y = 15;
+      const crop: IPlantedCrop = {
+        cropId: "test",
+        datePlanted: 0,
+        type: "crop",
+        x,
+        y
+      };
+      const equipment: IInstalledEquipment = {
+        dateInstalled: 0,
+        equipmentId: "test",
+        type: "equipment",
+        x,
+        y
+      };
+
+      const mock = jest.fn();
+      const currentCrops: IFarmCrops = {
+        [y]: {
+          [x]: [crop]
+        }
+      };
+      const currentEquipment: IFarmEquipment = {
+        [y]: {
+          [x]: [equipment]
+        }
+      };
+
+      let farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>> = {};
+
+      farmItems = merge(farmItems, currentCrops);
+      farmItems = merge(farmItems, currentEquipment);
+
+      forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, mock);
+
+      expect(mock).toHaveBeenCalledTimes(2);
+    });
+  });
+
   describe("getCropsAtLocation", () => {
     it("gets the crops on the farm at the given location", () => {
       const currentCrops: IFarmCrops = {
@@ -76,6 +124,41 @@ describe("Farm helper", () => {
       const actual = getCropsAtLocation(currentCrops, 5, 5);
 
       expect(actual).toEqual(currentCrops[5][5]);
+    });
+
+    describe("getSoilMap", () => {
+      it("creates a soil map from the current crops and equipment", () => {
+        const currentCrops: IFarmCrops = {
+          0: {
+            0: [
+              {
+                cropId: "parsnip",
+                datePlanted: 0,
+                type: "crop",
+                x: 0,
+                y: 0
+              }
+            ]
+          }
+        };
+        const currentEquipment: IFarmEquipment = {
+          3: {
+            3: [
+              {
+                dateInstalled: 0,
+                equipmentId: "sprinkler",
+                type: "equipment",
+                x: 3,
+                y: 3
+              }
+            ]
+          }
+        };
+
+        const actual = getSoilMap(currentCrops, currentEquipment, 0);
+
+        expect(actual).toMatchSnapshot();
+      });
     });
 
     it("returns an empty array if no crops have been planted", () => {

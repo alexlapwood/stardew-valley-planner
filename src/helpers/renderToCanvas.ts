@@ -14,6 +14,7 @@ import {
   findCropToDestroy,
   findEquipmentToDestroy
 } from "./itemPlacement";
+import merge from "./merge";
 
 const { standardFarm }: { [index: string]: string[] } =
   // tslint:disable-next-line:no-var-requires
@@ -82,57 +83,57 @@ export function renderItemsToContext(
   currentEquipment: IFarmEquipment,
   date: number
 ) {
-  forEachFarmItem<Array<IPlantedCrop | IInstalledEquipment>>(
-    { ...currentCrops, ...currentEquipment },
-    (farmItems, x, y) => {
-      farmItems.map(farmItem => {
-        if (farmItem.type === "crop") {
-          if (!isCropHereToday(farmItem, date)) {
-            return;
-          }
+  let farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>> = {};
 
-          const plantedCropDetails = crops[farmItem.cropId];
+  farmItems = merge(farmItems, currentCrops);
+  farmItems = merge(farmItems, currentEquipment);
 
-          const stage = calculateStageOfCrop(
-            date - farmItem.datePlanted,
-            plantedCropDetails.stages,
-            plantedCropDetails.regrow
-          );
+  forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, farmItem => {
+    if (farmItem.type === "crop") {
+      if (!isCropHereToday(farmItem, date)) {
+        return;
+      }
 
-          const spriteIndex = stage + 1;
-          const isFlower =
-            plantedCropDetails.isFlower &&
-            spriteIndex > plantedCropDetails.stages.length;
+      const plantedCropDetails = crops[farmItem.cropId];
 
-          renderCropToContext(
-            context,
-            cropsImage,
-            stage + 1,
-            x,
-            y,
-            plantedCropDetails.name,
-            isFlower
-          );
-        }
+      const stage = calculateStageOfCrop(
+        date - farmItem.datePlanted,
+        plantedCropDetails.stages,
+        plantedCropDetails.regrow
+      );
 
-        if (farmItem.type === "equipment") {
-          if (!isEquipmentHereToday(farmItem, date)) {
-            return;
-          }
+      const spriteIndex = stage + 1;
+      const isFlower =
+        plantedCropDetails.isFlower &&
+        spriteIndex > plantedCropDetails.stages.length;
 
-          renderEquipmentToContext(
-            context,
-            equipmentImage,
-            0,
-            farmItem.equipmentId === "scarecrow" ? 32 : 16,
-            farmItem.x,
-            farmItem.y,
-            farmItem.equipmentId
-          );
-        }
-      });
+      renderCropToContext(
+        context,
+        cropsImage,
+        stage + 1,
+        farmItem.x,
+        farmItem.y,
+        plantedCropDetails.name,
+        isFlower
+      );
     }
-  );
+
+    if (farmItem.type === "equipment") {
+      if (!isEquipmentHereToday(farmItem, date)) {
+        return;
+      }
+
+      renderEquipmentToContext(
+        context,
+        equipmentImage,
+        0,
+        farmItem.equipmentId === "scarecrow" ? 32 : 16,
+        farmItem.x,
+        farmItem.y,
+        farmItem.equipmentId
+      );
+    }
+  });
 }
 
 export function renderCropToContext(
@@ -324,28 +325,23 @@ export function renderEquipmentBoundaries(
   currentEquipment: IFarmEquipment,
   date: number
 ) {
-  forEachFarmItem<IInstalledEquipment[]>(
-    currentEquipment,
-    (equipment, x, y) => {
-      equipment.forEach(installedEquipment => {
-        if (
-          date < installedEquipment.dateInstalled ||
-          (installedEquipment.dateDestroyed !== undefined &&
-            date > installedEquipment.dateDestroyed - 1)
-        ) {
-          return;
-        }
-
-        renderEquipmentBoundaryToContext(
-          context,
-          equipmentBoundaryImages[installedEquipment.equipmentId],
-          installedEquipment.x,
-          installedEquipment.y,
-          installedEquipment.equipmentId
-        );
-      });
+  forEachFarmItem<IInstalledEquipment>(currentEquipment, installedEquipment => {
+    if (
+      date < installedEquipment.dateInstalled ||
+      (installedEquipment.dateDestroyed !== undefined &&
+        date > installedEquipment.dateDestroyed - 1)
+    ) {
+      return;
     }
-  );
+
+    renderEquipmentBoundaryToContext(
+      context,
+      equipmentBoundaryImages[installedEquipment.equipmentId],
+      installedEquipment.x,
+      installedEquipment.y,
+      installedEquipment.equipmentId
+    );
+  });
 }
 
 export function renderEquipmentBoundaryToContext(
