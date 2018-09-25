@@ -16,10 +16,6 @@ import {
 } from "./itemPlacement";
 import merge from "./merge";
 
-const { standardFarm }: { [index: string]: string[] } =
-  // tslint:disable-next-line:no-var-requires
-  require("../data/sdv.json").farmLayouts;
-
 // tslint:disable-next-line:no-var-requires
 const crops: { [index: string]: ICrop } = require("../data/sdv.json").crops;
 
@@ -55,14 +51,11 @@ export function renderSoilToContext(
 
       const tileIndex = 1 * +north + 2 * +east + 4 * +west + 8 * +south;
 
-      const tileX = (tileIndex % 4) * 16;
-      const tileY = Math.floor(tileIndex / 4) * 16;
-
       if (cell) {
         context.drawImage(
           tileset,
-          tileX,
-          tileY,
+          tileIndex * 16,
+          0,
           16,
           16,
           ix * 16,
@@ -127,7 +120,7 @@ export function renderItemsToContext(
         context,
         equipmentImage,
         0,
-        farmItem.equipmentId === "scarecrow" ? 32 : 16,
+        32,
         farmItem.x,
         farmItem.y,
         farmItem.equipmentId
@@ -204,7 +197,6 @@ export function renderSelectedRegion(
   highlightGreyImage: HTMLImageElement,
   highlightRedImage: HTMLImageElement,
   equipmentImage: HTMLImageElement,
-  equipmentBoundaryImages: { [index: string]: HTMLImageElement },
   selectedItem: ISelectedItem
 ) {
   if (selectedItem.type === "crop") {
@@ -264,19 +256,11 @@ export function renderSelectedRegion(
     });
 
     installableEquipment.forEach(equipmentToInstall => {
-      renderEquipmentBoundaryToContext(
-        context,
-        equipmentBoundaryImages[equipmentToInstall.equipmentId],
-        equipmentToInstall.x,
-        equipmentToInstall.y,
-        equipmentToInstall.equipmentId
-      );
-
       renderEquipmentToContext(
         context,
         equipmentImage,
         0,
-        equipmentToInstall.equipmentId === "scarecrow" ? 32 : 16,
+        32,
         equipmentToInstall.x,
         equipmentToInstall.y,
         equipmentToInstall.equipmentId
@@ -316,62 +300,5 @@ export function renderSelectedRegion(
         }
       });
     }
-  }
-}
-
-export function renderEquipmentBoundaries(
-  context: CanvasRenderingContext2D,
-  equipmentBoundaryImages: { [index: string]: HTMLImageElement },
-  currentEquipment: IFarmEquipment,
-  date: number
-) {
-  forEachFarmItem<IInstalledEquipment>(currentEquipment, installedEquipment => {
-    if (
-      date < installedEquipment.dateInstalled ||
-      (installedEquipment.dateDestroyed !== undefined &&
-        date > installedEquipment.dateDestroyed - 1)
-    ) {
-      return;
-    }
-
-    renderEquipmentBoundaryToContext(
-      context,
-      equipmentBoundaryImages[installedEquipment.equipmentId],
-      installedEquipment.x,
-      installedEquipment.y,
-      installedEquipment.equipmentId
-    );
-  });
-}
-
-export function renderEquipmentBoundaryToContext(
-  context: CanvasRenderingContext2D,
-  highlightGreenImage: HTMLImageElement,
-  x: number,
-  y: number,
-  equipmentId: string
-) {
-  switch (equipmentId) {
-    case "scarecrow":
-      for (let iy = -8; iy <= 8; iy++) {
-        for (
-          let ix = Math.max(-8, Math.abs(iy) - 12);
-          ix <= Math.min(8, 12 - Math.abs(iy));
-          ix++
-        ) {
-          if (
-            standardFarm[y + iy] &&
-            standardFarm[y + iy][x + ix] &&
-            standardFarm[y + iy][x + ix] === " "
-          ) {
-            context.drawImage(
-              highlightGreenImage,
-              (x + ix) * 16,
-              (y + iy) * 16
-            );
-          }
-        }
-      }
-      break;
   }
 }

@@ -15,7 +15,6 @@ import {
 } from "../../helpers/itemPlacement";
 import merge from "../../helpers/merge";
 import {
-  renderEquipmentBoundaries,
   renderItemsToContext,
   renderSelectedRegion,
   renderSoilToContext
@@ -386,14 +385,11 @@ class Farm extends React.Component<IProps> {
       const equipmentImage = images.find(image =>
         image.src.includes("/images/equipment.png")
       );
-      const scarecrowBoundaryImage = images.find(image =>
-        image.src.includes("/images/scarecrow-boundary.png")
-      );
-      const sprinklerBoundaryImage = images.find(image =>
-        image.src.includes("/images/sprinkler-boundary.png")
-      );
       const soilImage = images.find(image =>
         image.src.includes("/images/tileset-soil.png")
+      );
+      const wetSoilImage = images.find(image =>
+        image.src.includes("/images/tileset-wet.png")
       );
 
       if (
@@ -403,9 +399,8 @@ class Farm extends React.Component<IProps> {
         highlightRedImage === undefined ||
         cropsImage === undefined ||
         equipmentImage === undefined ||
-        scarecrowBoundaryImage === undefined ||
-        sprinklerBoundaryImage === undefined ||
-        soilImage === undefined
+        soilImage === undefined ||
+        wetSoilImage === undefined
       ) {
         throw new Error("Error loading images");
       }
@@ -422,12 +417,10 @@ class Farm extends React.Component<IProps> {
         date
       );
 
-      renderEquipmentBoundaries(
+      renderSoilToContext(
         context,
-        {
-          scarecrow: scarecrowBoundaryImage,
-          sprinkler: sprinklerBoundaryImage
-        },
+        wetSoilImage,
+        {},
         this.state.equipment,
         date
       );
@@ -457,10 +450,6 @@ class Farm extends React.Component<IProps> {
           highlightGreyImage,
           highlightRedImage,
           equipmentImage,
-          {
-            scarecrow: scarecrowBoundaryImage,
-            sprinkler: sprinklerBoundaryImage
-          },
           this.props.selectedItem
         );
       }
