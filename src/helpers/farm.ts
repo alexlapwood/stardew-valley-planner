@@ -134,22 +134,60 @@ export function getSoilMap(
       }
 
       if (farmItem.equipmentId === "sprinkler") {
-        for (let iy = -1; iy <= 1; iy++) {
-          for (
-            let ix = Math.max(-1, Math.abs(iy) - 1);
-            ix <= Math.min(1, 1 - Math.abs(iy));
-            ix++
-          ) {
-            if (
-              standardFarm[y + iy] &&
-              standardFarm[y + iy][x + ix] &&
-              standardFarm[y + iy][x + ix] === " "
+        if (farmItem.skinIndex === 0) {
+          for (let iy = -1; iy <= 1; iy++) {
+            for (
+              let ix = Math.max(-1, Math.abs(iy) - 1);
+              ix <= Math.min(1, 1 - Math.abs(iy));
+              ix++
             ) {
-              if (soilMap[x + ix] === undefined) {
-                soilMap[x + ix] = [];
-              }
+              if (
+                standardFarm[y + iy] &&
+                standardFarm[y + iy][x + ix] &&
+                standardFarm[y + iy][x + ix] === " "
+              ) {
+                if (soilMap[x + ix] === undefined) {
+                  soilMap[x + ix] = [];
+                }
 
-              soilMap[x + ix][y + iy] = true;
+                soilMap[x + ix][y + iy] = true;
+              }
+            }
+          }
+        }
+
+        if (farmItem.skinIndex === 1) {
+          for (let iy = -1; iy <= 1; iy++) {
+            for (let ix = -1; ix <= 1; ix++) {
+              if (
+                standardFarm[y + iy] &&
+                standardFarm[y + iy][x + ix] &&
+                standardFarm[y + iy][x + ix] === " "
+              ) {
+                if (soilMap[x + ix] === undefined) {
+                  soilMap[x + ix] = [];
+                }
+
+                soilMap[x + ix][y + iy] = true;
+              }
+            }
+          }
+        }
+
+        if (farmItem.skinIndex === 2) {
+          for (let iy = -2; iy <= 2; iy++) {
+            for (let ix = -2; ix <= 2; ix++) {
+              if (
+                standardFarm[y + iy] &&
+                standardFarm[y + iy][x + ix] &&
+                standardFarm[y + iy][x + ix] === " "
+              ) {
+                if (soilMap[x + ix] === undefined) {
+                  soilMap[x + ix] = [];
+                }
+
+                soilMap[x + ix][y + iy] = true;
+              }
             }
           }
         }

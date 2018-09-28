@@ -6,7 +6,9 @@ import SeedMenu from "./SeedMenu";
 it("updates the selected plant when a plant is clicked", () => {
   const selectCropMock = jest.fn();
 
-  const itemsMenu = mount(<SeedMenu date={0} selectCrop={selectCropMock} />);
+  const itemsMenu = mount(
+    <SeedMenu date={0} isVisible={true} selectCrop={selectCropMock} />
+  );
 
   itemsMenu
     .find(".sdv-list-item")

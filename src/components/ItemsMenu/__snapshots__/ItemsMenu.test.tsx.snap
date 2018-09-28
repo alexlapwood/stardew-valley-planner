@@ -1,13 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<Fragment>
+<div
+  className="ItemsMenu flex-vertical"
+>
+  <div
+    className="flex-horizontal flex-no-shrink"
+  >
+    <div
+      className="sdv-tab selected"
+      onClick={[Function]}
+    >
+      <Sprite
+        height={16}
+        src="images/seeds.png"
+        width={16}
+        x={16}
+        y={0}
+      />
+    </div>
+    <div
+      className="sdv-tab"
+      onClick={[Function]}
+    >
+      <Sprite
+        height={16}
+        src="images/equipment.png"
+        width={16}
+        x={0}
+        y={0}
+      />
+    </div>
+  </div>
   <EquipmentMenu
+    isVisible={false}
     selectEquipment={[MockFunction]}
   />
   <SeedMenu
     date={0}
+    isVisible={true}
     selectCrop={[MockFunction]}
   />
-</Fragment>
+</div>
 `;

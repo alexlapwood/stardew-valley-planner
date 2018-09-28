@@ -118,7 +118,7 @@ class App extends React.Component<IProps, IState> {
             />
           </div>
         </div>
-        <div style={{ width: "168px" }}>
+        <div style={{ width: "200px" }}>
           <ItemsMenu
             date={date}
             // tslint:disable-next-line:jsx-no-lambda
@@ -128,9 +128,9 @@ class App extends React.Component<IProps, IState> {
               });
             }}
             // tslint:disable-next-line:jsx-no-lambda
-            selectEquipment={(equipmentId: string) => {
+            selectEquipment={(id: string, skinIndex: number) => {
               this.setState({
-                selectedItem: { id: equipmentId, type: "equipment" }
+                selectedItem: { id, skinIndex, type: "equipment" }
               });
             }}
             selectedItem={selectedItem}

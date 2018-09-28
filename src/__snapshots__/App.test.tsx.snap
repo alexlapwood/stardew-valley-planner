@@ -307,132 +307,16 @@ exports[`renders the app without crashing 1`] = `
     </div>
   </div>
   <div
-    style="width: 168px;"
+    style="width: 200px;"
   >
     <div
-      class="sdv-list"
+      class="ItemsMenu flex-vertical"
     >
       <div
-        class="sdv-list-item"
+        class="flex-horizontal flex-no-shrink"
       >
         <div
-          class="sdv-list-item-icon"
-        >
-          <div
-            class="sprite"
-            style="background-image: url(images/equipment.png); background-position: -0px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
-          />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
-          >
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -408px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -536px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -536px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -632px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -696px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        class="sdv-list-item"
-      >
-        <div
-          class="sdv-list-item-icon"
-        >
-          <div
-            class="sprite"
-            style="background-image: url(images/equipment.png); background-position: -16px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
-          />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
-          >
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -408px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -640px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -600px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="sdv-list"
-    >
-      <div
-        class="sdv-list-item"
-      >
-        <div
-          class="sdv-list-item-icon"
+          class="sdv-tab selected"
         >
           <div
             class="sprite"
@@ -440,627 +324,651 @@ exports[`renders the app without crashing 1`] = `
           />
         </div>
         <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
-          >
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -264px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -536px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -672px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -0px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -304px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -680px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -672px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        class="sdv-list-item"
-      >
-        <div
-          class="sdv-list-item-icon"
+          class="sdv-tab"
         >
           <div
             class="sprite"
-            style="background-image: url(images/seeds.png); background-position: -64px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
+            style="background-image: url(images/equipment.png); background-position: -0px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
           />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
-          >
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -272px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -680px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -0px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -336px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -720px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -720px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-          </div>
         </div>
       </div>
       <div
-        class="sdv-list-item"
+        class="sdv-list"
       >
         <div
-          class="sdv-list-item-icon"
+          class="sdv-list-item"
         >
           <div
-            class="sprite"
-            style="background-image: url(images/seeds.png); background-position: -112px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
-          />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
+            class="sdv-list-item-icon"
           >
             <div
               class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -280px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -680px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -560px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -632px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -696px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              style="background-image: url(images/seeds.png); background-position: -16px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
             />
           </div>
-        </div>
-      </div>
-      <div
-        class="sdv-list-item"
-      >
-        <div
-          class="sdv-list-item-icon"
-        >
           <div
-            class="sprite"
-            style="background-image: url(images/seeds.png); background-position: -128px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
-          />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
+            class="sdv-list-item-text"
           >
             <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -280px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -632px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -560px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -560px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -0px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -272px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
+              class="BigText"
+            >
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -264px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -536px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -672px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -0px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -304px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -680px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -672px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="sdv-list-item"
-      >
         <div
-          class="sdv-list-item-icon"
+          class="sdv-list-item"
         >
           <div
-            class="sprite"
-            style="background-image: url(images/seeds.png); background-position: -208px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
-          />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
+            class="sdv-list-item-icon"
           >
             <div
               class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -312px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -536px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              style="background-image: url(images/seeds.png); background-position: -64px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
             />
           </div>
-        </div>
-      </div>
-      <div
-        class="sdv-list-item"
-      >
-        <div
-          class="sdv-list-item-icon"
-        >
           <div
-            class="sprite"
-            style="background-image: url(images/seeds.png); background-position: -240px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
-          />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
+            class="sdv-list-item-text"
           >
             <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -312px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -0px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -272px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
+              class="BigText"
+            >
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -272px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -680px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -0px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -336px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -720px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -720px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="sdv-list-item"
-      >
         <div
-          class="sdv-list-item-icon"
+          class="sdv-list-item"
         >
           <div
-            class="sprite"
-            style="background-image: url(images/seeds.png); background-position: -288px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
-          />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
+            class="sdv-list-item-icon"
           >
             <div
               class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -344px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              style="background-image: url(images/seeds.png); background-position: -112px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
             />
           </div>
-        </div>
-      </div>
-      <div
-        class="sdv-list-item"
-      >
-        <div
-          class="sdv-list-item-icon"
-        >
           <div
-            class="sprite"
-            style="background-image: url(images/seeds.png); background-position: -320px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
-          />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
+            class="sdv-list-item-text"
           >
             <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -384px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -664px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -640px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
+              class="BigText"
+            >
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -280px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -680px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -560px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -632px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -696px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="sdv-list-item"
-      >
         <div
-          class="sdv-list-item-icon"
+          class="sdv-list-item"
         >
           <div
-            class="sprite"
-            style="background-image: url(images/seeds.png); background-position: -352px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
-          />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
+            class="sdv-list-item-icon"
           >
             <div
               class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -384px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -632px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -672px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -672px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -632px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              style="background-image: url(images/seeds.png); background-position: -128px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
             />
           </div>
-        </div>
-      </div>
-      <div
-        class="sdv-list-item"
-      >
-        <div
-          class="sdv-list-item-icon"
-        >
           <div
-            class="sprite"
-            style="background-image: url(images/seeds.png); background-position: -416px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
-          />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
+            class="sdv-list-item-text"
           >
             <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -400px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -576px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -680px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -528px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -528px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
+              class="BigText"
+            >
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -280px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -632px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -560px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -560px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -0px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -272px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="sdv-list-item"
-      >
         <div
-          class="sdv-list-item-icon"
+          class="sdv-list-item"
         >
           <div
-            class="sprite"
-            style="background-image: url(images/seeds.png); background-position: -448px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
-          />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
+            class="sdv-list-item-icon"
           >
             <div
               class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -408px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -672px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -696px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -528px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-            />
-            <div
-              class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -712px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              style="background-image: url(images/seeds.png); background-position: -208px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
             />
           </div>
+          <div
+            class="sdv-list-item-text"
+          >
+            <div
+              class="BigText"
+            >
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -312px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -536px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+            </div>
+          </div>
         </div>
-      </div>
-      <div
-        class="sdv-list-item"
-      >
         <div
-          class="sdv-list-item-icon"
+          class="sdv-list-item"
         >
           <div
-            class="sprite"
-            style="background-image: url(images/seeds.png); background-position: -528px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
-          />
-        </div>
-        <div
-          class="sdv-list-item-text"
-        >
-          <div
-            class="BigText"
+            class="sdv-list-item-icon"
           >
             <div
               class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -416px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              style="background-image: url(images/seeds.png); background-position: -240px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
             />
+          </div>
+          <div
+            class="sdv-list-item-text"
+          >
+            <div
+              class="BigText"
+            >
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -312px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -0px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -272px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="sdv-list-item"
+        >
+          <div
+            class="sdv-list-item-icon"
+          >
             <div
               class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -680px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              style="background-image: url(images/seeds.png); background-position: -288px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
             />
+          </div>
+          <div
+            class="sdv-list-item-text"
+          >
+            <div
+              class="BigText"
+            >
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -344px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="sdv-list-item"
+        >
+          <div
+            class="sdv-list-item-icon"
+          >
             <div
               class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              style="background-image: url(images/seeds.png); background-position: -320px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
             />
+          </div>
+          <div
+            class="sdv-list-item-text"
+          >
+            <div
+              class="BigText"
+            >
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -384px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -664px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -624px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -640px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="sdv-list-item"
+        >
+          <div
+            class="sdv-list-item-icon"
+          >
             <div
               class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              style="background-image: url(images/seeds.png); background-position: -352px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
             />
+          </div>
+          <div
+            class="sdv-list-item-text"
+          >
+            <div
+              class="BigText"
+            >
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -384px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -632px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -672px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -672px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -632px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="sdv-list-item"
+        >
+          <div
+            class="sdv-list-item-icon"
+          >
             <div
               class="sprite"
-              style="background-image: url(images/sdv-font.png); background-position: -640px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              style="background-image: url(images/seeds.png); background-position: -416px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
             />
+          </div>
+          <div
+            class="sdv-list-item-text"
+          >
+            <div
+              class="BigText"
+            >
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -400px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -576px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -680px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -528px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -528px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="sdv-list-item"
+        >
+          <div
+            class="sdv-list-item-icon"
+          >
+            <div
+              class="sprite"
+              style="background-image: url(images/seeds.png); background-position: -448px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
+            />
+          </div>
+          <div
+            class="sdv-list-item-text"
+          >
+            <div
+              class="BigText"
+            >
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -408px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -672px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -696px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -528px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -712px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="sdv-list-item"
+        >
+          <div
+            class="sdv-list-item-icon"
+          >
+            <div
+              class="sprite"
+              style="background-image: url(images/seeds.png); background-position: -528px -0px; display: inline-block; height: 16px; vertical-align: top; width: 16px;"
+            />
+          </div>
+          <div
+            class="sdv-list-item-text"
+          >
+            <div
+              class="BigText"
+            >
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -416px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -680px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -608px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -584px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="background-image: url(images/sdv-font.png); background-position: -640px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+              />
+            </div>
           </div>
         </div>
       </div>

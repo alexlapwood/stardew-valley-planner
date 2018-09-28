@@ -70,6 +70,7 @@ describe("Farm helper", () => {
       const equipment: IInstalledEquipment = {
         dateInstalled: 0,
         equipmentId: "test",
+        skinIndex: 0,
         type: "equipment",
         x,
         y
@@ -147,6 +148,23 @@ describe("Farm helper", () => {
               {
                 dateInstalled: 0,
                 equipmentId: "sprinkler",
+                skinIndex: 0,
+                type: "equipment",
+                x: 3,
+                y: 3
+              },
+              {
+                dateInstalled: 0,
+                equipmentId: "sprinkler",
+                skinIndex: 1,
+                type: "equipment",
+                x: 3,
+                y: 3
+              },
+              {
+                dateInstalled: 0,
+                equipmentId: "sprinkler",
+                skinIndex: 2,
                 type: "equipment",
                 x: 3,
                 y: 3

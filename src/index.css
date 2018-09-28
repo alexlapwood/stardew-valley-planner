@@ -68,17 +68,6 @@ body {
   padding: 2px;
 }
 
-.sdv-button-menu {
-  background: #262626;
-  background-clip: padding-box;
-  color: #eee;
-  border-image: url("images/button-menu-border.png") 4 stretch;
-  border-style: solid;
-  border-width: 4px;
-  padding: 2px;
-  text-align: center;
-}
-
 .sdv-button-small {
   padding: 2px;
 }
@@ -125,12 +114,25 @@ body {
   border-image: url("images/tool-border-selected.png") 1 stretch;
 }
 
+.sdv-tab {
+  background-clip: padding-box;
+  background-color: #ffd284;
+  border-image: url("images/list-border.png") 5 stretch;
+  border-width: 5px 5px 0;
+  border-style: solid;
+  padding: 2px;
+}
+
+.sdv-tab.selected,
+.sdv-tab:hover {
+  background-color: #fdb452;
+}
+
 .sdv-list {
   background-clip: padding-box;
   border-image: url("images/list-border.png") 5 stretch;
   border-width: 5px;
   border-style: solid;
-  max-height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -251,6 +253,10 @@ input[type="range"]::-moz-range-thumb {
 
 .flex {
   flex: 1;
+}
+
+.flex-no-shrink {
+  flex-shrink: 0;
 }
 
 .overflow-hidden {

@@ -9,28 +9,30 @@ import Sprite from "../../Sprite/Sprite";
 const equipment: IEquipment = require("../../../data/sdv.json").equipment;
 
 interface IProps {
-  selectEquipment: (equipmentId: string) => void;
+  isVisible: boolean;
+  selectEquipment: (equipmentId: string, skinIndex: number) => void;
   selectedItem?: ISelectedItem;
 }
 
 const EquipmentMenu: React.SFC<IProps> = props => {
-  const { selectEquipment, selectedItem } = props;
+  const { isVisible, selectEquipment, selectedItem } = props;
 
-  return (
+  return isVisible ? (
     <div className="sdv-list">
-      {Object.keys(equipment).map((equipmentId, i) => {
-        return (
+      {Object.keys(equipment).map((equipmentId, equipmentIndex) =>
+        equipment[equipmentId].skins.map((skin, skinIndex) => (
           <div
             className={cn("sdv-list-item", {
               selected:
                 selectedItem !== undefined &&
                 selectedItem.type === "equipment" &&
-                selectedItem.id === equipmentId
+                selectedItem.id === equipmentId &&
+                selectedItem.skinIndex === skinIndex
             })}
-            key={equipmentId}
+            key={skin}
             // tslint:disable-next-line:jsx-no-lambda
             onClick={() => {
-              selectEquipment(equipmentId);
+              selectEquipment(equipmentId, skinIndex);
             }}
           >
             <div className="sdv-list-item-icon">
@@ -38,18 +40,18 @@ const EquipmentMenu: React.SFC<IProps> = props => {
                 height={16}
                 src="images/equipment.png"
                 width={16}
-                x={i * 16}
-                y={0}
+                x={equipmentIndex * 16}
+                y={(equipmentId === "scarecrow" ? 16 : 32) + skinIndex * 32}
               />
             </div>
             <div className="sdv-list-item-text">
-              <BigText>{equipment[equipmentId].name}</BigText>
+              <BigText>{skin}</BigText>
             </div>
           </div>
-        );
-      })}
+        ))
+      )}
     </div>
-  );
+  ) : null;
 };
 
 export default EquipmentMenu;

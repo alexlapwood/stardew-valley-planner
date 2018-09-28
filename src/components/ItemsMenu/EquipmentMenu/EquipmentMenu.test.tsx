@@ -7,7 +7,7 @@ it("updates the selected plant when a plant is clicked", () => {
   const selectEquipmentMock = jest.fn();
 
   const itemsMenu = mount(
-    <EquipmentMenu selectEquipment={selectEquipmentMock} />
+    <EquipmentMenu isVisible={true} selectEquipment={selectEquipmentMock} />
   );
 
   itemsMenu
@@ -15,5 +15,5 @@ it("updates the selected plant when a plant is clicked", () => {
     .first()
     .simulate("click");
 
-  expect(selectEquipmentMock).toHaveBeenCalledWith("scarecrow");
+  expect(selectEquipmentMock).toHaveBeenCalledWith("scarecrow", 0);
 });

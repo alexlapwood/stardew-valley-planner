@@ -13,14 +13,15 @@ const crops: { [index: string]: ICrop } = require("../../../data/sdv.json")
 
 interface IProps {
   date: number;
+  isVisible: boolean;
   selectCrop: (cropId: string) => void;
   selectedItem?: ISelectedItem;
 }
 
 const SeedMenu: React.SFC<IProps> = props => {
-  const { date, selectCrop, selectedItem } = props;
+  const { date, isVisible, selectCrop, selectedItem } = props;
 
-  return (
+  return isVisible ? (
     <div className="sdv-list">
       {Object.keys(crops).map((cropId, i) => {
         if (
@@ -62,7 +63,7 @@ const SeedMenu: React.SFC<IProps> = props => {
         return;
       })}
     </div>
-  );
+  ) : null;
 };
 
 export default SeedMenu;

@@ -124,7 +124,7 @@ export function renderItemsToContext(
       renderEquipmentToContext(
         context,
         equipmentImage,
-        0,
+        farmItem.skinIndex,
         32,
         farmItem.x,
         farmItem.y,
@@ -246,6 +246,7 @@ export function renderSelectedRegion(
       equipmentToInstallList.push({
         dateInstalled: date,
         equipmentId: selectedItem.id,
+        skinIndex: selectedItem.skinIndex || 0,
         type: "equipment",
         x,
         y
@@ -264,7 +265,7 @@ export function renderSelectedRegion(
       renderEquipmentToContext(
         context,
         equipmentImage,
-        0,
+        equipmentToInstall.skinIndex,
         32,
         equipmentToInstall.x,
         equipmentToInstall.y,

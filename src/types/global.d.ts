@@ -30,7 +30,11 @@ interface IConstructedBuilding {
 }
 
 interface IEquipment {
-  scarecrow: IScarecrow;
+  [index: string]: {
+    id: string;
+    name: string;
+    skins: string[];
+  };
 }
 
 interface IFarmItems<T> {
@@ -56,18 +60,14 @@ interface IInstalledEquipment {
   dateInstalled: number;
   dateDestroyed?: number;
   equipmentId: string;
+  skinIndex: number;
   type: "equipment";
   x: number;
   y: number;
 }
 
-interface IScarecrow {
-  id: string;
-  name: string;
-  skins: string[];
-}
-
 interface ISelectedItem {
   id: string;
+  skinIndex?: number;
   type: "crop" | "equipment" | "tool";
 }

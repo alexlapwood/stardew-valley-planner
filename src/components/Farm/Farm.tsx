@@ -236,6 +236,7 @@ class Farm extends React.Component<IProps> {
         equipmentToInstall.push({
           dateInstalled: this.props.date,
           equipmentId: selectedItem.id,
+          skinIndex: selectedItem.skinIndex || 0,
           type: "equipment",
           x,
           y
