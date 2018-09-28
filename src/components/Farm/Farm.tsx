@@ -385,11 +385,11 @@ class Farm extends React.Component<IProps> {
       const equipmentImage = images.find(image =>
         image.src.includes("/images/equipment.png")
       );
-      const soilImage = images.find(image =>
-        image.src.includes("/images/tileset-soil.png")
+      const hoeDirtImage = images.find(image =>
+        image.src.includes("/images/hoeDirt.png")
       );
-      const wetSoilImage = images.find(image =>
-        image.src.includes("/images/tileset-wet.png")
+      const hoeDirtSnowImage = images.find(image =>
+        image.src.includes("/images/hoeDirtSnow.png")
       );
 
       if (
@@ -399,8 +399,8 @@ class Farm extends React.Component<IProps> {
         highlightRedImage === undefined ||
         cropsImage === undefined ||
         equipmentImage === undefined ||
-        soilImage === undefined ||
-        wetSoilImage === undefined
+        hoeDirtImage === undefined ||
+        hoeDirtSnowImage === undefined
       ) {
         throw new Error("Error loading images");
       }
@@ -409,21 +409,43 @@ class Farm extends React.Component<IProps> {
 
       context.drawImage(backgroundImage, 0, 0);
 
-      renderSoilToContext(
-        context,
-        soilImage,
-        this.state.crops,
-        this.state.equipment,
-        date
-      );
+      if (season === "winter") {
+        renderSoilToContext(
+          context,
+          hoeDirtSnowImage,
+          false,
+          this.state.crops,
+          this.state.equipment,
+          date
+        );
 
-      renderSoilToContext(
-        context,
-        wetSoilImage,
-        {},
-        this.state.equipment,
-        date
-      );
+        renderSoilToContext(
+          context,
+          hoeDirtSnowImage,
+          true,
+          {},
+          this.state.equipment,
+          date
+        );
+      } else {
+        renderSoilToContext(
+          context,
+          hoeDirtImage,
+          false,
+          this.state.crops,
+          this.state.equipment,
+          date
+        );
+
+        renderSoilToContext(
+          context,
+          hoeDirtImage,
+          true,
+          {},
+          this.state.equipment,
+          date
+        );
+      }
 
       renderItemsToContext(
         context,

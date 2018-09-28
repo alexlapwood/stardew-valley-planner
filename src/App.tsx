@@ -44,8 +44,8 @@ class App extends React.Component<IProps, IState> {
       "images/highlight-red.png",
       "images/pick-axe.png",
       "images/equipment.png",
-      "images/tileset-soil.png",
-      "images/tileset-wet.png"
+      "images/hoeDirt.png",
+      "images/hoeDirtSnow.png"
     ];
 
     const imagePromises = imageUrls.map(async imageUrl => {

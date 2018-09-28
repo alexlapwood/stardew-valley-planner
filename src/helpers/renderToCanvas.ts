@@ -25,6 +25,8 @@ const cropMap: string[] = require("../data/crops.json");
 // tslint:disable-next-line:no-var-requires
 const equipmentMap: string[] = require("../data/equipment.json");
 
+const tileMap = [0, 12, 15, 11, 13, 9, 14, 10, 4, 8, 3, 7, 1, 5, 2, 6];
+
 export function renderSoilToContext(
   context: CanvasRenderingContext2D,
   tileset:
@@ -32,6 +34,7 @@ export function renderSoilToContext(
     | HTMLCanvasElement
     | HTMLVideoElement
     | ImageBitmap,
+  isWet: boolean,
   currentCrops: IFarmCrops,
   currentEquipment: IFarmEquipment,
   date: number
@@ -51,11 +54,13 @@ export function renderSoilToContext(
 
       const tileIndex = 1 * +north + 2 * +east + 4 * +west + 8 * +south;
 
+      const tileOffset = isWet ? 4 * 16 : 0;
+
       if (cell) {
         context.drawImage(
           tileset,
-          tileIndex * 16,
-          0,
+          (tileMap[tileIndex] % 4) * 16 + tileOffset,
+          Math.floor(tileMap[tileIndex] / 4) * 16,
           16,
           16,
           ix * 16,
