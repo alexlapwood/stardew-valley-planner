@@ -84,6 +84,42 @@ describe("checkCropsToPlant", () => {
     expect(unplantableCrops).toHaveLength(4);
   });
 
+  it("doesn't detect crops that were destroyed on the day they were created", () => {
+    const cropsToPlant: IPlantedCrop[] = [
+      { cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 },
+      { cropId: "parsnip", datePlanted: 1, type: "crop", x: 0, y: 0 },
+      { cropId: "parsnip", datePlanted: 2, type: "crop", x: 0, y: 0 },
+      { cropId: "parsnip", datePlanted: 3, type: "crop", x: 0, y: 0 },
+      { cropId: "parsnip", datePlanted: 4, type: "crop", x: 0, y: 0 },
+      { cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 }
+    ];
+
+    const currentCrops: IFarmCrops = {
+      0: {
+        0: [
+          {
+            cropId: "parsnip",
+            dateDestroyed: 5,
+            datePlanted: 5,
+            type: "crop",
+            x: 0,
+            y: 0
+          }
+        ]
+      }
+    };
+
+    const currentEquipment: IFarmEquipment = {};
+
+    const { plantableCrops, unplantableCrops } = checkCropsToPlant(
+      cropsToPlant,
+      { currentCrops, currentEquipment }
+    );
+
+    expect(plantableCrops).toHaveLength(6);
+    expect(unplantableCrops).toHaveLength(0);
+  });
+
   it("can detect overlapping equipment", () => {
     const cropsToPlant: IPlantedCrop[] = [
       { cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 },

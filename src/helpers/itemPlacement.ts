@@ -56,6 +56,7 @@ export function checkCropsToPlant(
             cropToPlant.datePlanted <= plantedCropsLastDay);
 
         const conflictDuringGrowth =
+          plantedCrop.datePlanted !== plantedCrop.dateDestroyed &&
           cropToPlant.datePlanted < plantedCrop.datePlanted &&
           (cropToPlantsLastDay === undefined ||
             cropToPlantsLastDay >= plantedCrop.datePlanted);
@@ -82,6 +83,8 @@ export function checkCropsToPlant(
               cropToPlant.datePlanted <= installedEquipment.dateDestroyed - 1);
 
           const conflictDuringGrowth =
+            installedEquipment.dateInstalled !==
+              installedEquipment.dateDestroyed &&
             cropToPlant.datePlanted < installedEquipment.dateInstalled &&
             (cropToPlantsLastDay === undefined ||
               cropToPlantsLastDay >= installedEquipment.dateInstalled);
@@ -178,10 +181,13 @@ export function checkEquipmentToInstall(
           const conflictInTheFuture =
             equipmentToInstall.dateInstalled < plantedCrop.datePlanted;
 
-          if (conflictInTheFuture) {
+          if (
+            conflictInTheFuture &&
+            plantedCrop.datePlanted !== plantedCrop.dateDestroyed
+          ) {
             return dateDestroyedAcc === undefined
-              ? plantedCrop.datePlanted - 1
-              : Math.min(dateDestroyedAcc, plantedCrop.datePlanted - 1);
+              ? plantedCrop.datePlanted
+              : Math.min(dateDestroyedAcc, plantedCrop.datePlanted);
           }
 
           return dateDestroyedAcc;
@@ -194,13 +200,14 @@ export function checkEquipmentToInstall(
           const conflictInTheFuture =
             equipmentToInstall.dateInstalled < installedEquipment.dateInstalled;
 
-          if (conflictInTheFuture) {
+          if (
+            conflictInTheFuture &&
+            installedEquipment.dateInstalled !==
+              installedEquipment.dateDestroyed
+          ) {
             return dateDestroyedAcc === undefined
-              ? installedEquipment.dateInstalled - 1
-              : Math.min(
-                  dateDestroyedAcc,
-                  installedEquipment.dateInstalled - 1
-                );
+              ? installedEquipment.dateInstalled
+              : Math.min(dateDestroyedAcc, installedEquipment.dateInstalled);
           }
 
           return dateDestroyedAcc;
