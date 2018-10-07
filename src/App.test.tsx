@@ -3,6 +3,8 @@ import * as React from "react";
 
 import App from "./App";
 
+import mockImages from "./__helpers__/images";
+
 it("renders the app without crashing", async () => {
   const wrapper = mount(<App />);
 
@@ -65,5 +67,120 @@ describe("state", () => {
       const actual = (wrapper.instance() as App).state.selectedItem;
       expect(actual).toEqual({ id: "tool", type: "tool" });
     });
+  });
+});
+
+describe("Toolbars", () => {
+  it("is visible by default", () => {
+    const wrapper = mount(<App />);
+
+    (wrapper.instance() as App).setState({
+      images: mockImages,
+      isLoading: false
+    });
+    wrapper.update();
+
+    expect((wrapper.instance() as App).state.toolbarsDisabled).toBeFalsy();
+  });
+
+  it("is hidden when interacting with the farm", () => {
+    const wrapper = mount(<App />);
+
+    (wrapper.instance() as App).setState({
+      images: mockImages,
+      isLoading: false
+    });
+    wrapper.update();
+
+    wrapper.find("canvas").simulate("mouseDown");
+
+    expect((wrapper.instance() as App).state.toolbarsDisabled).toBeTruthy();
+  });
+
+  it("is becomes visible on mouseUp", () => {
+    const wrapper = mount(<App />);
+
+    (wrapper.instance() as App).setState({
+      images: mockImages,
+      isLoading: false
+    });
+    wrapper.update();
+
+    wrapper.find("canvas").simulate("mouseDown");
+    wrapper.find("canvas").simulate("mouseUp");
+
+    expect((wrapper.instance() as App).state.toolbarsDisabled).toBeFalsy();
+  });
+
+  it("is becomes visible on mouseOut", () => {
+    const wrapper = mount(<App />);
+
+    (wrapper.instance() as App).setState({
+      images: mockImages,
+      isLoading: false
+    });
+    wrapper.update();
+
+    wrapper.find("canvas").simulate("mouseDown");
+    wrapper.find("canvas").simulate("mouseOut");
+
+    expect((wrapper.instance() as App).state.toolbarsDisabled).toBeFalsy();
+  });
+});
+
+describe("Components", () => {
+  it("sets the selectedItem to be of type tool when a tool is selected", () => {
+    const wrapper = mount(<App />);
+
+    (wrapper.instance() as App).setState({
+      images: mockImages,
+      isLoading: false
+    });
+    wrapper.update();
+
+    wrapper.find("[data-automationid='tool--pick-axe']").simulate("click");
+
+    const actual = (wrapper.instance() as App).state.selectedItem;
+
+    expect(actual && actual.type).toBe("tool");
+  });
+
+  it("sets the selectedItem to be of type crop when a crop is selected", () => {
+    const wrapper = mount(<App />);
+
+    (wrapper.instance() as App).setState({
+      images: mockImages,
+      isLoading: false
+    });
+    wrapper.update();
+
+    wrapper.find("[data-automationid='seeds-tab']").simulate("click");
+
+    wrapper.find("[data-automationid='seed--ancient_fruit']").simulate("click");
+
+    const actual = (wrapper.instance() as App).state.selectedItem;
+
+    expect(actual && actual.type).toBe("crop");
+  });
+
+  it("sets the selectedItem to be of type equipment when equipment is selected", () => {
+    const wrapper = mount(<App />);
+
+    (wrapper.instance() as App).setState({
+      images: mockImages,
+      isLoading: false
+    });
+    wrapper.update();
+
+    wrapper.find("[data-automationid='equipment-tab']").simulate("click");
+
+    wrapper
+      .find("[data-automationid='equipment--scarecrow']")
+      .first()
+      .simulate("click");
+
+    const actual = (wrapper.instance() as App).state.selectedItem;
+
+    expect(actual && actual.type).toBe("equipment");
   });
 });

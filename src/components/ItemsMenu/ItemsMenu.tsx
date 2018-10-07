@@ -48,6 +48,7 @@ class ItemsMenu extends React.Component<IProps, IState> {
             className={cn("sdv-tab", {
               selected: this.state.currentMenu === "crops"
             })}
+            data-automationid="seeds-tab"
             onClick={showCrops}
           >
             <Sprite
@@ -62,6 +63,7 @@ class ItemsMenu extends React.Component<IProps, IState> {
             className={cn("sdv-tab", {
               selected: this.state.currentMenu === "equipment"
             })}
+            data-automationid="equipment-tab"
             onClick={showEquipment}
           >
             <Sprite

@@ -446,6 +446,11 @@
       "id": "sprinkler",
       "name": "Sprinkler",
       "skins": ["Sprinkler", "Quality Sprinkler", "Iridium Sprinkler"]
+    },
+    "fence": {
+      "id": "fence",
+      "name": "Fence",
+      "skins": ["Wood Fence", "Stone Fence", "Iron Fence", "Hardwood Fence"]
     }
   },
   "events": {

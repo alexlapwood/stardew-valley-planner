@@ -1,6 +1,6 @@
+import { mergeDeep } from "immutable";
 import { getCropsLastDay } from "./crop";
 import { getCropsAtLocation, getEquipmentAtLocation } from "./farm";
-import merge from "./merge";
 
 // tslint:disable-next-line:no-var-requires
 const crops: { [index: string]: ICrop } = require("../data/sdv.json").crops;
@@ -105,12 +105,12 @@ export function checkCropsToPlant(
         installedEquipmentConflict === undefined &&
         isTryingToPlantInSoil
       ) {
-        return merge(acc, {
+        return mergeDeep(acc, {
           plantableCrops: [cropToPlant]
         });
       }
 
-      return merge(acc, {
+      return mergeDeep(acc, {
         unplantableCrops: [cropToPlant]
       });
     },
@@ -126,7 +126,13 @@ export function checkEquipmentToInstall(
   currentItems: { currentCrops: IFarmCrops; currentEquipment: IFarmEquipment }
 ) {
   return equipmentToInstallList.reduce(
-    (acc: IInstalledEquipment[], equipmentToInstall) => {
+    (
+      acc: {
+        installableEquipment: IInstalledEquipment[];
+        notInstallableEquipment: IInstalledEquipment[];
+      },
+      equipmentToInstall
+    ) => {
       const plantedCrops = getCropsAtLocation(
         currentItems.currentCrops,
         equipmentToInstall.x,
@@ -223,12 +229,12 @@ export function checkEquipmentToInstall(
         installedEquipmentConflictPast === undefined &&
         isTryingToInstallInSoil
       ) {
-        return merge(acc, {
+        return mergeDeep(acc, {
           installableEquipment: [{ ...equipmentToInstall, dateDestroyed }]
         });
       }
 
-      return merge(acc, {
+      return mergeDeep(acc, {
         notInstallableEquipment: [equipmentToInstall]
       });
     },
@@ -272,7 +278,7 @@ export function findEquipmentToDestroy(
   return installedEquipmentList.find(installedEquipment => {
     if (
       (installedEquipment.dateDestroyed === undefined ||
-        dateToDestroyOn < installedEquipment.dateDestroyed - 1) &&
+        dateToDestroyOn < installedEquipment.dateDestroyed) &&
       dateToDestroyOn >= installedEquipment.dateInstalled
     ) {
       return true;

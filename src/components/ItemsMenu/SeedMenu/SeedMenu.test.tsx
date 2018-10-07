@@ -10,10 +10,7 @@ it("updates the selected plant when a plant is clicked", () => {
     <SeedMenu date={0} isVisible={true} selectCrop={selectCropMock} />
   );
 
-  itemsMenu
-    .find(".sdv-list-item")
-    .first()
-    .simulate("click");
+  itemsMenu.find("[data-automationid='seed--ancient_fruit']").simulate("click");
 
   expect(selectCropMock).toHaveBeenCalledWith("ancient_fruit");
 });

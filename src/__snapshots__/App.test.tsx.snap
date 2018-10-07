@@ -29,6 +29,7 @@ exports[`renders the app without crashing 1`] = `
       >
         <div
           class="Toolbar--tool sdv-tool-border"
+          data-automationid="tool--pick-axe"
         >
           <img
             src="images/pick-axe.png"
@@ -36,21 +37,27 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="Toolbar--tool sdv-tool-border"
+          data-automationid="tool--"
         />
         <div
           class="Toolbar--tool sdv-tool-border"
+          data-automationid="tool--"
         />
         <div
           class="Toolbar--tool sdv-tool-border"
+          data-automationid="tool--"
         />
         <div
           class="Toolbar--tool sdv-tool-border"
+          data-automationid="tool--"
         />
         <div
           class="Toolbar--tool sdv-tool-border"
+          data-automationid="tool--"
         />
         <div
           class="Toolbar--tool sdv-tool-border"
+          data-automationid="tool--"
         />
       </div>
       <div
@@ -317,6 +324,7 @@ exports[`renders the app without crashing 1`] = `
       >
         <div
           class="sdv-tab selected"
+          data-automationid="seeds-tab"
         >
           <div
             class="sprite"
@@ -325,6 +333,7 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="sdv-tab"
+          data-automationid="equipment-tab"
         >
           <div
             class="sprite"
@@ -333,10 +342,11 @@ exports[`renders the app without crashing 1`] = `
         </div>
       </div>
       <div
-        class="sdv-list"
+        class="SeedMenu sdv-list"
       >
         <div
           class="sdv-list-item"
+          data-automationid="seed--ancient_fruit"
         >
           <div
             class="sdv-list-item-icon"
@@ -409,6 +419,7 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="sdv-list-item"
+          data-automationid="seed--blue_jazz"
         >
           <div
             class="sdv-list-item-icon"
@@ -465,6 +476,7 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="sdv-list-item"
+          data-automationid="seed--cauliflower"
         >
           <div
             class="sdv-list-item-icon"
@@ -529,6 +541,7 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="sdv-list-item"
+          data-automationid="seed--coffee_bean"
         >
           <div
             class="sdv-list-item-icon"
@@ -593,6 +606,7 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="sdv-list-item"
+          data-automationid="seed--garlic"
         >
           <div
             class="sdv-list-item-icon"
@@ -637,6 +651,7 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="sdv-list-item"
+          data-automationid="seed--green_bean"
         >
           <div
             class="sdv-list-item-icon"
@@ -697,6 +712,7 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="sdv-list-item"
+          data-automationid="seed--kale"
         >
           <div
             class="sdv-list-item-icon"
@@ -733,6 +749,7 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="sdv-list-item"
+          data-automationid="seed--parsnip"
         >
           <div
             class="sdv-list-item-icon"
@@ -781,6 +798,7 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="sdv-list-item"
+          data-automationid="seed--potato"
         >
           <div
             class="sdv-list-item-icon"
@@ -825,6 +843,7 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="sdv-list-item"
+          data-automationid="seed--rhubarb"
         >
           <div
             class="sdv-list-item-icon"
@@ -873,6 +892,7 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="sdv-list-item"
+          data-automationid="seed--strawberry"
         >
           <div
             class="sdv-list-item-icon"
@@ -933,6 +953,7 @@ exports[`renders the app without crashing 1`] = `
         </div>
         <div
           class="sdv-list-item"
+          data-automationid="seed--tulip"
         >
           <div
             class="sdv-list-item-icon"

@@ -11,7 +11,7 @@ it("updates the selected plant when a plant is clicked", () => {
   );
 
   itemsMenu
-    .find(".sdv-list-item")
+    .find("[data-automationid='equipment--scarecrow']")
     .first()
     .simulate("click");
 

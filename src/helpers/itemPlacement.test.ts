@@ -677,8 +677,26 @@ describe("findEquipmentToDestroy", () => {
       }
     ];
 
-    const hasCropToDestroy = findEquipmentToDestroy(installedEquipment, 4);
+    const hasCropToDestroy = findEquipmentToDestroy(installedEquipment, 3);
 
     expect(hasCropToDestroy).toBeFalsy();
+  });
+
+  it("does include equipment that will be removed tomorrow", () => {
+    const installedEquipment: IInstalledEquipment[] = [
+      {
+        dateDestroyed: 3,
+        dateInstalled: 1,
+        equipmentId: "scarecrow",
+        skinIndex: 0,
+        type: "equipment",
+        x: 0,
+        y: 0
+      }
+    ];
+
+    const hasCropToDestroy = findEquipmentToDestroy(installedEquipment, 2);
+
+    expect(hasCropToDestroy).toBeTruthy();
   });
 });

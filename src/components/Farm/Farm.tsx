@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { mergeDeep } from "immutable";
 import { getCanvasPositionAndScale } from "../../helpers/canvas";
 import { getSeason } from "../../helpers/date";
 import {
@@ -13,7 +14,6 @@ import {
   findCropToDestroy,
   findEquipmentToDestroy
 } from "../../helpers/itemPlacement";
-import merge from "../../helpers/merge";
 import {
   renderItemsToContext,
   renderSelectedRegion,
@@ -147,7 +147,7 @@ class Farm extends React.Component<IProps> {
     let newEquipment: IFarmEquipment = {};
 
     installableEquipment.forEach(equipmentToInstall => {
-      newEquipment = merge(newEquipment, {
+      newEquipment = mergeDeep(newEquipment, {
         [equipmentToInstall.y]: {
           [equipmentToInstall.x]: [equipmentToInstall]
         }
@@ -155,7 +155,7 @@ class Farm extends React.Component<IProps> {
     });
 
     this.setState({
-      equipment: merge(this.state.equipment, newEquipment)
+      equipment: mergeDeep(this.state.equipment, newEquipment)
     });
   };
 
@@ -206,6 +206,10 @@ class Farm extends React.Component<IProps> {
   };
 
   private onMouseUp = () => {
+    if (this.props.disableToolbars !== undefined) {
+      this.props.disableToolbars(false);
+    }
+
     const { date, selectedItem } = this.props;
     if (this.state.isMouseDown === false || selectedItem === undefined) {
       return;
@@ -248,8 +252,8 @@ class Farm extends React.Component<IProps> {
 
     if (selectedItem.type === "tool") {
       if (selectedItem.id === "pick-axe") {
-        const currentCrops: IFarmCrops = merge({}, this.state.crops);
-        const currentEquipment: IFarmEquipment = merge(
+        const currentCrops: IFarmCrops = mergeDeep({}, this.state.crops);
+        const currentEquipment: IFarmEquipment = mergeDeep(
           {},
           this.state.equipment
         );
@@ -304,10 +308,6 @@ class Farm extends React.Component<IProps> {
       }
     }
 
-    if (this.props.disableToolbars !== undefined) {
-      this.props.disableToolbars(false);
-    }
-
     this.setState({
       isMouseDown: false,
       mouseDownPosition: undefined
@@ -337,7 +337,7 @@ class Farm extends React.Component<IProps> {
     let newCrops: IFarmCrops = {};
 
     plantableCrops.forEach(cropToPlant => {
-      newCrops = merge(newCrops, {
+      newCrops = mergeDeep(newCrops, {
         [cropToPlant.y]: {
           [cropToPlant.x]: [cropToPlant]
         }
@@ -345,9 +345,54 @@ class Farm extends React.Component<IProps> {
     });
 
     this.setState({
-      crops: merge(this.state.crops, newCrops)
+      crops: mergeDeep(this.state.crops, newCrops)
     });
   };
+
+  private getPotentialEquipment() {
+    const highlightedRegion = this.getHighlightedRegion();
+    const { date, selectedItem } = this.props;
+
+    if (
+      highlightedRegion === undefined ||
+      selectedItem === undefined ||
+      selectedItem.type !== "equipment"
+    ) {
+      return;
+    }
+
+    const equipmentToInstallList: IInstalledEquipment[] = [];
+    forEachTile(highlightedRegion, (x, y) => {
+      equipmentToInstallList.push({
+        dateInstalled: date,
+        equipmentId: selectedItem.id,
+        skinIndex: selectedItem.skinIndex || 0,
+        type: "equipment",
+        x,
+        y
+      });
+    });
+
+    const { installableEquipment } = checkEquipmentToInstall(
+      equipmentToInstallList,
+      {
+        currentCrops: this.state.crops,
+        currentEquipment: this.state.equipment
+      }
+    );
+
+    let newEquipment: IFarmEquipment = {};
+
+    installableEquipment.forEach(equipmentToInstall => {
+      newEquipment = mergeDeep(newEquipment, {
+        [equipmentToInstall.y]: {
+          [equipmentToInstall.x]: [equipmentToInstall]
+        }
+      });
+    });
+
+    return newEquipment;
+  }
 
   private updateCanvas = () => {
     const { date, images } = this.props;
@@ -392,6 +437,9 @@ class Farm extends React.Component<IProps> {
       const hoeDirtSnowImage = images.find(image =>
         image.src.includes("/images/hoeDirtSnow.png")
       );
+      const fenceImage = images.find(image =>
+        image.src.includes("/images/fences.png")
+      );
 
       if (
         backgroundImage === undefined ||
@@ -401,7 +449,8 @@ class Farm extends React.Component<IProps> {
         cropsImage === undefined ||
         equipmentImage === undefined ||
         hoeDirtImage === undefined ||
-        hoeDirtSnowImage === undefined
+        hoeDirtSnowImage === undefined ||
+        fenceImage === undefined
       ) {
         throw new Error("Error loading images");
       }
@@ -410,50 +459,30 @@ class Farm extends React.Component<IProps> {
 
       context.drawImage(backgroundImage, 0, 0);
 
-      if (season === "winter") {
-        renderSoilToContext(
-          context,
-          hoeDirtSnowImage,
-          false,
-          this.state.crops,
-          this.state.equipment,
-          date
-        );
+      const potentialEquipment = this.getPotentialEquipment() || {};
 
-        renderSoilToContext(
-          context,
-          hoeDirtSnowImage,
-          true,
-          {},
-          this.state.equipment,
-          date
-        );
-      } else {
-        renderSoilToContext(
-          context,
-          hoeDirtImage,
-          false,
-          this.state.crops,
-          this.state.equipment,
-          date
-        );
+      renderSoilToContext(
+        context,
+        season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
+        false,
+        mergeDeep(this.state.crops, this.state.equipment, potentialEquipment),
+        date
+      );
 
-        renderSoilToContext(
-          context,
-          hoeDirtImage,
-          true,
-          {},
-          this.state.equipment,
-          date
-        );
-      }
+      renderSoilToContext(
+        context,
+        season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
+        true,
+        mergeDeep(this.state.equipment, potentialEquipment),
+        date
+      );
 
       renderItemsToContext(
         context,
         cropsImage,
         equipmentImage,
-        this.state.crops,
-        this.state.equipment,
+        fenceImage,
+        mergeDeep(this.state.crops, this.state.equipment, potentialEquipment),
         date
       );
 
@@ -473,6 +502,7 @@ class Farm extends React.Component<IProps> {
           highlightGreyImage,
           highlightRedImage,
           equipmentImage,
+          fenceImage,
           this.props.selectedItem
         );
       }

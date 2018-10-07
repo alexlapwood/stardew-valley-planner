@@ -1,5 +1,4 @@
 import { getCropsLastDay } from "./crop";
-import merge from "./merge";
 
 // tslint:disable-next-line:no-var-requires
 const crops: { [index: string]: ICrop } = require("../data/sdv.json").crops;
@@ -12,17 +11,17 @@ export function forEachTile(
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
   cb: (x: number, y: number) => any
 ) {
-  const { x1, x2, y1, y2 } = highlightedRegion;
+  const x1 = Math.min(highlightedRegion.x1, highlightedRegion.x2);
+  const x2 = Math.max(highlightedRegion.x1, highlightedRegion.x2);
+  const y1 = Math.min(highlightedRegion.y1, highlightedRegion.y2);
+  const y2 = Math.max(highlightedRegion.y1, highlightedRegion.y2);
 
   if (isNaN(x1) || isNaN(x2) || isNaN(y1) || isNaN(y2)) {
     return;
   }
 
-  const xDirection = Math.sign(x2 - x1) || 1;
-  const yDirection = Math.sign(y2 - y1) || 1;
-
-  for (let y = y1; y !== y2 + yDirection; y += yDirection) {
-    for (let x = x1; x !== x2 + xDirection; x += xDirection) {
+  for (let y = y1; y <= y2; y += 1) {
+    for (let x = x1; x <= x2; x += 1) {
       cb(x, y);
     }
   }
@@ -103,16 +102,10 @@ export function getEquipmentAtLocation(
 }
 
 export function getSoilMap(
-  currentCrops: IFarmCrops,
-  currentEquipment: IFarmEquipment,
+  farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number
 ) {
   const soilMap: boolean[][] = [];
-
-  let farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>> = {};
-
-  farmItems = merge(farmItems, currentCrops);
-  farmItems = merge(farmItems, currentEquipment);
 
   forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, farmItem => {
     const { x, y } = farmItem;
@@ -196,4 +189,36 @@ export function getSoilMap(
   });
 
   return soilMap;
+}
+
+export function getFenceMap(
+  currentEquipment: IFarmItems<Array<IInstalledEquipment | IPlantedCrop>>,
+  date: number
+) {
+  const fenceMap: number[][] = [];
+
+  forEachFarmItem<IInstalledEquipment | IPlantedCrop>(
+    currentEquipment,
+    installedEquipment => {
+      const { x, y } = installedEquipment;
+
+      if (installedEquipment.type === "equipment") {
+        if (!isEquipmentHereToday(installedEquipment, date)) {
+          return;
+        }
+
+        if (installedEquipment.equipmentId === "fence") {
+          if (standardFarm[y] && standardFarm[y][x] === " ") {
+            if (fenceMap[x] === undefined) {
+              fenceMap[x] = [];
+            }
+
+            fenceMap[x][y] = installedEquipment.skinIndex;
+          }
+        }
+      }
+    }
+  );
+
+  return fenceMap;
 }

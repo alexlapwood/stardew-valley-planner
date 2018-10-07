@@ -22,7 +22,7 @@ const SeedMenu: React.SFC<IProps> = props => {
   const { date, isVisible, selectCrop, selectedItem } = props;
 
   return isVisible ? (
-    <div className="sdv-list">
+    <div className="SeedMenu sdv-list">
       {Object.keys(crops).map((cropId, i) => {
         if (
           crops[cropId] &&
@@ -39,6 +39,7 @@ const SeedMenu: React.SFC<IProps> = props => {
                   selectedItem.type === "crop" &&
                   selectedItem.id === cropId
               })}
+              data-automationid={`seed--${cropId}`}
               key={cropId}
               // tslint:disable-next-line:jsx-no-lambda
               onClick={() => {

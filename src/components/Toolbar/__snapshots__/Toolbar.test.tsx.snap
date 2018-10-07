@@ -6,6 +6,7 @@ exports[`renders the app without crashing 1`] = `
 >
   <div
     class="Toolbar--tool sdv-tool-border"
+    data-automationid="tool--pick-axe"
   >
     <img
       src="images/pick-axe.png"
@@ -13,21 +14,27 @@ exports[`renders the app without crashing 1`] = `
   </div>
   <div
     class="Toolbar--tool sdv-tool-border"
+    data-automationid="tool--"
   />
   <div
     class="Toolbar--tool sdv-tool-border"
+    data-automationid="tool--"
   />
   <div
     class="Toolbar--tool sdv-tool-border"
+    data-automationid="tool--"
   />
   <div
     class="Toolbar--tool sdv-tool-border"
+    data-automationid="tool--"
   />
   <div
     class="Toolbar--tool sdv-tool-border"
+    data-automationid="tool--"
   />
   <div
     class="Toolbar--tool sdv-tool-border"
+    data-automationid="tool--"
   />
 </div>
 `;

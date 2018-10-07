@@ -24,6 +24,7 @@ const Toolbar: React.SFC<IProps> = props => (
           props.selectedItem.type === "tool" &&
           props.selectedItem.id === "pick-axe"
       })}
+      data-automationid="tool--pick-axe"
       // tslint:disable-next-line:jsx-no-lambda
       onClick={() => {
         props.selectTool("pick-axe");
@@ -31,12 +32,12 @@ const Toolbar: React.SFC<IProps> = props => (
     >
       <img src="images/pick-axe.png" />
     </div>
-    <div className="Toolbar--tool sdv-tool-border" />
-    <div className="Toolbar--tool sdv-tool-border" />
-    <div className="Toolbar--tool sdv-tool-border" />
-    <div className="Toolbar--tool sdv-tool-border" />
-    <div className="Toolbar--tool sdv-tool-border" />
-    <div className="Toolbar--tool sdv-tool-border" />
+    <div className="Toolbar--tool sdv-tool-border" data-automationid="tool--" />
+    <div className="Toolbar--tool sdv-tool-border" data-automationid="tool--" />
+    <div className="Toolbar--tool sdv-tool-border" data-automationid="tool--" />
+    <div className="Toolbar--tool sdv-tool-border" data-automationid="tool--" />
+    <div className="Toolbar--tool sdv-tool-border" data-automationid="tool--" />
+    <div className="Toolbar--tool sdv-tool-border" data-automationid="tool--" />
   </div>
 );
 

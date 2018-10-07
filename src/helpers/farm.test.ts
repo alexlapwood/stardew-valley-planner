@@ -1,10 +1,11 @@
+import { mergeDeep } from "immutable";
 import {
   forEachFarmItem,
   forEachTile,
   getCropsAtLocation,
+  getFenceMap,
   getSoilMap
 } from "./farm";
-import merge from "./merge";
 
 describe("Farm helper", () => {
   describe("forEachTile", () => {
@@ -90,8 +91,8 @@ describe("Farm helper", () => {
 
       let farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>> = {};
 
-      farmItems = merge(farmItems, currentCrops);
-      farmItems = merge(farmItems, currentEquipment);
+      farmItems = mergeDeep(farmItems, currentCrops);
+      farmItems = mergeDeep(farmItems, currentEquipment);
 
       forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, mock);
 
@@ -127,64 +128,102 @@ describe("Farm helper", () => {
       expect(actual).toEqual(currentCrops[5][5]);
     });
 
-    describe("getSoilMap", () => {
-      it("creates a soil map from the current crops and equipment", () => {
-        const currentCrops: IFarmCrops = {
-          0: {
-            0: [
-              {
-                cropId: "parsnip",
-                datePlanted: 0,
-                type: "crop",
-                x: 0,
-                y: 0
-              }
-            ]
-          }
-        };
-        const currentEquipment: IFarmEquipment = {
-          3: {
-            3: [
-              {
-                dateInstalled: 0,
-                equipmentId: "sprinkler",
-                skinIndex: 0,
-                type: "equipment",
-                x: 3,
-                y: 3
-              },
-              {
-                dateInstalled: 0,
-                equipmentId: "sprinkler",
-                skinIndex: 1,
-                type: "equipment",
-                x: 3,
-                y: 3
-              },
-              {
-                dateInstalled: 0,
-                equipmentId: "sprinkler",
-                skinIndex: 2,
-                type: "equipment",
-                x: 3,
-                y: 3
-              }
-            ]
-          }
-        };
-
-        const actual = getSoilMap(currentCrops, currentEquipment, 0);
-
-        expect(actual).toMatchSnapshot();
-      });
-    });
-
     it("returns an empty array if no crops have been planted", () => {
       const currentCrops = {};
 
       const actual = getCropsAtLocation(currentCrops, 5, 5);
 
       expect(actual).toEqual([]);
+    });
+  });
+
+  describe("getSoilMap", () => {
+    it("creates a soil map from the current farm items", () => {
+      const currentCrops: IFarmCrops = {
+        0: {
+          0: [
+            {
+              cropId: "parsnip",
+              datePlanted: 0,
+              type: "crop",
+              x: 0,
+              y: 0
+            }
+          ]
+        }
+      };
+      const currentEquipment: IFarmEquipment = {
+        3: {
+          3: [
+            {
+              dateInstalled: 0,
+              equipmentId: "sprinkler",
+              skinIndex: 0,
+              type: "equipment",
+              x: 3,
+              y: 3
+            },
+            {
+              dateInstalled: 0,
+              equipmentId: "sprinkler",
+              skinIndex: 1,
+              type: "equipment",
+              x: 3,
+              y: 3
+            },
+            {
+              dateInstalled: 0,
+              equipmentId: "sprinkler",
+              skinIndex: 2,
+              type: "equipment",
+              x: 3,
+              y: 3
+            }
+          ]
+        }
+      };
+
+      let farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>> = {};
+
+      farmItems = mergeDeep(farmItems, currentCrops);
+      farmItems = mergeDeep(farmItems, currentEquipment);
+
+      const actual = getSoilMap(farmItems, 0);
+
+      expect(actual).toMatchSnapshot();
+    });
+  });
+
+  describe("getFenceMap", () => {
+    it("creates a fence map from the current equipment", () => {
+      const currentEquipment: IFarmEquipment = {
+        3: {
+          2: [
+            {
+              dateInstalled: 0,
+              equipmentId: "fence",
+              skinIndex: 0,
+              type: "equipment",
+              x: 3,
+              y: 2
+            }
+          ],
+          3: [
+            {
+              dateInstalled: 0,
+              equipmentId: "fence",
+              skinIndex: 0,
+              type: "equipment",
+              x: 3,
+              y: 3
+            }
+          ]
+        }
+      };
+
+      const actual = getFenceMap(currentEquipment, 0);
+
+      expect(actual).toMatchSnapshot();
     });
   });
 });

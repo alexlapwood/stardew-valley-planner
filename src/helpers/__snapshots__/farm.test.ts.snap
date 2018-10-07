@@ -1,6 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Farm helper getCropsAtLocation getSoilMap creates a soil map from the current crops and equipment 1`] = `
+exports[`Farm helper getFenceMap creates a fence map from the current equipment 1`] = `
+Array [
+  undefined,
+  undefined,
+  undefined,
+  Array [
+    undefined,
+    undefined,
+    0,
+    0,
+  ],
+]
+`;
+
+exports[`Farm helper getSoilMap creates a soil map from the current farm items 1`] = `
 Array [
   Array [
     true,
