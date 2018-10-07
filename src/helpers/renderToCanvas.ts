@@ -11,6 +11,7 @@ import {
 } from "./farm";
 import {
   checkCropsToPlant,
+  checkEquipmentToInstall,
   findCropToDestroy,
   findEquipmentToDestroy
 } from "./itemPlacement";
@@ -271,6 +272,45 @@ export function renderSelectedRegion(
         highlightRedImage,
         cropToPlant.x * 16,
         cropToPlant.y * 16
+      );
+    });
+  }
+
+  if (selectedItem.type === "equipment") {
+    const equipmentToInstallList: IInstalledEquipment[] = [];
+
+    forEachTile(highlightedRegion, (x, y) => {
+      equipmentToInstallList.push({
+        dateInstalled: date,
+        equipmentId: selectedItem.id,
+        skinIndex: selectedItem.skinIndex || 0,
+        type: "equipment",
+        x,
+        y
+      });
+    });
+
+    const {
+      installableEquipment,
+      notInstallableEquipment
+    } = checkEquipmentToInstall(equipmentToInstallList, {
+      currentCrops,
+      currentEquipment
+    });
+
+    installableEquipment.forEach(equipmentToInstall => {
+      context.drawImage(
+        highlightGreenImage,
+        equipmentToInstall.x * 16,
+        equipmentToInstall.y * 16
+      );
+    });
+
+    notInstallableEquipment.forEach(equipmentToInstall => {
+      context.drawImage(
+        highlightRedImage,
+        equipmentToInstall.x * 16,
+        equipmentToInstall.y * 16
       );
     });
   }
