@@ -477,15 +477,6 @@ class Farm extends React.Component<IProps> {
         date
       );
 
-      renderItemsToContext(
-        context,
-        cropsImage,
-        equipmentImage,
-        fenceImage,
-        mergeDeep(this.state.crops, this.state.equipment, potentialEquipment),
-        date
-      );
-
       if (this.state.mousePosition && this.props.selectedItem !== undefined) {
         const highlightedRegion = this.getHighlightedRegion();
         if (highlightedRegion === undefined) {
@@ -506,6 +497,15 @@ class Farm extends React.Component<IProps> {
           this.props.selectedItem
         );
       }
+
+      renderItemsToContext(
+        context,
+        cropsImage,
+        equipmentImage,
+        fenceImage,
+        mergeDeep(this.state.crops, this.state.equipment, potentialEquipment),
+        date
+      );
     }
   };
 }
