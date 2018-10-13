@@ -4,7 +4,7 @@ import { mergeDeep } from "immutable";
 import { getCanvasPositionAndScale } from "../../helpers/canvas";
 import { getSeason } from "../../helpers/date";
 import {
-  forEachTile,
+  forEachTileInRegion,
   getCropsAtLocation,
   getEquipmentAtLocation
 } from "../../helpers/farm";
@@ -17,7 +17,8 @@ import {
 import {
   renderItemsToContext,
   renderSelectedRegion,
-  renderSoilToContext
+  renderSoilToContext,
+  renderWateredSoilToContext
 } from "../../helpers/renderToCanvas";
 
 import "./Farm.css";
@@ -221,7 +222,7 @@ class Farm extends React.Component<IProps> {
 
     if (selectedItem.type === "crop") {
       const cropsToPlant: IPlantedCrop[] = [];
-      forEachTile(highlightedRegion, (x, y) => {
+      forEachTileInRegion(highlightedRegion, (x, y) => {
         cropsToPlant.push({
           cropId: selectedItem.id,
           datePlanted: this.props.date,
@@ -236,7 +237,7 @@ class Farm extends React.Component<IProps> {
 
     if (selectedItem.type === "equipment") {
       const equipmentToInstall: IInstalledEquipment[] = [];
-      forEachTile(highlightedRegion, (x, y) => {
+      forEachTileInRegion(highlightedRegion, (x, y) => {
         equipmentToInstall.push({
           dateInstalled: this.props.date,
           equipmentId: selectedItem.id,
@@ -258,7 +259,7 @@ class Farm extends React.Component<IProps> {
           this.state.equipment
         );
 
-        forEachTile(highlightedRegion, (x, y) => {
+        forEachTileInRegion(highlightedRegion, (x, y) => {
           const plantedCrops = getCropsAtLocation(currentCrops, x, y);
           const installedEquipment = getEquipmentAtLocation(
             currentEquipment,
@@ -362,7 +363,7 @@ class Farm extends React.Component<IProps> {
     }
 
     const equipmentToInstallList: IInstalledEquipment[] = [];
-    forEachTile(highlightedRegion, (x, y) => {
+    forEachTileInRegion(highlightedRegion, (x, y) => {
       equipmentToInstallList.push({
         dateInstalled: date,
         equipmentId: selectedItem.id,
@@ -464,15 +465,13 @@ class Farm extends React.Component<IProps> {
       renderSoilToContext(
         context,
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
-        false,
         mergeDeep(this.state.crops, this.state.equipment, potentialEquipment),
         date
       );
 
-      renderSoilToContext(
+      renderWateredSoilToContext(
         context,
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
-        true,
         mergeDeep(this.state.equipment, potentialEquipment),
         date
       );

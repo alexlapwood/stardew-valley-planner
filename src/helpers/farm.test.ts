@@ -1,14 +1,14 @@
 import { mergeDeep } from "immutable";
 import {
   forEachFarmItem,
-  forEachTile,
+  forEachTileInRegion,
   getCropsAtLocation,
   getFenceMap,
   getSoilMap
 } from "./farm";
 
 describe("Farm helper", () => {
-  describe("forEachTile", () => {
+  describe("forEachTileInRegion", () => {
     it("will call a function for each tile in a highlighted range", () => {
       const theories = [
         { expected: 1, highlightedRegion: { x1: 0, x2: 0, y1: 0, y2: 0 } },
@@ -19,7 +19,7 @@ describe("Farm helper", () => {
 
       theories.forEach(theory => {
         const callBack = jest.fn();
-        forEachTile(theory.highlightedRegion, callBack);
+        forEachTileInRegion(theory.highlightedRegion, callBack);
         expect(callBack).toHaveBeenCalledTimes(theory.expected);
       });
     });
@@ -42,7 +42,7 @@ describe("Farm helper", () => {
 
       theories.forEach(theory => {
         const callBack = jest.fn();
-        forEachTile(theory.highlightedRegion, callBack);
+        forEachTileInRegion(theory.highlightedRegion, callBack);
         theory.expected.forEach(expected => {
           expect(callBack).toHaveBeenCalledWith(...expected);
         });
@@ -52,7 +52,7 @@ describe("Farm helper", () => {
     it("doesn't crash when the coordinates are NaN", () => {
       const highlightedRegion = { x1: NaN, x2: NaN, y1: NaN, y2: NaN };
       const callBack = jest.fn();
-      forEachTile(highlightedRegion, callBack);
+      forEachTileInRegion(highlightedRegion, callBack);
       expect(callBack).not.toHaveBeenCalled();
     });
   });

@@ -1,7 +1,7 @@
 import { calculateStageOfCrop } from "./crop";
 import {
   forEachFarmItem,
-  forEachTile,
+  forEachTileInRegion,
   getCropsAtLocation,
   getEquipmentAtLocation,
   getFenceMap,
@@ -25,9 +25,33 @@ const cropMap: string[] = require("../data/crops.json");
 // tslint:disable-next-line:no-var-requires
 const equipmentMap: string[] = require("../data/equipment.json");
 
-const tileMap = [0, 12, 15, 11, 13, 9, 14, 10, 4, 8, 3, 7, 1, 5, 2, 6];
+const soilTileMap = [0, 12, 15, 11, 13, 9, 14, 10, 4, 8, 3, 7, 1, 5, 2, 6];
 
 const fenceTileMap = [5, 3, 2, 8, 0, 6, 7, 7, 5, 3, 2, 8, 0, 6, 7, 7];
+
+function forEachTileInMap(
+  tileMap: boolean[][],
+  callBack: (tileIndex: number, x: number, y: number) => void
+) {
+  tileMap.forEach((row, ix) => {
+    row.forEach((cell, iy) => {
+      const north =
+        tileMap[ix] !== undefined && tileMap[ix][iy - 1] !== undefined;
+      const east =
+        tileMap[ix - 1] !== undefined && tileMap[ix - 1][iy] !== undefined;
+      const west =
+        tileMap[ix + 1] !== undefined && tileMap[ix + 1][iy] !== undefined;
+      const south =
+        tileMap[ix] !== undefined && tileMap[ix][iy + 1] !== undefined;
+
+      const tileIndex = 1 * +north + 2 * +east + 4 * +west + 8 * +south;
+
+      if (cell) {
+        callBack(tileIndex, ix, iy);
+      }
+    });
+  });
+}
 
 export function renderSoilToContext(
   context: CanvasRenderingContext2D,
@@ -36,41 +60,52 @@ export function renderSoilToContext(
     | HTMLCanvasElement
     | HTMLVideoElement
     | ImageBitmap,
-  isWet: boolean,
   farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number
 ) {
   const soilMap = getSoilMap(farmItems, date);
 
-  soilMap.forEach((row, ix) => {
-    row.forEach((cell, iy) => {
-      const north =
-        soilMap[ix] !== undefined && soilMap[ix][iy - 1] !== undefined;
-      const east =
-        soilMap[ix - 1] !== undefined && soilMap[ix - 1][iy] !== undefined;
-      const west =
-        soilMap[ix + 1] !== undefined && soilMap[ix + 1][iy] !== undefined;
-      const south =
-        soilMap[ix] !== undefined && soilMap[ix][iy + 1] !== undefined;
+  forEachTileInMap(soilMap, (tileIndex, x, y) => {
+    context.drawImage(
+      tileset,
+      (soilTileMap[tileIndex] % 4) * 16,
+      Math.floor(soilTileMap[tileIndex] / 4) * 16,
+      16,
+      16,
+      x * 16,
+      y * 16,
+      16,
+      16
+    );
+  });
+}
 
-      const tileIndex = 1 * +north + 2 * +east + 4 * +west + 8 * +south;
+export function renderWateredSoilToContext(
+  context: CanvasRenderingContext2D,
+  tileset:
+    | HTMLImageElement
+    | HTMLCanvasElement
+    | HTMLVideoElement
+    | ImageBitmap,
+  farmEquipment: IFarmEquipment,
+  date: number
+) {
+  const wateredSoilMap = getSoilMap(farmEquipment, date);
 
-      const tileOffset = isWet ? 4 * 16 : 0;
+  const tileOffset = 4 * 16;
 
-      if (cell) {
-        context.drawImage(
-          tileset,
-          (tileMap[tileIndex] % 4) * 16 + tileOffset,
-          Math.floor(tileMap[tileIndex] / 4) * 16,
-          16,
-          16,
-          ix * 16,
-          iy * 16,
-          16,
-          16
-        );
-      }
-    });
+  forEachTileInMap(wateredSoilMap, (tileIndex, x, y) => {
+    context.drawImage(
+      tileset,
+      (soilTileMap[tileIndex] % 4) * 16 + tileOffset,
+      Math.floor(soilTileMap[tileIndex] / 4) * 16,
+      16,
+      16,
+      x * 16,
+      y * 16,
+      16,
+      16
+    );
   });
 }
 
@@ -244,7 +279,7 @@ export function renderSelectedRegion(
   if (selectedItem.type === "crop") {
     const cropsToPlant: IPlantedCrop[] = [];
 
-    forEachTile(highlightedRegion, (x, y) => {
+    forEachTileInRegion(highlightedRegion, (x, y) => {
       cropsToPlant.push({
         cropId: selectedItem.id,
         datePlanted: date,
@@ -279,7 +314,7 @@ export function renderSelectedRegion(
   if (selectedItem.type === "equipment") {
     const equipmentToInstallList: IInstalledEquipment[] = [];
 
-    forEachTile(highlightedRegion, (x, y) => {
+    forEachTileInRegion(highlightedRegion, (x, y) => {
       equipmentToInstallList.push({
         dateInstalled: date,
         equipmentId: selectedItem.id,
@@ -317,7 +352,7 @@ export function renderSelectedRegion(
 
   if (selectedItem.type === "tool") {
     if (selectedItem.id === "pick-axe") {
-      forEachTile(highlightedRegion, (x, y) => {
+      forEachTileInRegion(highlightedRegion, (x, y) => {
         const plantedCrops = getCropsAtLocation(currentCrops, x, y);
         const installedEquipment = getEquipmentAtLocation(
           currentEquipment,

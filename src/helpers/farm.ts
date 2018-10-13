@@ -7,7 +7,7 @@ const { standardFarm }: { [index: string]: string[] } =
   // tslint:disable-next-line:no-var-requires
   require("../data/sdv.json").farmLayouts;
 
-export function forEachTile(
+export function forEachTileInRegion(
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
   cb: (x: number, y: number) => any
 ) {
