@@ -55,6 +55,19 @@ const EquipmentMenu: React.SFC<IProps> = props => {
                 </div>
               );
               break;
+            case "flooring":
+              sprite = (
+                <div>
+                  <Sprite
+                    height={16}
+                    src="images/flooring.png"
+                    width={16}
+                    x={(skinIndex % 4) * 64}
+                    y={Math.floor(skinIndex / 4) * 64}
+                  />
+                </div>
+              );
+              break;
             default:
               sprite = (
                 <Sprite

@@ -3,18 +3,15 @@ import * as React from "react";
 import { mergeDeep } from "immutable";
 import { getCanvasPositionAndScale } from "../../helpers/canvas";
 import { getSeason } from "../../helpers/date";
-import {
-  forEachTileInRegion,
-  getCropsAtLocation,
-  getEquipmentAtLocation
-} from "../../helpers/farm";
+import { forEachTileInRegion } from "../../helpers/farm";
 import {
   checkCropsToPlant,
   checkEquipmentToInstall,
-  findCropToDestroy,
-  findEquipmentToDestroy
+  destroyCrops,
+  destroyEquipment
 } from "../../helpers/itemPlacement";
 import {
+  renderFlooringToContext,
   renderItemsToContext,
   renderSelectedRegion,
   renderSoilToContext,
@@ -260,44 +257,20 @@ class Farm extends React.Component<IProps> {
         );
 
         forEachTileInRegion(highlightedRegion, (x, y) => {
-          const plantedCrops = getCropsAtLocation(currentCrops, x, y);
-          const installedEquipment = getEquipmentAtLocation(
-            currentEquipment,
-            x,
-            y
-          );
-
-          const cropToDestroy = findCropToDestroy(plantedCrops, date);
-          const equipmentToDestroy = findEquipmentToDestroy(
-            installedEquipment,
-            date
-          );
-
-          if (cropToDestroy !== undefined) {
-            currentCrops[y][x] = currentCrops[y][x].map(cropToCheck => {
-              if (
-                cropToCheck.cropId === cropToDestroy.cropId &&
-                cropToCheck.datePlanted === cropToDestroy.datePlanted
-              ) {
-                cropToCheck.dateDestroyed = date;
-              }
-              return cropToCheck;
-            });
+          if (
+            currentCrops[y] !== undefined &&
+            currentCrops[y][x] !== undefined
+          ) {
+            currentCrops[y][x] = destroyCrops(currentCrops[y][x], date);
           }
 
-          if (equipmentToDestroy !== undefined) {
-            currentEquipment[y][x] = currentEquipment[y][x].map(
-              equipmentToCheck => {
-                if (
-                  equipmentToCheck.equipmentId ===
-                    equipmentToDestroy.equipmentId &&
-                  equipmentToCheck.dateInstalled ===
-                    equipmentToDestroy.dateInstalled
-                ) {
-                  equipmentToCheck.dateDestroyed = date;
-                }
-                return equipmentToCheck;
-              }
+          if (
+            currentEquipment[y] !== undefined &&
+            currentEquipment[y][x] !== undefined
+          ) {
+            currentEquipment[y][x] = destroyEquipment(
+              currentEquipment[y][x],
+              date
             );
           }
         });
@@ -441,6 +414,9 @@ class Farm extends React.Component<IProps> {
       const fenceImage = images.find(image =>
         image.src.includes("/images/fences.png")
       );
+      const flooringImage = images.find(image =>
+        image.src.includes("/images/flooring.png")
+      );
 
       if (
         backgroundImage === undefined ||
@@ -451,7 +427,8 @@ class Farm extends React.Component<IProps> {
         equipmentImage === undefined ||
         hoeDirtImage === undefined ||
         hoeDirtSnowImage === undefined ||
-        fenceImage === undefined
+        fenceImage === undefined ||
+        flooringImage === undefined
       ) {
         throw new Error("Error loading images");
       }
@@ -472,6 +449,13 @@ class Farm extends React.Component<IProps> {
       renderWateredSoilToContext(
         context,
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
+        mergeDeep(this.state.equipment, potentialEquipment),
+        date
+      );
+
+      renderFlooringToContext(
+        context,
+        flooringImage,
         mergeDeep(this.state.equipment, potentialEquipment),
         date
       );

@@ -167,6 +167,13 @@ export function checkEquipmentToInstall(
 
       const installedEquipmentConflictPast = installedEquipmentList.find(
         installedEquipment => {
+          if (
+            (equipmentToInstall.equipmentId === "flooring") !==
+            (installedEquipment.equipmentId === "flooring")
+          ) {
+            return false;
+          }
+
           const conflictWhileInstalling =
             equipmentToInstall.dateInstalled >=
               installedEquipment.dateInstalled &&
@@ -285,5 +292,45 @@ export function findEquipmentToDestroy(
     }
 
     return false;
+  });
+}
+
+export function destroyCrops(
+  plantedCrops: IPlantedCrop[],
+  dateToDestroyOn: number
+) {
+  return plantedCrops.map(plantedCrop => {
+    const cropToChecksDetails = crops[plantedCrop.cropId];
+
+    const cropToChecksLastDay = getCropsLastDay(
+      plantedCrop,
+      cropToChecksDetails
+    );
+    if (
+      (plantedCrop.dateDestroyed === undefined ||
+        dateToDestroyOn < plantedCrop.dateDestroyed) &&
+      dateToDestroyOn >= plantedCrop.datePlanted &&
+      (cropToChecksLastDay === undefined ||
+        dateToDestroyOn <= cropToChecksLastDay)
+    ) {
+      plantedCrop.dateDestroyed = dateToDestroyOn;
+    }
+    return plantedCrop;
+  });
+}
+
+export function destroyEquipment(
+  installedEquipmentList: IInstalledEquipment[],
+  dateToDestroyOn: number
+) {
+  return installedEquipmentList.map(installedEquipment => {
+    if (
+      (installedEquipment.dateDestroyed === undefined ||
+        dateToDestroyOn < installedEquipment.dateDestroyed) &&
+      dateToDestroyOn >= installedEquipment.dateInstalled
+    ) {
+      installedEquipment.dateDestroyed = dateToDestroyOn;
+    }
+    return installedEquipment;
   });
 }

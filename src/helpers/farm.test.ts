@@ -4,6 +4,7 @@ import {
   forEachTileInRegion,
   getCropsAtLocation,
   getFenceMap,
+  getFlooringMap,
   getSoilMap
 } from "./farm";
 
@@ -192,6 +193,39 @@ describe("Farm helper", () => {
 
       expect(actual).toMatchSnapshot();
     });
+
+    it("does not return soil under paths", () => {
+      const currentEquipment: IFarmEquipment = {
+        0: {
+          0: [
+            {
+              dateInstalled: 0,
+              equipmentId: "sprinkler",
+              skinIndex: 0,
+              type: "equipment",
+              x: 0,
+              y: 0
+            },
+            {
+              dateInstalled: 0,
+              equipmentId: "flooring",
+              skinIndex: 0,
+              type: "equipment",
+              x: 0,
+              y: 0
+            }
+          ]
+        }
+      };
+
+      let farmItems: IFarmEquipment = {};
+
+      farmItems = mergeDeep(farmItems, currentEquipment);
+
+      const actual = getSoilMap(farmItems, 0);
+
+      expect(actual).toMatchSnapshot();
+    });
   });
 
   describe("getFenceMap", () => {
@@ -222,6 +256,39 @@ describe("Farm helper", () => {
       };
 
       const actual = getFenceMap(currentEquipment, 0);
+
+      expect(actual).toMatchSnapshot();
+    });
+  });
+
+  describe("getFlooringMap", () => {
+    it("creates a flooring map from the current equipment", () => {
+      const currentEquipment: IFarmEquipment = {
+        3: {
+          2: [
+            {
+              dateInstalled: 0,
+              equipmentId: "flooring",
+              skinIndex: 0,
+              type: "equipment",
+              x: 3,
+              y: 2
+            }
+          ],
+          3: [
+            {
+              dateInstalled: 0,
+              equipmentId: "flooring",
+              skinIndex: 0,
+              type: "equipment",
+              x: 3,
+              y: 3
+            }
+          ]
+        }
+      };
+
+      const actual = getFlooringMap(currentEquipment, 0);
 
       expect(actual).toMatchSnapshot();
     });

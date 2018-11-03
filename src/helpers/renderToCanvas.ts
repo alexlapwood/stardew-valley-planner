@@ -5,6 +5,7 @@ import {
   getCropsAtLocation,
   getEquipmentAtLocation,
   getFenceMap,
+  getFlooringMap,
   getSoilMap,
   isCropHereToday,
   isEquipmentHereToday
@@ -25,30 +26,28 @@ const cropMap: string[] = require("../data/crops.json");
 // tslint:disable-next-line:no-var-requires
 const equipmentMap: string[] = require("../data/equipment.json");
 
-const soilTileMap = [0, 12, 15, 11, 13, 9, 14, 10, 4, 8, 3, 7, 1, 5, 2, 6];
+const flooringTileMap = [0, 12, 15, 11, 13, 9, 14, 10, 4, 8, 3, 7, 1, 5, 2, 6];
 
 const fenceTileMap = [5, 3, 2, 8, 0, 6, 7, 7, 5, 3, 2, 8, 0, 6, 7, 7];
 
 function forEachTileInMap(
-  tileMap: boolean[][],
-  callBack: (tileIndex: number, x: number, y: number) => void
+  tileMap: number[][],
+  callBack: (tileValue: number, tileIndex: number, x: number, y: number) => void
 ) {
   tileMap.forEach((row, ix) => {
-    row.forEach((cell, iy) => {
+    row.forEach((cellValue, iy) => {
       const north =
-        tileMap[ix] !== undefined && tileMap[ix][iy - 1] !== undefined;
+        tileMap[ix] !== undefined && tileMap[ix][iy - 1] === cellValue;
       const east =
-        tileMap[ix - 1] !== undefined && tileMap[ix - 1][iy] !== undefined;
+        tileMap[ix - 1] !== undefined && tileMap[ix - 1][iy] === cellValue;
       const west =
-        tileMap[ix + 1] !== undefined && tileMap[ix + 1][iy] !== undefined;
+        tileMap[ix + 1] !== undefined && tileMap[ix + 1][iy] === cellValue;
       const south =
-        tileMap[ix] !== undefined && tileMap[ix][iy + 1] !== undefined;
+        tileMap[ix] !== undefined && tileMap[ix][iy + 1] === cellValue;
 
       const tileIndex = 1 * +north + 2 * +east + 4 * +west + 8 * +south;
 
-      if (cell) {
-        callBack(tileIndex, ix, iy);
-      }
+      callBack(cellValue, tileIndex, ix, iy);
     });
   });
 }
@@ -65,11 +64,11 @@ export function renderSoilToContext(
 ) {
   const soilMap = getSoilMap(farmItems, date);
 
-  forEachTileInMap(soilMap, (tileIndex, x, y) => {
+  forEachTileInMap(soilMap, (tileValue, tileIndex, x, y) => {
     context.drawImage(
       tileset,
-      (soilTileMap[tileIndex] % 4) * 16,
-      Math.floor(soilTileMap[tileIndex] / 4) * 16,
+      (flooringTileMap[tileIndex] % 4) * 16,
+      Math.floor(flooringTileMap[tileIndex] / 4) * 16,
       16,
       16,
       x * 16,
@@ -94,11 +93,39 @@ export function renderWateredSoilToContext(
 
   const tileOffset = 4 * 16;
 
-  forEachTileInMap(wateredSoilMap, (tileIndex, x, y) => {
+  forEachTileInMap(wateredSoilMap, (tileValue, tileIndex, x, y) => {
     context.drawImage(
       tileset,
-      (soilTileMap[tileIndex] % 4) * 16 + tileOffset,
-      Math.floor(soilTileMap[tileIndex] / 4) * 16,
+      (flooringTileMap[tileIndex] % 4) * 16 + tileOffset,
+      Math.floor(flooringTileMap[tileIndex] / 4) * 16,
+      16,
+      16,
+      x * 16,
+      y * 16,
+      16,
+      16
+    );
+  });
+}
+
+export function renderFlooringToContext(
+  context: CanvasRenderingContext2D,
+  tileset:
+    | HTMLImageElement
+    | HTMLCanvasElement
+    | HTMLVideoElement
+    | ImageBitmap,
+  farmItems: IFarmEquipment,
+  date: number
+) {
+  const flooringMap = getFlooringMap(farmItems, date);
+
+  forEachTileInMap(flooringMap, (tileValue, tileIndex, x, y) => {
+    context.drawImage(
+      tileset,
+      (flooringTileMap[tileIndex] % 4) * 16 + (tileValue % 4) * 64,
+      Math.floor(flooringTileMap[tileIndex] / 4) * 16 +
+        Math.floor(tileValue / 4) * 64,
       16,
       16,
       x * 16,

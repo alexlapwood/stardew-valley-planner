@@ -14,50 +14,76 @@ Array [
 ]
 `;
 
+exports[`Farm helper getFlooringMap creates a flooring map from the current equipment 1`] = `
+Array [
+  undefined,
+  undefined,
+  undefined,
+  Array [
+    undefined,
+    undefined,
+    0,
+    0,
+  ],
+]
+`;
+
 exports[`Farm helper getSoilMap creates a soil map from the current farm items 1`] = `
 Array [
   Array [
-    true,
+    0,
   ],
   Array [
     undefined,
-    true,
-    true,
-    true,
-    true,
-    true,
+    0,
+    0,
+    0,
+    0,
+    0,
   ],
   Array [
     undefined,
-    true,
-    true,
-    true,
-    true,
-    true,
+    0,
+    0,
+    0,
+    0,
+    0,
   ],
   Array [
     undefined,
-    true,
-    true,
-    true,
-    true,
-    true,
+    0,
+    0,
+    0,
+    0,
+    0,
   ],
   Array [
     undefined,
-    true,
-    true,
-    true,
-    true,
-    true,
+    0,
+    0,
+    0,
+    0,
+    0,
   ],
   Array [
     undefined,
-    true,
-    true,
-    true,
-    true,
-    true,
+    0,
+    0,
+    0,
+    0,
+    0,
+  ],
+]
+`;
+
+exports[`Farm helper getSoilMap does not return soil under paths 1`] = `
+Array [
+  Array [
+    undefined,
+    0,
+  ],
+  Array [
+    0,
   ],
 ]
 `;

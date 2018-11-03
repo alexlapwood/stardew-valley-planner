@@ -46,6 +46,7 @@ interface IFarmItems<T> {
 interface IFarmBuildings extends IFarmItems<IConstructedBuilding[]> {}
 interface IFarmCrops extends IFarmItems<IPlantedCrop[]> {}
 interface IFarmEquipment extends IFarmItems<IInstalledEquipment[]> {}
+interface IFarmFlooring extends IFarmItems<IInstalledEquipment[]> {}
 
 interface IPlantedCrop {
   cropId: string;

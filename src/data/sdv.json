@@ -451,6 +451,22 @@
       "id": "fence",
       "name": "Fence",
       "skins": ["Wood Fence", "Stone Fence", "Iron Fence", "Hardwood Fence"]
+    },
+    "flooring": {
+      "id": "flooring",
+      "name": "Flooring",
+      "skins": [
+        "Wood Floor",
+        "Stone Floor",
+        "Weathered Floor",
+        "Crystal Floor",
+        "Straw Floor",
+        "Gravel Path",
+        "Wood Path",
+        "Crystal Path",
+        "Cobblestone Path",
+        "Stepping Stone Path"
+      ]
     }
   },
   "events": {

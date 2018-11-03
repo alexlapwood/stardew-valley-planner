@@ -594,6 +594,120 @@ describe("checkEquipmentToInstall", () => {
     expect(installableEquipment).toHaveLength(5);
     expect(notInstallableEquipment).toHaveLength(1);
   });
+
+  it("can detect overlapping flooring", () => {
+    const equipmentToInstall: IInstalledEquipment[] = [
+      {
+        dateInstalled: 0,
+        equipmentId: "flooring",
+        skinIndex: 0,
+        type: "equipment",
+        x: 0,
+        y: 0
+      },
+      {
+        dateInstalled: 0,
+        equipmentId: "flooring",
+        skinIndex: 0,
+        type: "equipment",
+        x: 1,
+        y: 0
+      },
+      {
+        dateInstalled: 0,
+        equipmentId: "flooring",
+        skinIndex: 0,
+        type: "equipment",
+        x: 2,
+        y: 0
+      }
+    ];
+
+    const currentCrops: IFarmCrops = {};
+
+    const currentEquipment: IFarmEquipment = {
+      0: {
+        0: [
+          {
+            dateInstalled: 0,
+            equipmentId: "flooring",
+            skinIndex: 0,
+            type: "equipment",
+            x: 0,
+            y: 0
+          }
+        ]
+      }
+    };
+
+    const {
+      installableEquipment,
+      notInstallableEquipment
+    } = checkEquipmentToInstall(equipmentToInstall, {
+      currentCrops,
+      currentEquipment
+    });
+
+    expect(installableEquipment).toHaveLength(2);
+    expect(notInstallableEquipment).toHaveLength(1);
+  });
+
+  it("does not detect overlapping flooring and equipment", () => {
+    const equipmentToInstall: IInstalledEquipment[] = [
+      {
+        dateInstalled: 0,
+        equipmentId: "flooring",
+        skinIndex: 0,
+        type: "equipment",
+        x: 0,
+        y: 0
+      },
+      {
+        dateInstalled: 0,
+        equipmentId: "flooring",
+        skinIndex: 0,
+        type: "equipment",
+        x: 1,
+        y: 0
+      },
+      {
+        dateInstalled: 0,
+        equipmentId: "flooring",
+        skinIndex: 0,
+        type: "equipment",
+        x: 2,
+        y: 0
+      }
+    ];
+
+    const currentCrops: IFarmCrops = {};
+
+    const currentEquipment: IFarmEquipment = {
+      0: {
+        0: [
+          {
+            dateInstalled: 0,
+            equipmentId: "scarecrow",
+            skinIndex: 0,
+            type: "equipment",
+            x: 0,
+            y: 0
+          }
+        ]
+      }
+    };
+
+    const {
+      installableEquipment,
+      notInstallableEquipment
+    } = checkEquipmentToInstall(equipmentToInstall, {
+      currentCrops,
+      currentEquipment
+    });
+
+    expect(installableEquipment).toHaveLength(3);
+    expect(notInstallableEquipment).toHaveLength(0);
+  });
 });
 
 describe("findCropToDestroy", () => {
@@ -651,17 +765,17 @@ describe("findEquipmentToDestroy", () => {
       }
     ];
 
-    const hasCropToDestroy = findEquipmentToDestroy(installedEquipment, 0);
+    const hasEquipmentToDestroy = findEquipmentToDestroy(installedEquipment, 0);
 
-    expect(hasCropToDestroy).toBeTruthy();
+    expect(hasEquipmentToDestroy).toBeTruthy();
   });
 
   it("does not include equipment that hasn't been installed yet", () => {
     const installedEquipment: IInstalledEquipment[] = [];
 
-    const hasCropToDestroy = findEquipmentToDestroy(installedEquipment, 0);
+    const hasEquipmentToDestroy = findEquipmentToDestroy(installedEquipment, 0);
 
-    expect(hasCropToDestroy).toBeFalsy();
+    expect(hasEquipmentToDestroy).toBeFalsy();
   });
 
   it("does not include equipment that has been removed", () => {
@@ -677,9 +791,9 @@ describe("findEquipmentToDestroy", () => {
       }
     ];
 
-    const hasCropToDestroy = findEquipmentToDestroy(installedEquipment, 3);
+    const hasEquipmentToDestroy = findEquipmentToDestroy(installedEquipment, 3);
 
-    expect(hasCropToDestroy).toBeFalsy();
+    expect(hasEquipmentToDestroy).toBeFalsy();
   });
 
   it("does include equipment that will be removed tomorrow", () => {
@@ -695,8 +809,8 @@ describe("findEquipmentToDestroy", () => {
       }
     ];
 
-    const hasCropToDestroy = findEquipmentToDestroy(installedEquipment, 2);
+    const hasEquipmentToDestroy = findEquipmentToDestroy(installedEquipment, 2);
 
-    expect(hasCropToDestroy).toBeTruthy();
+    expect(hasEquipmentToDestroy).toBeTruthy();
   });
 });

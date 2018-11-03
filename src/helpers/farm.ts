@@ -105,7 +105,7 @@ export function getSoilMap(
   farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number
 ) {
-  const soilMap: boolean[][] = [];
+  const soilMap: number[][] = [];
 
   forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, farmItem => {
     const { x, y } = farmItem;
@@ -118,7 +118,7 @@ export function getSoilMap(
         soilMap[x] = [];
       }
 
-      soilMap[x][y] = true;
+      soilMap[x][y] = 0;
     }
 
     if (farmItem.type === "equipment") {
@@ -143,7 +143,7 @@ export function getSoilMap(
                   soilMap[x + ix] = [];
                 }
 
-                soilMap[x + ix][y + iy] = true;
+                soilMap[x + ix][y + iy] = 0;
               }
             }
           }
@@ -161,7 +161,7 @@ export function getSoilMap(
                   soilMap[x + ix] = [];
                 }
 
-                soilMap[x + ix][y + iy] = true;
+                soilMap[x + ix][y + iy] = 0;
               }
             }
           }
@@ -179,7 +179,7 @@ export function getSoilMap(
                   soilMap[x + ix] = [];
                 }
 
-                soilMap[x + ix][y + iy] = true;
+                soilMap[x + ix][y + iy] = 0;
               }
             }
           }
@@ -188,33 +188,71 @@ export function getSoilMap(
     }
   });
 
+  forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, farmItem => {
+    if (farmItem.type === "equipment") {
+      const { x, y } = farmItem;
+
+      if (soilMap[x] === undefined || soilMap[x][y] === undefined) {
+        return;
+      }
+
+      if (!isEquipmentHereToday(farmItem, date)) {
+        return;
+      }
+
+      if (farmItem.equipmentId === "flooring") {
+        delete soilMap[x][y];
+      }
+    }
+  });
+
   return soilMap;
 }
 
+export function getFlooringMap(currentEquipment: IFarmEquipment, date: number) {
+  const flooringMap: number[][] = [];
+
+  forEachFarmItem<IInstalledEquipment>(currentEquipment, installedEquipment => {
+    const { x, y } = installedEquipment;
+
+    if (!isEquipmentHereToday(installedEquipment, date)) {
+      return;
+    }
+
+    if (installedEquipment.equipmentId === "flooring") {
+      if (flooringMap[x] === undefined) {
+        flooringMap[x] = [];
+      }
+
+      flooringMap[x][y] = installedEquipment.skinIndex;
+    }
+  });
+
+  return flooringMap;
+}
+
 export function getFenceMap(
-  currentEquipment: IFarmItems<Array<IInstalledEquipment | IPlantedCrop>>,
+  currentEquipment: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number
 ) {
   const fenceMap: number[][] = [];
 
-  forEachFarmItem<IInstalledEquipment | IPlantedCrop>(
+  forEachFarmItem<IPlantedCrop | IInstalledEquipment>(
     currentEquipment,
     installedEquipment => {
-      const { x, y } = installedEquipment;
-
       if (installedEquipment.type === "equipment") {
+        const { x, y } = installedEquipment;
+
         if (!isEquipmentHereToday(installedEquipment, date)) {
           return;
         }
 
         if (installedEquipment.equipmentId === "fence") {
-          if (standardFarm[y] && standardFarm[y][x] === " ") {
-            if (fenceMap[x] === undefined) {
-              fenceMap[x] = [];
-            }
-
-            fenceMap[x][y] = installedEquipment.skinIndex;
+          if (fenceMap[x] === undefined) {
+            fenceMap[x] = [];
           }
+
+          fenceMap[x][y] = installedEquipment.skinIndex;
         }
       }
     }
