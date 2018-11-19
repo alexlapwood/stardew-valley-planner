@@ -43,7 +43,7 @@ class App extends React.Component<IProps, IState> {
       "images/highlight-grey.png",
       "images/highlight-red.png",
       "images/pick-axe.png",
-      "images/equipment.png",
+      "images/equipment-sheet.png",
       "images/hoeDirt.png",
       "images/hoeDirtSnow.png",
       "images/fences.png",

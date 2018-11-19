@@ -5,7 +5,8 @@ import {
   getCropsAtLocation,
   getFenceMap,
   getFlooringMap,
-  getSoilMap
+  getSoilMap,
+  isCropHereToday
 } from "./farm";
 
 describe("Farm helper", () => {
@@ -291,6 +292,54 @@ describe("Farm helper", () => {
       const actual = getFlooringMap(currentEquipment, 0);
 
       expect(actual).toMatchSnapshot();
+    });
+  });
+
+  describe("isCropHereToday", () => {
+    it("detects crops that are here today", () => {
+      const actual = isCropHereToday(
+        {
+          cropId: "parsnip",
+          datePlanted: 0,
+          type: "crop",
+          x: 0,
+          y: 0
+        },
+        0
+      );
+
+      expect(actual).toBe(true);
+    });
+
+    it("does not detect crops planted in the future", () => {
+      const actual = isCropHereToday(
+        {
+          cropId: "parsnip",
+          datePlanted: 1,
+          type: "crop",
+          x: 0,
+          y: 0
+        },
+        0
+      );
+
+      expect(actual).toBe(false);
+    });
+
+    it("does not detect crops that have already been destroyed", () => {
+      const actual = isCropHereToday(
+        {
+          cropId: "parsnip",
+          dateDestroyed: 1,
+          datePlanted: 0,
+          type: "crop",
+          x: 0,
+          y: 0
+        },
+        2
+      );
+
+      expect(actual).toBe(false);
     });
   });
 });

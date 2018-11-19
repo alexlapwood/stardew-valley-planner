@@ -30,11 +30,10 @@ interface IConstructedBuilding {
 }
 
 interface IEquipment {
-  [index: string]: {
-    id: string;
-    name: string;
-    skins: string[];
-  };
+  id: string;
+  isSeasonal?: boolean;
+  name: string;
+  skins: string[];
 }
 
 interface IFarmItems<T> {

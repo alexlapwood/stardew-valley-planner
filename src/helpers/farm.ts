@@ -200,9 +200,7 @@ export function getSoilMap(
         return;
       }
 
-      if (farmItem.equipmentId === "flooring") {
-        delete soilMap[x][y];
-      }
+      delete soilMap[x][y];
     }
   });
 

@@ -89,23 +89,6 @@
       "sell": 175,
       "stages": [1, 2, 4, 4, 1]
     },
-    "coffee_bean": {
-      "buy": 30,
-      "harvest": {
-        "extra_chance": 0.02,
-        "level_increase": 10,
-        "max": 6,
-        "min": 4
-      },
-      "id": "coffee_bean",
-      "index": 433,
-      "name": "Coffee Bean",
-      "note": "Sold by Travelling Cart for ~2500g",
-      "regrow": 2,
-      "seasons": ["spring", "summer"],
-      "sell": 15,
-      "stages": [1, 2, 2, 3, 2]
-    },
     "corn": {
       "buy": 150,
       "harvest": { "extra_chance": 0, "level_increase": 5, "max": 2, "min": 1 },
@@ -426,6 +409,72 @@
       "stages": [1, 3, 3, 3]
     }
   },
+  "equipmentIds": [
+    "scarecrow",
+    "sprinkler",
+    "fence",
+    "mayonnaise_machine",
+    "bee_house",
+    "preserves_jar",
+    "cheese_press",
+    "loom",
+    "keg",
+    "cask",
+    "oil_maker",
+    "campfire",
+    "brazier",
+    "lamp_post",
+    "charcoal_kiln",
+    "crystalarium",
+    "furnace",
+    "lightning_rod",
+    "recycling_achine",
+    "seed_maker",
+    "slime_incubator",
+    "slime_egg_press",
+    "worm_bin",
+    "flooring",
+    "tub_o_flowers",
+    "wicked_statue",
+    "chest",
+    "sign",
+    "house_plant",
+    "seasonal_plant",
+    "basic_log",
+    "log_section",
+    "big_green_cane",
+    "big_red_cane",
+    "green_canes",
+    "red_canes",
+    "mixed_canes",
+    "lawn_flamingo",
+    "gravestone",
+    "ornamental_hay_bale",
+    "plush_bunny",
+    "statue_of_endless_fortune",
+    "standing_geode",
+    "singing_stone",
+    "obsidian_vase",
+    "skeleton_statue",
+    "seasonal_decor",
+    "arcade_system",
+    "sign_of_the_vessel",
+    "stone_cairn",
+    "stone_frog",
+    "stone_junimo",
+    "stone_owl",
+    "stone_parrot",
+    "suite_of_armor",
+    "sloth_skeleton",
+    "stardew_hero_trophy",
+    "statue_of_perfection",
+    "foroguemon",
+    "hmtgf",
+    "pinky_lemon",
+    "solid_gold_luis",
+    "stone_owl_statue",
+    "soda_machine"
+  ],
   "equipment": {
     "scarecrow": {
       "id": "scarecrow",
@@ -452,6 +501,91 @@
       "name": "Fence",
       "skins": ["Wood Fence", "Stone Fence", "Iron Fence", "Hardwood Fence"]
     },
+    "mayonnaise_machine": {
+      "id": "mayonnaise_machine",
+      "name": "Mayonnaise Machine",
+      "skins": ["Mayonnaise Machine"]
+    },
+    "bee_house": {
+      "id": "bee_house",
+      "name": "Bee House",
+      "skins": ["Bee House"]
+    },
+    "preserves_jar": {
+      "id": "preserves_jar",
+      "name": "Preserves Jar",
+      "skins": ["Preserves Jar"]
+    },
+    "cheese_press": {
+      "id": "cheese_press",
+      "name": "Cheese Press",
+      "skins": ["Cheese Press"]
+    },
+    "loom": { "id": "loom", "name": "Loom", "skins": ["Loom"] },
+    "keg": { "id": "keg", "name": "Keg", "skins": ["Keg"] },
+    "cask": { "id": "cask", "name": "Cask", "skins": ["Cask"] },
+    "oil_maker": {
+      "id": "oil_maker",
+      "name": "Oil Maker",
+      "skins": ["Oil Maker"]
+    },
+    "campfire": { "id": "campfire", "name": "Campfire", "skins": ["Campfire"] },
+    "brazier": {
+      "id": "brazier",
+      "name": "Brazier",
+      "skins": [
+        "Wooden Brazier",
+        "Stone Brazier",
+        "Gold Brazier",
+        "Carved Brazier",
+        "Stump Brazier",
+        "Barrel Brazier",
+        "Skull Brazier",
+        "Marble Brazier"
+      ]
+    },
+    "lamp_post": {
+      "id": "lamp_post",
+      "name": "Lamp-post",
+      "skins": ["Wood Lamp-post", "Iron Lamp-post"]
+    },
+    "charcoal_kiln": {
+      "id": "charcoal_kiln",
+      "name": "Charcoal Kiln",
+      "skins": ["Charcoal Kiln"]
+    },
+    "crystalarium": {
+      "id": "crystalarium",
+      "name": "Crystalarium",
+      "skins": ["Crystalarium"]
+    },
+    "furnace": { "id": "furnace", "name": "Furnace", "skins": ["Furnace"] },
+    "lightning_rod": {
+      "id": "lightning_rod",
+      "name": "Lightning Rod",
+      "skins": ["Lightning Rod"]
+    },
+    "recycling_achine": {
+      "id": "recycling_achine",
+      "name": "Recycling Machine",
+      "skins": ["Recycling Machine"]
+    },
+    "seed_maker": {
+      "id": "seed_maker",
+      "name": "Seed Maker",
+      "skins": ["Seed Maker"]
+    },
+    "slime_incubator": {
+      "id": "slime_incubator",
+      "name": "Slime Incubator",
+      "skins": ["Slime Incubator"]
+    },
+    "slime_egg_press": {
+      "id": "slime_egg_press",
+      "name": "Slime Egg-Press",
+      "skins": ["Slime Egg-Press"]
+    },
+    "worm_bin": { "id": "worm_bin", "name": "Worm Bin", "skins": ["Worm Bin"] },
     "flooring": {
       "id": "flooring",
       "name": "Flooring",
@@ -467,6 +601,227 @@
         "Cobblestone Path",
         "Stepping Stone Path"
       ]
+    },
+    "tub_o_flowers": {
+      "id": "Tub o' Flowers",
+      "name": "Tub o' Flowers",
+      "skins": ["Tub o' Flowers"]
+    },
+    "wicked_statue": {
+      "id": "wicked_statue",
+      "name": "Wicked Statue",
+      "skins": ["Wicked Statue"]
+    },
+    "chest": { "id": "chest", "name": "Chest", "skins": ["Chest"] },
+    "sign": {
+      "id": "sign",
+      "name": "Sign",
+      "skins": ["Wood Sign", "Stone Sign"]
+    },
+    "house_plant": {
+      "id": "house_plant",
+      "name": "House Plant",
+      "skins": [
+        "House Plant 1",
+        "House Plant 2",
+        "House Plant 3",
+        "House Plant 4",
+        "House Plant 5",
+        "House Plant 6",
+        "House Plant 7",
+        "House Plant 8",
+        "House Plant 9",
+        "House Plant 10",
+        "House Plant 11",
+        "House Plant 12",
+        "House Plant 13",
+        "House Plant 14",
+        "House Plant 15"
+      ]
+    },
+    "seasonal_plant": {
+      "id": "seasonal_plant",
+      "isSeasonal": true,
+      "name": "Seasonal Plant",
+      "skins": [
+        "Seasonal Plant 1",
+        "Seasonal Plant 2",
+        "Seasonal Plant 3",
+        "Seasonal Plant 4",
+        "Seasonal Plant 5",
+        "Seasonal Plant 6"
+      ]
+    },
+    "basic_log": {
+      "id": "basic_log",
+      "name": "Basic Log",
+      "skins": ["Basic Log"]
+    },
+    "log_section": {
+      "id": "log_section",
+      "name": "Log Section",
+      "skins": ["Log Section"]
+    },
+    "big_green_cane": {
+      "id": "big_green_cane",
+      "name": "Big Green Cane",
+      "skins": ["Big Green Cane"]
+    },
+    "big_red_cane": {
+      "id": "big_red_cane",
+      "name": "Big Red Cane",
+      "skins": ["Big Red Cane"]
+    },
+    "green_canes": {
+      "id": "green_canes",
+      "name": "Green Canes",
+      "skins": ["Green Canes"]
+    },
+    "red_canes": {
+      "id": "red_canes",
+      "name": "Red Canes",
+      "skins": ["Red Canes"]
+    },
+    "mixed_canes": {
+      "id": "mixed_canes",
+      "name": "Mixed Canes",
+      "skins": ["Mixed Canes"]
+    },
+    "lawn_flamingo": {
+      "id": "lawn_flamingo",
+      "name": "Lawn Flamingo",
+      "skins": ["Lawn Flamingo"]
+    },
+    "gravestone": {
+      "id": "gravestone",
+      "name": "Gravestone",
+      "skins": ["Gravestone"]
+    },
+    "ornamental_hay_bale": {
+      "id": "ornamental_hay_bale",
+      "name": "Ornamental Hay Bale",
+      "skins": ["Ornamental Hay Bale"]
+    },
+    "plush_bunny": {
+      "id": "plush_bunny",
+      "name": "Plush Bunny",
+      "skins": ["Plush Bunny"]
+    },
+    "statue_of_endless_fortune": {
+      "id": "statue_of_endless_fortune",
+      "name": "Statue Of Endless Fortune",
+      "skins": ["Statue Of Endless Fortune"]
+    },
+    "standing_geode": {
+      "id": "standing_geode",
+      "name": "Standing Geode",
+      "skins": ["Standing Geode"]
+    },
+    "singing_stone": {
+      "id": "singing_stone",
+      "name": "Singing Stone",
+      "skins": ["Singing Stone"]
+    },
+    "obsidian_vase": {
+      "id": "obsidian_vase",
+      "name": "Obsidian Vase",
+      "skins": ["Obsidian Vase"]
+    },
+    "skeleton_statue": {
+      "id": "skeleton_statue",
+      "name": "Skeleton Statue",
+      "skins": ["Skeleton Statue"]
+    },
+    "seasonal_decor": {
+      "id": "seasonal_decor",
+      "isSeasonal": true,
+      "name": "Seasonal Decor",
+      "skins": ["Seasonal Decor"]
+    },
+    "arcade_system": {
+      "id": "arcade_system",
+      "name": "Arcade System",
+      "skins": ["Junimo Kart", "Prairie King"]
+    },
+    "sign_of_the_vessel": {
+      "id": "sign_of_the_vessel",
+      "name": "Sign Of The Vessel",
+      "skins": ["Sign Of The Vessel"]
+    },
+    "stone_cairn": {
+      "id": "stone_cairn",
+      "name": "Stone Cairn",
+      "skins": ["Stone Cairn"]
+    },
+    "stone_frog": {
+      "id": "stone_frog",
+      "name": "Stone Frog",
+      "skins": ["Stone Frog"]
+    },
+    "stone_junimo": {
+      "id": "stone_junimo",
+      "name": "Stone Junimo",
+      "skins": ["Stone Junimo"]
+    },
+    "stone_owl": {
+      "id": "stone_owl",
+      "name": "Stone Owl",
+      "skins": ["Stone Owl"]
+    },
+    "stone_parrot": {
+      "id": "stone_parrot",
+      "name": "Stone Parrot",
+      "skins": ["Stone Parrot"]
+    },
+    "suite_of_armor": {
+      "id": "suite_of_armor",
+      "name": "Suite Of Armor",
+      "skins": ["Suite Of Armor"]
+    },
+    "sloth_skeleton": {
+      "id": "sloth_skeleton",
+      "name": "Sloth Skeleton",
+      "skins": [
+        "Sloth Skeleton Left",
+        "Sloth Skeleton Middle",
+        "Sloth Skeleton Right"
+      ]
+    },
+    "stardew_hero_trophy": {
+      "id": "stardew_hero_trophy",
+      "name": "Stardew Hero Trophy",
+      "skins": ["Stardew Hero Trophy"]
+    },
+    "statue_of_perfection": {
+      "id": "statue_of_perfection",
+      "name": "Statue Of Perfection",
+      "skins": ["Statue Of Perfection"]
+    },
+    "foroguemon": {
+      "id": "foroguemon",
+      "name": "??Foroguemon??",
+      "skins": ["??Foroguemon??"]
+    },
+    "hmtgf": { "id": "hmtgf", "name": "??HMTGF??", "skins": ["??HMTGF??"] },
+    "pinky_lemon": {
+      "id": "pinky_lemon",
+      "name": "??Pinky Lemon??",
+      "skins": ["??Pinky Lemon??"]
+    },
+    "solid_gold_luis": {
+      "id": "solid_gold_luis",
+      "name": "Solid Gold Lewis",
+      "skins": ["Solid Gold Lewis"]
+    },
+    "stone_owl_statue": {
+      "id": "stone_owl_statue",
+      "name": "Stone Owl",
+      "skins": ["Stone Owl"]
+    },
+    "soda_machine": {
+      "id": "soda_machine",
+      "name": "Soda Machine",
+      "skins": ["Soda Machine"]
     }
   },
   "events": {
@@ -748,5 +1103,24 @@
       "id": "delux_speed_gro",
       "name": "Delux Speed-Gro"
     }
-  ]
+  ],
+  "newCrops": {
+    "coffee_bean": {
+      "buy": 30,
+      "harvest": {
+        "extra_chance": 0.02,
+        "level_increase": 10,
+        "max": 6,
+        "min": 4
+      },
+      "id": "coffee_bean",
+      "index": 433,
+      "name": "Coffee Bean",
+      "note": "Sold by Travelling Cart for ~2500g",
+      "regrow": 2,
+      "seasons": ["spring", "summer"],
+      "sell": 15,
+      "stages": [1, 2, 2, 3, 2]
+    }
+  }
 }

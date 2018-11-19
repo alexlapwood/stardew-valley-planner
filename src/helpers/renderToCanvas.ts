@@ -1,4 +1,5 @@
 import { calculateStageOfCrop } from "./crop";
+import { getSeason } from "./date";
 import {
   forEachFarmItem,
   forEachTileInRegion,
@@ -18,13 +19,11 @@ import {
 } from "./itemPlacement";
 
 // tslint:disable-next-line:no-var-requires
-const crops: { [index: string]: ICrop } = require("../data/sdv.json").crops;
-
-// tslint:disable-next-line:no-var-requires
-const cropMap: string[] = require("../data/crops.json");
-
-// tslint:disable-next-line:no-var-requires
-const equipmentMap: string[] = require("../data/equipment.json");
+const { crops, equipment, equipmentIds } = require("../data/sdv.json") as {
+  crops: { [index: string]: ICrop };
+  equipment: { [index: string]: IEquipment };
+  equipmentIds: string[];
+};
 
 const flooringTileMap = [0, 12, 15, 11, 13, 9, 14, 10, 4, 8, 3, 7, 1, 5, 2, 6];
 
@@ -171,7 +170,7 @@ export function renderItemsToContext(
         stage + 1,
         farmItem.x,
         farmItem.y,
-        plantedCropDetails.name,
+        plantedCropDetails.id,
         isFlower
       );
     }
@@ -187,7 +186,7 @@ export function renderItemsToContext(
         return;
       }
 
-      renderEquipmentToContext(context, equipmentImage, farmItem);
+      renderEquipmentToContext(context, equipmentImage, farmItem, date);
     }
   });
 }
@@ -198,13 +197,15 @@ export function renderCropToContext(
   spriteIndex: number,
   x: number,
   y: number,
-  name: string,
+  id: string,
   isFlower?: boolean
 ) {
+  const cropIds = Object.keys(crops).sort((a, b) => a.localeCompare(b));
+
   context.drawImage(
     sprite,
     spriteIndex * 16,
-    cropMap.indexOf(name) * 32,
+    cropIds.indexOf(id) * 32,
     16,
     32,
     x * 16,
@@ -217,7 +218,7 @@ export function renderCropToContext(
     context.drawImage(
       sprite,
       (spriteIndex + 1) * 16,
-      cropMap.indexOf(name) * 32,
+      cropIds.indexOf(id) * 32,
       16,
       32,
       x * 16,
@@ -231,18 +232,43 @@ export function renderCropToContext(
 export function renderEquipmentToContext(
   context: CanvasRenderingContext2D,
   sprite: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement | ImageBitmap,
-  equipment: IInstalledEquipment
+  installedEquipment: IInstalledEquipment,
+  date: number
 ) {
-  const { equipmentId, skinIndex, x, y } = equipment;
+  const { equipmentId, skinIndex, x, y } = installedEquipment;
+
+  if (equipmentId === "fence" || equipmentId === "flooring") {
+    return;
+  }
+
+  let equipmentIndex = equipmentIds
+    .slice(0, equipmentIds.indexOf(equipmentId))
+    .reduce((acc, id) => {
+      if (id === "fence" || id === "flooring") {
+        return acc;
+      }
+
+      if (equipment[id].isSeasonal) {
+        return acc + equipment[id].skins.length * 4;
+      }
+
+      return acc + equipment[id].skins.length;
+    }, 0);
+
+  if (equipment[equipmentId].isSeasonal) {
+    equipmentIndex = equipmentIndex + skinIndex * 4 + getSeason(date);
+  } else {
+    equipmentIndex = equipmentIndex + skinIndex;
+  }
 
   context.drawImage(
     sprite,
-    equipmentMap.indexOf(equipmentId) * 16,
-    16 + skinIndex * 32,
+    equipmentIndex * 16,
+    0,
     16,
     32,
     x * 16,
-    y * 16 + 16 - 32 - 4,
+    y * 16 + 16 - 32,
     16,
     32
   );

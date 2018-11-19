@@ -8,7 +8,7 @@ import SeedMenu from "./SeedMenu/SeedMenu";
 
 import "./ItemsMenu.css";
 
-type TCurrentMenu = "crops" | "equipment";
+type TCurrentMenu = "crops" | "equipment" | "decorations";
 
 interface IProps {
   date: number;
@@ -41,6 +41,12 @@ class ItemsMenu extends React.Component<IProps, IState> {
       });
     };
 
+    const showDecorations = () => {
+      this.setState({
+        currentMenu: "decorations"
+      });
+    };
+
     return (
       <div className="ItemsMenu flex-vertical">
         <div className="flex-horizontal flex-no-shrink">
@@ -68,22 +74,46 @@ class ItemsMenu extends React.Component<IProps, IState> {
           >
             <Sprite
               height={16}
-              src="images/equipment.png"
+              src="images/equipment-sheet.png"
               width={16}
               x={0}
               y={0}
             />
           </div>
+          <div
+            className={cn("sdv-tab", {
+              selected: this.state.currentMenu === "decorations"
+            })}
+            data-automationid="decorations-tab"
+            onClick={showDecorations}
+          >
+            <Sprite
+              height={16}
+              src="images/equipment-sheet.png"
+              width={16}
+              x={960}
+              y={16}
+            />
+          </div>
         </div>
-        <EquipmentMenu
-          isVisible={this.state.currentMenu === "equipment"}
-          selectEquipment={selectEquipment}
-          selectedItem={selectedItem}
-        />
         <SeedMenu
           date={date}
           isVisible={this.state.currentMenu === "crops"}
           selectCrop={selectCrop}
+          selectedItem={selectedItem}
+        />
+        <EquipmentMenu
+          date={date}
+          isVisible={this.state.currentMenu === "equipment"}
+          range={{ to: 22 }}
+          selectEquipment={selectEquipment}
+          selectedItem={selectedItem}
+        />
+        <EquipmentMenu
+          date={date}
+          range={{ from: 23 }}
+          isVisible={this.state.currentMenu === "decorations"}
+          selectEquipment={selectEquipment}
           selectedItem={selectedItem}
         />
       </div>

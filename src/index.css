@@ -83,6 +83,8 @@ body {
 }
 
 .sdv-button-add,
+.sdv-button-left,
+.sdv-button-right,
 .sdv-button-subtract {
   height: 8px;
   width: 7px;
@@ -90,6 +92,14 @@ body {
 
 .sdv-button-add {
   background-image: url("images/button-add.png");
+}
+
+.sdv-button-left {
+  background-image: url("images/button-left.png");
+}
+
+.sdv-button-right {
+  background-image: url("images/button-right.png");
 }
 
 .sdv-button-subtract {
@@ -100,8 +110,21 @@ body {
   background-image: url("images/button-add-disabled.png");
 }
 
+.sdv-button-left:disabled {
+  background-image: url("images/button-left-disabled.png");
+}
+
+.sdv-button-right:disabled {
+  background-image: url("images/button-right-disabled.png");
+}
+
 .sdv-button-subtract:disabled {
   background-image: url("images/button-subtract-disabled.png");
+}
+
+.sdv-dropdown-trigger {
+  position: relative;
+  overflow: visible;
 }
 
 .sdv-tool-border {
@@ -253,6 +276,7 @@ input[type="range"]::-moz-range-thumb {
 
 .flex {
   flex: 1;
+  min-width: 0;
 }
 
 .flex-no-shrink {
@@ -265,4 +289,28 @@ input[type="range"]::-moz-range-thumb {
 
 .relative {
   position: relative;
+}
+
+.margin-bottom,
+.margin-vertical,
+.margin {
+  margin-bottom: 8px;
+}
+
+.margin-left,
+.margin-horizontal,
+.margin {
+  margin-left: 8px;
+}
+
+.margin-right,
+.margin-horizontal,
+.margin {
+  margin-right: 8px;
+}
+
+.margin-top,
+.margin-vertical,
+.margin {
+  margin-top: 8px;
 }

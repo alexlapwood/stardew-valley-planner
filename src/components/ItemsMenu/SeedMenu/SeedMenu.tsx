@@ -21,48 +21,50 @@ interface IProps {
 const SeedMenu: React.SFC<IProps> = props => {
   const { date, isVisible, selectCrop, selectedItem } = props;
 
+  const cropIds = Object.keys(crops).sort((a, b) => a.localeCompare(b));
+
   return isVisible ? (
     <div className="SeedMenu sdv-list">
-      {Object.keys(crops).map((cropId, i) => {
-        if (
-          crops[cropId] &&
-          crops[cropId].seasons.find(
-            season =>
-              season === ["spring", "summer", "fall", "winter"][getSeason(date)]
-          )
-        ) {
-          return (
-            <div
-              className={cn("sdv-list-item", {
-                selected:
-                  selectedItem !== undefined &&
-                  selectedItem.type === "crop" &&
-                  selectedItem.id === cropId
-              })}
-              data-automationid={`seed--${cropId}`}
-              key={cropId}
-              // tslint:disable-next-line:jsx-no-lambda
-              onClick={() => {
-                selectCrop(cropId);
-              }}
-            >
-              <div className="sdv-list-item-icon">
-                <Sprite
-                  height={16}
-                  src="images/seeds.png"
-                  width={16}
-                  x={i * 16}
-                  y={0}
-                />
-              </div>
-              <div className="sdv-list-item-text">
-                <BigText>{crops[cropId].name}</BigText>
-              </div>
+      {cropIds
+        .filter(
+          cropId =>
+            crops[cropId] &&
+            crops[cropId].seasons.find(
+              season =>
+                season ===
+                ["spring", "summer", "fall", "winter"][getSeason(date)]
+            )
+        )
+        .sort((a, b) => a.localeCompare(b))
+        .map(cropId => (
+          <div
+            className={cn("sdv-list-item", {
+              selected:
+                selectedItem !== undefined &&
+                selectedItem.type === "crop" &&
+                selectedItem.id === cropId
+            })}
+            data-automationid={`seed--${cropId}`}
+            key={cropId}
+            // tslint:disable-next-line:jsx-no-lambda
+            onClick={() => {
+              selectCrop(cropId);
+            }}
+          >
+            <div className="sdv-list-item-icon">
+              <Sprite
+                height={16}
+                src="images/seeds.png"
+                width={16}
+                x={cropIds.indexOf(cropId) * 16}
+                y={0}
+              />
             </div>
-          );
-        }
-        return;
-      })}
+            <div className="sdv-list-item-text">
+              <BigText>{crops[cropId].name}</BigText>
+            </div>
+          </div>
+        ))}
     </div>
   ) : null;
 };

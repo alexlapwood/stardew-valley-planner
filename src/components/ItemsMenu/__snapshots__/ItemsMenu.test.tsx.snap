@@ -27,21 +27,50 @@ exports[`renders correctly 1`] = `
     >
       <Sprite
         height={16}
-        src="images/equipment.png"
+        src="images/equipment-sheet.png"
         width={16}
         x={0}
         y={0}
       />
     </div>
+    <div
+      className="sdv-tab"
+      data-automationid="decorations-tab"
+      onClick={[Function]}
+    >
+      <Sprite
+        height={16}
+        src="images/equipment-sheet.png"
+        width={16}
+        x={960}
+        y={16}
+      />
+    </div>
   </div>
-  <EquipmentMenu
-    isVisible={false}
-    selectEquipment={[MockFunction]}
-  />
   <SeedMenu
     date={0}
     isVisible={true}
     selectCrop={[MockFunction]}
+  />
+  <EquipmentMenu
+    date={0}
+    isVisible={false}
+    range={
+      Object {
+        "to": 22,
+      }
+    }
+    selectEquipment={[MockFunction]}
+  />
+  <EquipmentMenu
+    date={0}
+    isVisible={false}
+    range={
+      Object {
+        "from": 23,
+      }
+    }
+    selectEquipment={[MockFunction]}
   />
 </div>
 `;

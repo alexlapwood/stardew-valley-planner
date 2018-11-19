@@ -7,7 +7,7 @@ const imageUrls: string[] = [
   "images/highlight-grey.png",
   "images/highlight-red.png",
   "images/crops.png",
-  "images/equipment.png",
+  "images/equipment-sheet.png",
   "images/hoeDirt.png",
   "images/hoeDirtSnow.png",
   "images/fences.png",
