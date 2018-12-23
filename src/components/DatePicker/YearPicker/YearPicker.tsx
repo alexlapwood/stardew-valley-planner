@@ -19,7 +19,9 @@ const YearPicker: React.SFC<IProps> = props => (
           disabled={props.year === 0}
           onClick={props.subtractYear}
         />
-        <BigText>Year {String(props.year + 1)}</BigText>
+        <div className="DatePicker--year-text" style={{ display: "block" }}>
+          <BigText>Year {String(props.year + 1)}</BigText>
+        </div>
         <button
           className="sdv-button-add"
           data-automation-id="DatePicker--year-add"

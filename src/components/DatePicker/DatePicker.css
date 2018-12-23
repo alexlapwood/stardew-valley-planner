@@ -37,6 +37,10 @@
   margin: -5px 0;
 }
 
+.DatePicker--year-text {
+  width: 64px;
+}
+
 .DatePicker--year .BigText {
   margin: 0 8px;
 }

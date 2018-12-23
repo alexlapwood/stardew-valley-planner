@@ -292,35 +292,40 @@ exports[`renders the app without crashing 1`] = `
                   disabled=""
                 />
                 <div
-                  class="BigText"
+                  class="DatePicker--year-text"
+                  style="display: block;"
                 >
                   <div
-                    style="transform: scale(0); white-space: nowrap;"
+                    class="BigText"
                   >
                     <div
-                      class="sprite"
-                      style="background-image: url(images/sdv-font.png); background-position: -456px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-                    />
-                    <div
-                      class="sprite"
-                      style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-                    />
-                    <div
-                      class="sprite"
-                      style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-                    />
-                    <div
-                      class="sprite"
-                      style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-                    />
-                    <div
-                      class="sprite"
-                      style="background-image: url(images/sdv-font.png); background-position: -0px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-                    />
-                    <div
-                      class="sprite"
-                      style="background-image: url(images/sdv-font.png); background-position: -136px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
-                    />
+                      style="transform: scale(0); white-space: nowrap;"
+                    >
+                      <div
+                        class="sprite"
+                        style="background-image: url(images/sdv-font.png); background-position: -456px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+                      />
+                      <div
+                        class="sprite"
+                        style="background-image: url(images/sdv-font.png); background-position: -552px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+                      />
+                      <div
+                        class="sprite"
+                        style="background-image: url(images/sdv-font.png); background-position: -520px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+                      />
+                      <div
+                        class="sprite"
+                        style="background-image: url(images/sdv-font.png); background-position: -656px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+                      />
+                      <div
+                        class="sprite"
+                        style="background-image: url(images/sdv-font.png); background-position: -0px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+                      />
+                      <div
+                        class="sprite"
+                        style="background-image: url(images/sdv-font.png); background-position: -136px -0px; display: inline-block; height: 16px; vertical-align: top; width: 8px;"
+                      />
+                    </div>
                   </div>
                 </div>
                 <button
