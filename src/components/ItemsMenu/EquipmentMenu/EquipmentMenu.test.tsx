@@ -3,103 +3,69 @@ import * as React from "react";
 
 import EquipmentMenu from "./EquipmentMenu";
 
+// tslint:disable-next-line:no-var-requires
+const { equipmentIds } = require("../../../data/sdv.json") as {
+  equipmentIds: string[];
+};
+
 describe("<EquipmentMenu />", () => {
-  describe("speciying a range", () => {
-    it("renders the items up to and including range.to", () => {
-      const itemsMenu = mount(
-        <EquipmentMenu
-          date={0}
-          range={{ to: 4 }}
-          isVisible={true}
-          selectEquipment={jest.fn()}
-        />
-      );
-
-      expect(itemsMenu).toMatchSnapshot();
-    });
-
-    it("only renders the items from range.from onwards", () => {
-      const itemsMenu = mount(
-        <EquipmentMenu
-          date={0}
-          range={{ from: 4 }}
-          isVisible={true}
-          selectEquipment={jest.fn()}
-        />
-      );
-
-      expect(itemsMenu).toMatchSnapshot();
-    });
-
-    it("only renders the items in the range", () => {
-      const itemsMenu = mount(
-        <EquipmentMenu
-          date={0}
-          range={{ from: 2, to: 4 }}
-          isVisible={true}
-          selectEquipment={jest.fn()}
-        />
-      );
-
-      expect(itemsMenu).toMatchSnapshot();
-    });
-  });
-
-  describe("equipment with multiple skins", () => {
-    it("moves to the next skin when clicking the right button", () => {
-      const itemsMenu = mount<EquipmentMenu>(
-        <EquipmentMenu date={0} isVisible={true} selectEquipment={jest.fn()} />
-      );
-
-      itemsMenu
-        .find("[data-automationid='equipment--scarecrow']")
-        .first()
-        .find("[data-automationid='equipment-button--right']")
-        .first()
-        .simulate("click");
-
-      expect(itemsMenu.state().currentSkins.scarecrow).toBe(1);
-    });
-
-    it("moves to the previous skin when clicking the left button", () => {
-      const itemsMenu = mount<EquipmentMenu>(
-        <EquipmentMenu date={0} isVisible={true} selectEquipment={jest.fn()} />
-      );
-
-      itemsMenu
-        .find("[data-automationid='equipment--scarecrow']")
-        .first()
-        .find("[data-automationid='equipment-button--right']")
-        .first()
-        .simulate("click");
-
-      itemsMenu
-        .find("[data-automationid='equipment--scarecrow']")
-        .first()
-        .find("[data-automationid='equipment-button--left']")
-        .first()
-        .simulate("click");
-
-      expect(itemsMenu.state().currentSkins.scarecrow).toBe(0);
-    });
-  });
-
-  it("updates the selected equipment when equipment is clicked", () => {
-    const selectEquipmentMock = jest.fn();
-
+  it("renders correctly", () => {
     const itemsMenu = mount(
       <EquipmentMenu
         date={0}
         isVisible={true}
-        selectEquipment={selectEquipmentMock}
+        range={{ to: 2 }}
+        selectEquipment={jest.fn()}
       />
     );
 
-    itemsMenu
-      .find("[data-automationid='equipment--scarecrow']")
-      .first()
-      .simulate("click");
+    expect(itemsMenu).toMatchSnapshot();
+  });
 
-    expect(selectEquipmentMock).toHaveBeenCalledWith("scarecrow", 0);
+  describe("speciying a range", () => {
+    it("renders the items up to and including range.to", () => {
+      const to = 4;
+
+      const itemsMenu = mount(
+        <EquipmentMenu
+          date={0}
+          range={{ to }}
+          isVisible={true}
+          selectEquipment={jest.fn()}
+        />
+      );
+
+      expect(itemsMenu.find("MenuItem")).toHaveLength(to + 1);
+    });
+
+    it("only renders the items from range.from onwards", () => {
+      const from = 4;
+
+      const itemsMenu = mount(
+        <EquipmentMenu
+          date={0}
+          range={{ from }}
+          isVisible={true}
+          selectEquipment={jest.fn()}
+        />
+      );
+
+      expect(itemsMenu.find("MenuItem")).toHaveLength(equipmentIds.length - 4);
+    });
+
+    it("only renders the items in the range", () => {
+      const from = 2;
+      const to = 4;
+      const itemsMenu = mount(
+        <EquipmentMenu
+          date={0}
+          range={{ from, to }}
+          isVisible={true}
+          selectEquipment={jest.fn()}
+        />
+      );
+
+      expect(itemsMenu.find("MenuItem")).toHaveLength(to - from + 1);
+    });
   });
 });

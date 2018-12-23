@@ -1,0 +1,285 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MenuItem /> renders correctly 1`] = `
+<MenuItem
+  date={0}
+  equipmentId="scarecrow"
+  selectEquipment={[MockFunction]}
+  skinIndex={0}
+>
+  <div
+    className="sdv-list-item flex-horizontal"
+    data-automationid="equipment--scarecrow"
+    key="scarecrow"
+    onClick={[Function]}
+  >
+    <div
+      className="sdv-list-item-icon"
+    >
+      <div
+        style={
+          Object {
+            "height": "16px",
+            "transform": "scale(0.5)",
+            "transformOrigin": "top center",
+            "whiteSpace": "nowrap",
+            "width": "16px",
+          }
+        }
+      >
+        <Sprite
+          height={32}
+          src="images/equipment-sheet.png"
+          width={16}
+          x={0}
+          y={0}
+        >
+          <div
+            className="sprite"
+            style={
+              Object {
+                "backgroundImage": "url(images/equipment-sheet.png)",
+                "backgroundPosition": "-0px -0px",
+                "display": "inline-block",
+                "height": "32px",
+                "verticalAlign": "top",
+                "width": "16px",
+              }
+            }
+          />
+        </Sprite>
+      </div>
+    </div>
+    <div
+      className="sdv-list-item-text flex margin-right"
+    >
+      <BigText>
+        <div
+          className="BigText"
+        >
+          <div
+            style={
+              Object {
+                "transform": "scale(0)",
+                "transformOrigin": "left center",
+                "whiteSpace": "nowrap",
+              }
+            }
+          >
+            <Sprite
+              height={16}
+              key="0"
+              src="images/sdv-font.png"
+              width={8}
+              x={408}
+              y={0}
+            >
+              <div
+                className="sprite"
+                style={
+                  Object {
+                    "backgroundImage": "url(images/sdv-font.png)",
+                    "backgroundPosition": "-408px -0px",
+                    "display": "inline-block",
+                    "height": "16px",
+                    "verticalAlign": "top",
+                    "width": "8px",
+                  }
+                }
+              />
+            </Sprite>
+            <Sprite
+              height={16}
+              key="1"
+              src="images/sdv-font.png"
+              width={8}
+              x={536}
+              y={0}
+            >
+              <div
+                className="sprite"
+                style={
+                  Object {
+                    "backgroundImage": "url(images/sdv-font.png)",
+                    "backgroundPosition": "-536px -0px",
+                    "display": "inline-block",
+                    "height": "16px",
+                    "verticalAlign": "top",
+                    "width": "8px",
+                  }
+                }
+              />
+            </Sprite>
+            <Sprite
+              height={16}
+              key="2"
+              src="images/sdv-font.png"
+              width={8}
+              x={520}
+              y={0}
+            >
+              <div
+                className="sprite"
+                style={
+                  Object {
+                    "backgroundImage": "url(images/sdv-font.png)",
+                    "backgroundPosition": "-520px -0px",
+                    "display": "inline-block",
+                    "height": "16px",
+                    "verticalAlign": "top",
+                    "width": "8px",
+                  }
+                }
+              />
+            </Sprite>
+            <Sprite
+              height={16}
+              key="3"
+              src="images/sdv-font.png"
+              width={8}
+              x={656}
+              y={0}
+            >
+              <div
+                className="sprite"
+                style={
+                  Object {
+                    "backgroundImage": "url(images/sdv-font.png)",
+                    "backgroundPosition": "-656px -0px",
+                    "display": "inline-block",
+                    "height": "16px",
+                    "verticalAlign": "top",
+                    "width": "8px",
+                  }
+                }
+              />
+            </Sprite>
+            <Sprite
+              height={16}
+              key="4"
+              src="images/sdv-font.png"
+              width={8}
+              x={552}
+              y={0}
+            >
+              <div
+                className="sprite"
+                style={
+                  Object {
+                    "backgroundImage": "url(images/sdv-font.png)",
+                    "backgroundPosition": "-552px -0px",
+                    "display": "inline-block",
+                    "height": "16px",
+                    "verticalAlign": "top",
+                    "width": "8px",
+                  }
+                }
+              />
+            </Sprite>
+            <Sprite
+              height={16}
+              key="5"
+              src="images/sdv-font.png"
+              width={8}
+              x={536}
+              y={0}
+            >
+              <div
+                className="sprite"
+                style={
+                  Object {
+                    "backgroundImage": "url(images/sdv-font.png)",
+                    "backgroundPosition": "-536px -0px",
+                    "display": "inline-block",
+                    "height": "16px",
+                    "verticalAlign": "top",
+                    "width": "8px",
+                  }
+                }
+              />
+            </Sprite>
+            <Sprite
+              height={16}
+              key="6"
+              src="images/sdv-font.png"
+              width={8}
+              x={656}
+              y={0}
+            >
+              <div
+                className="sprite"
+                style={
+                  Object {
+                    "backgroundImage": "url(images/sdv-font.png)",
+                    "backgroundPosition": "-656px -0px",
+                    "display": "inline-block",
+                    "height": "16px",
+                    "verticalAlign": "top",
+                    "width": "8px",
+                  }
+                }
+              />
+            </Sprite>
+            <Sprite
+              height={16}
+              key="7"
+              src="images/sdv-font.png"
+              width={8}
+              x={632}
+              y={0}
+            >
+              <div
+                className="sprite"
+                style={
+                  Object {
+                    "backgroundImage": "url(images/sdv-font.png)",
+                    "backgroundPosition": "-632px -0px",
+                    "display": "inline-block",
+                    "height": "16px",
+                    "verticalAlign": "top",
+                    "width": "8px",
+                  }
+                }
+              />
+            </Sprite>
+            <Sprite
+              height={16}
+              key="8"
+              src="images/sdv-font.png"
+              width={8}
+              x={696}
+              y={0}
+            >
+              <div
+                className="sprite"
+                style={
+                  Object {
+                    "backgroundImage": "url(images/sdv-font.png)",
+                    "backgroundPosition": "-696px -0px",
+                    "display": "inline-block",
+                    "height": "16px",
+                    "verticalAlign": "top",
+                    "width": "8px",
+                  }
+                }
+              />
+            </Sprite>
+          </div>
+        </div>
+      </BigText>
+    </div>
+    <button
+      className="sdv-button-left margin-right"
+      data-automationid="equipment-button--left"
+      disabled={true}
+      onClick={[Function]}
+    />
+    <button
+      className="sdv-button-right margin-right"
+      data-automationid="equipment-button--right"
+      disabled={false}
+      onClick={[Function]}
+    />
+  </div>
+</MenuItem>
+`;
