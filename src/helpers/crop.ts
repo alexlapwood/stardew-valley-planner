@@ -40,7 +40,17 @@ export function getCropsLastDay(
     }
   }
 
-  return;
+  if (plantedCropDetails.regrow) {
+    throw new Error("This crop will regrow indefinitely");
+  }
+
+  return (
+    plantedCrop.datePlanted +
+    plantedCropDetails.stages.reduce((acc, val) => {
+      return acc + val;
+    }) -
+    1
+  );
 }
 
 export function calculateStageOfCrop(

@@ -11,8 +11,8 @@ interface ICrop {
         min: number;
       };
   id: string;
-  index: number;
   isFlower?: boolean;
+  isIndoorsOnly?: boolean;
   name: string;
   regrow?: number;
   scythe?: boolean;

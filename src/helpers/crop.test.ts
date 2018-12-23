@@ -5,7 +5,6 @@ describe("Crop helper", () => {
     buy: 0,
     harvest: {},
     id: "test_crop",
-    index: 481,
     name: "Test Crop",
     sell: 0
   };

@@ -26,6 +26,7 @@ const SeedMenu: React.SFC<IProps> = props => {
   return isVisible ? (
     <div className="SeedMenu sdv-list">
       {cropIds
+        .filter(cropId => !crops[cropId].isIndoorsOnly)
         .filter(
           cropId =>
             crops[cropId] &&

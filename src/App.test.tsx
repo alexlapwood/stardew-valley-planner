@@ -9,8 +9,9 @@ it("renders the app without crashing", async () => {
   const wrapper = mount(<App />);
 
   await (wrapper.instance() as App).componentDidMount();
+  wrapper.update();
 
-  expect(wrapper.render()).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 });
 
 describe("state", () => {
