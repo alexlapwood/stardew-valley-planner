@@ -83,15 +83,21 @@ body {
 }
 
 .sdv-button-add,
+.sdv-button-down,
 .sdv-button-left,
 .sdv-button-right,
-.sdv-button-subtract {
+.sdv-button-subtract,
+.sdv-button-up {
   height: 8px;
   width: 7px;
 }
 
 .sdv-button-add {
   background-image: url("images/button-add.png");
+}
+
+.sdv-button-down {
+  background-image: url("images/button-down.png");
 }
 
 .sdv-button-left {
@@ -104,6 +110,10 @@ body {
 
 .sdv-button-subtract {
   background-image: url("images/button-subtract.png");
+}
+
+.sdv-button-up {
+  background-image: url("images/button-up.png");
 }
 
 .sdv-button-add:disabled {

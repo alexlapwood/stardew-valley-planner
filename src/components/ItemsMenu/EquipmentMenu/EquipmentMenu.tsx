@@ -50,7 +50,6 @@ class EquipmentMenu extends React.PureComponent<IProps, IState> {
               key={equipmentId}
               selectEquipment={this.selectEquipment}
               selectedItem={selectedItem}
-              skinIndex={this.state.currentSkins[equipmentId] || 0}
             />
           ))}
       </div>

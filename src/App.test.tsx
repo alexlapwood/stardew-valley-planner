@@ -175,7 +175,7 @@ describe("Components", () => {
     wrapper.find("[data-automationid='equipment-tab']").simulate("click");
 
     wrapper
-      .find("[data-automationid='equipment--scarecrow']")
+      .find("[data-automationid='equipment-scarecrow--0']")
       .first()
       .simulate("click");
 

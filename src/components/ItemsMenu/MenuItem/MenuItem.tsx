@@ -17,20 +17,58 @@ interface IProps {
   equipmentId: string;
   selectEquipment: (equipmentId: string, skinIndex: number) => void;
   selectedItem?: ISelectedItem;
-  skinIndex: number;
 }
 
-class MenuItem extends React.Component<IProps> {
-  public render() {
-    const {
-      equipmentId,
-      date,
-      selectEquipment,
-      selectedItem,
-      skinIndex
-    } = this.props;
+interface IState {
+  currentSkinIndex: number;
+  open: boolean;
+}
 
-    let sprite;
+class MenuItem extends React.Component<IProps, IState> {
+  public state: IState = {
+    currentSkinIndex: 0,
+    open: false
+  };
+
+  public render() {
+    return (
+      <div>
+        {this.renderPickItem(this.state.currentSkinIndex, true)}
+        {this.state.open && this.renderPicklist()}
+      </div>
+    );
+  }
+
+  private close = () => {
+    this.setState({ open: false });
+  };
+
+  private open = () => {
+    this.setState({ open: true });
+  };
+
+  private toggle = () => {
+    if (this.state.open) {
+      this.close();
+    } else {
+      this.open();
+    }
+  };
+
+  private renderPicklist = () => {
+    const { equipmentId } = this.props;
+
+    return equipment[equipmentId].skins.map((skinId, skinIndex) => (
+      <div className="margin-left" key={skinId}>
+        {this.renderPickItem(skinIndex)}
+      </div>
+    ));
+  };
+
+  private renderPickItem = (skinIndex: number, isTrigger?: boolean) => {
+    const { equipmentId, date, selectEquipment, selectedItem } = this.props;
+
+    let sprite: JSX.Element;
 
     let equipmentIndex = equipmentIds
       .slice(0, equipmentIds.indexOf(equipmentId))
@@ -127,7 +165,6 @@ class MenuItem extends React.Component<IProps> {
         );
         break;
     }
-
     return (
       <div
         className={cn("sdv-list-item", "flex-horizontal", {
@@ -137,10 +174,10 @@ class MenuItem extends React.Component<IProps> {
             selectedItem.id === equipmentId &&
             selectedItem.skinIndex === skinIndex
         })}
-        data-automationid={`equipment--${equipmentId}`}
-        key={equipmentId}
+        data-automationid={`equipment-${equipmentId}--${skinIndex}`}
         // tslint:disable-next-line:jsx-no-lambda
         onClick={() => {
+          this.setState({ currentSkinIndex: skinIndex });
           selectEquipment(equipmentId, skinIndex);
         }}
       >
@@ -148,33 +185,26 @@ class MenuItem extends React.Component<IProps> {
         <div className="sdv-list-item-text flex margin-right">
           <BigText>{equipment[equipmentId].skins[skinIndex]}</BigText>
         </div>
-        {equipment[equipmentId].skins.length > 1 && (
+
+        {isTrigger && equipment[equipmentId].skins.length > 1 && (
           <React.Fragment>
             <button
-              className="sdv-button-left margin-right"
-              data-automationid="equipment-button--left"
-              disabled={skinIndex <= 0}
+              className={cn("margin-right", {
+                "sdv-button-down": !this.state.open,
+                "sdv-button-up": this.state.open
+              })}
+              data-automationid="equipment-dropdown--trigger"
               // tslint:disable-next-line:jsx-no-lambda
               onClick={e => {
                 e.stopPropagation();
-                selectEquipment(equipmentId, skinIndex - 1);
-              }}
-            />
-            <button
-              className="sdv-button-right margin-right"
-              data-automationid="equipment-button--right"
-              disabled={skinIndex >= equipment[equipmentId].skins.length - 1}
-              // tslint:disable-next-line:jsx-no-lambda
-              onClick={e => {
-                e.stopPropagation();
-                selectEquipment(equipmentId, skinIndex + 1);
+                this.toggle();
               }}
             />
           </React.Fragment>
         )}
       </div>
     );
-  }
+  };
 }
 
 export default MenuItem;

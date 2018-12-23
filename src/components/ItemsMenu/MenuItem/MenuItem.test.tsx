@@ -15,58 +15,68 @@ describe("<MenuItem />", () => {
         date={0}
         equipmentId={equipmentIds[0]}
         selectEquipment={jest.fn()}
-        skinIndex={0}
       />
     );
 
+    expect(menuItem.find(".sdv-list-item")).toHaveLength(1);
     expect(menuItem).toMatchSnapshot();
   });
 
+  it("selects the item when clicked", () => {
+    const selectEquipment = jest.fn();
+
+    const menuItem = mount<MenuItem>(
+      <MenuItem
+        date={0}
+        equipmentId="scarecrow"
+        selectEquipment={selectEquipment}
+      />
+    );
+
+    menuItem
+      .find("[data-automationid='equipment-scarecrow--0']")
+      .simulate("click");
+
+    expect(selectEquipment).toHaveBeenCalledWith("scarecrow", 0);
+  });
+
   describe("equipment with multiple skins", () => {
-    it("moves to the next skin when clicking the right button", () => {
+    it("shows extra skins when clicking the dropdown trigger", () => {
       const selectEquipment = jest.fn();
       const menuItem = mount<MenuItem>(
         <MenuItem
           date={0}
           equipmentId="scarecrow"
           selectEquipment={selectEquipment}
-          skinIndex={0}
         />
       );
 
       menuItem
-        .find("[data-automationid='equipment-button--right']")
+        .find("[data-automationid='equipment-dropdown--trigger']")
         .first()
         .simulate("click");
 
-      expect(selectEquipment).toBeCalledWith("scarecrow", 1);
+      expect(menuItem.find(".sdv-list-item")).toHaveLength(10);
     });
 
-    it("moves to the previous skin when clicking the left button", () => {
+    it("hides extra skins when clicking the dropdown trigger if the dropdown is already open", () => {
       const selectEquipment = jest.fn();
-
       const menuItem = mount<MenuItem>(
         <MenuItem
           date={0}
           equipmentId="scarecrow"
           selectEquipment={selectEquipment}
-          skinIndex={0}
         />
       );
 
+      menuItem.setState({ open: true });
+
       menuItem
-        .find("[data-automationid='equipment-button--right']")
+        .find("[data-automationid='equipment-dropdown--trigger']")
         .first()
         .simulate("click");
 
-      expect(selectEquipment).toBeCalledWith("scarecrow", 1);
-
-      menuItem
-        .find("[data-automationid='equipment-button--left']")
-        .first()
-        .simulate("click");
-
-      expect(selectEquipment).toBeCalledWith("scarecrow", 0);
+      expect(menuItem.find(".sdv-list-item")).toHaveLength(1);
     });
   });
 
@@ -77,12 +87,15 @@ describe("<MenuItem />", () => {
         date={0}
         equipmentId="scarecrow"
         selectEquipment={selectEquipment}
-        skinIndex={0}
       />
     );
 
-    menuItem.simulate("click");
+    menuItem.setState({ open: true });
 
-    expect(selectEquipment).toBeCalledWith("scarecrow", 0);
+    menuItem
+      .find("[data-automationid='equipment-scarecrow--1']")
+      .simulate("click");
+
+    expect(selectEquipment).toBeCalledWith("scarecrow", 1);
   });
 });
