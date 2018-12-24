@@ -5,11 +5,17 @@ import App from "./App";
 
 import mockImages from "./__helpers__/images";
 
+import testFarm from "./__mocks__/testFarm";
+
 it("renders the app without crashing", async () => {
   const wrapper = mount(<App />);
 
   await (wrapper.instance() as App).componentDidMount();
   wrapper.update();
+
+  wrapper.setState({
+    currentFarm: testFarm
+  });
 
   expect(wrapper).toMatchSnapshot();
 });

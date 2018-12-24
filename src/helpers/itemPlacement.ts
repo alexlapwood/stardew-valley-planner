@@ -5,16 +5,13 @@ import { getCropsAtLocation, getEquipmentAtLocation } from "./farm";
 // tslint:disable-next-line:no-var-requires
 const crops: { [index: string]: ICrop } = require("../data/sdv.json").crops;
 
-const { standardFarm }: { [index: string]: string[] } =
-  // tslint:disable-next-line:no-var-requires
-  require("../data/sdv.json").farmLayouts;
-
 export function checkCropsToPlant(
   cropsToPlant: IPlantedCrop[],
   currentItems: {
     currentCrops: IFarmCrops;
     currentEquipment: IFarmEquipment;
-  }
+  },
+  currentFarm: string[]
 ) {
   return cropsToPlant.reduce(
     (
@@ -98,7 +95,7 @@ export function checkCropsToPlant(
       );
 
       const isTryingToPlantInSoil =
-        standardFarm[cropToPlant.y][cropToPlant.x] === " ";
+        currentFarm[cropToPlant.y][cropToPlant.x] === " ";
 
       if (
         plantedCropConflict === undefined &&
@@ -123,7 +120,8 @@ export function checkCropsToPlant(
 
 export function checkEquipmentToInstall(
   equipmentToInstallList: IInstalledEquipment[],
-  currentItems: { currentCrops: IFarmCrops; currentEquipment: IFarmEquipment }
+  currentItems: { currentCrops: IFarmCrops; currentEquipment: IFarmEquipment },
+  currentFarm: string[]
 ) {
   return equipmentToInstallList.reduce(
     (
@@ -228,13 +226,17 @@ export function checkEquipmentToInstall(
         dateDestroyed
       );
 
-      const isTryingToInstallInSoil =
-        standardFarm[equipmentToInstall.y][equipmentToInstall.x] === " ";
+      const farmSpot = currentFarm[equipmentToInstall.y][equipmentToInstall.x];
+
+      const canInstallEquipmentHere =
+        farmSpot === " " ||
+        farmSpot === "E" ||
+        (farmSpot === "F" && equipmentToInstall.equipmentId === "flooring");
 
       if (
         plantedCropConflictPast === undefined &&
         installedEquipmentConflictPast === undefined &&
-        isTryingToInstallInSoil
+        canInstallEquipmentHere
       ) {
         return mergeDeep(acc, {
           installableEquipment: [{ ...equipmentToInstall, dateDestroyed }]

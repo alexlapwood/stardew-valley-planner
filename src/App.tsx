@@ -7,6 +7,10 @@ import Toolbar from "./components/Toolbar/Toolbar";
 
 import { getSeason } from "./helpers/date";
 
+const { standardFarm }: { standardFarm: string[] } =
+  // tslint:disable-next-line:no-var-requires
+  require("./data/sdv.json").farmLayouts;
+
 // tslint:disable-next-line:no-var-requires
 const crops: { [index: string]: ICrop } = require("./data/sdv.json").crops;
 
@@ -17,6 +21,7 @@ interface IProps {
 }
 
 interface IState {
+  currentFarm: string[];
   date: number;
   images: HTMLImageElement[];
   isLoading: boolean;
@@ -26,6 +31,7 @@ interface IState {
 
 class App extends React.Component<IProps, IState> {
   public state: IState = {
+    currentFarm: standardFarm,
     date: 0,
     images: [],
     isLoading: true,
@@ -76,6 +82,7 @@ class App extends React.Component<IProps, IState> {
 
   public render() {
     const {
+      currentFarm,
       date,
       images,
       isLoading,
@@ -91,6 +98,7 @@ class App extends React.Component<IProps, IState> {
         <div className="flex-vertical flex overflow-hidden">
           <div className="relative flex overflow-hidden">
             <Farm
+              currentFarm={currentFarm}
               date={date}
               images={images}
               selectedItem={selectedItem}

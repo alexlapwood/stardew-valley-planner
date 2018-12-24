@@ -21,6 +21,7 @@ import {
 import "./Farm.css";
 
 interface IProps {
+  currentFarm: string[];
   date: number;
   images: HTMLImageElement[];
   selectedItem?: ISelectedItem;
@@ -139,7 +140,11 @@ class Farm extends React.Component<IProps> {
   ) => {
     const { installableEquipment } = checkEquipmentToInstall(
       equipmentToInstallList,
-      { currentCrops: this.state.crops, currentEquipment: this.state.equipment }
+      {
+        currentCrops: this.state.crops,
+        currentEquipment: this.state.equipment
+      },
+      this.props.currentFarm
     );
 
     let newEquipment: IFarmEquipment = {};
@@ -303,10 +308,14 @@ class Farm extends React.Component<IProps> {
   };
 
   private plantCrops = (cropsToPlant: IPlantedCrop[]) => {
-    const { plantableCrops } = checkCropsToPlant(cropsToPlant, {
-      currentCrops: this.state.crops,
-      currentEquipment: this.state.equipment
-    });
+    const { plantableCrops } = checkCropsToPlant(
+      cropsToPlant,
+      {
+        currentCrops: this.state.crops,
+        currentEquipment: this.state.equipment
+      },
+      this.props.currentFarm
+    );
 
     let newCrops: IFarmCrops = {};
 
@@ -325,7 +334,7 @@ class Farm extends React.Component<IProps> {
 
   private getPotentialEquipment() {
     const highlightedRegion = this.getHighlightedRegion();
-    const { date, selectedItem } = this.props;
+    const { currentFarm, date, selectedItem } = this.props;
 
     if (
       highlightedRegion === undefined ||
@@ -352,7 +361,8 @@ class Farm extends React.Component<IProps> {
       {
         currentCrops: this.state.crops,
         currentEquipment: this.state.equipment
-      }
+      },
+      currentFarm
     );
 
     let newEquipment: IFarmEquipment = {};
@@ -369,7 +379,7 @@ class Farm extends React.Component<IProps> {
   }
 
   private updateCanvas = () => {
-    const { date, images } = this.props;
+    const { currentFarm, date, images } = this.props;
 
     if (this.canvas) {
       const canvasHeight = this.canvas.height;
@@ -443,6 +453,7 @@ class Farm extends React.Component<IProps> {
         context,
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
         mergeDeep(this.state.crops, this.state.equipment, potentialEquipment),
+        currentFarm,
         date
       );
 
@@ -450,6 +461,7 @@ class Farm extends React.Component<IProps> {
         context,
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
         mergeDeep(this.state.equipment, potentialEquipment),
+        currentFarm,
         date
       );
 
@@ -470,6 +482,7 @@ class Farm extends React.Component<IProps> {
           context,
           this.state.crops,
           this.state.equipment,
+          currentFarm,
           date,
           highlightedRegion,
           highlightGreenImage,

@@ -9,6 +9,8 @@ import {
   isCropHereToday
 } from "./farm";
 
+import testFarm from "../__mocks__/testFarm";
+
 describe("Farm helper", () => {
   describe("forEachTileInRegion", () => {
     it("will call a function for each tile in a highlighted range", () => {
@@ -190,7 +192,7 @@ describe("Farm helper", () => {
       farmItems = mergeDeep(farmItems, currentCrops);
       farmItems = mergeDeep(farmItems, currentEquipment);
 
-      const actual = getSoilMap(farmItems, 0);
+      const actual = getSoilMap(farmItems, 0, testFarm);
 
       expect(actual).toMatchSnapshot();
     });
@@ -223,7 +225,7 @@ describe("Farm helper", () => {
 
       farmItems = mergeDeep(farmItems, currentEquipment);
 
-      const actual = getSoilMap(farmItems, 0);
+      const actual = getSoilMap(farmItems, 0, testFarm);
 
       expect(actual).toMatchSnapshot();
     });

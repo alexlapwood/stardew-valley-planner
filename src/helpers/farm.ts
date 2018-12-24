@@ -3,10 +3,6 @@ import { getCropsLastDay } from "./crop";
 // tslint:disable-next-line:no-var-requires
 const crops: { [index: string]: ICrop } = require("../data/sdv.json").crops;
 
-const { standardFarm }: { [index: string]: string[] } =
-  // tslint:disable-next-line:no-var-requires
-  require("../data/sdv.json").farmLayouts;
-
 export function forEachTileInRegion(
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
   cb: (x: number, y: number) => any
@@ -103,7 +99,8 @@ export function getEquipmentAtLocation(
 
 export function getSoilMap(
   farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
-  date: number
+  date: number,
+  currentFarm: string[]
 ) {
   const soilMap: number[][] = [];
 
@@ -135,9 +132,9 @@ export function getSoilMap(
               ix++
             ) {
               if (
-                standardFarm[y + iy] &&
-                standardFarm[y + iy][x + ix] &&
-                standardFarm[y + iy][x + ix] === " "
+                currentFarm[y + iy] &&
+                currentFarm[y + iy][x + ix] &&
+                currentFarm[y + iy][x + ix] === " "
               ) {
                 if (soilMap[x + ix] === undefined) {
                   soilMap[x + ix] = [];
@@ -153,9 +150,9 @@ export function getSoilMap(
           for (let iy = -1; iy <= 1; iy++) {
             for (let ix = -1; ix <= 1; ix++) {
               if (
-                standardFarm[y + iy] &&
-                standardFarm[y + iy][x + ix] &&
-                standardFarm[y + iy][x + ix] === " "
+                currentFarm[y + iy] &&
+                currentFarm[y + iy][x + ix] &&
+                currentFarm[y + iy][x + ix] === " "
               ) {
                 if (soilMap[x + ix] === undefined) {
                   soilMap[x + ix] = [];
@@ -171,9 +168,9 @@ export function getSoilMap(
           for (let iy = -2; iy <= 2; iy++) {
             for (let ix = -2; ix <= 2; ix++) {
               if (
-                standardFarm[y + iy] &&
-                standardFarm[y + iy][x + ix] &&
-                standardFarm[y + iy][x + ix] === " "
+                currentFarm[y + iy] &&
+                currentFarm[y + iy][x + ix] &&
+                currentFarm[y + iy][x + ix] === " "
               ) {
                 if (soilMap[x + ix] === undefined) {
                   soilMap[x + ix] = [];

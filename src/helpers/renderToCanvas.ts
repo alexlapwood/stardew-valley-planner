@@ -59,9 +59,10 @@ export function renderSoilToContext(
     | HTMLVideoElement
     | ImageBitmap,
   farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
+  currentFarm: string[],
   date: number
 ) {
-  const soilMap = getSoilMap(farmItems, date);
+  const soilMap = getSoilMap(farmItems, date, currentFarm);
 
   forEachTileInMap(soilMap, (tileValue, tileIndex, x, y) => {
     context.drawImage(
@@ -86,9 +87,10 @@ export function renderWateredSoilToContext(
     | HTMLVideoElement
     | ImageBitmap,
   farmEquipment: IFarmEquipment,
+  currentFarm: string[],
   date: number
 ) {
-  const wateredSoilMap = getSoilMap(farmEquipment, date);
+  const wateredSoilMap = getSoilMap(farmEquipment, date, currentFarm);
 
   const tileOffset = 4 * 16;
 
@@ -320,6 +322,7 @@ export function renderSelectedRegion(
   context: CanvasRenderingContext2D,
   currentCrops: IFarmCrops,
   currentEquipment: IFarmEquipment,
+  currentFarm: string[],
   date: number,
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
   highlightGreenImage: HTMLImageElement,
@@ -344,7 +347,8 @@ export function renderSelectedRegion(
 
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
-      { currentCrops, currentEquipment }
+      { currentCrops, currentEquipment },
+      currentFarm
     );
 
     plantableCrops.forEach(cropToPlant => {
@@ -381,10 +385,14 @@ export function renderSelectedRegion(
     const {
       installableEquipment,
       notInstallableEquipment
-    } = checkEquipmentToInstall(equipmentToInstallList, {
-      currentCrops,
-      currentEquipment
-    });
+    } = checkEquipmentToInstall(
+      equipmentToInstallList,
+      {
+        currentCrops,
+        currentEquipment
+      },
+      currentFarm
+    );
 
     installableEquipment.forEach(equipmentToInstall => {
       context.drawImage(
