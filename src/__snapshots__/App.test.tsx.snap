@@ -13,92 +13,92 @@ exports[`renders the app without crashing 1`] = `
       >
         <Farm
           currentFarm={
-            Array [
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-              "                                                                                ",
-            ]
+            Object {
+              "map": Array [
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+                "                                                                                ",
+              ],
+              "name": "Standard",
+            }
           }
           date={0}
           disableToolbars={[Function]}
           images={
             Array [
               <img
-                src="images/background-spring.png"
-              />,
-              <img
-                src="images/background-summer.png"
-              />,
-              <img
-                src="images/background-fall.png"
-              />,
-              <img
-                src="images/background-winter.png"
-              />,
-              <img
                 src="images/crops.png"
+              />,
+              <img
+                src="images/equipment-sheet.png"
+              />,
+              <img
+                src="images/fences.png"
+              />,
+              <img
+                src="images/flooring.png"
               />,
               <img
                 src="images/highlight-green.png"
@@ -110,22 +110,43 @@ exports[`renders the app without crashing 1`] = `
                 src="images/highlight-red.png"
               />,
               <img
-                src="images/pick-axe.png"
-              />,
-              <img
-                src="images/equipment-sheet.png"
-              />,
-              <img
                 src="images/hoeDirt.png"
               />,
               <img
                 src="images/hoeDirtSnow.png"
               />,
               <img
-                src="images/fences.png"
+                src="images/pick-axe.png"
               />,
               <img
-                src="images/flooring.png"
+                src="images/sdv-font.png"
+              />,
+              <img
+                src="images/seeds.png"
+              />,
+              <img
+                src="images/standard-fall.png"
+              />,
+              <img
+                src="images/standard-spring.png"
+              />,
+              <img
+                src="images/standard-summer.png"
+              />,
+              <img
+                src="images/standard-winter.png"
+              />,
+              <img
+                src="images/wilderness-fall.png"
+              />,
+              <img
+                src="images/wilderness-spring.png"
+              />,
+              <img
+                src="images/wilderness-summer.png"
+              />,
+              <img
+                src="images/wilderness-winter.png"
               />,
             ]
           }
@@ -159,19 +180,16 @@ exports[`renders the app without crashing 1`] = `
           images={
             Array [
               <img
-                src="images/background-spring.png"
-              />,
-              <img
-                src="images/background-summer.png"
-              />,
-              <img
-                src="images/background-fall.png"
-              />,
-              <img
-                src="images/background-winter.png"
-              />,
-              <img
                 src="images/crops.png"
+              />,
+              <img
+                src="images/equipment-sheet.png"
+              />,
+              <img
+                src="images/fences.png"
+              />,
+              <img
+                src="images/flooring.png"
               />,
               <img
                 src="images/highlight-green.png"
@@ -183,22 +201,43 @@ exports[`renders the app without crashing 1`] = `
                 src="images/highlight-red.png"
               />,
               <img
-                src="images/pick-axe.png"
-              />,
-              <img
-                src="images/equipment-sheet.png"
-              />,
-              <img
                 src="images/hoeDirt.png"
               />,
               <img
                 src="images/hoeDirtSnow.png"
               />,
               <img
-                src="images/fences.png"
+                src="images/pick-axe.png"
               />,
               <img
-                src="images/flooring.png"
+                src="images/sdv-font.png"
+              />,
+              <img
+                src="images/seeds.png"
+              />,
+              <img
+                src="images/standard-fall.png"
+              />,
+              <img
+                src="images/standard-spring.png"
+              />,
+              <img
+                src="images/standard-summer.png"
+              />,
+              <img
+                src="images/standard-winter.png"
+              />,
+              <img
+                src="images/wilderness-fall.png"
+              />,
+              <img
+                src="images/wilderness-spring.png"
+              />,
+              <img
+                src="images/wilderness-summer.png"
+              />,
+              <img
+                src="images/wilderness-winter.png"
               />,
             ]
           }

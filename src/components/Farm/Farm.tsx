@@ -21,7 +21,10 @@ import {
 import "./Farm.css";
 
 interface IProps {
-  currentFarm: string[];
+  currentFarm: {
+    map: string[];
+    name: "Standard" | "Riverland" | "Forest" | "Hill-top" | "Wilderness";
+  };
   date: number;
   images: HTMLImageElement[];
   selectedItem?: ISelectedItem;
@@ -144,7 +147,7 @@ class Farm extends React.Component<IProps> {
         currentCrops: this.state.crops,
         currentEquipment: this.state.equipment
       },
-      this.props.currentFarm
+      this.props.currentFarm.map
     );
 
     let newEquipment: IFarmEquipment = {};
@@ -314,7 +317,7 @@ class Farm extends React.Component<IProps> {
         currentCrops: this.state.crops,
         currentEquipment: this.state.equipment
       },
-      this.props.currentFarm
+      this.props.currentFarm.map
     );
 
     let newCrops: IFarmCrops = {};
@@ -362,7 +365,7 @@ class Farm extends React.Component<IProps> {
         currentCrops: this.state.crops,
         currentEquipment: this.state.equipment
       },
-      currentFarm
+      currentFarm.map
     );
 
     let newEquipment: IFarmEquipment = {};
@@ -398,7 +401,9 @@ class Farm extends React.Component<IProps> {
       const season = ["spring", "summer", "fall", "winter"][getSeason(date)];
 
       const backgroundImage = images.find(image =>
-        image.src.includes(`/background-${season}.png`)
+        image.src.includes(
+          `/images/${currentFarm.name.toLowerCase()}-${season}.png`
+        )
       );
       const highlightGreenImage = images.find(image =>
         image.src.includes("/images/highlight-green.png")
@@ -453,7 +458,7 @@ class Farm extends React.Component<IProps> {
         context,
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
         mergeDeep(this.state.crops, this.state.equipment, potentialEquipment),
-        currentFarm,
+        currentFarm.map,
         date
       );
 
@@ -461,7 +466,7 @@ class Farm extends React.Component<IProps> {
         context,
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
         mergeDeep(this.state.equipment, potentialEquipment),
-        currentFarm,
+        currentFarm.map,
         date
       );
 
@@ -482,7 +487,7 @@ class Farm extends React.Component<IProps> {
           context,
           this.state.crops,
           this.state.equipment,
-          currentFarm,
+          currentFarm.map,
           date,
           highlightedRegion,
           highlightGreenImage,

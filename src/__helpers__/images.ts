@@ -1,17 +1,24 @@
-const imageUrls: string[] = [
-  "images/background-spring.png",
-  "images/background-summer.png",
-  "images/background-fall.png",
-  "images/background-winter.png",
+export const imageUrls: string[] = [
+  "images/crops.png",
+  "images/equipment-sheet.png",
+  "images/fences.png",
+  "images/flooring.png",
   "images/highlight-green.png",
   "images/highlight-grey.png",
   "images/highlight-red.png",
-  "images/crops.png",
-  "images/equipment-sheet.png",
   "images/hoeDirt.png",
   "images/hoeDirtSnow.png",
-  "images/fences.png",
-  "images/flooring.png"
+  "images/pick-axe.png",
+  "images/sdv-font.png",
+  "images/seeds.png",
+  "images/standard-fall.png",
+  "images/standard-spring.png",
+  "images/standard-summer.png",
+  "images/standard-winter.png",
+  "images/wilderness-fall.png",
+  "images/wilderness-spring.png",
+  "images/wilderness-summer.png",
+  "images/wilderness-winter.png"
 ];
 
 const mockImages = imageUrls.map(imageUrl => {

@@ -192,7 +192,7 @@ describe("Farm helper", () => {
       farmItems = mergeDeep(farmItems, currentCrops);
       farmItems = mergeDeep(farmItems, currentEquipment);
 
-      const actual = getSoilMap(farmItems, 0, testFarm);
+      const actual = getSoilMap(farmItems, 0, testFarm.map);
 
       expect(actual).toMatchSnapshot();
     });
@@ -225,7 +225,7 @@ describe("Farm helper", () => {
 
       farmItems = mergeDeep(farmItems, currentEquipment);
 
-      const actual = getSoilMap(farmItems, 0, testFarm);
+      const actual = getSoilMap(farmItems, 0, testFarm.map);
 
       expect(actual).toMatchSnapshot();
     });

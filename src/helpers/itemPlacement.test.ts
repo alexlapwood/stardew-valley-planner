@@ -26,7 +26,7 @@ describe("checkCropsToPlant", () => {
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm.map
     );
 
     expect(plantableCrops).toHaveLength(2);
@@ -54,7 +54,7 @@ describe("checkCropsToPlant", () => {
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm.map
     );
 
     expect(plantableCrops).toHaveLength(2);
@@ -82,7 +82,7 @@ describe("checkCropsToPlant", () => {
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm.map
     );
 
     expect(plantableCrops).toHaveLength(2);
@@ -119,7 +119,7 @@ describe("checkCropsToPlant", () => {
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm.map
     );
 
     expect(plantableCrops).toHaveLength(6);
@@ -153,7 +153,7 @@ describe("checkCropsToPlant", () => {
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm.map
     );
 
     expect(plantableCrops).toHaveLength(2);
@@ -187,7 +187,7 @@ describe("checkCropsToPlant", () => {
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm.map
     );
 
     expect(plantableCrops).toHaveLength(0);
@@ -224,7 +224,7 @@ describe("checkCropsToPlant", () => {
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm.map
     );
 
     expect(plantableCrops).toHaveLength(2);
@@ -278,7 +278,7 @@ describe("checkEquipmentToInstall", () => {
         currentCrops,
         currentEquipment
       },
-      testFarm
+      testFarm.map
     );
 
     expect(installableEquipment).toHaveLength(2);
@@ -354,7 +354,7 @@ describe("checkEquipmentToInstall", () => {
         currentCrops,
         currentEquipment
       },
-      testFarm
+      testFarm.map
     );
 
     expect(installableEquipment).toHaveLength(2);
@@ -430,7 +430,7 @@ describe("checkEquipmentToInstall", () => {
         currentCrops,
         currentEquipment
       },
-      testFarm
+      testFarm.map
     );
 
     expect(installableEquipment).toHaveLength(5);
@@ -491,7 +491,7 @@ describe("checkEquipmentToInstall", () => {
         currentCrops,
         currentEquipment
       },
-      testFarm
+      testFarm.map
     );
 
     expect(installableEquipment).toHaveLength(2);
@@ -536,7 +536,7 @@ describe("checkEquipmentToInstall", () => {
         currentCrops,
         currentEquipment
       },
-      testFarm
+      testFarm.map
     );
 
     expect(installableEquipment).toHaveLength(0);
@@ -621,7 +621,7 @@ describe("checkEquipmentToInstall", () => {
         currentCrops,
         currentEquipment
       },
-      testFarm
+      testFarm.map
     );
 
     expect(installableEquipment).toHaveLength(5);
@@ -682,7 +682,7 @@ describe("checkEquipmentToInstall", () => {
         currentCrops,
         currentEquipment
       },
-      testFarm
+      testFarm.map
     );
 
     expect(installableEquipment).toHaveLength(2);
@@ -743,7 +743,7 @@ describe("checkEquipmentToInstall", () => {
         currentCrops,
         currentEquipment
       },
-      testFarm
+      testFarm.map
     );
 
     expect(installableEquipment).toHaveLength(3);

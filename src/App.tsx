@@ -7,21 +7,29 @@ import Toolbar from "./components/Toolbar/Toolbar";
 
 import { getSeason } from "./helpers/date";
 
-const { standardFarm }: { standardFarm: string[] } =
+import { imageUrls } from "./__helpers__/images";
+
+import "./App.css";
+
+const {
+  standardFarm
+}: // wildernessFarm
+{ [index: string]: string[] } =
   // tslint:disable-next-line:no-var-requires
   require("./data/sdv.json").farmLayouts;
 
 // tslint:disable-next-line:no-var-requires
 const crops: { [index: string]: ICrop } = require("./data/sdv.json").crops;
 
-import "./App.css";
-
 interface IProps {
   waitForImages?: boolean;
 }
 
 interface IState {
-  currentFarm: string[];
+  currentFarm: {
+    map: string[];
+    name: "Standard" | "Riverland" | "Forest" | "Hill-top" | "Wilderness";
+  };
   date: number;
   images: HTMLImageElement[];
   isLoading: boolean;
@@ -31,7 +39,7 @@ interface IState {
 
 class App extends React.Component<IProps, IState> {
   public state: IState = {
-    currentFarm: standardFarm,
+    currentFarm: { map: standardFarm, name: "Standard" },
     date: 0,
     images: [],
     isLoading: true,
@@ -39,23 +47,6 @@ class App extends React.Component<IProps, IState> {
   };
 
   public async componentDidMount() {
-    const imageUrls: string[] = [
-      "images/background-spring.png",
-      "images/background-summer.png",
-      "images/background-fall.png",
-      "images/background-winter.png",
-      "images/crops.png",
-      "images/highlight-green.png",
-      "images/highlight-grey.png",
-      "images/highlight-red.png",
-      "images/pick-axe.png",
-      "images/equipment-sheet.png",
-      "images/hoeDirt.png",
-      "images/hoeDirtSnow.png",
-      "images/fences.png",
-      "images/flooring.png"
-    ];
-
     const imagePromises = imageUrls.map(async imageUrl => {
       const image = new Image();
       image.src = imageUrl;
