@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import DatePicker from "./components/DatePicker/DatePicker";
 import Farm from "./components/Farm/Farm";

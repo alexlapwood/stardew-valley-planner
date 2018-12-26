@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 
-import * as cn from "classnames";
+import cn from "classnames";
 
 import Sprite from "../Sprite/Sprite";
 import EquipmentMenu from "./EquipmentMenu/EquipmentMenu";

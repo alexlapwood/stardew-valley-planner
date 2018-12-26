@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 
-import * as cn from "classnames";
+import cn from "classnames";
 
 import DayPicker from "./DayPicker/DayPicker";
 import SeasonPicker from "./SeasonPicker/SeasonPicker";

@@ -8,27 +8,27 @@
     "immutable": "4.0.0-rc.10",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts-ts": "2.16.0"
+    "react-scripts": "2.1.2"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.4",
     "@types/enzyme": "^3.1.11",
     "@types/enzyme-adapter-react-16": "^1.0.2",
-    "@types/jest": "^23.1.5",
-    "@types/node": "^10.5.2",
-    "@types/react": "^16.4.6",
-    "@types/react-dom": "^16.0.6",
+    "@types/jest": "^23.3.10",
+    "@types/node": "^10.12.18",
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.4",
     "jest-canvas-mock": "^1.1.0",
-    "typescript": "^2.9.2"
+    "typescript": "^3.2.2"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -41,5 +41,11 @@
     ]
   },
   "homepage": "./",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

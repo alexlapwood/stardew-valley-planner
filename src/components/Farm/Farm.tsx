@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import { mergeDeep } from "immutable";
 import { getCanvasPositionAndScale } from "../../helpers/canvas";
@@ -78,15 +78,15 @@ class Farm extends React.Component<IProps> {
   };
 
   public canvas?: HTMLCanvasElement;
-  private farm: HTMLDivElement;
+  private farm = React.createRef<HTMLDivElement>();
   private farmWidth = 80;
   private farmHeight = 65;
 
   public componentDidMount() {
     this.updateCanvas();
-    if (this.farm !== undefined) {
-      this.farm.scrollLeft = this.farm.scrollWidth;
-      this.farm.scrollTop = 16 * 4;
+    if (this.farm.current !== null) {
+      this.farm.current.scrollLeft = this.farm.current.scrollWidth;
+      this.farm.current.scrollTop = 16 * 4;
     }
   }
 
@@ -96,13 +96,7 @@ class Farm extends React.Component<IProps> {
     this.updateCanvas();
 
     return (
-      <div
-        className="Farm"
-        onScroll={this.onScroll}
-        ref={farm => {
-          this.farm = farm as HTMLDivElement;
-        }}
-      >
+      <div className="Farm" onScroll={this.onScroll} ref={this.farm}>
         <div
           className="Farm--canvas-wrapper"
           style={{ transform: `scale(${zoom})` }}
@@ -405,9 +399,6 @@ class Farm extends React.Component<IProps> {
         throw new Error("Could not get context for canvas");
       }
 
-      context.mozImageSmoothingEnabled = false;
-      context.webkitImageSmoothingEnabled = false;
-      context.oImageSmoothingEnabled = false;
       context.imageSmoothingEnabled = false;
 
       const season = ["spring", "summer", "fall", "winter"][getSeason(date)];

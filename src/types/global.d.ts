@@ -37,8 +37,8 @@ interface IEquipment {
 }
 
 interface IFarmItems<T> {
-  [y: number]: {
-    [x: number]: T;
+  [y: string]: {
+    [x: string]: T;
   };
 }
 
