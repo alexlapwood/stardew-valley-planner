@@ -20,11 +20,23 @@ import {
 
 import "./Farm.css";
 
+const farmLayouts: {
+  [index: string]: string[];
+} =
+  // tslint:disable-next-line:no-var-requires
+  require("../../data/sdv.json").farmLayouts;
+
+// tslint:disable-next-line:no-var-requires
+farmLayouts.test = require("../../__mocks__/testFarm").default;
+
 interface IProps {
-  currentFarm: {
-    map: string[];
-    name: "Standard" | "Riverland" | "Forest" | "Hill-top" | "Wilderness";
-  };
+  currentFarm:
+    | "Standard"
+    | "Riverland"
+    | "Forest"
+    | "Hill-top"
+    | "Wilderness"
+    | "Test";
   date: number;
   images: HTMLImageElement[];
   selectedItem?: ISelectedItem;
@@ -147,7 +159,7 @@ class Farm extends React.Component<IProps> {
         currentCrops: this.state.crops,
         currentEquipment: this.state.equipment
       },
-      this.props.currentFarm.map
+      farmLayouts[this.props.currentFarm.toLowerCase()]
     );
 
     let newEquipment: IFarmEquipment = {};
@@ -317,7 +329,7 @@ class Farm extends React.Component<IProps> {
         currentCrops: this.state.crops,
         currentEquipment: this.state.equipment
       },
-      this.props.currentFarm.map
+      farmLayouts[this.props.currentFarm.toLowerCase()]
     );
 
     let newCrops: IFarmCrops = {};
@@ -365,7 +377,7 @@ class Farm extends React.Component<IProps> {
         currentCrops: this.state.crops,
         currentEquipment: this.state.equipment
       },
-      currentFarm.map
+      farmLayouts[currentFarm.toLowerCase()]
     );
 
     let newEquipment: IFarmEquipment = {};
@@ -402,7 +414,9 @@ class Farm extends React.Component<IProps> {
 
       const backgroundImage = images.find(image =>
         image.src.includes(
-          `/images/${currentFarm.name.toLowerCase()}-${season}.png`
+          `/images/${
+            currentFarm === "Test" ? "standard" : currentFarm.toLowerCase()
+          }-${season}.png`
         )
       );
       const highlightGreenImage = images.find(image =>
@@ -458,7 +472,7 @@ class Farm extends React.Component<IProps> {
         context,
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
         mergeDeep(this.state.crops, this.state.equipment, potentialEquipment),
-        currentFarm.map,
+        farmLayouts[currentFarm.toLowerCase()],
         date
       );
 
@@ -466,7 +480,7 @@ class Farm extends React.Component<IProps> {
         context,
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
         mergeDeep(this.state.equipment, potentialEquipment),
-        currentFarm.map,
+        farmLayouts[currentFarm.toLowerCase()],
         date
       );
 
@@ -487,7 +501,7 @@ class Farm extends React.Component<IProps> {
           context,
           this.state.crops,
           this.state.equipment,
-          currentFarm.map,
+          farmLayouts[currentFarm.toLowerCase()],
           date,
           highlightedRegion,
           highlightGreenImage,

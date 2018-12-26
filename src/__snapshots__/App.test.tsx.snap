@@ -12,78 +12,7 @@ exports[`renders the app without crashing 1`] = `
         className="relative flex overflow-hidden"
       >
         <Farm
-          currentFarm={
-            Object {
-              "map": Array [
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-                "                                                                                ",
-              ],
-              "name": "Standard",
-            }
-          }
+          currentFarm="Test"
           date={0}
           disableToolbars={[Function]}
           images={
@@ -135,6 +64,18 @@ exports[`renders the app without crashing 1`] = `
               />,
               <img
                 src="images/standard-winter.png"
+              />,
+              <img
+                src="images/riverland-fall.png"
+              />,
+              <img
+                src="images/riverland-spring.png"
+              />,
+              <img
+                src="images/riverland-summer.png"
+              />,
+              <img
+                src="images/riverland-winter.png"
               />,
               <img
                 src="images/wilderness-fall.png"
@@ -226,6 +167,18 @@ exports[`renders the app without crashing 1`] = `
               />,
               <img
                 src="images/standard-winter.png"
+              />,
+              <img
+                src="images/riverland-fall.png"
+              />,
+              <img
+                src="images/riverland-spring.png"
+              />,
+              <img
+                src="images/riverland-summer.png"
+              />,
+              <img
+                src="images/riverland-winter.png"
               />,
               <img
                 src="images/wilderness-fall.png"

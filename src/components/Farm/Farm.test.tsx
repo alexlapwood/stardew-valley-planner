@@ -5,11 +5,9 @@ import Farm from "./Farm";
 
 import mockImages from "../../__helpers__/images";
 
-import testFarm from "../../__mocks__/testFarm";
-
 it("renders the app without crashing", () => {
   const farm = render(
-    <Farm currentFarm={testFarm} date={0} images={[]} zoom={1} />
+    <Farm currentFarm="Test" date={0} images={[]} zoom={1} />
   );
   expect(farm).toMatchSnapshot();
 });
@@ -17,7 +15,7 @@ it("renders the app without crashing", () => {
 describe("state", () => {
   it("initialises correctly", () => {
     const farm = shallow(
-      <Farm currentFarm={testFarm} date={0} images={[]} zoom={1} />
+      <Farm currentFarm="Test" date={0} images={[]} zoom={1} />
     );
 
     const actual = (farm.instance() as Farm).state;
@@ -29,7 +27,7 @@ describe("state", () => {
 describe("selecting tiles", () => {
   it("can select a region of tiles", () => {
     const farm = mount(
-      <Farm currentFarm={testFarm} date={0} images={mockImages} zoom={1} />
+      <Farm currentFarm="Test" date={0} images={mockImages} zoom={1} />
     );
 
     const canvas = (farm.instance() as Farm).canvas;
@@ -59,7 +57,7 @@ describe("selecting tiles", () => {
 describe("doing things with a selected region", () => {
   it("won't do anything if we're not actually selecting a region of the farm", () => {
     const farm = mount(
-      <Farm currentFarm={testFarm} date={0} images={mockImages} zoom={1} />
+      <Farm currentFarm="Test" date={0} images={mockImages} zoom={1} />
     );
 
     const canvas = (farm.instance() as Farm).canvas;
@@ -79,7 +77,7 @@ describe("doing things with a selected region", () => {
   it("can plant crops", () => {
     const farm = mount(
       <Farm
-        currentFarm={testFarm}
+        currentFarm="Test"
         date={0}
         images={mockImages}
         selectedItem={{ id: "parsnip", type: "crop" }}
@@ -93,7 +91,7 @@ describe("doing things with a selected region", () => {
       throw new Error();
     }
 
-    farm.instance().setState({
+    farm.setState({
       isMouseDown: true,
       mouseDownPosition: { left: 0, top: 0, x: 0, y: 0 },
       mousePosition: { left: 0, top: 0, x: 16, y: 16 }
@@ -115,7 +113,7 @@ describe("doing things with a selected region", () => {
     };
     const farm = mount(
       <Farm
-        currentFarm={testFarm}
+        currentFarm="Test"
         date={0}
         images={mockImages}
         selectedItem={{ id: "pick-axe", type: "tool" }}
@@ -142,7 +140,7 @@ describe("doing things with a selected region", () => {
       throw new Error();
     }
 
-    farm.instance().setState({
+    farm.setState({
       isMouseDown: true,
       mouseDownPosition: { left: 0, top: 0, x: 0, y: 0 },
       mousePosition: { left: 0, top: 0, x: 16, y: 16 }
@@ -158,7 +156,7 @@ describe("doing things with a selected region", () => {
   it("can install equipment", () => {
     const farm = mount(
       <Farm
-        currentFarm={testFarm}
+        currentFarm="Test"
         date={0}
         images={mockImages}
         selectedItem={{ id: "scarecrow", type: "equipment" }}
@@ -172,7 +170,7 @@ describe("doing things with a selected region", () => {
       throw new Error();
     }
 
-    farm.instance().setState({
+    farm.setState({
       isMouseDown: true,
       mouseDownPosition: { left: 0, top: 0, x: 0, y: 0 },
       mousePosition: { left: 0, top: 0, x: 16, y: 16 }
@@ -194,7 +192,7 @@ describe("doing things with a selected region", () => {
     };
     const farm = mount(
       <Farm
-        currentFarm={testFarm}
+        currentFarm="Test"
         date={0}
         images={mockImages}
         selectedItem={{ id: "pick-axe", type: "tool" }}
@@ -221,7 +219,7 @@ describe("doing things with a selected region", () => {
       throw new Error();
     }
 
-    farm.instance().setState({
+    farm.setState({
       isMouseDown: true,
       mouseDownPosition: { left: 0, top: 0, x: 0, y: 0 },
       mousePosition: { left: 0, top: 0, x: 16, y: 16 }

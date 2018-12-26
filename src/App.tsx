@@ -11,13 +11,6 @@ import { imageUrls } from "./__helpers__/images";
 
 import "./App.css";
 
-const {
-  standardFarm
-}: // wildernessFarm
-{ [index: string]: string[] } =
-  // tslint:disable-next-line:no-var-requires
-  require("./data/sdv.json").farmLayouts;
-
 // tslint:disable-next-line:no-var-requires
 const crops: { [index: string]: ICrop } = require("./data/sdv.json").crops;
 
@@ -26,10 +19,13 @@ interface IProps {
 }
 
 interface IState {
-  currentFarm: {
-    map: string[];
-    name: "Standard" | "Riverland" | "Forest" | "Hill-top" | "Wilderness";
-  };
+  currentFarm:
+    | "Standard"
+    | "Riverland"
+    | "Forest"
+    | "Hill-top"
+    | "Wilderness"
+    | "Test";
   date: number;
   images: HTMLImageElement[];
   isLoading: boolean;
@@ -39,7 +35,7 @@ interface IState {
 
 class App extends React.Component<IProps, IState> {
   public state: IState = {
-    currentFarm: { map: standardFarm, name: "Standard" },
+    currentFarm: "Standard",
     date: 0,
     images: [],
     isLoading: true,

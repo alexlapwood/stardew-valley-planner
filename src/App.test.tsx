@@ -5,8 +5,6 @@ import App from "./App";
 
 import mockImages from "./__helpers__/images";
 
-import testFarm from "./__mocks__/testFarm";
-
 it("renders the app without crashing", async () => {
   const wrapper = mount(<App />);
 
@@ -14,7 +12,7 @@ it("renders the app without crashing", async () => {
   wrapper.update();
 
   wrapper.setState({
-    currentFarm: testFarm
+    currentFarm: "Test"
   });
 
   expect(wrapper).toMatchSnapshot();
@@ -42,7 +40,7 @@ describe("state", () => {
     it("deselects the current crop if it is out of season", () => {
       const wrapper = shallow(<App />);
 
-      (wrapper.instance() as App).setState({
+      wrapper.setState({
         selectedItem: { id: "parsnip", type: "crop" }
       });
       (wrapper.instance() as App).changeDate(28 * 1);
@@ -54,7 +52,7 @@ describe("state", () => {
     it("does not deselect the current crop if it is in season", () => {
       const wrapper = shallow(<App />);
 
-      (wrapper.instance() as App).setState({
+      wrapper.setState({
         selectedItem: { id: "ancient_fruit", type: "crop" }
       });
       (wrapper.instance() as App).changeDate(28 * 1);
@@ -66,7 +64,7 @@ describe("state", () => {
     it("does not deselect tools", () => {
       const wrapper = shallow(<App />);
 
-      (wrapper.instance() as App).setState({
+      wrapper.setState({
         selectedItem: { id: "tool", type: "tool" }
       });
       (wrapper.instance() as App).changeDate(28 * 1);
@@ -81,7 +79,7 @@ describe("Toolbars", () => {
   it("is visible by default", () => {
     const wrapper = mount(<App />);
 
-    (wrapper.instance() as App).setState({
+    wrapper.setState({
       images: mockImages,
       isLoading: false
     });
@@ -93,7 +91,7 @@ describe("Toolbars", () => {
   it("is hidden when interacting with the farm", () => {
     const wrapper = mount(<App />);
 
-    (wrapper.instance() as App).setState({
+    wrapper.setState({
       images: mockImages,
       isLoading: false
     });
@@ -107,7 +105,7 @@ describe("Toolbars", () => {
   it("is becomes visible on mouseUp", () => {
     const wrapper = mount(<App />);
 
-    (wrapper.instance() as App).setState({
+    wrapper.setState({
       images: mockImages,
       isLoading: false
     });
@@ -122,7 +120,7 @@ describe("Toolbars", () => {
   it("is becomes visible on mouseOut", () => {
     const wrapper = mount(<App />);
 
-    (wrapper.instance() as App).setState({
+    wrapper.setState({
       images: mockImages,
       isLoading: false
     });
@@ -139,7 +137,7 @@ describe("Components", () => {
   it("sets the selectedItem to be of type tool when a tool is selected", () => {
     const wrapper = mount(<App />);
 
-    (wrapper.instance() as App).setState({
+    wrapper.setState({
       images: mockImages,
       isLoading: false
     });
@@ -155,7 +153,7 @@ describe("Components", () => {
   it("sets the selectedItem to be of type crop when a crop is selected", () => {
     const wrapper = mount(<App />);
 
-    (wrapper.instance() as App).setState({
+    wrapper.setState({
       images: mockImages,
       isLoading: false
     });
@@ -173,7 +171,7 @@ describe("Components", () => {
   it("sets the selectedItem to be of type equipment when equipment is selected", () => {
     const wrapper = mount(<App />);
 
-    (wrapper.instance() as App).setState({
+    wrapper.setState({
       images: mockImages,
       isLoading: false
     });
