@@ -1,6 +1,6 @@
-export function getCanvasPositionAndScale(canvas?: HTMLCanvasElement) {
-  if (canvas === undefined) {
-    throw new Error("Canvas must be defined");
+export function getCanvasPositionAndScale(canvas: HTMLCanvasElement | null) {
+  if (canvas === null) {
+    throw new Error("Canvas must be initialised");
   }
 
   const rect = canvas.getBoundingClientRect();

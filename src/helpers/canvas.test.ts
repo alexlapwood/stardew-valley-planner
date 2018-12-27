@@ -18,7 +18,9 @@ describe("getCanvasPositionAndScale", () => {
     });
   });
 
-  it("will throw an error if canvas is undefined", () => {
-    expect(getCanvasPositionAndScale).toThrowError("Canvas must be defined");
+  it("will throw an error if canvas is null", () => {
+    expect(() => getCanvasPositionAndScale(null)).toThrowError(
+      "Canvas must be initialised"
+    );
   });
 });

@@ -77,16 +77,16 @@ class Farm extends React.Component<IProps> {
     isMouseDown: false
   };
 
-  public canvas?: HTMLCanvasElement;
-  private farm = React.createRef<HTMLDivElement>();
+  public canvasRef = React.createRef<HTMLCanvasElement>();
+  private farmRef = React.createRef<HTMLDivElement>();
   private farmWidth = 80;
   private farmHeight = 65;
 
   public componentDidMount() {
     this.updateCanvas();
-    if (this.farm.current !== null) {
-      this.farm.current.scrollLeft = this.farm.current.scrollWidth;
-      this.farm.current.scrollTop = 16 * 4;
+    if (this.farmRef.current !== null) {
+      this.farmRef.current.scrollLeft = this.farmRef.current.scrollWidth;
+      this.farmRef.current.scrollTop = 16 * 4;
     }
   }
 
@@ -96,7 +96,7 @@ class Farm extends React.Component<IProps> {
     this.updateCanvas();
 
     return (
-      <div className="Farm" onScroll={this.onScroll} ref={this.farm}>
+      <div className="Farm" onScroll={this.onScroll} ref={this.farmRef}>
         <div
           className="Farm--canvas-wrapper"
           style={{ transform: `scale(${zoom})` }}
@@ -108,11 +108,7 @@ class Farm extends React.Component<IProps> {
             onMouseMove={this.onMouseMove}
             onMouseUp={this.onMouseUp}
             onMouseOut={this.onMouseOut}
-            ref={ref => {
-              if (ref !== null) {
-                this.canvas = ref;
-              }
-            }}
+            ref={this.canvasRef}
             width={this.farmWidth * 16}
           />
         </div>
@@ -140,7 +136,9 @@ class Farm extends React.Component<IProps> {
   };
 
   private calculateMousePosition = (event: React.MouseEvent<HTMLElement>) => {
-    const { scaleX, scaleY } = getCanvasPositionAndScale(this.canvas);
+    const { scaleX, scaleY } = getCanvasPositionAndScale(
+      this.canvasRef.current
+    );
     return { x: event.clientX * scaleX, y: event.clientY * scaleY };
   };
 
@@ -173,7 +171,7 @@ class Farm extends React.Component<IProps> {
 
   private onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(
-      this.canvas
+      this.canvasRef.current
     );
 
     const { x, y } = this.calculateMousePosition(event);
@@ -195,7 +193,7 @@ class Farm extends React.Component<IProps> {
 
   private onMouseMove = (event: React.MouseEvent<HTMLElement>) => {
     const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(
-      this.canvas
+      this.canvasRef.current
     );
 
     const { x, y } = this.calculateMousePosition(event);
@@ -304,7 +302,7 @@ class Farm extends React.Component<IProps> {
 
   private onScroll = (event: React.UIEvent<HTMLElement>) => {
     const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(
-      this.canvas
+      this.canvasRef.current
     );
 
     this.setState({
@@ -390,12 +388,12 @@ class Farm extends React.Component<IProps> {
   private updateCanvas = () => {
     const { currentFarm, date, images } = this.props;
 
-    if (this.canvas) {
-      const canvasHeight = this.canvas.height;
-      const canvasWidth = this.canvas.width;
-      const context = this.canvas.getContext("2d");
+    if (this.canvasRef.current) {
+      const canvasHeight = this.canvasRef.current.height;
+      const canvasWidth = this.canvasRef.current.width;
+      const context = this.canvasRef.current.getContext("2d");
 
-      if (this.canvas === null || context === null) {
+      if (this.canvasRef.current === null || context === null) {
         throw new Error("Could not get context for canvas");
       }
 

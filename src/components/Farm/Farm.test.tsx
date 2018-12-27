@@ -30,7 +30,7 @@ describe("selecting tiles", () => {
       <Farm currentFarm="Test" date={0} images={mockImages} zoom={1} />
     );
 
-    const canvas = (farm.instance() as Farm).canvas;
+    const canvas = (farm.instance() as Farm).canvasRef;
 
     if (canvas === undefined) {
       throw new Error();
@@ -60,7 +60,7 @@ describe("doing things with a selected region", () => {
       <Farm currentFarm="Test" date={0} images={mockImages} zoom={1} />
     );
 
-    const canvas = (farm.instance() as Farm).canvas;
+    const canvas = (farm.instance() as Farm).canvasRef;
 
     if (canvas === undefined) {
       throw new Error();
@@ -85,7 +85,7 @@ describe("doing things with a selected region", () => {
       />
     );
 
-    const canvas = (farm.instance() as Farm).canvas;
+    const canvas = (farm.instance() as Farm).canvasRef;
 
     if (canvas === undefined) {
       throw new Error();
@@ -134,7 +134,7 @@ describe("doing things with a selected region", () => {
       }
     });
 
-    const canvas = (farm.instance() as Farm).canvas;
+    const canvas = (farm.instance() as Farm).canvasRef;
 
     if (canvas === undefined) {
       throw new Error();
@@ -164,7 +164,7 @@ describe("doing things with a selected region", () => {
       />
     );
 
-    const canvas = (farm.instance() as Farm).canvas;
+    const canvas = (farm.instance() as Farm).canvasRef;
 
     if (canvas === undefined) {
       throw new Error();
@@ -213,7 +213,7 @@ describe("doing things with a selected region", () => {
       }
     });
 
-    const canvas = (farm.instance() as Farm).canvas;
+    const canvas = (farm.instance() as Farm).canvasRef;
 
     if (canvas === undefined) {
       throw new Error();
