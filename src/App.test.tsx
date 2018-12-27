@@ -133,7 +133,7 @@ describe("Toolbars", () => {
   });
 });
 
-describe("Components", () => {
+describe("State management", () => {
   it("sets the selectedItem to be of type tool when a tool is selected", () => {
     const wrapper = mount(<App />);
 

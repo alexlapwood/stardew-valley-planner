@@ -8,7 +8,7 @@ import SeedMenu from "./SeedMenu/SeedMenu";
 
 import "./ItemsMenu.css";
 
-type TCurrentMenu = "crops" | "equipment" | "decorations";
+type TCurrentMenu = "seeds" | "equipment" | "decorations";
 
 interface IProps {
   date: number;
@@ -23,7 +23,7 @@ interface IState {
 
 class ItemsMenu extends React.Component<IProps, IState> {
   public state: IState = {
-    currentMenu: "crops"
+    currentMenu: "seeds"
   };
 
   public render() {
@@ -31,7 +31,7 @@ class ItemsMenu extends React.Component<IProps, IState> {
 
     const showCrops = () => {
       this.setState({
-        currentMenu: "crops"
+        currentMenu: "seeds"
       });
     };
 
@@ -52,7 +52,7 @@ class ItemsMenu extends React.Component<IProps, IState> {
         <div className="flex-horizontal flex-no-shrink">
           <div
             className={cn("sdv-tab", {
-              selected: this.state.currentMenu === "crops"
+              selected: this.state.currentMenu === "seeds"
             })}
             data-automationid="seeds-tab"
             onClick={showCrops}
@@ -98,7 +98,7 @@ class ItemsMenu extends React.Component<IProps, IState> {
         </div>
         <SeedMenu
           date={date}
-          isVisible={this.state.currentMenu === "crops"}
+          isVisible={this.state.currentMenu === "seeds"}
           selectCrop={selectCrop}
           selectedItem={selectedItem}
         />

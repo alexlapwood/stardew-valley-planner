@@ -48,3 +48,754 @@ Sell: 35g
 Profit: 90g
 Profit/day: 3.21g"
 `;
+
+exports[`<SeedMenu /> renders correctly 1`] = `
+<div
+  class="SeedMenu sdv-list"
+>
+  <div
+    class="sdv-list-item"
+    data-automationid="seed--ancient_fruit"
+    title="Cost: 1000g
+Sell: 550g
+Profit: 3400g
+Profit/day: 40.48g"
+  >
+    <div
+      class="sdv-list-item-icon"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(images/seeds.png);background-position:-16px -0px;display:inline-block;height:16px;vertical-align:top;width:16px"
+      />
+    </div>
+    <div
+      class="sdv-list-item-text"
+    >
+      <div
+        class="BigText"
+      >
+        <div
+          style="transform:scale(1);transform-origin:left center;white-space:nowrap"
+        >
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-264px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-624px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-536px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-584px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-552px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-624px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-672px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-0px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-304px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-656px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-680px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-584px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-672px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="sdv-list-item"
+    data-automationid="seed--blue_jazz"
+    title="Cost: 30g
+Sell: 50g
+Profit: 60g
+Profit/day: 2.14g"
+  >
+    <div
+      class="sdv-list-item-icon"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(images/seeds.png);background-position:-64px -0px;display:inline-block;height:16px;vertical-align:top;width:16px"
+      />
+    </div>
+    <div
+      class="sdv-list-item-text"
+    >
+      <div
+        class="BigText"
+      >
+        <div
+          style="transform:scale(1);transform-origin:left center;white-space:nowrap"
+        >
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-272px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-608px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-680px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-552px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-0px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-336px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-520px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-720px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-720px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="sdv-list-item"
+    data-automationid="seed--cauliflower"
+    title="Cost: 80g
+Sell: 175g
+Profit: 190g
+Profit/day: 6.79g"
+  >
+    <div
+      class="sdv-list-item-icon"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(images/seeds.png);background-position:-128px -0px;display:inline-block;height:16px;vertical-align:top;width:16px"
+      />
+    </div>
+    <div
+      class="sdv-list-item-text"
+    >
+      <div
+        class="BigText"
+      >
+        <div
+          style="transform:scale(1);transform-origin:left center;white-space:nowrap"
+        >
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-280px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-520px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-680px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-608px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-584px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-560px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-608px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-632px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-696px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-552px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-656px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="sdv-list-item"
+    data-automationid="seed--coffee_bean"
+    title="Cost: 30g
+Sell: 15g
+Profit: 1350g
+Profit/day: 24.11g"
+  >
+    <div
+      class="sdv-list-item-icon"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(images/seeds.png);background-position:-144px -0px;display:inline-block;height:16px;vertical-align:top;width:16px"
+      />
+    </div>
+    <div
+      class="sdv-list-item-text"
+    >
+      <div
+        class="BigText"
+      >
+        <div
+          style="transform:scale(1);transform-origin:left center;white-space:nowrap"
+        >
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-280px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-632px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-560px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-560px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-552px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-552px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-0px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-272px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-552px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-520px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-624px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="sdv-list-item"
+    data-automationid="seed--garlic"
+    title="Cost: 40g
+Sell: 60g
+Profit: 120g
+Profit/day: 4.29g"
+  >
+    <div
+      class="sdv-list-item-icon"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(images/seeds.png);background-position:-224px -0px;display:inline-block;height:16px;vertical-align:top;width:16px"
+      />
+    </div>
+    <div
+      class="sdv-list-item-text"
+    >
+      <div
+        class="BigText"
+      >
+        <div
+          style="transform:scale(1);transform-origin:left center;white-space:nowrap"
+        >
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-312px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-520px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-656px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-608px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-584px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-536px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="sdv-list-item"
+    data-automationid="seed--green_bean"
+    title="Cost: 60g
+Sell: 40g
+Profit: 180g
+Profit/day: 6.43g"
+  >
+    <div
+      class="sdv-list-item-icon"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(images/seeds.png);background-position:-256px -0px;display:inline-block;height:16px;vertical-align:top;width:16px"
+      />
+    </div>
+    <div
+      class="sdv-list-item-text"
+    >
+      <div
+        class="BigText"
+      >
+        <div
+          style="transform:scale(1);transform-origin:left center;white-space:nowrap"
+        >
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-312px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-656px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-552px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-552px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-624px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-0px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-272px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-552px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-520px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-624px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="sdv-list-item"
+    data-automationid="seed--kale"
+    title="Cost: 70g
+Sell: 110g
+Profit: 160g
+Profit/day: 5.71g"
+  >
+    <div
+      class="sdv-list-item-icon"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(images/seeds.png);background-position:-304px -0px;display:inline-block;height:16px;vertical-align:top;width:16px"
+      />
+    </div>
+    <div
+      class="sdv-list-item-text"
+    >
+      <div
+        class="BigText"
+      >
+        <div
+          style="transform:scale(1);transform-origin:left center;white-space:nowrap"
+        >
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-344px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-520px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-608px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-552px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="sdv-list-item"
+    data-automationid="seed--parsnip"
+    title="Cost: 20g
+Sell: 35g
+Profit: 90g
+Profit/day: 3.21g"
+  >
+    <div
+      class="sdv-list-item-icon"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(images/seeds.png);background-position:-336px -0px;display:inline-block;height:16px;vertical-align:top;width:16px"
+      />
+    </div>
+    <div
+      class="sdv-list-item-text"
+    >
+      <div
+        class="BigText"
+      >
+        <div
+          style="transform:scale(1);transform-origin:left center;white-space:nowrap"
+        >
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-384px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-520px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-656px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-664px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-624px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-584px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-640px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="sdv-list-item"
+    data-automationid="seed--potato"
+    title="Cost: 50g
+Sell: 80g
+Profit: 120g
+Profit/day: 4.29g"
+  >
+    <div
+      class="sdv-list-item-icon"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(images/seeds.png);background-position:-368px -0px;display:inline-block;height:16px;vertical-align:top;width:16px"
+      />
+    </div>
+    <div
+      class="sdv-list-item-text"
+    >
+      <div
+        class="BigText"
+      >
+        <div
+          style="transform:scale(1);transform-origin:left center;white-space:nowrap"
+        >
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-384px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-632px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-672px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-520px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-672px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-632px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="sdv-list-item"
+    data-automationid="seed--rhubarb"
+    title="Cost: 100g
+Sell: 220g
+Profit: 240g
+Profit/day: 8.57g"
+  >
+    <div
+      class="sdv-list-item-icon"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(images/seeds.png);background-position:-432px -0px;display:inline-block;height:16px;vertical-align:top;width:16px"
+      />
+    </div>
+    <div
+      class="sdv-list-item-text"
+    >
+      <div
+        class="BigText"
+      >
+        <div
+          style="transform:scale(1);transform-origin:left center;white-space:nowrap"
+        >
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-400px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-576px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-680px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-528px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-520px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-656px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-528px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="sdv-list-item"
+    data-automationid="seed--strawberry"
+    title="Cost: 100g
+Sell: 120g
+Profit: 500g
+Profit/day: 17.86g"
+  >
+    <div
+      class="sdv-list-item-icon"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(images/seeds.png);background-position:-464px -0px;display:inline-block;height:16px;vertical-align:top;width:16px"
+      />
+    </div>
+    <div
+      class="sdv-list-item-text"
+    >
+      <div
+        class="BigText"
+      >
+        <div
+          style="transform:scale(1);transform-origin:left center;white-space:nowrap"
+        >
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-408px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-672px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-656px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-520px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-696px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-528px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-552px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-656px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-656px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-712px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="sdv-list-item"
+    data-automationid="seed--tulip"
+    title="Cost: 20g
+Sell: 30g
+Profit: 40g
+Profit/day: 1.43g"
+  >
+    <div
+      class="sdv-list-item-icon"
+    >
+      <div
+        class="sprite"
+        style="background-image:url(images/seeds.png);background-position:-544px -0px;display:inline-block;height:16px;vertical-align:top;width:16px"
+      />
+    </div>
+    <div
+      class="sdv-list-item-text"
+    >
+      <div
+        class="BigText"
+      >
+        <div
+          style="transform:scale(1);transform-origin:left center;white-space:nowrap"
+        >
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-416px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-680px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-608px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-584px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+          <div
+            class="sprite"
+            style="background-image:url(images/sdv-font.png);background-position:-640px -0px;display:inline-block;height:16px;vertical-align:top;width:8px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
