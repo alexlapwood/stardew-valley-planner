@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SeedMenu /> Crops that don regrow calculates the profit correctly 1`] = `
+"Cost: 60g
+Sell: 40g
+Profit: 180g
+Profit/day: 6.43g"
+`;
+
+exports[`<SeedMenu /> Crops that don regrow calculates the profit correctly for crops planted just before they go out of season 1`] = `
+"Cost: 60g
+Sell: 40g
+Profit: 180g
+Profit/day: 6.92g"
+`;
+
+exports[`<SeedMenu /> Crops that don regrow calculates the profit correctly for crops planted out of season 1`] = `
+"Cost: 60g
+Sell: 40g
+Profit: 140g
+Profit/day: 5.6g"
+`;
+
+exports[`<SeedMenu /> Crops that don't regrow calculates the profit correctly 1`] = `
+"Cost: 20g
+Sell: 35g
+Profit: 90g
+Profit/day: 3.21g"
+`;
+
+exports[`<SeedMenu /> Crops that don't regrow calculates the profit correctly for crops planted just before they go out of season 1`] = `
+"Cost: 20g
+Sell: 35g
+Profit: 15g
+Profit/day: 3g"
+`;
+
+exports[`<SeedMenu /> Crops that don't regrow calculates the profit correctly for crops planted out of season 1`] = `
+"Cost: 20g
+Sell: 35g
+Profit: 0g
+Profit/day: 0g"
+`;
+
+exports[`<SeedMenu /> Crops that don't regrow calculates the profit correctly for year 2 1`] = `
+"Cost: 20g
+Sell: 35g
+Profit: 90g
+Profit/day: 3.21g"
+`;

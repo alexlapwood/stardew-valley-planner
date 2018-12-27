@@ -11,7 +11,7 @@
       "stages": [1, 2, 2, 2]
     },
     "ancient_fruit": {
-      "buy": 700,
+      "buy": 1000,
       "harvest": {},
       "id": "ancient_fruit",
       "name": "Ancient Fruit",

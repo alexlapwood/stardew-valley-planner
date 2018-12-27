@@ -2,14 +2,12 @@ declare module "visibl";
 
 interface ICrop {
   buy: number;
-  harvest:
-    | {}
-    | {
-        extra_chance: number;
-        level_increase: number;
-        max: number;
-        min: number;
-      };
+  harvest: {
+    extra_chance?: number;
+    level_increase?: number;
+    max?: number;
+    min?: number;
+  };
   id: string;
   isFlower?: boolean;
   isIndoorsOnly?: boolean;

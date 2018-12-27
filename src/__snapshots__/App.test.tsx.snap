@@ -1334,6 +1334,10 @@ exports[`renders the app without crashing 1`] = `
                 data-automationid="seed--ancient_fruit"
                 key="ancient_fruit"
                 onClick={[Function]}
+                title="Cost: 1000g
+Sell: 550g
+Profit: 3400g
+Profit/day: 40.48g"
               >
                 <div
                   className="sdv-list-item-icon"
@@ -1672,6 +1676,10 @@ exports[`renders the app without crashing 1`] = `
                 data-automationid="seed--blue_jazz"
                 key="blue_jazz"
                 onClick={[Function]}
+                title="Cost: 30g
+Sell: 50g
+Profit: 60g
+Profit/day: 2.14g"
               >
                 <div
                   className="sdv-list-item-icon"
@@ -1922,6 +1930,10 @@ exports[`renders the app without crashing 1`] = `
                 data-automationid="seed--cauliflower"
                 key="cauliflower"
                 onClick={[Function]}
+                title="Cost: 80g
+Sell: 175g
+Profit: 190g
+Profit/day: 6.79g"
               >
                 <div
                   className="sdv-list-item-icon"
@@ -2216,6 +2228,10 @@ exports[`renders the app without crashing 1`] = `
                 data-automationid="seed--coffee_bean"
                 key="coffee_bean"
                 onClick={[Function]}
+                title="Cost: 30g
+Sell: 15g
+Profit: 1350g
+Profit/day: 24.11g"
               >
                 <div
                   className="sdv-list-item-icon"
@@ -2510,6 +2526,10 @@ exports[`renders the app without crashing 1`] = `
                 data-automationid="seed--garlic"
                 key="garlic"
                 onClick={[Function]}
+                title="Cost: 40g
+Sell: 60g
+Profit: 120g
+Profit/day: 4.29g"
               >
                 <div
                   className="sdv-list-item-icon"
@@ -2694,6 +2714,10 @@ exports[`renders the app without crashing 1`] = `
                 data-automationid="seed--green_bean"
                 key="green_bean"
                 onClick={[Function]}
+                title="Cost: 60g
+Sell: 40g
+Profit: 180g
+Profit/day: 6.43g"
               >
                 <div
                   className="sdv-list-item-icon"
@@ -2966,6 +2990,10 @@ exports[`renders the app without crashing 1`] = `
                 data-automationid="seed--kale"
                 key="kale"
                 onClick={[Function]}
+                title="Cost: 70g
+Sell: 110g
+Profit: 160g
+Profit/day: 5.71g"
               >
                 <div
                   className="sdv-list-item-icon"
@@ -3106,6 +3134,10 @@ exports[`renders the app without crashing 1`] = `
                 data-automationid="seed--parsnip"
                 key="parsnip"
                 onClick={[Function]}
+                title="Cost: 20g
+Sell: 35g
+Profit: 90g
+Profit/day: 3.21g"
               >
                 <div
                   className="sdv-list-item-icon"
@@ -3312,6 +3344,10 @@ exports[`renders the app without crashing 1`] = `
                 data-automationid="seed--potato"
                 key="potato"
                 onClick={[Function]}
+                title="Cost: 50g
+Sell: 80g
+Profit: 120g
+Profit/day: 4.29g"
               >
                 <div
                   className="sdv-list-item-icon"
@@ -3496,6 +3532,10 @@ exports[`renders the app without crashing 1`] = `
                 data-automationid="seed--rhubarb"
                 key="rhubarb"
                 onClick={[Function]}
+                title="Cost: 100g
+Sell: 220g
+Profit: 240g
+Profit/day: 8.57g"
               >
                 <div
                   className="sdv-list-item-icon"
@@ -3702,6 +3742,10 @@ exports[`renders the app without crashing 1`] = `
                 data-automationid="seed--strawberry"
                 key="strawberry"
                 onClick={[Function]}
+                title="Cost: 100g
+Sell: 120g
+Profit: 500g
+Profit/day: 17.86g"
               >
                 <div
                   className="sdv-list-item-icon"
@@ -3974,6 +4018,10 @@ exports[`renders the app without crashing 1`] = `
                 data-automationid="seed--tulip"
                 key="tulip"
                 onClick={[Function]}
+                title="Cost: 20g
+Sell: 30g
+Profit: 40g
+Profit/day: 1.43g"
               >
                 <div
                   className="sdv-list-item-icon"

@@ -33,6 +33,33 @@ function forEachTileInMap(
   tileMap: number[][],
   callBack: (tileValue: number, tileIndex: number, x: number, y: number) => void
 ) {
+  const test = [];
+
+  for (let iy = 0; iy < 65; iy++) {
+    test[iy] = "";
+    for (let ix = 0; ix < 80; ix++) {
+      if (tileMap[ix]) {
+        switch (tileMap[ix][iy]) {
+          case 3:
+            test[iy] += "0";
+            break;
+          case 2:
+            test[iy] += "P";
+            break;
+          case 1:
+            test[iy] += "E";
+            break;
+          default:
+            test[iy] += " ";
+        }
+      } else {
+        test[iy] += " ";
+      }
+    }
+  }
+
+  // console.log(JSON.stringify(test));
+
   tileMap.forEach((row, ix) => {
     row.forEach((cellValue, iy) => {
       const north =
