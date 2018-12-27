@@ -183,4 +183,53 @@ describe("Crop helper", () => {
       });
     });
   });
+
+  describe("crops that can grow during any season", () => {
+    it("calculates the last day based on the crop's stages", () => {
+      const result = getCropsLastDay(
+        {
+          cropId: "test",
+          datePlanted: 4 * 28 - 5,
+          type: "crop",
+          x: 0,
+          y: 0
+        },
+        {
+          ...greenBeanGrowth,
+          buy: 0,
+          harvest: {},
+          id: "test_crop",
+          name: "Test Crop",
+          seasons: ["spring", "summer", "fall", "winter"],
+          sell: 0
+        }
+      );
+
+      expect(result).toBe(4 * 28 + 4);
+    });
+
+    it("throws an error if a crop will never die", () => {
+      expect(() => {
+        getCropsLastDay(
+          {
+            cropId: "test",
+            datePlanted: 0,
+            type: "crop",
+            x: 0,
+            y: 0
+          },
+          {
+            ...oneDayGrowth,
+            buy: 0,
+            harvest: {},
+            id: "test_crop",
+            name: "Test Crop",
+            regrow: 1,
+            seasons: ["spring", "summer", "fall", "winter"],
+            sell: 0
+          }
+        );
+      }).toThrowError("This crop will regrow indefinitely");
+    });
+  });
 });
