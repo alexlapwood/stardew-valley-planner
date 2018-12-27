@@ -18,12 +18,66 @@ interface IProps {
   selectedItem?: ISelectedItem;
 }
 
-const SeedMenu: React.SFC<IProps> = props => {
-  const { date, isVisible, selectCrop, selectedItem } = props;
+class SeedMenu extends React.Component<IProps> {
+  render() {
+    const { date, isVisible, selectCrop, selectedItem } = this.props;
 
-  const cropIds = Object.keys(crops).sort((a, b) => a.localeCompare(b));
+    const cropIds = Object.keys(crops).sort((a, b) => a.localeCompare(b));
 
-  const getLastDayForCrop = (crop: ICrop) => {
+    return isVisible ? (
+      <div className="SeedMenu sdv-list">
+        {cropIds
+          .filter(cropId => !crops[cropId].isIndoorsOnly)
+          .filter(
+            cropId =>
+              crops[cropId] &&
+              crops[cropId].seasons.find(
+                season =>
+                  season ===
+                  ["spring", "summer", "fall", "winter"][getSeason(date)]
+              )
+          )
+          .sort((a, b) => a.localeCompare(b))
+          .map(cropId => (
+            <div
+              className={cn("sdv-list-item", {
+                selected:
+                  selectedItem !== undefined &&
+                  selectedItem.type === "crop" &&
+                  selectedItem.id === cropId
+              })}
+              data-automationid={`seed--${cropId}`}
+              key={cropId}
+              // tslint:disable-next-line:jsx-no-lambda
+              onClick={() => {
+                selectCrop(cropId);
+              }}
+              title={
+                `Cost: ${crops[cropId].buy}g\n` +
+                `Sell: ${crops[cropId].sell}g\n` +
+                `Profit: ${this.calculateProfit(crops[cropId])}g\n` +
+                `Profit/day: ${this.calculateProfitPerDay(crops[cropId])}g`
+              }
+            >
+              <div className="sdv-list-item-icon">
+                <Sprite
+                  height={16}
+                  src="images/seeds.png"
+                  width={16}
+                  x={cropIds.indexOf(cropId) * 16}
+                  y={0}
+                />
+              </div>
+              <div className="sdv-list-item-text">
+                <BigText>{crops[cropId].name}</BigText>
+              </div>
+            </div>
+          ))}
+      </div>
+    ) : null;
+  }
+
+  private getLastDayOfYearForCrop = (crop: ICrop) => {
     let lastDay = 0;
 
     if (crop.seasons.includes("spring")) {
@@ -42,13 +96,13 @@ const SeedMenu: React.SFC<IProps> = props => {
       lastDay = 28 * 4;
     }
 
-    lastDay += getYear(date) * 28 * 4;
+    lastDay += getYear(this.props.date) * 28 * 4;
 
     return lastDay;
   };
 
-  const calculateProfit = (crop: ICrop) => {
-    const lastDay = getLastDayForCrop(crop);
+  private calculateProfit = (crop: ICrop) => {
+    const lastDay = this.getLastDayOfYearForCrop(crop);
 
     const daysUntilFirstHarvest = crop.stages.reduce(
       (acc, stage) => acc + stage,
@@ -58,9 +112,12 @@ const SeedMenu: React.SFC<IProps> = props => {
     const harvests =
       crop.regrow === undefined
         ? Math.ceil(
-            (lastDay - date - daysUntilFirstHarvest) / daysUntilFirstHarvest
+            (lastDay - this.props.date - daysUntilFirstHarvest) /
+              daysUntilFirstHarvest
           )
-        : Math.ceil((lastDay - date - daysUntilFirstHarvest) / crop.regrow);
+        : Math.ceil(
+            (lastDay - this.props.date - daysUntilFirstHarvest) / crop.regrow
+          );
 
     return (
       crop.sell * harvests * (crop.harvest.min || 1) -
@@ -68,61 +125,12 @@ const SeedMenu: React.SFC<IProps> = props => {
     );
   };
 
-  return isVisible ? (
-    <div className="SeedMenu sdv-list">
-      {cropIds
-        .filter(cropId => !crops[cropId].isIndoorsOnly)
-        .filter(
-          cropId =>
-            crops[cropId] &&
-            crops[cropId].seasons.find(
-              season =>
-                season ===
-                ["spring", "summer", "fall", "winter"][getSeason(date)]
-            )
-        )
-        .sort((a, b) => a.localeCompare(b))
-        .map(cropId => (
-          <div
-            className={cn("sdv-list-item", {
-              selected:
-                selectedItem !== undefined &&
-                selectedItem.type === "crop" &&
-                selectedItem.id === cropId
-            })}
-            data-automationid={`seed--${cropId}`}
-            key={cropId}
-            // tslint:disable-next-line:jsx-no-lambda
-            onClick={() => {
-              selectCrop(cropId);
-            }}
-            title={
-              `Cost: ${crops[cropId].buy}g\n` +
-              `Sell: ${crops[cropId].sell}g\n` +
-              `Profit: ${calculateProfit(crops[cropId])}g\n` +
-              `Profit/day: ${Math.round(
-                (calculateProfit(crops[cropId]) /
-                  (getLastDayForCrop(crops[cropId]) - date)) *
-                  100
-              ) / 100}g`
-            }
-          >
-            <div className="sdv-list-item-icon">
-              <Sprite
-                height={16}
-                src="images/seeds.png"
-                width={16}
-                x={cropIds.indexOf(cropId) * 16}
-                y={0}
-              />
-            </div>
-            <div className="sdv-list-item-text">
-              <BigText>{crops[cropId].name}</BigText>
-            </div>
-          </div>
-        ))}
-    </div>
-  ) : null;
-};
+  private calculateProfitPerDay = (crop: ICrop) =>
+    Math.round(
+      (this.calculateProfit(crop) /
+        (this.getLastDayOfYearForCrop(crop) - this.props.date)) *
+        100
+    ) / 100;
+}
 
 export default SeedMenu;
