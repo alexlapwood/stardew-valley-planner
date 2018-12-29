@@ -2,12 +2,12 @@ import React from "react";
 
 import cn from "classnames";
 
-import { getSeason } from "../../../helpers/date";
-import BigText from "../../BigText/BigText";
-import Sprite from "../../Sprite/Sprite";
+import { getSeason } from "../../../../helpers/date";
+import BigText from "../../../BigText/BigText";
+import Sprite from "../../../Sprite/Sprite";
 
 // tslint:disable-next-line:no-var-requires
-const { equipment, equipmentIds } = require("../../../data/sdv.json") as {
+const { equipment, equipmentIds } = require("../../../../data/sdv.json") as {
   equipment: { [index: string]: IEquipment };
   equipmentIds: string[];
 };
@@ -24,7 +24,7 @@ interface IState {
   open: boolean;
 }
 
-class MenuItem extends React.Component<IProps, IState> {
+class EquipmentMenuItem extends React.Component<IProps, IState> {
   public state: IState = {
     currentSkinIndex: 0,
     open: false
@@ -207,4 +207,4 @@ class MenuItem extends React.Component<IProps, IState> {
   };
 }
 
-export default MenuItem;
+export default EquipmentMenuItem;

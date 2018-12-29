@@ -1,6 +1,6 @@
 import React from "react";
 
-import MenuItem from "../MenuItem/MenuItem";
+import EquipmentMenuItem from "./EquipmentMenuItem/EquipmentMenuItem";
 
 // tslint:disable-next-line:no-var-requires
 const { equipmentIds } = require("../../../data/sdv.json") as {
@@ -44,7 +44,7 @@ class EquipmentMenu extends React.PureComponent<IProps, IState> {
             return true;
           })
           .map(equipmentId => (
-            <MenuItem
+            <EquipmentMenuItem
               equipmentId={equipmentId}
               date={date}
               key={equipmentId}

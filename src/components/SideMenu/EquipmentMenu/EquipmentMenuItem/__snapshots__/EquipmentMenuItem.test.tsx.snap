@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<MenuItem /> renders correctly 1`] = `
-<MenuItem
+exports[`<EquipmentMenuItem /> renders correctly 1`] = `
+<EquipmentMenuItem
   date={0}
   equipmentId="scarecrow"
   selectEquipment={[MockFunction]}
@@ -274,5 +274,5 @@ exports[`<MenuItem /> renders correctly 1`] = `
       />
     </div>
   </div>
-</MenuItem>
+</EquipmentMenuItem>
 `;

@@ -35,7 +35,7 @@ describe("<EquipmentMenu />", () => {
         />
       );
 
-      expect(equipmentMenu.find("MenuItem")).toHaveLength(to + 1);
+      expect(equipmentMenu.find("EquipmentMenuItem")).toHaveLength(to + 1);
     });
 
     it("only renders the items from range.from onwards", () => {
@@ -50,7 +50,7 @@ describe("<EquipmentMenu />", () => {
         />
       );
 
-      expect(equipmentMenu.find("MenuItem")).toHaveLength(
+      expect(equipmentMenu.find("EquipmentMenuItem")).toHaveLength(
         equipmentIds.length - 4
       );
     });
@@ -67,7 +67,9 @@ describe("<EquipmentMenu />", () => {
         />
       );
 
-      expect(equipmentMenu.find("MenuItem")).toHaveLength(to - from + 1);
+      expect(equipmentMenu.find("EquipmentMenuItem")).toHaveLength(
+        to - from + 1
+      );
     });
   });
 });

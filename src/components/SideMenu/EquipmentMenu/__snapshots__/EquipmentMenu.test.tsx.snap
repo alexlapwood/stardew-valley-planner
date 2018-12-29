@@ -14,7 +14,7 @@ exports[`<EquipmentMenu /> renders correctly 1`] = `
   <div
     className="EquipmentMenu sdv-list"
   >
-    <MenuItem
+    <EquipmentMenuItem
       date={0}
       equipmentId="scarecrow"
       key="scarecrow"
@@ -288,8 +288,8 @@ exports[`<EquipmentMenu /> renders correctly 1`] = `
           />
         </div>
       </div>
-    </MenuItem>
-    <MenuItem
+    </EquipmentMenuItem>
+    <EquipmentMenuItem
       date={0}
       equipmentId="sprinkler"
       key="sprinkler"
@@ -551,8 +551,8 @@ exports[`<EquipmentMenu /> renders correctly 1`] = `
           />
         </div>
       </div>
-    </MenuItem>
-    <MenuItem
+    </EquipmentMenuItem>
+    <EquipmentMenuItem
       date={0}
       equipmentId="fence"
       key="fence"
@@ -869,7 +869,7 @@ exports[`<EquipmentMenu /> renders correctly 1`] = `
           />
         </div>
       </div>
-    </MenuItem>
+    </EquipmentMenuItem>
   </div>
 </EquipmentMenu>
 `;
