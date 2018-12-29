@@ -10,7 +10,7 @@ const { equipmentIds } = require("../../../data/sdv.json") as {
 
 describe("<EquipmentMenu />", () => {
   it("renders correctly", () => {
-    const itemsMenu = mount(
+    const equipmentMenu = mount(
       <EquipmentMenu
         date={0}
         isVisible={true}
@@ -19,14 +19,14 @@ describe("<EquipmentMenu />", () => {
       />
     );
 
-    expect(itemsMenu).toMatchSnapshot();
+    expect(equipmentMenu).toMatchSnapshot();
   });
 
   describe("speciying a range", () => {
     it("renders the items up to and including range.to", () => {
       const to = 4;
 
-      const itemsMenu = mount(
+      const equipmentMenu = mount(
         <EquipmentMenu
           date={0}
           range={{ to }}
@@ -35,13 +35,13 @@ describe("<EquipmentMenu />", () => {
         />
       );
 
-      expect(itemsMenu.find("MenuItem")).toHaveLength(to + 1);
+      expect(equipmentMenu.find("MenuItem")).toHaveLength(to + 1);
     });
 
     it("only renders the items from range.from onwards", () => {
       const from = 4;
 
-      const itemsMenu = mount(
+      const equipmentMenu = mount(
         <EquipmentMenu
           date={0}
           range={{ from }}
@@ -50,13 +50,15 @@ describe("<EquipmentMenu />", () => {
         />
       );
 
-      expect(itemsMenu.find("MenuItem")).toHaveLength(equipmentIds.length - 4);
+      expect(equipmentMenu.find("MenuItem")).toHaveLength(
+        equipmentIds.length - 4
+      );
     });
 
     it("only renders the items in the range", () => {
       const from = 2;
       const to = 4;
-      const itemsMenu = mount(
+      const equipmentMenu = mount(
         <EquipmentMenu
           date={0}
           range={{ from, to }}
@@ -65,7 +67,7 @@ describe("<EquipmentMenu />", () => {
         />
       );
 
-      expect(itemsMenu.find("MenuItem")).toHaveLength(to - from + 1);
+      expect(equipmentMenu.find("MenuItem")).toHaveLength(to - from + 1);
     });
   });
 });

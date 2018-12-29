@@ -2,7 +2,7 @@ import React from "react";
 
 import DatePicker from "./components/DatePicker/DatePicker";
 import Farm from "./components/Farm/Farm";
-import ItemsMenu from "./components/ItemsMenu/ItemsMenu";
+import SideMenu from "./components/SideMenu/SideMenu";
 import Toolbar from "./components/Toolbar/Toolbar";
 
 import { getSeason } from "./helpers/date";
@@ -116,7 +116,7 @@ class App extends React.Component<IProps, IState> {
           </div>
         </div>
         <div style={{ width: "200px" }}>
-          <ItemsMenu
+          <SideMenu
             date={date}
             // tslint:disable-next-line:jsx-no-lambda
             selectCrop={(cropId: string) => {

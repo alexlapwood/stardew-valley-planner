@@ -6,7 +6,7 @@ import Sprite from "../Sprite/Sprite";
 import EquipmentMenu from "./EquipmentMenu/EquipmentMenu";
 import SeedMenu from "./SeedMenu/SeedMenu";
 
-import "./ItemsMenu.css";
+import "./SideMenu.css";
 
 type TCurrentMenu = "seeds" | "equipment" | "decorations";
 
@@ -21,7 +21,7 @@ interface IState {
   currentMenu: TCurrentMenu;
 }
 
-class ItemsMenu extends React.Component<IProps, IState> {
+class SideMenu extends React.Component<IProps, IState> {
   public state: IState = {
     currentMenu: "seeds"
   };
@@ -48,7 +48,7 @@ class ItemsMenu extends React.Component<IProps, IState> {
     };
 
     return (
-      <div className="ItemsMenu flex-vertical">
+      <div className="SideMenu flex-vertical">
         <div className="flex-horizontal flex-no-shrink">
           <div
             className={cn("sdv-tab", {
@@ -121,4 +121,4 @@ class ItemsMenu extends React.Component<IProps, IState> {
   }
 }
 
-export default ItemsMenu;
+export default SideMenu;

@@ -1228,13 +1228,13 @@ exports[`renders the app without crashing 1`] = `
         }
       }
     >
-      <ItemsMenu
+      <SideMenu
         date={0}
         selectCrop={[Function]}
         selectEquipment={[Function]}
       >
         <div
-          className="ItemsMenu flex-vertical"
+          className="SideMenu flex-vertical"
         >
           <div
             className="flex-horizontal flex-no-shrink"
@@ -4202,7 +4202,7 @@ Profit/day: 1.43g"
             selectEquipment={[Function]}
           />
         </div>
-      </ItemsMenu>
+      </SideMenu>
     </div>
   </div>
 </App>

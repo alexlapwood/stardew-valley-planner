@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ItemsMenu /> renders correctly 1`] = `
+exports[`<SideMenu /> renders correctly 1`] = `
 <div
-  className="ItemsMenu flex-vertical"
+  className="SideMenu flex-vertical"
 >
   <div
     className="flex-horizontal flex-no-shrink"
