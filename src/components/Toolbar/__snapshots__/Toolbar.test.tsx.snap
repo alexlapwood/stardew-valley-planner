@@ -1,40 +1,42 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`renders the app without crashing 1`] = `
-<div
-  class="Toolbar sdv-toolbar-border flex-horizontal"
->
+<div>
   <div
-    class="Toolbar--tool sdv-tool-border"
-    data-automationid="tool--pick-axe"
+    class="Toolbar sdv-toolbar-border flex-horizontal"
   >
-    <img
-      src="images/pick-axe.png"
+    <div
+      class="Toolbar--tool sdv-tool-border"
+      data-testid="tool--pick-axe"
+    >
+      <img
+        src="images/pick-axe.png"
+      />
+    </div>
+    <div
+      class="Toolbar--tool sdv-tool-border"
+      data-testid="tool--"
+    />
+    <div
+      class="Toolbar--tool sdv-tool-border"
+      data-testid="tool--"
+    />
+    <div
+      class="Toolbar--tool sdv-tool-border"
+      data-testid="tool--"
+    />
+    <div
+      class="Toolbar--tool sdv-tool-border"
+      data-testid="tool--"
+    />
+    <div
+      class="Toolbar--tool sdv-tool-border"
+      data-testid="tool--"
+    />
+    <div
+      class="Toolbar--tool sdv-tool-border"
+      data-testid="tool--"
     />
   </div>
-  <div
-    class="Toolbar--tool sdv-tool-border"
-    data-automationid="tool--"
-  />
-  <div
-    class="Toolbar--tool sdv-tool-border"
-    data-automationid="tool--"
-  />
-  <div
-    class="Toolbar--tool sdv-tool-border"
-    data-automationid="tool--"
-  />
-  <div
-    class="Toolbar--tool sdv-tool-border"
-    data-automationid="tool--"
-  />
-  <div
-    class="Toolbar--tool sdv-tool-border"
-    data-automationid="tool--"
-  />
-  <div
-    class="Toolbar--tool sdv-tool-border"
-    data-automationid="tool--"
-  />
 </div>
 `;

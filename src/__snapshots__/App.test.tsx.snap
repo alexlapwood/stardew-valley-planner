@@ -202,7 +202,7 @@ exports[`renders the app without crashing 1`] = `
           >
             <div
               className="Toolbar--tool sdv-tool-border"
-              data-automationid="tool--pick-axe"
+              data-testid="tool--pick-axe"
               onClick={[Function]}
             >
               <img
@@ -211,27 +211,27 @@ exports[`renders the app without crashing 1`] = `
             </div>
             <div
               className="Toolbar--tool sdv-tool-border"
-              data-automationid="tool--"
+              data-testid="tool--"
             />
             <div
               className="Toolbar--tool sdv-tool-border"
-              data-automationid="tool--"
+              data-testid="tool--"
             />
             <div
               className="Toolbar--tool sdv-tool-border"
-              data-automationid="tool--"
+              data-testid="tool--"
             />
             <div
               className="Toolbar--tool sdv-tool-border"
-              data-automationid="tool--"
+              data-testid="tool--"
             />
             <div
               className="Toolbar--tool sdv-tool-border"
-              data-automationid="tool--"
+              data-testid="tool--"
             />
             <div
               className="Toolbar--tool sdv-tool-border"
-              data-automationid="tool--"
+              data-testid="tool--"
             />
           </div>
         </Toolbar>
@@ -260,7 +260,7 @@ exports[`renders the app without crashing 1`] = `
                       className="DatePicker--day-slider flex-horizontal flex"
                     >
                       <input
-                        data-automation-id="DatePicker--day-slider-input"
+                        data-testid="DatePicker--day-slider-input"
                         max="27"
                         min="0"
                         onChange={[Function]}
@@ -415,7 +415,7 @@ exports[`renders the app without crashing 1`] = `
                   className="DatePicker--season flex-horizontal"
                 >
                   <BigButton
-                    data-automation-id="DatePicker--season-spring"
+                    data-testid="DatePicker--season-spring"
                     onClick={[Function]}
                     selected={true}
                   >
@@ -578,7 +578,7 @@ exports[`renders the app without crashing 1`] = `
                     </div>
                   </BigButton>
                   <BigButton
-                    data-automation-id="DatePicker--season-summer"
+                    data-testid="DatePicker--season-summer"
                     onClick={[Function]}
                     selected={false}
                   >
@@ -741,7 +741,7 @@ exports[`renders the app without crashing 1`] = `
                     </div>
                   </BigButton>
                   <BigButton
-                    data-automation-id="DatePicker--season-fall"
+                    data-testid="DatePicker--season-fall"
                     onClick={[Function]}
                     selected={false}
                   >
@@ -860,7 +860,7 @@ exports[`renders the app without crashing 1`] = `
                     </div>
                   </BigButton>
                   <BigButton
-                    data-automation-id="DatePicker--season-winter"
+                    data-testid="DatePicker--season-winter"
                     onClick={[Function]}
                     selected={false}
                   >
@@ -1043,7 +1043,7 @@ exports[`renders the app without crashing 1`] = `
                     >
                       <button
                         className="sdv-button-subtract"
-                        data-automation-id="DatePicker--year-subtract"
+                        data-testid="DatePicker--year-subtract"
                         disabled={true}
                         onClick={[Function]}
                       />
@@ -1206,7 +1206,7 @@ exports[`renders the app without crashing 1`] = `
                       </div>
                       <button
                         className="sdv-button-add"
-                        data-automation-id="DatePicker--year-add"
+                        data-testid="DatePicker--year-add"
                         onClick={[Function]}
                       />
                     </div>
@@ -1241,7 +1241,7 @@ exports[`renders the app without crashing 1`] = `
           >
             <div
               className="sdv-tab selected"
-              data-automationid="seeds-tab"
+              data-testid="seeds-tab"
               onClick={[Function]}
             >
               <Sprite
@@ -1268,7 +1268,7 @@ exports[`renders the app without crashing 1`] = `
             </div>
             <div
               className="sdv-tab"
-              data-automationid="equipment-tab"
+              data-testid="equipment-tab"
               onClick={[Function]}
             >
               <Sprite
@@ -1295,7 +1295,7 @@ exports[`renders the app without crashing 1`] = `
             </div>
             <div
               className="sdv-tab"
-              data-automationid="decorations-tab"
+              data-testid="decorations-tab"
               onClick={[Function]}
             >
               <Sprite
@@ -1331,7 +1331,7 @@ exports[`renders the app without crashing 1`] = `
             >
               <div
                 className="sdv-list-item"
-                data-automationid="seed--ancient_fruit"
+                data-testid="seed--ancient_fruit"
                 key="ancient_fruit"
                 onClick={[Function]}
                 title="Cost: 1000g
@@ -1673,7 +1673,7 @@ Profit/day: 40.48g"
               </div>
               <div
                 className="sdv-list-item"
-                data-automationid="seed--blue_jazz"
+                data-testid="seed--blue_jazz"
                 key="blue_jazz"
                 onClick={[Function]}
                 title="Cost: 30g
@@ -1927,7 +1927,7 @@ Profit/day: 2.14g"
               </div>
               <div
                 className="sdv-list-item"
-                data-automationid="seed--cauliflower"
+                data-testid="seed--cauliflower"
                 key="cauliflower"
                 onClick={[Function]}
                 title="Cost: 80g
@@ -2225,7 +2225,7 @@ Profit/day: 6.79g"
               </div>
               <div
                 className="sdv-list-item"
-                data-automationid="seed--coffee_bean"
+                data-testid="seed--coffee_bean"
                 key="coffee_bean"
                 onClick={[Function]}
                 title="Cost: 30g
@@ -2523,7 +2523,7 @@ Profit/day: 24.11g"
               </div>
               <div
                 className="sdv-list-item"
-                data-automationid="seed--garlic"
+                data-testid="seed--garlic"
                 key="garlic"
                 onClick={[Function]}
                 title="Cost: 40g
@@ -2711,7 +2711,7 @@ Profit/day: 4.29g"
               </div>
               <div
                 className="sdv-list-item"
-                data-automationid="seed--green_bean"
+                data-testid="seed--green_bean"
                 key="green_bean"
                 onClick={[Function]}
                 title="Cost: 60g
@@ -2987,7 +2987,7 @@ Profit/day: 6.43g"
               </div>
               <div
                 className="sdv-list-item"
-                data-automationid="seed--kale"
+                data-testid="seed--kale"
                 key="kale"
                 onClick={[Function]}
                 title="Cost: 70g
@@ -3131,7 +3131,7 @@ Profit/day: 5.71g"
               </div>
               <div
                 className="sdv-list-item"
-                data-automationid="seed--parsnip"
+                data-testid="seed--parsnip"
                 key="parsnip"
                 onClick={[Function]}
                 title="Cost: 20g
@@ -3341,7 +3341,7 @@ Profit/day: 3.21g"
               </div>
               <div
                 className="sdv-list-item"
-                data-automationid="seed--potato"
+                data-testid="seed--potato"
                 key="potato"
                 onClick={[Function]}
                 title="Cost: 50g
@@ -3529,7 +3529,7 @@ Profit/day: 4.29g"
               </div>
               <div
                 className="sdv-list-item"
-                data-automationid="seed--rhubarb"
+                data-testid="seed--rhubarb"
                 key="rhubarb"
                 onClick={[Function]}
                 title="Cost: 100g
@@ -3739,7 +3739,7 @@ Profit/day: 8.57g"
               </div>
               <div
                 className="sdv-list-item"
-                data-automationid="seed--strawberry"
+                data-testid="seed--strawberry"
                 key="strawberry"
                 onClick={[Function]}
                 title="Cost: 100g
@@ -4015,7 +4015,7 @@ Profit/day: 17.86g"
               </div>
               <div
                 className="sdv-list-item"
-                data-automationid="seed--tulip"
+                data-testid="seed--tulip"
                 key="tulip"
                 onClick={[Function]}
                 title="Cost: 20g

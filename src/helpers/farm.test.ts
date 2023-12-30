@@ -1,4 +1,6 @@
 import { mergeDeep } from "immutable";
+
+import testFarm from "../__mocks__/testFarm";
 import {
   forEachFarmItem,
   forEachTileInRegion,
@@ -6,10 +8,8 @@ import {
   getFenceMap,
   getFlooringMap,
   getSoilMap,
-  isCropHereToday
+  isCropHereToday,
 } from "./farm";
-
-import testFarm from "../__mocks__/testFarm";
 
 describe("Farm helper", () => {
   describe("forEachTileInRegion", () => {
@@ -18,11 +18,11 @@ describe("Farm helper", () => {
         { expected: 1, highlightedRegion: { x1: 0, x2: 0, y1: 0, y2: 0 } },
         { expected: 10, highlightedRegion: { x1: 0, x2: 4, y1: 0, y2: 1 } },
         { expected: 10, highlightedRegion: { x1: 4, x2: 0, y1: 1, y2: 0 } },
-        { expected: 10, highlightedRegion: { x1: 10, x2: 14, y1: 10, y2: 11 } }
+        { expected: 10, highlightedRegion: { x1: 10, x2: 14, y1: 10, y2: 11 } },
       ];
 
-      theories.forEach(theory => {
-        const callBack = jest.fn();
+      theories.forEach((theory) => {
+        const callBack = vitest.fn();
         forEachTileInRegion(theory.highlightedRegion, callBack);
         expect(callBack).toHaveBeenCalledTimes(theory.expected);
       });
@@ -31,23 +31,38 @@ describe("Farm helper", () => {
     it("will call a function with the current tile", () => {
       const theories = [
         {
-          expected: [[0, 0], [1, 0], [0, 1], [1, 1]],
-          highlightedRegion: { x1: 0, x2: 1, y1: 0, y2: 1 }
+          expected: [
+            [0, 0],
+            [1, 0],
+            [0, 1],
+            [1, 1],
+          ],
+          highlightedRegion: { x1: 0, x2: 1, y1: 0, y2: 1 },
         },
         {
-          expected: [[0, 0], [1, 0], [0, 1], [1, 1]],
-          highlightedRegion: { x1: 1, x2: 0, y1: 1, y2: 0 }
+          expected: [
+            [0, 0],
+            [1, 0],
+            [0, 1],
+            [1, 1],
+          ],
+          highlightedRegion: { x1: 1, x2: 0, y1: 1, y2: 0 },
         },
         {
-          expected: [[1, 1], [10, 1], [1, 10], [10, 10]],
-          highlightedRegion: { x1: 1, x2: 10, y1: 1, y2: 10 }
-        }
+          expected: [
+            [1, 1],
+            [10, 1],
+            [1, 10],
+            [10, 10],
+          ],
+          highlightedRegion: { x1: 1, x2: 10, y1: 1, y2: 10 },
+        },
       ];
 
-      theories.forEach(theory => {
-        const callBack = jest.fn();
+      theories.forEach((theory) => {
+        const callBack = vitest.fn();
         forEachTileInRegion(theory.highlightedRegion, callBack);
-        theory.expected.forEach(expected => {
+        theory.expected.forEach((expected) => {
           expect(callBack).toHaveBeenCalledWith(...expected);
         });
       });
@@ -55,7 +70,7 @@ describe("Farm helper", () => {
 
     it("doesn't crash when the coordinates are NaN", () => {
       const highlightedRegion = { x1: NaN, x2: NaN, y1: NaN, y2: NaN };
-      const callBack = jest.fn();
+      const callBack = vitest.fn();
       forEachTileInRegion(highlightedRegion, callBack);
       expect(callBack).not.toHaveBeenCalled();
     });
@@ -70,7 +85,7 @@ describe("Farm helper", () => {
         datePlanted: 0,
         type: "crop",
         x,
-        y
+        y,
       };
       const equipment: IInstalledEquipment = {
         dateInstalled: 0,
@@ -78,19 +93,19 @@ describe("Farm helper", () => {
         skinIndex: 0,
         type: "equipment",
         x,
-        y
+        y,
       };
 
-      const mock = jest.fn();
+      const mock = vitest.fn();
       const currentCrops: IFarmCrops = {
         [y]: {
-          [x]: [crop]
-        }
+          [x]: [crop],
+        },
       };
       const currentEquipment: IFarmEquipment = {
         [y]: {
-          [x]: [equipment]
-        }
+          [x]: [equipment],
+        },
       };
 
       let farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>> = {};
@@ -114,17 +129,17 @@ describe("Farm helper", () => {
               datePlanted: 0,
               type: "crop",
               x: 5,
-              y: 5
+              y: 5,
             },
             {
               cropId: "parsnip",
               datePlanted: 10,
               type: "crop",
               x: 5,
-              y: 5
-            }
-          ]
-        }
+              y: 5,
+            },
+          ],
+        },
       };
 
       const actual = getCropsAtLocation(currentCrops, 5, 5);
@@ -151,10 +166,10 @@ describe("Farm helper", () => {
               datePlanted: 0,
               type: "crop",
               x: 0,
-              y: 0
-            }
-          ]
-        }
+              y: 0,
+            },
+          ],
+        },
       };
       const currentEquipment: IFarmEquipment = {
         3: {
@@ -165,7 +180,7 @@ describe("Farm helper", () => {
               skinIndex: 0,
               type: "equipment",
               x: 3,
-              y: 3
+              y: 3,
             },
             {
               dateInstalled: 0,
@@ -173,7 +188,7 @@ describe("Farm helper", () => {
               skinIndex: 1,
               type: "equipment",
               x: 3,
-              y: 3
+              y: 3,
             },
             {
               dateInstalled: 0,
@@ -181,10 +196,10 @@ describe("Farm helper", () => {
               skinIndex: 2,
               type: "equipment",
               x: 3,
-              y: 3
-            }
-          ]
-        }
+              y: 3,
+            },
+          ],
+        },
       };
 
       let farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>> = {};
@@ -207,7 +222,7 @@ describe("Farm helper", () => {
               skinIndex: 0,
               type: "equipment",
               x: 0,
-              y: 0
+              y: 0,
             },
             {
               dateInstalled: 0,
@@ -215,10 +230,10 @@ describe("Farm helper", () => {
               skinIndex: 0,
               type: "equipment",
               x: 0,
-              y: 0
-            }
-          ]
-        }
+              y: 0,
+            },
+          ],
+        },
       };
 
       let farmItems: IFarmEquipment = {};
@@ -242,8 +257,8 @@ describe("Farm helper", () => {
               skinIndex: 0,
               type: "equipment",
               x: 3,
-              y: 2
-            }
+              y: 2,
+            },
           ],
           3: [
             {
@@ -252,10 +267,10 @@ describe("Farm helper", () => {
               skinIndex: 0,
               type: "equipment",
               x: 3,
-              y: 3
-            }
-          ]
-        }
+              y: 3,
+            },
+          ],
+        },
       };
 
       const actual = getFenceMap(currentEquipment, 0);
@@ -275,8 +290,8 @@ describe("Farm helper", () => {
               skinIndex: 0,
               type: "equipment",
               x: 3,
-              y: 2
-            }
+              y: 2,
+            },
           ],
           3: [
             {
@@ -285,10 +300,10 @@ describe("Farm helper", () => {
               skinIndex: 0,
               type: "equipment",
               x: 3,
-              y: 3
-            }
-          ]
-        }
+              y: 3,
+            },
+          ],
+        },
       };
 
       const actual = getFlooringMap(currentEquipment, 0);
@@ -305,7 +320,7 @@ describe("Farm helper", () => {
           datePlanted: 0,
           type: "crop",
           x: 0,
-          y: 0
+          y: 0,
         },
         0
       );
@@ -320,7 +335,7 @@ describe("Farm helper", () => {
           datePlanted: 1,
           type: "crop",
           x: 0,
-          y: 0
+          y: 0,
         },
         0
       );
@@ -336,7 +351,7 @@ describe("Farm helper", () => {
           datePlanted: 0,
           type: "crop",
           x: 0,
-          y: 0
+          y: 0,
         },
         2
       );

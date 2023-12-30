@@ -1,15 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import "./index.css";
+/* @refresh reload */
+import "./index.scss";
 
-ReactDOM.render(<App waitForImages={true} />, document.getElementById("root"));
+import { render } from "solid-js/web";
 
-const updatePageSize = () => {
-  document.body.style.height =
-    (800 * window.innerHeight) / window.innerWidth + "px";
-  document.body.style.transform = "scale(" + window.innerWidth / 800 + ")";
-};
+import { App } from "./App";
 
-window.onload = updatePageSize;
-window.onresize = updatePageSize;
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+render(() => <App />, document.getElementById("root")!);

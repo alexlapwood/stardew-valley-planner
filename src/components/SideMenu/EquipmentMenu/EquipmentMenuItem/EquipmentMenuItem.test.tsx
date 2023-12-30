@@ -1,100 +1,82 @@
-import { mount } from "enzyme";
-import React from "react";
+import { fireEvent, render, screen } from "@solidjs/testing-library";
 
+import { equipmentIds } from "../../../../data/sdv.json";
 import EquipmentMenuItem from "./EquipmentMenuItem";
-
-// tslint:disable-next-line:no-var-requires
-const { equipmentIds } = require("../../../../data/sdv.json") as {
-  equipmentIds: string[];
-};
 
 describe("<EquipmentMenuItem />", () => {
   it("renders correctly", () => {
-    const equipmentMenuItem = mount(
+    const { container } = render(() => (
       <EquipmentMenuItem
         date={0}
         equipmentId={equipmentIds[0]}
-        selectEquipment={jest.fn()}
+        selectEquipment={vitest.fn()}
       />
-    );
+    ));
 
-    expect(equipmentMenuItem.find(".sdv-list-item")).toHaveLength(1);
-    expect(equipmentMenuItem).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   it("selects the item when clicked", () => {
-    const selectEquipment = jest.fn();
+    const selectEquipment = vitest.fn();
 
-    const equipmentMenuItem = mount<EquipmentMenuItem>(
+    render(() => (
       <EquipmentMenuItem
         date={0}
         equipmentId="scarecrow"
         selectEquipment={selectEquipment}
       />
-    );
+    ));
 
-    equipmentMenuItem
-      .find("[data-automationid='equipment-scarecrow--0']")
-      .simulate("click");
+    fireEvent.click(screen.getByTestId("equipment-scarecrow--0"));
 
     expect(selectEquipment).toHaveBeenCalledWith("scarecrow", 0);
   });
 
   describe("equipment with multiple skins", () => {
     it("shows extra skins when clicking the dropdown trigger", () => {
-      const selectEquipment = jest.fn();
-      const equipmentMenuItem = mount<EquipmentMenuItem>(
+      const selectEquipment = vitest.fn();
+      const { container } = render(() => (
         <EquipmentMenuItem
           date={0}
           equipmentId="scarecrow"
           selectEquipment={selectEquipment}
         />
-      );
+      ));
 
-      equipmentMenuItem
-        .find("[data-automationid='equipment-dropdown--trigger']")
-        .first()
-        .simulate("click");
+      fireEvent.click(screen.getByTestId("equipment-dropdown--trigger"));
 
-      expect(equipmentMenuItem.find(".sdv-list-item")).toHaveLength(10);
+      expect(container.querySelectorAll(".sdv-list-item")).toHaveLength(10);
     });
 
     it("hides extra skins when clicking the dropdown trigger if the dropdown is already open", () => {
-      const selectEquipment = jest.fn();
-      const equipmentMenuItem = mount<EquipmentMenuItem>(
+      const selectEquipment = vitest.fn();
+      const { container } = render(() => (
         <EquipmentMenuItem
           date={0}
           equipmentId="scarecrow"
           selectEquipment={selectEquipment}
         />
-      );
+      ));
 
-      equipmentMenuItem.setState({ open: true });
+      fireEvent.click(screen.getByTestId("equipment-dropdown--trigger"));
+      fireEvent.click(screen.getByTestId("equipment-dropdown--trigger"));
 
-      equipmentMenuItem
-        .find("[data-automationid='equipment-dropdown--trigger']")
-        .first()
-        .simulate("click");
-
-      expect(equipmentMenuItem.find(".sdv-list-item")).toHaveLength(1);
+      expect(container.querySelectorAll(".sdv-list-item")).toHaveLength(1);
     });
   });
 
   it("updates the selected equipment when equipment is clicked", () => {
-    const selectEquipment = jest.fn();
-    const equipmentMenuItem = mount<EquipmentMenuItem>(
+    const selectEquipment = vitest.fn();
+    render(() => (
       <EquipmentMenuItem
         date={0}
         equipmentId="scarecrow"
         selectEquipment={selectEquipment}
       />
-    );
+    ));
 
-    equipmentMenuItem.setState({ open: true });
-
-    equipmentMenuItem
-      .find("[data-automationid='equipment-scarecrow--1']")
-      .simulate("click");
+    fireEvent.click(screen.getByTestId("equipment-dropdown--trigger"));
+    fireEvent.click(screen.getByTestId("equipment-scarecrow--1"));
 
     expect(selectEquipment).toBeCalledWith("scarecrow", 1);
   });

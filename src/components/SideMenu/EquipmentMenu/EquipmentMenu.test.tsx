@@ -1,56 +1,51 @@
-import { mount } from "enzyme";
-import React from "react";
+import { fireEvent, render, screen } from "@solidjs/testing-library";
 
+import { equipmentIds } from "../../../data/sdv.json";
 import EquipmentMenu from "./EquipmentMenu";
-
-// tslint:disable-next-line:no-var-requires
-const { equipmentIds } = require("../../../data/sdv.json") as {
-  equipmentIds: string[];
-};
 
 describe("<EquipmentMenu />", () => {
   it("renders correctly", () => {
-    const equipmentMenu = mount(
+    const { container } = render(() => (
       <EquipmentMenu
         date={0}
         isVisible={true}
         range={{ to: 2 }}
-        selectEquipment={jest.fn()}
+        selectEquipment={vitest.fn()}
       />
-    );
+    ));
 
-    expect(equipmentMenu).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   describe("speciying a range", () => {
     it("renders the items up to and including range.to", () => {
       const to = 4;
 
-      const equipmentMenu = mount(
+      const { container } = render(() => (
         <EquipmentMenu
           date={0}
-          range={{ to }}
           isVisible={true}
-          selectEquipment={jest.fn()}
+          range={{ to }}
+          selectEquipment={vitest.fn()}
         />
-      );
+      ));
 
-      expect(equipmentMenu.find("EquipmentMenuItem")).toHaveLength(to + 1);
+      expect(container.querySelectorAll(".sdv-list-item")).toHaveLength(to + 1);
     });
 
     it("only renders the items from range.from onwards", () => {
       const from = 4;
 
-      const equipmentMenu = mount(
+      const { container } = render(() => (
         <EquipmentMenu
           date={0}
-          range={{ from }}
           isVisible={true}
-          selectEquipment={jest.fn()}
+          range={{ from }}
+          selectEquipment={vitest.fn()}
         />
-      );
+      ));
 
-      expect(equipmentMenu.find("EquipmentMenuItem")).toHaveLength(
+      expect(container.querySelectorAll(".sdv-list-item")).toHaveLength(
         equipmentIds.length - 4
       );
     });
@@ -58,16 +53,16 @@ describe("<EquipmentMenu />", () => {
     it("only renders the items in the range", () => {
       const from = 2;
       const to = 4;
-      const equipmentMenu = mount(
+      const { container } = render(() => (
         <EquipmentMenu
           date={0}
-          range={{ from, to }}
           isVisible={true}
-          selectEquipment={jest.fn()}
+          range={{ from, to }}
+          selectEquipment={vitest.fn()}
         />
-      );
+      ));
 
-      expect(equipmentMenu.find("EquipmentMenuItem")).toHaveLength(
+      expect(container.querySelectorAll(".sdv-list-item")).toHaveLength(
         to - from + 1
       );
     });

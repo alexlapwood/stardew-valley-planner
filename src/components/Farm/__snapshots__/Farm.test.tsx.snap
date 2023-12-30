@@ -1,263 +1,81 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`doing things with a selected region can destroy crops 1`] = `
-Object {
-  "buildings": Object {},
-  "crops": Object {
-    "0": Object {
-      "0": Array [
-        Object {
-          "cropId": "parsnip",
-          "dateDestroyed": 0,
-          "datePlanted": 0,
-          "x": 0,
-          "y": 0,
-        },
-      ],
-      "1": Array [
-        Object {
-          "cropId": "parsnip",
-          "dateDestroyed": 0,
-          "datePlanted": 0,
-          "x": 0,
-          "y": 0,
-        },
-      ],
-    },
-    "1": Object {
-      "0": Array [
-        Object {
-          "cropId": "parsnip",
-          "dateDestroyed": 0,
-          "datePlanted": 0,
-          "x": 0,
-          "y": 0,
-        },
-      ],
-      "1": Array [
-        Object {
-          "cropId": "parsnip",
-          "dateDestroyed": 0,
-          "datePlanted": 0,
-          "x": 0,
-          "y": 0,
-        },
-      ],
-    },
-  },
-  "equipment": Object {},
-  "isMouseDown": false,
-  "mouseDownPosition": undefined,
-  "mousePosition": Object {
-    "left": 0,
-    "top": 0,
-    "x": 16,
-    "y": 16,
-  },
-}
-`;
-
-exports[`doing things with a selected region can destroy equipment 1`] = `
-Object {
-  "buildings": Object {},
-  "crops": Object {},
-  "equipment": Object {
-    "0": Object {
-      "0": Array [
-        Object {
-          "dateDestroyed": 0,
-          "dateInstalled": 0,
-          "equipmentId": "scarecrow",
-          "x": 0,
-          "y": 0,
-        },
-      ],
-      "1": Array [
-        Object {
-          "dateDestroyed": 0,
-          "dateInstalled": 0,
-          "equipmentId": "scarecrow",
-          "x": 0,
-          "y": 0,
-        },
-      ],
-    },
-    "1": Object {
-      "0": Array [
-        Object {
-          "dateDestroyed": 0,
-          "dateInstalled": 0,
-          "equipmentId": "scarecrow",
-          "x": 0,
-          "y": 0,
-        },
-      ],
-      "1": Array [
-        Object {
-          "dateDestroyed": 0,
-          "dateInstalled": 0,
-          "equipmentId": "scarecrow",
-          "x": 0,
-          "y": 0,
-        },
-      ],
-    },
-  },
-  "isMouseDown": false,
-  "mouseDownPosition": undefined,
-  "mousePosition": Object {
-    "left": 0,
-    "top": 0,
-    "x": 16,
-    "y": 16,
-  },
-}
-`;
-
-exports[`doing things with a selected region can install equipment 1`] = `
-Object {
-  "buildings": Object {},
-  "crops": Object {},
-  "equipment": Object {
-    "0": Object {
-      "0": Array [
-        Object {
-          "dateDestroyed": undefined,
-          "dateInstalled": 0,
-          "equipmentId": "scarecrow",
-          "skinIndex": 0,
-          "type": "equipment",
-          "x": 0,
-          "y": 0,
-        },
-      ],
-      "1": Array [
-        Object {
-          "dateDestroyed": undefined,
-          "dateInstalled": 0,
-          "equipmentId": "scarecrow",
-          "skinIndex": 0,
-          "type": "equipment",
-          "x": 1,
-          "y": 0,
-        },
-      ],
-    },
-    "1": Object {
-      "0": Array [
-        Object {
-          "dateDestroyed": undefined,
-          "dateInstalled": 0,
-          "equipmentId": "scarecrow",
-          "skinIndex": 0,
-          "type": "equipment",
-          "x": 0,
-          "y": 1,
-        },
-      ],
-      "1": Array [
-        Object {
-          "dateDestroyed": undefined,
-          "dateInstalled": 0,
-          "equipmentId": "scarecrow",
-          "skinIndex": 0,
-          "type": "equipment",
-          "x": 1,
-          "y": 1,
-        },
-      ],
-    },
-  },
-  "isMouseDown": false,
-  "mouseDownPosition": undefined,
-  "mousePosition": Object {
-    "left": 0,
-    "top": 0,
-    "x": 16,
-    "y": 16,
-  },
-}
-`;
-
-exports[`doing things with a selected region can plant crops 1`] = `
-Object {
-  "buildings": Object {},
-  "crops": Object {
-    "0": Object {
-      "0": Array [
-        Object {
-          "cropId": "parsnip",
-          "datePlanted": 0,
-          "type": "crop",
-          "x": 0,
-          "y": 0,
-        },
-      ],
-      "1": Array [
-        Object {
-          "cropId": "parsnip",
-          "datePlanted": 0,
-          "type": "crop",
-          "x": 1,
-          "y": 0,
-        },
-      ],
-    },
-    "1": Object {
-      "0": Array [
-        Object {
-          "cropId": "parsnip",
-          "datePlanted": 0,
-          "type": "crop",
-          "x": 0,
-          "y": 1,
-        },
-      ],
-      "1": Array [
-        Object {
-          "cropId": "parsnip",
-          "datePlanted": 0,
-          "type": "crop",
-          "x": 1,
-          "y": 1,
-        },
-      ],
-    },
-  },
-  "equipment": Object {},
-  "isMouseDown": false,
-  "mouseDownPosition": undefined,
-  "mousePosition": Object {
-    "left": 0,
-    "top": 0,
-    "x": 16,
-    "y": 16,
-  },
-}
-`;
-
-exports[`renders the app without crashing 1`] = `
-<div
-  class="Farm"
->
+exports[`doing things with a selected region > can install equipment 1`] = `
+<div>
   <div
-    class="Farm--canvas-wrapper"
-    style="transform:scale(1)"
+    class="Farm"
   >
-    <canvas
-      class="Farm--canvas"
-      height="1040"
-      width="1280"
-    />
+    <div
+      class="Farm--canvas-wrapper"
+      style="transform: scale(1);"
+    >
+      <canvas
+        class="Farm--canvas"
+        data-testid="farm-canvas"
+        height="1040"
+        width="1280"
+      />
+    </div>
   </div>
 </div>
 `;
 
-exports[`state initialises correctly 1`] = `
-Object {
-  "buildings": Object {},
-  "crops": Object {},
-  "equipment": Object {},
-  "isMouseDown": false,
-}
+exports[`doing things with a selected region > can plant crops 1`] = `
+<div>
+  <div
+    class="Farm"
+  >
+    <div
+      class="Farm--canvas-wrapper"
+      style="transform: scale(1);"
+    >
+      <canvas
+        class="Farm--canvas"
+        data-testid="farm-canvas"
+        height="1040"
+        width="1280"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doing things with a selected region > won't do anything if we're not actually selecting a region of the farm 1`] = `
+<div>
+  <div
+    class="Farm"
+  >
+    <div
+      class="Farm--canvas-wrapper"
+      style="transform: scale(1);"
+    >
+      <canvas
+        class="Farm--canvas"
+        data-testid="farm-canvas"
+        height="1040"
+        width="1280"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders the app without crashing 1`] = `
+<div>
+  <div
+    class="Farm"
+  >
+    <div
+      class="Farm--canvas-wrapper"
+      style="transform: scale(1);"
+    >
+      <canvas
+        class="Farm--canvas"
+        data-testid="farm-canvas"
+        height="1040"
+        width="1280"
+      />
+    </div>
+  </div>
+</div>
 `;

@@ -1,0 +1,40 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.associations": {
+    "*.scss": "sass"
+  },
+  "cSpell.words": [
+    "clsx",
+    "mailinator",
+    "Millis",
+    "solidjs",
+    "tailwindcss",
+    "undestructure"
+  ],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.sortMembers": "explicit"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "eslint.validate": ["javascript", "typescript", "typescriptreact"],
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.wordWrap": "wordWrapColumn",
+  "tailwindCSS.lint.invalidTailwindDirective": "ignore"
+}

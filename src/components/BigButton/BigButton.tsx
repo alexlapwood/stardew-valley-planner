@@ -1,26 +1,33 @@
-import cn from "classnames";
-import React from "react";
+import "./BigButton.css";
+
+import cn from "clsx";
+import Solid, { JSXElement, splitProps } from "solid-js";
 
 import BigText from "../BigText/BigText";
 
-import "./BigButton.css";
-
-interface IProps {
+interface IProps extends Solid.JSX.HTMLAttributes<HTMLDivElement> {
+  children?: JSXElement;
   selected?: boolean;
-  onClick?: ((event: React.MouseEvent<HTMLDivElement>) => void) | undefined;
+  onClick?: ((event: MouseEvent) => void) | undefined;
 }
 
-const BigButton: React.SFC<IProps> = props => (
-  <div
-    className={cn("sdv-button-big", "sdv-hover-effect", {
-      selected: props.selected
-    })}
-    onClick={props.onClick}
-  >
-    <div className="BigButton">
-      <BigText>{props.children}</BigText>
+export default function BigButton(props: IProps) {
+  const [localProps, spreadProps] = splitProps(props, [
+    "children",
+    "selected",
+    "onClick",
+  ]);
+  return (
+    <div
+      class={cn("sdv-button-big", "sdv-hover-effect", {
+        selected: localProps.selected,
+      })}
+      onClick={(event) => localProps.onClick?.(event)}
+      {...spreadProps}
+    >
+      <div class="BigButton">
+        <BigText>{localProps.children}</BigText>
+      </div>
     </div>
-  </div>
-);
-
-export default BigButton;
+  );
+}

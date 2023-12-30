@@ -1,12 +1,11 @@
-import React from "react";
+import "./SideMenu.css";
 
-import cn from "classnames";
+import cn from "clsx";
+import { createSignal } from "solid-js";
 
 import Sprite from "../Sprite/Sprite";
 import EquipmentMenu from "./EquipmentMenu/EquipmentMenu";
 import SeedMenu from "./SeedMenu/SeedMenu";
-
-import "./SideMenu.css";
 
 type TCurrentMenu = "seeds" | "equipment" | "decorations";
 
@@ -17,108 +16,84 @@ interface IProps {
   selectedItem?: ISelectedItem;
 }
 
-interface IState {
-  currentMenu: TCurrentMenu;
-}
+export default function SideMenu(props: IProps) {
+  const [currentMenu, setCurrentMenu] = createSignal<TCurrentMenu>("seeds");
 
-class SideMenu extends React.Component<IProps, IState> {
-  public state: IState = {
-    currentMenu: "seeds"
+  const showCrops = () => {
+    setCurrentMenu("seeds");
   };
 
-  public render() {
-    const { date, selectCrop, selectEquipment, selectedItem } = this.props;
+  const showEquipment = () => {
+    setCurrentMenu("equipment");
+  };
 
-    const showCrops = () => {
-      this.setState({
-        currentMenu: "seeds"
-      });
-    };
+  const showDecorations = () => {
+    setCurrentMenu("decorations");
+  };
 
-    const showEquipment = () => {
-      this.setState({
-        currentMenu: "equipment"
-      });
-    };
-
-    const showDecorations = () => {
-      this.setState({
-        currentMenu: "decorations"
-      });
-    };
-
-    return (
-      <div className="SideMenu flex-vertical">
-        <div className="flex-horizontal flex-no-shrink">
-          <div
-            className={cn("sdv-tab", {
-              selected: this.state.currentMenu === "seeds"
-            })}
-            data-automationid="seeds-tab"
-            onClick={showCrops}
-          >
-            <Sprite
-              height={16}
-              src="images/seeds.png"
-              width={16}
-              x={16}
-              y={0}
-            />
-          </div>
-          <div
-            className={cn("sdv-tab", {
-              selected: this.state.currentMenu === "equipment"
-            })}
-            data-automationid="equipment-tab"
-            onClick={showEquipment}
-          >
-            <Sprite
-              height={16}
-              src="images/equipment-sheet.png"
-              width={16}
-              x={0}
-              y={0}
-            />
-          </div>
-          <div
-            className={cn("sdv-tab", {
-              selected: this.state.currentMenu === "decorations"
-            })}
-            data-automationid="decorations-tab"
-            onClick={showDecorations}
-          >
-            <Sprite
-              height={16}
-              src="images/equipment-sheet.png"
-              width={16}
-              x={960}
-              y={16}
-            />
-          </div>
+  return (
+    <div class="SideMenu flex-vertical">
+      <div class="flex-horizontal flex-no-shrink">
+        <div
+          class={cn("sdv-tab", {
+            selected: currentMenu() === "seeds",
+          })}
+          data-testid="seeds-tab"
+          onClick={showCrops}
+        >
+          <Sprite height={16} src="images/seeds.png" width={16} x={16} y={0} />
         </div>
-        <SeedMenu
-          date={date}
-          isVisible={this.state.currentMenu === "seeds"}
-          selectCrop={selectCrop}
-          selectedItem={selectedItem}
-        />
-        <EquipmentMenu
-          date={date}
-          isVisible={this.state.currentMenu === "equipment"}
-          range={{ to: 22 }}
-          selectEquipment={selectEquipment}
-          selectedItem={selectedItem}
-        />
-        <EquipmentMenu
-          date={date}
-          range={{ from: 23 }}
-          isVisible={this.state.currentMenu === "decorations"}
-          selectEquipment={selectEquipment}
-          selectedItem={selectedItem}
-        />
+        <div
+          class={cn("sdv-tab", {
+            selected: currentMenu() === "equipment",
+          })}
+          data-testid="equipment-tab"
+          onClick={showEquipment}
+        >
+          <Sprite
+            height={16}
+            src="images/equipment-sheet.png"
+            width={16}
+            x={0}
+            y={0}
+          />
+        </div>
+        <div
+          class={cn("sdv-tab", {
+            selected: currentMenu() === "decorations",
+          })}
+          data-testid="decorations-tab"
+          onClick={showDecorations}
+        >
+          <Sprite
+            height={16}
+            src="images/equipment-sheet.png"
+            width={16}
+            x={960}
+            y={16}
+          />
+        </div>
       </div>
-    );
-  }
+      <SeedMenu
+        date={props.date}
+        isVisible={currentMenu() === "seeds"}
+        selectCrop={props.selectCrop}
+        selectedItem={props.selectedItem}
+      />
+      <EquipmentMenu
+        date={props.date}
+        isVisible={currentMenu() === "equipment"}
+        range={{ to: 22 }}
+        selectEquipment={props.selectEquipment}
+        selectedItem={props.selectedItem}
+      />
+      <EquipmentMenu
+        date={props.date}
+        isVisible={currentMenu() === "decorations"}
+        range={{ from: 23 }}
+        selectEquipment={props.selectEquipment}
+        selectedItem={props.selectedItem}
+      />
+    </div>
+  );
 }
-
-export default SideMenu;

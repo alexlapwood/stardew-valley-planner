@@ -17,7 +17,7 @@ export function getCropsLastDay(
   for (let i = 0; i < 4; i += 1) {
     if (
       !plantedCropDetails.seasons.find(
-        season => seasons[(seasonPlanted + i) % 4] === season
+        (season) => seasons[(seasonPlanted + i) % 4] === season
       )
     ) {
       const lastDay =
@@ -32,9 +32,7 @@ export function getCropsLastDay(
       return Math.min(
         lastDay,
         plantedCrop.datePlanted +
-          plantedCropDetails.stages.reduce((acc, val) => {
-            return acc + val;
-          }) -
+          plantedCropDetails.stages.reduce((acc, val) => acc + val) -
           1
       );
     }
@@ -46,9 +44,7 @@ export function getCropsLastDay(
 
   return (
     plantedCrop.datePlanted +
-    plantedCropDetails.stages.reduce((acc, val) => {
-      return acc + val;
-    }) -
+    plantedCropDetails.stages.reduce((acc, val) => acc + val) -
     1
   );
 }

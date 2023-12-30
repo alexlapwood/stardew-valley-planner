@@ -1,11 +1,8 @@
-import React from "react";
+import cn from "clsx";
+import { createSignal, For } from "solid-js";
 
+import { equipmentIds } from "../../../data/sdv.json";
 import EquipmentMenuItem from "./EquipmentMenuItem/EquipmentMenuItem";
-
-// tslint:disable-next-line:no-var-requires
-const { equipmentIds } = require("../../../data/sdv.json") as {
-  equipmentIds: string[];
-};
 
 interface IProps {
   date: number;
@@ -15,57 +12,42 @@ interface IProps {
   selectedItem?: ISelectedItem;
 }
 
-interface IState {
-  currentSkins: {
+export default function EquipmentMenu(props: IProps) {
+  const [currentSkins, setCurrentSkins] = createSignal<{
     [index: string]: number;
-  };
-}
+  }>({});
 
-class EquipmentMenu extends React.PureComponent<IProps, IState> {
-  public state: IState = {
-    currentSkins: {}
-  };
-
-  public render() {
-    const { date, isVisible, range, selectedItem } = this.props;
-
-    return isVisible ? (
-      <div className="EquipmentMenu sdv-list">
-        {equipmentIds
-          .filter((_, i) => {
-            if (range !== undefined) {
-              if (range.from !== undefined && i < range.from) {
-                return false;
-              }
-              if (range.to !== undefined && i > range.to) {
-                return false;
-              }
+  return (
+    <div class={cn("EquipmentMenu", "sdv-list", !props.isVisible && "hidden")}>
+      <For
+        each={equipmentIds.filter((_, i) => {
+          if (props.range !== undefined) {
+            if (props.range.from !== undefined && i < props.range.from) {
+              return false;
             }
-            return true;
-          })
-          .map(equipmentId => (
-            <EquipmentMenuItem
-              equipmentId={equipmentId}
-              date={date}
-              key={equipmentId}
-              selectEquipment={this.selectEquipment}
-              selectedItem={selectedItem}
-            />
-          ))}
-      </div>
-    ) : null;
-  }
+            if (props.range.to !== undefined && i > props.range.to) {
+              return false;
+            }
+          }
+          return true;
+        })}
+      >
+        {(equipmentId) => (
+          <EquipmentMenuItem
+            date={props.date}
+            equipmentId={equipmentId}
+            selectEquipment={(equipmentId: string, skinIndex: number) => {
+              setCurrentSkins({
+                ...currentSkins(),
+                [equipmentId]: skinIndex,
+              });
 
-  private selectEquipment = (equipmentId: string, skinIndex: number) => {
-    this.setState({
-      currentSkins: {
-        ...this.state.currentSkins,
-        [equipmentId]: skinIndex
-      }
-    });
-
-    this.props.selectEquipment(equipmentId, skinIndex);
-  };
+              props.selectEquipment(equipmentId, skinIndex);
+            }}
+            selectedItem={props.selectedItem}
+          />
+        )}
+      </For>
+    </div>
+  );
 }
-
-export default EquipmentMenu;

@@ -1,0 +1,11 @@
+.DS_Store
+.firebase/
+.solid/
+dist
+node_modules
+
+*.log
+/tests/__temp/
+/test-results/
+/playwright-report/
+/playwright/.cache/

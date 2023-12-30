@@ -14,12 +14,12 @@ describe("getCanvasPositionAndScale", () => {
       left: 0,
       scaleX: Infinity,
       scaleY: Infinity,
-      top: 0
+      top: 0,
     });
   });
 
   it("will throw an error if canvas is null", () => {
-    expect(() => getCanvasPositionAndScale(null)).toThrowError(
+    expect(() => getCanvasPositionAndScale(undefined)).toThrowError(
       "Canvas must be initialised"
     );
   });

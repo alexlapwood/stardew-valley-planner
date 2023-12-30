@@ -1,6 +1,9 @@
-import React from "react";
+import "./Farm.css";
 
 import { mergeDeep } from "immutable";
+import { createEffect, createSignal, onMount } from "solid-js";
+
+import { farmLayouts } from "../../data/sdv.json";
 import { getCanvasPositionAndScale } from "../../helpers/canvas";
 import { getSeason } from "../../helpers/date";
 import { forEachTileInRegion } from "../../helpers/farm";
@@ -8,26 +11,16 @@ import {
   checkCropsToPlant,
   checkEquipmentToInstall,
   destroyCrops,
-  destroyEquipment
+  destroyEquipment,
 } from "../../helpers/itemPlacement";
 import {
   renderFlooringToContext,
   renderItemsToContext,
+  renderScarecrowProtectionToContext,
   renderSelectedRegion,
   renderSoilToContext,
-  renderWateredSoilToContext
+  renderWateredSoilToContext,
 } from "../../helpers/renderToCanvas";
-
-import "./Farm.css";
-
-const farmLayouts: {
-  [index: string]: string[];
-} =
-  // tslint:disable-next-line:no-var-requires
-  require("../../data/sdv.json").farmLayouts;
-
-// tslint:disable-next-line:no-var-requires
-farmLayouts.test = require("../../__mocks__/testFarm").default;
 
 interface IProps {
   currentFarm:
@@ -44,12 +37,12 @@ interface IProps {
   zoom: number;
 }
 
-interface IState {
-  buildings: IFarmBuildings;
-  crops: IFarmCrops;
-  equipment: IFarmEquipment;
-  isMouseDown: boolean;
-  mouseDownPosition?: {
+export default function Farm(props: IProps) {
+  // const [buildings, setBuildings] = createSignal<IFarmBuildings>({});
+  const [crops, setCrops] = createSignal<IFarmCrops>({});
+  const [equipment, setEquipment] = createSignal<IFarmEquipment>({});
+  const [isMouseDown, setIsMouseDown] = createSignal(false);
+  const [mouseDownPosition, setMouseDownPosition] = createSignal<{
     // Left and top are used for updating the the cursor position
     // on the scroll event (because the scroll event doesn't actually
     // have access to the cursor position).
@@ -57,8 +50,8 @@ interface IState {
     top: number;
     x: number;
     y: number;
-  };
-  mousePosition?: {
+  }>();
+  const [mousePosition, setMousePosition] = createSignal<{
     // Left and top are used for updating the the cursor position
     // on the scroll event (because the scroll event doesn't actually
     // have access to the cursor position).
@@ -66,214 +59,171 @@ interface IState {
     top: number;
     x: number;
     y: number;
-  };
-}
+  }>();
 
-class Farm extends React.Component<IProps> {
-  public state: IState = {
-    buildings: {},
-    crops: {},
-    equipment: {},
-    isMouseDown: false
-  };
+  let canvasRef: HTMLCanvasElement | undefined;
 
-  public canvasRef = React.createRef<HTMLCanvasElement>();
-  private farmRef = React.createRef<HTMLDivElement>();
-  private farmWidth = 80;
-  private farmHeight = 65;
+  let farmRef: HTMLDivElement | undefined;
 
-  public componentDidMount() {
-    this.updateCanvas();
-    if (this.farmRef.current !== null) {
-      this.farmRef.current.scrollLeft = this.farmRef.current.scrollWidth;
-      this.farmRef.current.scrollTop = 16 * 4;
-    }
-  }
+  const farmWidth = 80;
+  const farmHeight = 65;
 
-  public render() {
-    const { zoom } = this.props;
-
-    this.updateCanvas();
-
-    return (
-      <div className="Farm" onScroll={this.onScroll} ref={this.farmRef}>
-        <div
-          className="Farm--canvas-wrapper"
-          style={{ transform: `scale(${zoom})` }}
-        >
-          <canvas
-            className="Farm--canvas"
-            height={this.farmHeight * 16}
-            onMouseDown={this.onMouseDown}
-            onMouseMove={this.onMouseMove}
-            onMouseUp={this.onMouseUp}
-            onMouseOut={this.onMouseOut}
-            ref={this.canvasRef}
-            width={this.farmWidth * 16}
-          />
-        </div>
-      </div>
-    );
-  }
-
-  private getHighlightedRegion = () => {
-    const { isMouseDown, mouseDownPosition, mousePosition } = this.state;
-    if (mousePosition === undefined) {
+  const getHighlightedRegion = () => {
+    const currentMousePosition = mousePosition();
+    const currentMouseDownPosition = mouseDownPosition();
+    if (currentMousePosition === undefined) {
       return;
     }
 
-    const x1 = Math.floor((mousePosition.x - mousePosition.left) / 16);
-    const y1 = Math.floor((mousePosition.y - mousePosition.top) / 16);
+    const x1 = Math.floor(
+      (currentMousePosition.x - currentMousePosition.left) / 16
+    );
+    const y1 = Math.floor(
+      (currentMousePosition.y - currentMousePosition.top) / 16
+    );
     let x2 = x1;
     let y2 = y1;
 
-    if (isMouseDown && mouseDownPosition) {
-      x2 = Math.floor((mouseDownPosition.x - mouseDownPosition.left) / 16);
-      y2 = Math.floor((mouseDownPosition.y - mouseDownPosition.top) / 16);
+    if (isMouseDown() && currentMouseDownPosition) {
+      x2 = Math.floor(
+        (currentMouseDownPosition.x - currentMouseDownPosition.left) / 16
+      );
+      y2 = Math.floor(
+        (currentMouseDownPosition.y - currentMouseDownPosition.top) / 16
+      );
     }
 
     return { x1, x2, y1, y2 };
   };
 
-  private calculateMousePosition = (event: React.MouseEvent<HTMLElement>) => {
-    const { scaleX, scaleY } = getCanvasPositionAndScale(
-      this.canvasRef.current
-    );
+  const calculateMousePosition = (event: MouseEvent) => {
+    const { scaleX, scaleY } = getCanvasPositionAndScale(canvasRef);
     return { x: event.clientX * scaleX, y: event.clientY * scaleY };
   };
 
-  private installEquipment = (
-    equipmentToInstallList: IInstalledEquipment[]
-  ) => {
+  const installEquipment = (equipmentToInstallList: IInstalledEquipment[]) => {
     const { installableEquipment } = checkEquipmentToInstall(
       equipmentToInstallList,
       {
-        currentCrops: this.state.crops,
-        currentEquipment: this.state.equipment
+        currentCrops: crops(),
+        currentEquipment: equipment(),
       },
-      farmLayouts[this.props.currentFarm.toLowerCase()]
+      farmLayouts[props.currentFarm.toLowerCase()]
     );
 
     let newEquipment: IFarmEquipment = {};
 
-    installableEquipment.forEach(equipmentToInstall => {
+    installableEquipment.forEach((equipmentToInstall) => {
       newEquipment = mergeDeep(newEquipment, {
         [equipmentToInstall.y]: {
-          [equipmentToInstall.x]: [equipmentToInstall]
-        }
+          [equipmentToInstall.x]: [equipmentToInstall],
+        },
       });
     });
 
-    this.setState({
-      equipment: mergeDeep(this.state.equipment, newEquipment)
-    });
+    setEquipment(mergeDeep(equipment(), newEquipment));
   };
 
-  private onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
-    const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(
-      this.canvasRef.current
-    );
+  const onMouseDown = (event: MouseEvent) => {
+    const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(canvasRef);
 
-    const { x, y } = this.calculateMousePosition(event);
+    const { x, y } = calculateMousePosition(event);
 
-    if (this.props.disableToolbars !== undefined) {
-      this.props.disableToolbars(true);
+    if (props.disableToolbars !== undefined) {
+      props.disableToolbars(true);
     }
 
-    this.setState({
-      isMouseDown: true,
-      mouseDownPosition: {
-        left: left * scaleX,
-        top: top * scaleY,
-        x,
-        y
-      }
+    setIsMouseDown(true);
+    setMouseDownPosition({
+      left: left * scaleX,
+      top: top * scaleY,
+      x,
+      y,
     });
   };
 
-  private onMouseMove = (event: React.MouseEvent<HTMLElement>) => {
-    const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(
-      this.canvasRef.current
-    );
+  const onMouseMove = (event: MouseEvent) => {
+    const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(canvasRef);
 
-    const { x, y } = this.calculateMousePosition(event);
+    const { x, y } = calculateMousePosition(event);
 
-    this.setState({
-      mousePosition: { left: left * scaleX, top: top * scaleY, x, y }
+    setMousePosition({
+      left: left * scaleX,
+      top: top * scaleY,
+      x,
+      y,
     });
   };
 
-  private onMouseOut = () => {
-    if (this.props.disableToolbars !== undefined) {
-      this.props.disableToolbars(false);
+  const onMouseOut = () => {
+    if (props.disableToolbars !== undefined) {
+      props.disableToolbars(false);
     }
 
-    this.setState({
-      isMouseDown: false,
-      mouseDownPosition: undefined,
-      mousePosition: undefined
-    });
+    setIsMouseDown(false);
+    setMouseDownPosition(undefined);
+    setMousePosition(undefined);
   };
 
-  private onMouseUp = () => {
-    if (this.props.disableToolbars !== undefined) {
-      this.props.disableToolbars(false);
+  const onMouseUp = () => {
+    if (props.disableToolbars !== undefined) {
+      props.disableToolbars(false);
     }
 
-    const { date, selectedItem } = this.props;
-    if (this.state.isMouseDown === false || selectedItem === undefined) {
+    if (isMouseDown() === false || props.selectedItem === undefined) {
       return;
     }
-    const highlightedRegion = this.getHighlightedRegion();
+    const highlightedRegion = getHighlightedRegion();
     if (highlightedRegion === undefined) {
       return;
     }
 
-    if (selectedItem.type === "crop") {
+    if (props.selectedItem.type === "crop") {
       const cropsToPlant: IPlantedCrop[] = [];
       forEachTileInRegion(highlightedRegion, (x, y) => {
-        cropsToPlant.push({
-          cropId: selectedItem.id,
-          datePlanted: this.props.date,
-          type: "crop",
-          x,
-          y
-        });
+        if (props.selectedItem?.id) {
+          cropsToPlant.push({
+            cropId: props.selectedItem.id,
+            datePlanted: props.date,
+            type: "crop",
+            x,
+            y,
+          });
+        }
       });
 
-      this.plantCrops(cropsToPlant);
+      plantCrops(cropsToPlant);
     }
 
-    if (selectedItem.type === "equipment") {
+    if (props.selectedItem.type === "equipment") {
       const equipmentToInstall: IInstalledEquipment[] = [];
       forEachTileInRegion(highlightedRegion, (x, y) => {
-        equipmentToInstall.push({
-          dateInstalled: this.props.date,
-          equipmentId: selectedItem.id,
-          skinIndex: selectedItem.skinIndex || 0,
-          type: "equipment",
-          x,
-          y
-        });
+        if (props.selectedItem?.id) {
+          equipmentToInstall.push({
+            dateInstalled: props.date,
+            equipmentId: props.selectedItem.id,
+            skinIndex: props.selectedItem.skinIndex || 0,
+            type: "equipment",
+            x,
+            y,
+          });
+        }
       });
 
-      this.installEquipment(equipmentToInstall);
+      installEquipment(equipmentToInstall);
     }
 
-    if (selectedItem.type === "tool") {
-      if (selectedItem.id === "pick-axe") {
-        const currentCrops: IFarmCrops = mergeDeep({}, this.state.crops);
-        const currentEquipment: IFarmEquipment = mergeDeep(
-          {},
-          this.state.equipment
-        );
+    if (props.selectedItem.type === "tool") {
+      if (props.selectedItem.id === "pick-axe") {
+        const currentCrops: IFarmCrops = mergeDeep({}, crops());
+        const currentEquipment: IFarmEquipment = mergeDeep({}, equipment());
 
         forEachTileInRegion(highlightedRegion, (x, y) => {
           if (
             currentCrops[y] !== undefined &&
             currentCrops[y][x] !== undefined
           ) {
-            currentCrops[y][x] = destroyCrops(currentCrops[y][x], date);
+            currentCrops[y][x] = destroyCrops(currentCrops[y][x], props.date);
           }
 
           if (
@@ -282,157 +232,158 @@ class Farm extends React.Component<IProps> {
           ) {
             currentEquipment[y][x] = destroyEquipment(
               currentEquipment[y][x],
-              date
+              props.date
             );
           }
         });
 
-        this.setState({
-          crops: currentCrops,
-          equipment: currentEquipment
-        });
+        setCrops(currentCrops);
+        setEquipment(currentEquipment);
       }
     }
 
-    this.setState({
-      isMouseDown: false,
-      mouseDownPosition: undefined
+    setIsMouseDown(false);
+    setMouseDownPosition(undefined);
+  };
+
+  const onScroll = () => {
+    const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(canvasRef);
+
+    setMousePosition({
+      x: 0,
+      y: 0,
+      ...mousePosition(),
+      left: left * scaleX,
+      top: top * scaleY,
     });
   };
 
-  private onScroll = (event: React.UIEvent<HTMLElement>) => {
-    const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(
-      this.canvasRef.current
-    );
-
-    this.setState({
-      mousePosition: {
-        ...this.state.mousePosition,
-        left: left * scaleX,
-        top: top * scaleY
-      }
-    });
-  };
-
-  private plantCrops = (cropsToPlant: IPlantedCrop[]) => {
+  const plantCrops = (cropsToPlant: IPlantedCrop[]) => {
     const { plantableCrops } = checkCropsToPlant(
       cropsToPlant,
       {
-        currentCrops: this.state.crops,
-        currentEquipment: this.state.equipment
+        currentCrops: crops(),
+        currentEquipment: equipment(),
       },
-      farmLayouts[this.props.currentFarm.toLowerCase()]
+      farmLayouts[props.currentFarm.toLowerCase()]
     );
 
     let newCrops: IFarmCrops = {};
 
-    plantableCrops.forEach(cropToPlant => {
+    plantableCrops.forEach((cropToPlant) => {
       newCrops = mergeDeep(newCrops, {
         [cropToPlant.y]: {
-          [cropToPlant.x]: [cropToPlant]
-        }
+          [cropToPlant.x]: [cropToPlant],
+        },
       });
     });
 
-    this.setState({
-      crops: mergeDeep(this.state.crops, newCrops)
-    });
+    setCrops(mergeDeep(crops(), newCrops));
   };
 
-  private getPotentialEquipment() {
-    const highlightedRegion = this.getHighlightedRegion();
-    const { currentFarm, date, selectedItem } = this.props;
+  function getPotentialEquipment() {
+    const highlightedRegion = getHighlightedRegion();
 
     if (
       highlightedRegion === undefined ||
-      selectedItem === undefined ||
-      selectedItem.type !== "equipment"
+      props.selectedItem === undefined ||
+      props.selectedItem.type !== "equipment"
     ) {
       return;
     }
 
     const equipmentToInstallList: IInstalledEquipment[] = [];
     forEachTileInRegion(highlightedRegion, (x, y) => {
+      if (
+        highlightedRegion === undefined ||
+        props.selectedItem === undefined ||
+        props.selectedItem.type !== "equipment"
+      ) {
+        return;
+      }
+
       equipmentToInstallList.push({
-        dateInstalled: date,
-        equipmentId: selectedItem.id,
-        skinIndex: selectedItem.skinIndex || 0,
+        dateInstalled: props.date,
+        equipmentId: props.selectedItem.id,
+        skinIndex: props.selectedItem.skinIndex || 0,
         type: "equipment",
         x,
-        y
+        y,
       });
     });
 
     const { installableEquipment } = checkEquipmentToInstall(
       equipmentToInstallList,
       {
-        currentCrops: this.state.crops,
-        currentEquipment: this.state.equipment
+        currentCrops: crops(),
+        currentEquipment: equipment(),
       },
-      farmLayouts[currentFarm.toLowerCase()]
+      farmLayouts[props.currentFarm.toLowerCase()]
     );
 
     let newEquipment: IFarmEquipment = {};
 
-    installableEquipment.forEach(equipmentToInstall => {
+    installableEquipment.forEach((equipmentToInstall) => {
       newEquipment = mergeDeep(newEquipment, {
         [equipmentToInstall.y]: {
-          [equipmentToInstall.x]: [equipmentToInstall]
-        }
+          [equipmentToInstall.x]: [equipmentToInstall],
+        },
       });
     });
 
     return newEquipment;
   }
 
-  private updateCanvas = () => {
-    const { currentFarm, date, images } = this.props;
+  const updateCanvas = () => {
+    if (canvasRef) {
+      const canvasHeight = canvasRef.height;
+      const canvasWidth = canvasRef.width;
+      const context = canvasRef.getContext("2d");
 
-    if (this.canvasRef.current) {
-      const canvasHeight = this.canvasRef.current.height;
-      const canvasWidth = this.canvasRef.current.width;
-      const context = this.canvasRef.current.getContext("2d");
-
-      if (this.canvasRef.current === null || context === null) {
+      if (canvasRef === undefined || context === null) {
         throw new Error("Could not get context for canvas");
       }
 
       context.imageSmoothingEnabled = false;
 
-      const season = ["spring", "summer", "fall", "winter"][getSeason(date)];
+      const season = ["spring", "summer", "fall", "winter"][
+        getSeason(props.date)
+      ];
 
-      const backgroundImage = images.find(image =>
+      const backgroundImage = props.images.find((image) =>
         image.src.includes(
           `/images/${
-            currentFarm === "Test" ? "standard" : currentFarm.toLowerCase()
+            props.currentFarm === "Test"
+              ? "standard"
+              : props.currentFarm.toLowerCase()
           }-${season}.png`
         )
       );
-      const highlightGreenImage = images.find(image =>
+      const highlightGreenImage = props.images.find((image) =>
         image.src.includes("/images/highlight-green.png")
       );
-      const highlightGreyImage = images.find(image =>
+      const highlightGreyImage = props.images.find((image) =>
         image.src.includes("/images/highlight-grey.png")
       );
-      const highlightRedImage = images.find(image =>
+      const highlightRedImage = props.images.find((image) =>
         image.src.includes("/images/highlight-red.png")
       );
-      const cropsImage = images.find(image =>
+      const cropsImage = props.images.find((image) =>
         image.src.includes("/images/crops.png")
       );
-      const equipmentImage = images.find(image =>
+      const equipmentImage = props.images.find((image) =>
         image.src.includes("/images/equipment-sheet.png")
       );
-      const hoeDirtImage = images.find(image =>
+      const hoeDirtImage = props.images.find((image) =>
         image.src.includes("/images/hoeDirt.png")
       );
-      const hoeDirtSnowImage = images.find(image =>
+      const hoeDirtSnowImage = props.images.find((image) =>
         image.src.includes("/images/hoeDirtSnow.png")
       );
-      const fenceImage = images.find(image =>
+      const fenceImage = props.images.find((image) =>
         image.src.includes("/images/fences.png")
       );
-      const flooringImage = images.find(image =>
+      const flooringImage = props.images.find((image) =>
         image.src.includes("/images/flooring.png")
       );
 
@@ -455,50 +406,58 @@ class Farm extends React.Component<IProps> {
 
       context.drawImage(backgroundImage, 0, 0);
 
-      const potentialEquipment = this.getPotentialEquipment() || {};
+      const potentialEquipment = getPotentialEquipment() || {};
 
       renderSoilToContext(
         context,
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
-        mergeDeep(this.state.crops, this.state.equipment, potentialEquipment),
-        farmLayouts[currentFarm.toLowerCase()],
-        date
+        mergeDeep(crops(), equipment(), potentialEquipment),
+        farmLayouts[props.currentFarm.toLowerCase()],
+        props.date
       );
 
       renderWateredSoilToContext(
         context,
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
-        mergeDeep(this.state.equipment, potentialEquipment),
-        farmLayouts[currentFarm.toLowerCase()],
-        date
+        mergeDeep(equipment(), potentialEquipment),
+        farmLayouts[props.currentFarm.toLowerCase()],
+        props.date
       );
 
       renderFlooringToContext(
         context,
         flooringImage,
-        mergeDeep(this.state.equipment, potentialEquipment),
-        date
+        mergeDeep(equipment(), potentialEquipment),
+        props.date
       );
 
-      if (this.state.mousePosition && this.props.selectedItem !== undefined) {
-        const highlightedRegion = this.getHighlightedRegion();
+      renderScarecrowProtectionToContext(
+        context,
+        highlightGreenImage,
+        mergeDeep(equipment(), potentialEquipment),
+        farmLayouts[props.currentFarm.toLowerCase()],
+        props.date
+      );
+
+      if (mousePosition() && props.selectedItem !== undefined) {
+        const highlightedRegion = getHighlightedRegion();
         if (highlightedRegion === undefined) {
           return;
         }
 
         renderSelectedRegion(
           context,
-          this.state.crops,
-          this.state.equipment,
-          farmLayouts[currentFarm.toLowerCase()],
-          date,
+          crops(),
+          equipment(),
+          farmLayouts[props.currentFarm.toLowerCase()],
+          props.date,
           highlightedRegion,
           highlightGreenImage,
           highlightGreyImage,
           highlightRedImage,
           equipmentImage,
           fenceImage,
-          this.props.selectedItem
+          props.selectedItem
         );
       }
 
@@ -507,11 +466,43 @@ class Farm extends React.Component<IProps> {
         cropsImage,
         equipmentImage,
         fenceImage,
-        mergeDeep(this.state.crops, this.state.equipment, potentialEquipment),
-        date
+        mergeDeep(crops(), equipment(), potentialEquipment),
+        props.date
       );
     }
   };
-}
 
-export default Farm;
+  onMount(() => {
+    updateCanvas();
+
+    if (farmRef !== undefined) {
+      farmRef.scrollLeft = farmRef.scrollWidth;
+      farmRef.scrollTop = 16 * 4;
+    }
+  });
+
+  createEffect(() => {
+    updateCanvas();
+  });
+
+  return (
+    <div class="Farm" onScroll={() => onScroll()} ref={farmRef}>
+      <div
+        class="Farm--canvas-wrapper"
+        style={{ transform: `scale(${props.zoom})` }}
+      >
+        <canvas
+          class="Farm--canvas"
+          data-testid="farm-canvas"
+          height={farmHeight * 16}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseOut={onMouseOut}
+          onMouseUp={onMouseUp}
+          ref={canvasRef}
+          width={farmWidth * 16}
+        />
+      </div>
+    </div>
+  );
+}

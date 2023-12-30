@@ -1,15 +1,10 @@
-import React from "react";
+import cn from "clsx";
+import { For, Show } from "solid-js";
 
-import cn from "classnames";
-
+import { crops } from "../../../data/sdv.json";
+import { getSeason, getYear } from "../../../helpers/date";
 import BigText from "../../BigText/BigText";
 import Sprite from "../../Sprite/Sprite";
-
-import { getSeason, getYear } from "../../../helpers/date";
-
-// tslint:disable-next-line:no-var-requires
-const crops: { [index: string]: ICrop } = require("../../../data/sdv.json")
-  .crops;
 
 interface IProps {
   date: number;
@@ -18,66 +13,10 @@ interface IProps {
   selectedItem?: ISelectedItem;
 }
 
-class SeedMenu extends React.Component<IProps> {
-  render() {
-    const { date, isVisible, selectCrop, selectedItem } = this.props;
+export default function SeedMenu(props: IProps) {
+  const cropIds = Object.keys(crops).sort((a, b) => a.localeCompare(b));
 
-    const cropIds = Object.keys(crops).sort((a, b) => a.localeCompare(b));
-
-    return isVisible ? (
-      <div className="SeedMenu sdv-list">
-        {cropIds
-          .filter(cropId => !crops[cropId].isIndoorsOnly)
-          .filter(
-            cropId =>
-              crops[cropId] &&
-              crops[cropId].seasons.find(
-                season =>
-                  season ===
-                  ["spring", "summer", "fall", "winter"][getSeason(date)]
-              )
-          )
-          .sort((a, b) => a.localeCompare(b))
-          .map(cropId => (
-            <div
-              className={cn("sdv-list-item", {
-                selected:
-                  selectedItem !== undefined &&
-                  selectedItem.type === "crop" &&
-                  selectedItem.id === cropId
-              })}
-              data-automationid={`seed--${cropId}`}
-              key={cropId}
-              // tslint:disable-next-line:jsx-no-lambda
-              onClick={() => {
-                selectCrop(cropId);
-              }}
-              title={
-                `Cost: ${crops[cropId].buy}g\n` +
-                `Sell: ${crops[cropId].sell}g\n` +
-                `Profit: ${this.calculateProfit(crops[cropId])}g\n` +
-                `Profit/day: ${this.calculateProfitPerDay(crops[cropId])}g`
-              }
-            >
-              <div className="sdv-list-item-icon">
-                <Sprite
-                  height={16}
-                  src="images/seeds.png"
-                  width={16}
-                  x={cropIds.indexOf(cropId) * 16}
-                  y={0}
-                />
-              </div>
-              <div className="sdv-list-item-text">
-                <BigText>{crops[cropId].name}</BigText>
-              </div>
-            </div>
-          ))}
-      </div>
-    ) : null;
-  }
-
-  private getLastDayOfYearForCrop = (crop: ICrop) => {
+  const getLastDayOfYearForCrop = (crop: ICrop) => {
     let lastDay = 0;
 
     if (crop.seasons.includes("spring")) {
@@ -96,13 +35,13 @@ class SeedMenu extends React.Component<IProps> {
       lastDay = 28 * 4;
     }
 
-    lastDay += getYear(this.props.date) * 28 * 4;
+    lastDay += getYear(props.date) * 28 * 4;
 
     return lastDay;
   };
 
-  private calculateProfit = (crop: ICrop) => {
-    const lastDay = this.getLastDayOfYearForCrop(crop);
+  const calculateProfit = (crop: ICrop) => {
+    const lastDay = getLastDayOfYearForCrop(crop);
 
     const daysUntilFirstHarvest = crop.stages.reduce(
       (acc, stage) => acc + stage,
@@ -112,11 +51,11 @@ class SeedMenu extends React.Component<IProps> {
     const harvests =
       crop.regrow === undefined
         ? Math.ceil(
-            (lastDay - this.props.date - daysUntilFirstHarvest) /
+            (lastDay - props.date - daysUntilFirstHarvest) /
               daysUntilFirstHarvest
           )
         : Math.ceil(
-            (lastDay - this.props.date - daysUntilFirstHarvest) / crop.regrow
+            (lastDay - props.date - daysUntilFirstHarvest) / crop.regrow
           );
 
     return (
@@ -125,12 +64,67 @@ class SeedMenu extends React.Component<IProps> {
     );
   };
 
-  private calculateProfitPerDay = (crop: ICrop) =>
+  const calculateProfitPerDay = (crop: ICrop) =>
     Math.round(
-      (this.calculateProfit(crop) /
-        (this.getLastDayOfYearForCrop(crop) - this.props.date)) *
+      (calculateProfit(crop) / (getLastDayOfYearForCrop(crop) - props.date)) *
         100
     ) / 100;
-}
 
-export default SeedMenu;
+  return (
+    <Show when={props.isVisible}>
+      <div class="SeedMenu sdv-list">
+        <For
+          each={cropIds
+            .filter((cropId) => !crops[cropId].isIndoorsOnly)
+            .filter(
+              (cropId) =>
+                crops[cropId] &&
+                crops[cropId].seasons.find(
+                  (season) =>
+                    season ===
+                    ["spring", "summer", "fall", "winter"][
+                      getSeason(props.date)
+                    ]
+                )
+            )
+            .sort((a, b) => a.localeCompare(b))}
+        >
+          {(cropId) => (
+            <div
+              class={cn("sdv-list-item", {
+                selected:
+                  props.selectedItem !== undefined &&
+                  props.selectedItem.type === "crop" &&
+                  props.selectedItem.id === cropId,
+              })}
+              data-testid={`seed--${cropId}`}
+              // tslint:disable-next-line:jsx-no-lambda
+              onClick={() => {
+                props.selectCrop(cropId);
+              }}
+              title={
+                `Cost: ${crops[cropId].buy}g\n` +
+                `Sell: ${crops[cropId].sell}g\n` +
+                `Profit: ${calculateProfit(crops[cropId])}g\n` +
+                `Profit/day: ${calculateProfitPerDay(crops[cropId])}g`
+              }
+            >
+              <div class="sdv-list-item-icon">
+                <Sprite
+                  height={16}
+                  src="images/seeds.png"
+                  width={16}
+                  x={cropIds.indexOf(cropId) * 16}
+                  y={0}
+                />
+              </div>
+              <div class="sdv-list-item-text">
+                <BigText>{crops[cropId].name}</BigText>
+              </div>
+            </div>
+          )}
+        </For>
+      </div>
+    </Show>
+  );
+}

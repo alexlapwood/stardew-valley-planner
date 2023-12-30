@@ -1,16 +1,10 @@
-import React from "react";
+import cn from "clsx";
+import { createSignal, JSXElement } from "solid-js";
 
-import cn from "classnames";
-
+import { equipment, equipmentIds } from "../../../../data/sdv.json";
 import { getSeason } from "../../../../helpers/date";
 import BigText from "../../../BigText/BigText";
 import Sprite from "../../../Sprite/Sprite";
-
-// tslint:disable-next-line:no-var-requires
-const { equipment, equipmentIds } = require("../../../../data/sdv.json") as {
-  equipment: { [index: string]: IEquipment };
-  equipmentIds: string[];
-};
 
 interface IProps {
   date: number;
@@ -19,59 +13,36 @@ interface IProps {
   selectedItem?: ISelectedItem;
 }
 
-interface IState {
-  currentSkinIndex: number;
-  open: boolean;
-}
+export default function EquipmentMenuItem(props: IProps) {
+  const [currentSkinIndex, setCurrentSkinIndex] = createSignal(0);
+  const [isOpen, setIsOpen] = createSignal(false);
 
-class EquipmentMenuItem extends React.Component<IProps, IState> {
-  public state: IState = {
-    currentSkinIndex: 0,
-    open: false
+  const close = () => {
+    setIsOpen(false);
   };
 
-  public render() {
-    return (
-      <div>
-        {this.renderPickItem(this.state.currentSkinIndex, true)}
-        {this.state.open && this.renderPicklist()}
-      </div>
-    );
-  }
-
-  private close = () => {
-    this.setState({ open: false });
+  const open = () => {
+    setIsOpen(true);
   };
 
-  private open = () => {
-    this.setState({ open: true });
-  };
-
-  private toggle = () => {
-    if (this.state.open) {
-      this.close();
+  const toggle = () => {
+    if (isOpen()) {
+      close();
     } else {
-      this.open();
+      open();
     }
   };
 
-  private renderPicklist = () => {
-    const { equipmentId } = this.props;
-
-    return equipment[equipmentId].skins.map((skinId, skinIndex) => (
-      <div className="margin-left" key={skinId}>
-        {this.renderPickItem(skinIndex)}
-      </div>
+  const renderPicklist = () =>
+    equipment[props.equipmentId].skins.map((skinId, skinIndex) => (
+      <div class="margin-left">{renderPickItem(skinIndex)}</div>
     ));
-  };
 
-  private renderPickItem = (skinIndex: number, isTrigger?: boolean) => {
-    const { equipmentId, date, selectEquipment, selectedItem } = this.props;
-
-    let sprite: JSX.Element;
+  const renderPickItem = (skinIndex: number, isTrigger?: boolean) => {
+    let sprite: JSXElement;
 
     let equipmentIndex = equipmentIds
-      .slice(0, equipmentIds.indexOf(equipmentId))
+      .slice(0, equipmentIds.indexOf(props.equipmentId))
       .reduce((acc, id) => {
         if (id === "fence" || id === "flooring") {
           return acc;
@@ -84,13 +55,13 @@ class EquipmentMenuItem extends React.Component<IProps, IState> {
         return acc + equipment[id].skins.length;
       }, 0);
 
-    if (equipment[equipmentId].isSeasonal) {
-      equipmentIndex = equipmentIndex + skinIndex * 4 + getSeason(date);
+    if (equipment[props.equipmentId].isSeasonal) {
+      equipmentIndex = equipmentIndex + skinIndex * 4 + getSeason(props.date);
     } else {
       equipmentIndex = equipmentIndex + skinIndex;
     }
 
-    switch (equipmentId) {
+    switch (props.equipmentId) {
       case "sprinkler":
         sprite = (
           <Sprite
@@ -108,9 +79,9 @@ class EquipmentMenuItem extends React.Component<IProps, IState> {
             style={{
               height: "16px",
               transform: "scale(0.5)",
-              transformOrigin: "top left",
-              whiteSpace: "nowrap",
-              width: "16px"
+              "transform-origin": "top left",
+              "white-space": "nowrap",
+              width: "16px",
             }}
           >
             <Sprite
@@ -149,9 +120,9 @@ class EquipmentMenuItem extends React.Component<IProps, IState> {
             style={{
               height: "16px",
               transform: "scale(0.5)",
-              transformOrigin: "top center",
-              whiteSpace: "nowrap",
-              width: "16px"
+              "transform-origin": "top center",
+              "white-space": "nowrap",
+              width: "16px",
             }}
           >
             <Sprite
@@ -167,44 +138,47 @@ class EquipmentMenuItem extends React.Component<IProps, IState> {
     }
     return (
       <div
-        className={cn("sdv-list-item", "flex-horizontal", {
+        class={cn("sdv-list-item", "flex-horizontal", {
           selected:
-            selectedItem !== undefined &&
-            selectedItem.type === "equipment" &&
-            selectedItem.id === equipmentId &&
-            selectedItem.skinIndex === skinIndex
+            props.selectedItem !== undefined &&
+            props.selectedItem.type === "equipment" &&
+            props.selectedItem.id === props.equipmentId &&
+            props.selectedItem.skinIndex === skinIndex,
         })}
-        data-automationid={`equipment-${equipmentId}--${skinIndex}`}
-        // tslint:disable-next-line:jsx-no-lambda
+        data-testid={`equipment-${props.equipmentId}--${skinIndex}`}
         onClick={() => {
-          this.setState({ currentSkinIndex: skinIndex });
-          selectEquipment(equipmentId, skinIndex);
+          setCurrentSkinIndex(skinIndex);
+          props.selectEquipment(props.equipmentId, skinIndex);
         }}
       >
-        <div className="sdv-list-item-icon">{sprite}</div>
-        <div className="sdv-list-item-text flex margin-right">
-          <BigText>{equipment[equipmentId].skins[skinIndex]}</BigText>
+        <div class="sdv-list-item-icon">{sprite}</div>
+        <div class="sdv-list-item-text flex margin-right">
+          <BigText>{equipment[props.equipmentId].skins[skinIndex]}</BigText>
         </div>
 
-        {isTrigger && equipment[equipmentId].skins.length > 1 && (
-          <React.Fragment>
+        {isTrigger && equipment[props.equipmentId].skins.length > 1 && (
+          <>
             <button
-              className={cn("margin-right", {
-                "sdv-button-down": !this.state.open,
-                "sdv-button-up": this.state.open
+              class={cn("margin-right", {
+                "sdv-button-down": !isOpen(),
+                "sdv-button-up": isOpen(),
               })}
-              data-automationid="equipment-dropdown--trigger"
-              // tslint:disable-next-line:jsx-no-lambda
-              onClick={e => {
-                e.stopPropagation();
-                this.toggle();
+              data-testid="equipment-dropdown--trigger"
+              onClick={(event) => {
+                event.stopPropagation();
+                toggle();
               }}
             />
-          </React.Fragment>
+          </>
         )}
       </div>
     );
   };
-}
 
-export default EquipmentMenuItem;
+  return (
+    <div>
+      {renderPickItem(currentSkinIndex(), true)}
+      {isOpen() && renderPicklist()}
+    </div>
+  );
+}

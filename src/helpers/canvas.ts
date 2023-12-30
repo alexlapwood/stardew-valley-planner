@@ -1,5 +1,5 @@
-export function getCanvasPositionAndScale(canvas: HTMLCanvasElement | null) {
-  if (canvas === null) {
+export function getCanvasPositionAndScale(canvas?: HTMLCanvasElement) {
+  if (canvas === undefined) {
     throw new Error("Canvas must be initialised");
   }
 
@@ -11,8 +11,8 @@ export function getCanvasPositionAndScale(canvas: HTMLCanvasElement | null) {
   const scaleY = canvas.height / (bottom - top);
 
   if (isNaN(scaleX) || isNaN(scaleY)) {
-    return { left, top, scaleX: 1, scaleY: 1 };
+    return { left, scaleX: 1, scaleY: 1, top };
   }
 
-  return { left, top, scaleX, scaleY };
+  return { left, scaleX, scaleY, top };
 }

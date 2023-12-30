@@ -1,21 +1,19 @@
-import { mount, render } from "enzyme";
-import React from "react";
+import { fireEvent, render, screen } from "@solidjs/testing-library";
 
 import Toolbar from "./Toolbar";
 
 it("renders the app without crashing", () => {
-  const wrapper = render(<Toolbar images={[]} selectTool={jest.fn()} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(() => (
+    <Toolbar images={[]} selectTool={vitest.fn()} />
+  ));
+  expect(container).toMatchSnapshot();
 });
 
 it("calls selectTool when a tool is clicked", () => {
-  const mockSelectTool = jest.fn();
-  const wrapper = mount(<Toolbar images={[]} selectTool={mockSelectTool} />);
+  const mockSelectTool = vitest.fn();
+  render(() => <Toolbar images={[]} selectTool={mockSelectTool} />);
 
-  wrapper
-    .find("[data-automationid='tool--pick-axe']")
-    .first()
-    .simulate("click");
+  fireEvent.click(screen.getByTestId("tool--pick-axe"));
 
   expect(mockSelectTool).toHaveBeenCalledWith("pick-axe");
 });

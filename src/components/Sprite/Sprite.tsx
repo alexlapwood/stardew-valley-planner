@@ -1,5 +1,3 @@
-import React from "react";
-
 interface IProps {
   height: number;
   src: string;
@@ -8,22 +6,18 @@ interface IProps {
   y: number;
 }
 
-const Sprite: React.SFC<IProps> = props => {
-  const { height, src, width, x, y } = props;
-
+export default function Sprite(props: IProps) {
   return (
     <div
-      className="sprite"
+      class="sprite"
       style={{
-        backgroundImage: `url(${src})`,
-        backgroundPosition: `-${x}px -${y}px`,
+        "background-image": `url(${props.src})`,
+        "background-position": `-${props.x}px -${props.y}px`,
         display: "inline-block",
-        height: `${height}px`,
-        verticalAlign: "top",
-        width: `${width}px`
+        height: `${props.height}px`,
+        "vertical-align": "top",
+        width: `${props.width}px`,
       }}
     />
   );
-};
-
-export default Sprite;
+}

@@ -1,72 +1,72 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Farm helper getFenceMap creates a fence map from the current equipment 1`] = `
-Array [
-  undefined,
-  undefined,
-  undefined,
-  Array [
-    undefined,
-    undefined,
+exports[`Farm helper > getFenceMap > creates a fence map from the current equipment 1`] = `
+[
+  ,
+  ,
+  ,
+  [
+    ,
+    ,
     0,
     0,
   ],
 ]
 `;
 
-exports[`Farm helper getFlooringMap creates a flooring map from the current equipment 1`] = `
-Array [
-  undefined,
-  undefined,
-  undefined,
-  Array [
-    undefined,
-    undefined,
+exports[`Farm helper > getFlooringMap > creates a flooring map from the current equipment 1`] = `
+[
+  ,
+  ,
+  ,
+  [
+    ,
+    ,
     0,
     0,
   ],
 ]
 `;
 
-exports[`Farm helper getSoilMap creates a soil map from the current farm items 1`] = `
-Array [
-  Array [
+exports[`Farm helper > getSoilMap > creates a soil map from the current farm items 1`] = `
+[
+  [
     0,
   ],
-  Array [
-    undefined,
-    0,
-    0,
-    0,
-    0,
-    0,
-  ],
-  Array [
-    undefined,
+  [
+    ,
     0,
     0,
     0,
     0,
     0,
   ],
-  Array [
-    undefined,
-    0,
-    0,
-    undefined,
-    0,
-    0,
-  ],
-  Array [
-    undefined,
+  [
+    ,
     0,
     0,
     0,
     0,
     0,
   ],
-  Array [
-    undefined,
+  [
+    ,
+    0,
+    0,
+    ,
+    0,
+    0,
+  ],
+  [
+    ,
+    0,
+    0,
+    0,
+    0,
+    0,
+  ],
+  [
+    ,
     0,
     0,
     0,
@@ -76,13 +76,13 @@ Array [
 ]
 `;
 
-exports[`Farm helper getSoilMap does not return soil under paths 1`] = `
-Array [
-  Array [
-    undefined,
+exports[`Farm helper > getSoilMap > does not return soil under paths 1`] = `
+[
+  [
+    ,
     0,
   ],
-  Array [
+  [
     0,
   ],
 ]

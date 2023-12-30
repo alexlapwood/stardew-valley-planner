@@ -1,0 +1,317 @@
+.pageStardewValleySeasonalPlanner {
+  grid-area: body;
+  overflow: hidden;
+  overscroll-behavior: none;
+  image-rendering: pixelated;
+  font-family: monospace;
+  font-size: 8px;
+  margin: 0;
+  padding: 0;
+  width: 800px;
+  transform-origin: 0 0;
+
+  * {
+    box-sizing: border-box;
+    image-rendering: pixelated;
+    cursor: url("../../images/cursor.png"), default;
+  }
+
+  .sdv-hover-effect {
+    transition: 0.1s;
+  }
+
+  .sdv-hover-effect:hover {
+    transform: scale(1.1);
+    z-index: 1;
+  }
+
+  .sdv-hover-effect.selected {
+    transform: scale(1.1);
+  }
+
+  .sdv-panel-big,
+  .sdv-button-big {
+    background: #ffd883;
+    border-image: url("../../images/button-big.png") 13 stretch;
+    border-width: 13px;
+    border-style: solid;
+    text-align: center;
+  }
+
+  .sdv-button-big:hover {
+    background: #ffffbc;
+    border-image: url("../../images/button-big-hover.png") 13 stretch;
+    border-width: 13px;
+    border-style: solid;
+  }
+
+  .sdv-button {
+    background: #ffd883;
+    background-clip: padding-box;
+    border-image: url("../../images/button.png") 4 stretch;
+    border-style: solid;
+    border-width: 4px;
+    padding: 2px;
+  }
+
+  .sdv-button-small {
+    padding: 2px;
+  }
+
+  .sdv-button-small,
+  .sdv-toolbar-border {
+    background: #febd67;
+    background-clip: padding-box;
+    border-image: url("../../images/toolbar-border.png") 4 stretch;
+    border-style: solid;
+    border-width: 4px;
+    text-align: center;
+  }
+
+  .sdv-button-add,
+  .sdv-button-down,
+  .sdv-button-left,
+  .sdv-button-right,
+  .sdv-button-subtract,
+  .sdv-button-up {
+    height: 8px;
+    width: 7px;
+  }
+
+  .sdv-button-add {
+    background-image: url("../../images/button-add.png");
+  }
+
+  .sdv-button-down {
+    background-image: url("../../images/button-down.png");
+  }
+
+  .sdv-button-left {
+    background-image: url("../../images/button-left.png");
+  }
+
+  .sdv-button-right {
+    background-image: url("../../images/button-right.png");
+  }
+
+  .sdv-button-subtract {
+    background-image: url("../../images/button-subtract.png");
+  }
+
+  .sdv-button-up {
+    background-image: url("../../images/button-up.png");
+  }
+
+  .sdv-button-add:disabled {
+    background-image: url("../../images/button-add-disabled.png");
+  }
+
+  .sdv-button-left:disabled {
+    background-image: url("../../images/button-left-disabled.png");
+  }
+
+  .sdv-button-right:disabled {
+    background-image: url("../../images/button-right-disabled.png");
+  }
+
+  .sdv-button-subtract:disabled {
+    background-image: url("../../images/button-subtract-disabled.png");
+  }
+
+  .sdv-dropdown-trigger {
+    position: relative;
+    overflow: visible;
+  }
+
+  .sdv-tool-border {
+    border-image: url("../../images/tool-border.png") 1 stretch;
+    border-width: 1px;
+    border-style: solid;
+  }
+
+  .sdv-tool-border.selected {
+    border-image: url("../../images/tool-border-selected.png") 1 stretch;
+  }
+
+  .sdv-tab {
+    background-clip: padding-box;
+    background-color: #ffd284;
+    border-image: url("../../images/list-border.png") 5 stretch;
+    border-width: 5px 5px 0;
+    border-style: solid;
+    padding: 2px;
+  }
+
+  .sdv-tab.selected,
+  .sdv-tab:hover {
+    background-color: #fdb452;
+  }
+
+  .sdv-list {
+    background-clip: padding-box;
+    border-image: url("../../images/list-border.png") 5 stretch;
+    border-width: 5px;
+    border-style: solid;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .sdv-list-item {
+    align-items: center;
+    background: #ffd284;
+    border-image: url("../../images/list-item-border.png") 5 stretch;
+    border-width: 5px;
+    border-style: solid;
+    display: flex;
+    margin: -1px;
+  }
+
+  .sdv-list-item.selected,
+  .sdv-list-item:hover {
+    background: #fdb452;
+    border-image: url("../../images/list-item-hover-border.png") 5 stretch;
+  }
+
+  .sdv-list-item-icon {
+    background: #ffd284;
+    background-clip: padding-box;
+    border-image: url("../../images/list-item-icon-border.png") 1 stretch;
+    border-width: 1px;
+    border-style: solid;
+    margin-right: 4px;
+  }
+
+  button {
+    background: none;
+    border: none;
+    margin: 0;
+    outline: none;
+    padding: 0;
+  }
+
+  input[type="range"] {
+    appearance: none;
+    background: none;
+    margin: 2px 0;
+    outline: none;
+    position: relative;
+    vertical-align: top;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+
+  input[type="range"]::before {
+    content: " ";
+    background: #bdac8f;
+    background-clip: padding-box;
+    border-image: url("../../images/slider-border.png") 2 stretch;
+    border-width: 2px;
+    border-style: solid;
+    display: block;
+    position: absolute;
+    top: -2px;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    z-index: -1;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    background: url("../../images/slider-thumb.png");
+    height: 6px;
+    margin: -2px 0;
+    width: 10px;
+    -webkit-appearance: none;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    background: url("../../images/slider-thumb.png");
+    height: 6px;
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  ::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: black;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #bdac8f;
+    background-clip: padding-box;
+    border: solid;
+    border-width: 2px;
+    border-image: url("../../images/slider-border.png") 2 stretch;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #de7b00;
+    background-clip: padding-box;
+    border: solid;
+    border-width: 3px;
+    border-image: url("../../images/slider-thumb-border.png") 3 stretch;
+  }
+
+  .flex-horizontal {
+    display: flex;
+  }
+
+  .flex-vertical {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flex {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .flex-no-shrink {
+    flex-shrink: 0;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .overflow-hidden {
+    overflow: hidden;
+  }
+
+  .relative {
+    position: relative;
+  }
+
+  .margin-bottom,
+  .margin-vertical,
+  .margin {
+    margin-bottom: 8px;
+  }
+
+  .margin-left,
+  .margin-horizontal,
+  .margin {
+    margin-left: 8px;
+  }
+
+  .margin-right,
+  .margin-horizontal,
+  .margin {
+    margin-right: 8px;
+  }
+
+  .margin-top,
+  .margin-vertical,
+  .margin {
+    margin-top: 8px;
+  }
+}

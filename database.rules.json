@@ -1,0 +1,38 @@
+{
+  "rules": {
+    "v1": {
+      "etchasketch": {
+        "$uid": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        }
+      },
+      "userSettings": {
+        "$uid": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid",
+          "theme": {
+            ".validate": "newData.isString()"
+          },
+          "themeColor": {
+            ".validate": "newData.isString()"
+          }
+        }
+      }
+    },
+    "mon": {
+      "v1": {
+        "players": {
+          ".read": "auth !== null",
+          "$uid": {
+            ".write": "$uid === auth.uid"
+          }
+        },
+        "$uid": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        }
+      }
+    }
+  }
+}

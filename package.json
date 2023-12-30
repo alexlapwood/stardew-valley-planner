@@ -1,51 +1,46 @@
 {
-  "name": "stardew-valley-seasonal-planner",
-  "description": "Stardew Valley Seasonal Planner",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "classnames": "^2.2.6",
-    "immutable": "4.0.0-rc.10",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-scripts": "2.1.2"
-  },
+  "name": "stardew-valley-planner",
+  "version": "1.0.0",
+  "description": "Stardew Valley seasonal planner",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "vite --host",
+    "dev": "npm start",
+    "lint": "eslint",
+    "test": "vitest",
+    "build": "vite build",
+    "preview": "vite build && vite preview --host",
+    "ci:build": "npm run build",
+    "ci:lint": "npm run lint",
+    "ci:test": "vitest run --reporter junit --outputFile tests/__temp/test-results.xml",
+    "ci:deploy": "firebase deploy --token $FIREBASE_TOKEN"
+  },
+  "dependencies": {
+    "@sentry/browser": "^7.89.0",
+    "clsx": "^2.0.0",
+    "firebase": "^10.7.1",
+    "immutable": "^5.0.0-beta.4",
+    "nanoid": "^5.0.4",
+    "solid-js": "^1.8.7"
   },
   "devDependencies": {
-    "@types/classnames": "^2.2.4",
-    "@types/enzyme": "^3.1.11",
-    "@types/enzyme-adapter-react-16": "^1.0.2",
-    "@types/jest": "^23.3.10",
-    "@types/node": "^10.12.18",
-    "@types/react": "^16.7.18",
-    "@types/react-dom": "^16.0.11",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "enzyme-to-json": "^3.3.4",
-    "jest-canvas-mock": "^1.1.0",
-    "typescript": "^3.2.2"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/App.tsx",
-      "src/*/**/*.{js,jsx,ts,tsx}",
-      "!src/types/**/*"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  },
-  "homepage": "./",
-  "license": "GPL-3.0",
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "@solidjs/testing-library": "^0.8.4",
+    "@testing-library/jest-dom": "^6.1.5",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-solid": "^0.13.0",
+    "jsdom": "^23.0.1",
+    "postcss": "^8.4.32",
+    "prettier": "^3.1.1",
+    "sass": "^1.69.5",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10",
+    "vite-plugin-pwa": "^0.17.4",
+    "vite-plugin-solid": "^2.8.0",
+    "vitest": "^1.1.0",
+    "workbox-window": "^7.0.0"
+  }
 }

@@ -1,9 +1,8 @@
 import { mergeDeep } from "immutable";
+
+import { crops } from "../data/sdv.json";
 import { getCropsLastDay } from "./crop";
 import { getCropsAtLocation, getEquipmentAtLocation } from "./farm";
-
-// tslint:disable-next-line:no-var-requires
-const crops: { [index: string]: ICrop } = require("../data/sdv.json").crops;
 
 export function checkCropsToPlant(
   cropsToPlant: IPlantedCrop[],
@@ -33,7 +32,7 @@ export function checkCropsToPlant(
         cropToPlant.y
       );
 
-      const plantedCropConflict = plantedCrops.find(plantedCrop => {
+      const plantedCropConflict = plantedCrops.find((plantedCrop) => {
         const plantedCropDetails = crops[plantedCrop.cropId];
         const cropToPlantsDetails = crops[cropToPlant.cropId];
 
@@ -66,7 +65,7 @@ export function checkCropsToPlant(
       });
 
       const installedEquipmentConflict = installedEquipmentList.find(
-        installedEquipment => {
+        (installedEquipment) => {
           const cropToPlantsDetails = crops[cropToPlant.cropId];
 
           const cropToPlantsLastDay = getCropsLastDay(
@@ -103,12 +102,12 @@ export function checkCropsToPlant(
         isTryingToPlantInSoil
       ) {
         return mergeDeep(acc, {
-          plantableCrops: [cropToPlant]
+          plantableCrops: [cropToPlant],
         });
       }
 
       return mergeDeep(acc, {
-        unplantableCrops: [cropToPlant]
+        unplantableCrops: [cropToPlant],
       });
     },
     { plantableCrops: [], unplantableCrops: [] }
@@ -143,7 +142,7 @@ export function checkEquipmentToInstall(
         equipmentToInstall.y
       );
 
-      const plantedCropConflictPast = plantedCrops.find(plantedCrop => {
+      const plantedCropConflictPast = plantedCrops.find((plantedCrop) => {
         const plantedCropDetails = crops[plantedCrop.cropId];
 
         const plantedCropsLastDay = getCropsLastDay(
@@ -164,7 +163,7 @@ export function checkEquipmentToInstall(
       });
 
       const installedEquipmentConflictPast = installedEquipmentList.find(
-        installedEquipment => {
+        (installedEquipment) => {
           if (
             (equipmentToInstall.equipmentId === "flooring") !==
             (installedEquipment.equipmentId === "flooring")
@@ -239,12 +238,12 @@ export function checkEquipmentToInstall(
         canInstallEquipmentHere
       ) {
         return mergeDeep(acc, {
-          installableEquipment: [{ ...equipmentToInstall, dateDestroyed }]
+          installableEquipment: [{ ...equipmentToInstall, dateDestroyed }],
         });
       }
 
       return mergeDeep(acc, {
-        notInstallableEquipment: [equipmentToInstall]
+        notInstallableEquipment: [equipmentToInstall],
       });
     },
     { installableEquipment: [], notInstallableEquipment: [] }
@@ -258,7 +257,7 @@ export function findCropToDestroy(
   plantedCrops: IPlantedCrop[],
   dateToDestroyOn: number
 ) {
-  return plantedCrops.find(plantedCrop => {
+  return plantedCrops.find((plantedCrop) => {
     const plantedCropDetails = crops[plantedCrop.cropId];
 
     const plantedCropsLastDay = getCropsLastDay(
@@ -284,7 +283,7 @@ export function findEquipmentToDestroy(
   installedEquipmentList: IInstalledEquipment[],
   dateToDestroyOn: number
 ) {
-  return installedEquipmentList.find(installedEquipment => {
+  return installedEquipmentList.find((installedEquipment) => {
     if (
       (installedEquipment.dateDestroyed === undefined ||
         dateToDestroyOn < installedEquipment.dateDestroyed) &&
@@ -301,7 +300,7 @@ export function destroyCrops(
   plantedCrops: IPlantedCrop[],
   dateToDestroyOn: number
 ) {
-  return plantedCrops.map(plantedCrop => {
+  return plantedCrops.map((plantedCrop) => {
     const cropToChecksDetails = crops[plantedCrop.cropId];
 
     const cropToChecksLastDay = getCropsLastDay(
@@ -325,7 +324,7 @@ export function destroyEquipment(
   installedEquipmentList: IInstalledEquipment[],
   dateToDestroyOn: number
 ) {
-  return installedEquipmentList.map(installedEquipment => {
+  return installedEquipmentList.map((installedEquipment) => {
     if (
       (installedEquipment.dateDestroyed === undefined ||
         dateToDestroyOn < installedEquipment.dateDestroyed) &&

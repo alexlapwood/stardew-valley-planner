@@ -1,3 +1,4 @@
+import { crops, equipment, equipmentIds } from "../data/sdv.json";
 import { calculateStageOfCrop } from "./crop";
 import { getSeason } from "./date";
 import {
@@ -7,23 +8,17 @@ import {
   getEquipmentAtLocation,
   getFenceMap,
   getFlooringMap,
+  getScarecrowMap,
   getSoilMap,
   isCropHereToday,
-  isEquipmentHereToday
+  isEquipmentHereToday,
 } from "./farm";
 import {
   checkCropsToPlant,
   checkEquipmentToInstall,
   findCropToDestroy,
-  findEquipmentToDestroy
+  findEquipmentToDestroy,
 } from "./itemPlacement";
-
-// tslint:disable-next-line:no-var-requires
-const { crops, equipment, equipmentIds } = require("../data/sdv.json") as {
-  crops: { [index: string]: ICrop };
-  equipment: { [index: string]: IEquipment };
-  equipmentIds: string[];
-};
 
 const flooringTileMap = [0, 12, 15, 11, 13, 9, 14, 10, 4, 8, 3, 7, 1, 5, 2, 6];
 
@@ -109,6 +104,28 @@ export function renderWateredSoilToContext(
   });
 }
 
+export function renderScarecrowProtectionToContext(
+  context: CanvasRenderingContext2D,
+  tileset:
+    | HTMLImageElement
+    | HTMLCanvasElement
+    | HTMLVideoElement
+    | ImageBitmap,
+  farmEquipment: IFarmEquipment,
+  currentFarm: string[],
+  date: number
+) {
+  const scarecrowProtectedSoilMap = getScarecrowMap(
+    farmEquipment,
+    date,
+    currentFarm
+  );
+
+  forEachTileInMap(scarecrowProtectedSoilMap, (tileValue, tileIndex, x, y) => {
+    context.drawImage(tileset, 0, 0, 16, 16, x * 16, y * 16, 16, 16);
+  });
+}
+
 export function renderFlooringToContext(
   context: CanvasRenderingContext2D,
   tileset:
@@ -147,7 +164,7 @@ export function renderItemsToContext(
 ) {
   const fenceMap = getFenceMap(farmItems, date);
 
-  forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, farmItem => {
+  forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, (farmItem) => {
     if (farmItem.type === "crop") {
       if (!isCropHereToday(farmItem, date)) {
         return;
@@ -341,7 +358,7 @@ export function renderSelectedRegion(
         datePlanted: date,
         type: "crop",
         x,
-        y
+        y,
       });
     });
 
@@ -351,7 +368,7 @@ export function renderSelectedRegion(
       currentFarm
     );
 
-    plantableCrops.forEach(cropToPlant => {
+    plantableCrops.forEach((cropToPlant) => {
       context.drawImage(
         highlightGreenImage,
         cropToPlant.x * 16,
@@ -359,7 +376,7 @@ export function renderSelectedRegion(
       );
     });
 
-    unplantableCrops.forEach(cropToPlant => {
+    unplantableCrops.forEach((cropToPlant) => {
       context.drawImage(
         highlightRedImage,
         cropToPlant.x * 16,
@@ -378,23 +395,21 @@ export function renderSelectedRegion(
         skinIndex: selectedItem.skinIndex || 0,
         type: "equipment",
         x,
-        y
+        y,
       });
     });
 
-    const {
-      installableEquipment,
-      notInstallableEquipment
-    } = checkEquipmentToInstall(
-      equipmentToInstallList,
-      {
-        currentCrops,
-        currentEquipment
-      },
-      currentFarm
-    );
+    const { installableEquipment, notInstallableEquipment } =
+      checkEquipmentToInstall(
+        equipmentToInstallList,
+        {
+          currentCrops,
+          currentEquipment,
+        },
+        currentFarm
+      );
 
-    installableEquipment.forEach(equipmentToInstall => {
+    installableEquipment.forEach((equipmentToInstall) => {
       context.drawImage(
         highlightGreenImage,
         equipmentToInstall.x * 16,
@@ -402,7 +417,7 @@ export function renderSelectedRegion(
       );
     });
 
-    notInstallableEquipment.forEach(equipmentToInstall => {
+    notInstallableEquipment.forEach((equipmentToInstall) => {
       context.drawImage(
         highlightRedImage,
         equipmentToInstall.x * 16,

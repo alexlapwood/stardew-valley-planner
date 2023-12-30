@@ -1,7 +1,5 @@
+import { crops } from "../data/sdv.json";
 import { getCropsLastDay } from "./crop";
-
-// tslint:disable-next-line:no-var-requires
-const crops: { [index: string]: ICrop } = require("../data/sdv.json").crops;
 
 export function forEachTileInRegion(
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
@@ -29,9 +27,9 @@ export function forEachFarmItem<T>(
 ) {
   Object.keys(farmItems)
     .sort((a, b) => Number(a) - Number(b))
-    .map(yKey => {
+    .map((yKey) => {
       if (farmItems[yKey] !== undefined) {
-        Object.keys(farmItems[yKey]).map(xKey => {
+        Object.keys(farmItems[yKey]).map((xKey) => {
           farmItems[yKey][xKey].forEach((farmItem: T) => {
             callback(farmItem);
           });
@@ -104,7 +102,7 @@ export function getSoilMap(
 ) {
   const soilMap: number[][] = [];
 
-  forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, farmItem => {
+  forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, (farmItem) => {
     const { x, y } = farmItem;
     if (farmItem.type === "crop") {
       if (!isCropHereToday(farmItem, date)) {
@@ -185,7 +183,7 @@ export function getSoilMap(
     }
   });
 
-  forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, farmItem => {
+  forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, (farmItem) => {
     if (farmItem.type === "equipment") {
       const { x, y } = farmItem;
 
@@ -207,21 +205,24 @@ export function getSoilMap(
 export function getFlooringMap(currentEquipment: IFarmEquipment, date: number) {
   const flooringMap: number[][] = [];
 
-  forEachFarmItem<IInstalledEquipment>(currentEquipment, installedEquipment => {
-    const { x, y } = installedEquipment;
+  forEachFarmItem<IInstalledEquipment>(
+    currentEquipment,
+    (installedEquipment) => {
+      const { x, y } = installedEquipment;
 
-    if (!isEquipmentHereToday(installedEquipment, date)) {
-      return;
-    }
-
-    if (installedEquipment.equipmentId === "flooring") {
-      if (flooringMap[x] === undefined) {
-        flooringMap[x] = [];
+      if (!isEquipmentHereToday(installedEquipment, date)) {
+        return;
       }
 
-      flooringMap[x][y] = installedEquipment.skinIndex;
+      if (installedEquipment.equipmentId === "flooring") {
+        if (flooringMap[x] === undefined) {
+          flooringMap[x] = [];
+        }
+
+        flooringMap[x][y] = installedEquipment.skinIndex;
+      }
     }
-  });
+  );
 
   return flooringMap;
 }
@@ -234,7 +235,7 @@ export function getFenceMap(
 
   forEachFarmItem<IPlantedCrop | IInstalledEquipment>(
     currentEquipment,
-    installedEquipment => {
+    (installedEquipment) => {
       if (installedEquipment.type === "equipment") {
         const { x, y } = installedEquipment;
 
@@ -254,4 +255,53 @@ export function getFenceMap(
   );
 
   return fenceMap;
+}
+
+export function getScarecrowMap(
+  currentEquipment: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
+  date: number,
+  currentFarm: string[]
+) {
+  const scarecrowMap: number[][] = [];
+
+  forEachFarmItem<IPlantedCrop | IInstalledEquipment>(
+    currentEquipment,
+    (installedEquipment) => {
+      if (installedEquipment.type === "equipment") {
+        const { x, y } = installedEquipment;
+
+        if (!isEquipmentHereToday(installedEquipment, date)) {
+          return;
+        }
+
+        if (installedEquipment.equipmentId === "scarecrow") {
+          if (scarecrowMap[x] === undefined) {
+            scarecrowMap[x] = [];
+          }
+
+          for (let iy = -8; iy <= 8; iy++) {
+            // 4, 5, 6, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 6, 5, 4
+            const rowWidth = Math.min(-Math.abs(iy) + 12, 8);
+            for (let ix = -rowWidth; ix <= rowWidth; ix++) {
+              if (
+                currentFarm[y + iy] &&
+                currentFarm[y + iy][x + ix] &&
+                currentFarm[y + iy][x + ix] === " "
+              ) {
+                if (scarecrowMap[x + ix] === undefined) {
+                  scarecrowMap[x + ix] = [];
+                }
+
+                scarecrowMap[x + ix][y + iy] = 0;
+              }
+            }
+          }
+
+          scarecrowMap[x][y] = 0;
+        }
+      }
+    }
+  );
+
+  return scarecrowMap;
 }
