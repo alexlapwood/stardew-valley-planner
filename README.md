@@ -1,6 +1,6 @@
 # Stardew Valley Seasonal Planner
 
-https://
+https://stardewplanner.app
 
 Welcome to the Stardew Valley Seasonal Planner!
 
