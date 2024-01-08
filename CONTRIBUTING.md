@@ -13,6 +13,11 @@ volta install node
 
 ```
 npm install
+```
+
+#### Optional dependencies
+
+```
 npm i -g firebase-tools
 ```
 

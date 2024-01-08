@@ -1,5 +1,6 @@
 /* @refresh reload */
 import "./index.scss";
+import "./helpers/initializeFirebase";
 
 import { render } from "solid-js/web";
 
