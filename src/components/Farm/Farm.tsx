@@ -21,6 +21,7 @@ import {
   renderSoilToContext,
   renderWateredSoilToContext,
 } from "../../helpers/renderToCanvas";
+import { crops, equipment, setCrops, setEquipment } from "../../state/farm";
 
 interface IProps {
   currentFarm:
@@ -38,9 +39,6 @@ interface IProps {
 }
 
 export default function Farm(props: IProps) {
-  // const [buildings, setBuildings] = createSignal<IFarmBuildings>({});
-  const [crops, setCrops] = createSignal<IFarmCrops>({});
-  const [equipment, setEquipment] = createSignal<IFarmEquipment>({});
   const [isMouseDown, setIsMouseDown] = createSignal(false);
   const [mouseDownPosition, setMouseDownPosition] = createSignal<{
     // Left and top are used for updating the the cursor position

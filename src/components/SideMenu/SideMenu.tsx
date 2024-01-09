@@ -3,11 +3,13 @@ import "./SideMenu.css";
 import cn from "clsx";
 import { createSignal } from "solid-js";
 
+import BigText from "../BigText/BigText";
 import Sprite from "../Sprite/Sprite";
 import EquipmentMenu from "./EquipmentMenu/EquipmentMenu";
+import FileMenu from "./FileMenu/FileMenu";
 import SeedMenu from "./SeedMenu/SeedMenu";
 
-type TCurrentMenu = "seeds" | "equipment" | "decorations";
+type TCurrentMenu = "seeds" | "equipment" | "decorations" | "file";
 
 interface IProps {
   date: number;
@@ -29,6 +31,10 @@ export default function SideMenu(props: IProps) {
 
   const showDecorations = () => {
     setCurrentMenu("decorations");
+  };
+
+  const showFile = () => {
+    setCurrentMenu("file");
   };
 
   return (
@@ -73,6 +79,15 @@ export default function SideMenu(props: IProps) {
             y={16}
           />
         </div>
+        <div
+          class={cn("sdv-tab", {
+            selected: currentMenu() === "file",
+          })}
+          data-testid="file-tab"
+          onClick={showFile}
+        >
+          <BigText>File</BigText>
+        </div>
       </div>
       <SeedMenu
         date={props.date}
@@ -94,6 +109,7 @@ export default function SideMenu(props: IProps) {
         selectEquipment={props.selectEquipment}
         selectedItem={props.selectedItem}
       />
+      <FileMenu isVisible={currentMenu() === "file"} />
     </div>
   );
 }
