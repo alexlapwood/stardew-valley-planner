@@ -7,7 +7,7 @@ Welcome to the Stardew Valley Seasonal Planner!
 ## Features
 
 - [x] Plan crops across time
-- [ ] Import and export plans
+- [x] Import and export plans
 - [ ] Collaborate with friends
 
 ## Contributing

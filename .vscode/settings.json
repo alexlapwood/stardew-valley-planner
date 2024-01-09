@@ -3,6 +3,9 @@
   "files.associations": {
     "*.scss": "sass"
   },
+  "material-icon-theme.folders.associations": {
+    "state": "database"
+  },
   "cSpell.words": [
     "clsx",
     "mailinator",

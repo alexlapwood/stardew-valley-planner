@@ -35,6 +35,35 @@ exports[`<SideMenu /> > renders correctly 1`] = `
           style="display: inline-block; vertical-align: top; background-image: url(images/equipment-sheet.png); background-position: -960px -16px; height: 16px; width: 16px;"
         />
       </div>
+      <div
+        class="sdv-tab"
+        data-testid="file-tab"
+      >
+        <div
+          class="BigText"
+        >
+          <div
+            style="transform-origin: left center; white-space: nowrap; transform: scale(1);"
+          >
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -304px -0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -584px -0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -608px -0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+            />
+          </div>
+        </div>
+      </div>
     </div>
     <div
       class="SeedMenu sdv-list"
@@ -6055,81 +6084,74 @@ Profit/day: 1.43g"
         
       </div>
     </div>
+    <div
+      class="EquipmentMenu sdv-list hidden"
+    >
+      <div
+        class="sdv-list-item flex-horizontal"
+      >
+        <div
+          class="sdv-list-item-text flex margin-right"
+        >
+          <div
+            class="BigText"
+          >
+            <div
+              style="transform-origin: left center; white-space: nowrap; transform: scale(1);"
+            >
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -376px -0px; height: 16px; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -640px -0px; height: 16px; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -624px -0px; height: 16px; width: 8px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="sdv-list-item flex-horizontal"
+      >
+        <div
+          class="sdv-list-item-text flex margin-right"
+        >
+          <div
+            class="BigText"
+          >
+            <div
+              style="transform-origin: left center; white-space: nowrap; transform: scale(1);"
+            >
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -408px -0px; height: 16px; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -520px -0px; height: 16px; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -688px -0px; height: 16px; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-`;
-
-exports[`<SideMenu /> renders correctly 1`] = `
-<div
-  className="SideMenu flex-vertical"
->
-  <div
-    className="flex-horizontal flex-no-shrink"
-  >
-    <div
-      className="sdv-tab selected"
-      data-testid="seeds-tab"
-      onClick={[Function]}
-    >
-      <Sprite
-        height={16}
-        src="images/seeds.png"
-        width={16}
-        x={16}
-        y={0}
-      />
-    </div>
-    <div
-      className="sdv-tab"
-      data-testid="equipment-tab"
-      onClick={[Function]}
-    >
-      <Sprite
-        height={16}
-        src="images/equipment-sheet.png"
-        width={16}
-        x={0}
-        y={0}
-      />
-    </div>
-    <div
-      className="sdv-tab"
-      data-testid="decorations-tab"
-      onClick={[Function]}
-    >
-      <Sprite
-        height={16}
-        src="images/equipment-sheet.png"
-        width={16}
-        x={960}
-        y={16}
-      />
-    </div>
-  </div>
-  <SeedMenu
-    date={0}
-    isVisible={true}
-    selectCrop={[MockFunction]}
-  />
-  <EquipmentMenu
-    date={0}
-    isVisible={false}
-    range={
-      Object {
-        "to": 22,
-      }
-    }
-    selectEquipment={[MockFunction]}
-  />
-  <EquipmentMenu
-    date={0}
-    isVisible={false}
-    range={
-      Object {
-        "from": 23,
-      }
-    }
-    selectEquipment={[MockFunction]}
-  />
 </div>
 `;

@@ -9,6 +9,7 @@ import SideMenu from "../../components/SideMenu/SideMenu";
 import Toolbar from "../../components/Toolbar/Toolbar";
 import { crops } from "../../data/sdv.json";
 import { getSeason } from "../../helpers/date";
+import { date, setDate } from "../../state/farm";
 
 interface Props extends Solid.JSX.HTMLAttributes<HTMLDivElement> {}
 
@@ -36,7 +37,6 @@ export const StardewValleySeasonalPlanner: Solid.Component<Props> = ({
   const [currentFarm] = createSignal<
     "Standard" | "Riverland" | "Forest" | "Hill-top" | "Wilderness" | "Test"
   >("Standard");
-  const [date, setDate] = createSignal(0);
   const [images, setImages] = createSignal<HTMLImageElement[]>([]);
   const [isLoading, setIsLoading] = createSignal(true);
   const [selectedItem, setSelectedItem] = createSignal<ISelectedItem>();
