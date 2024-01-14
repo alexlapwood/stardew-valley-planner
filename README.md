@@ -4,6 +4,8 @@ https://stardewplanner.app
 
 Welcome to the Stardew Valley Seasonal Planner!
 
+![Stardew Valley Seasonal Planner](preview.png)
+
 ## Features
 
 - [x] Plan crops across time
