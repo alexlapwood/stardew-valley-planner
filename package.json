@@ -21,7 +21,7 @@
     "firebase": "^10.7.1",
     "immutable": "^5.0.0-beta.4",
     "nanoid": "^5.0.4",
-    "solid-js": "^1.8.9"
+    "solid-js": "^1.8.14"
   },
   "devDependencies": {
     "@solidjs/testing-library": "^0.8.5",
