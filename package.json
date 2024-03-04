@@ -15,7 +15,7 @@
     "ci:deploy": "firebase deploy --token $FIREBASE_TOKEN"
   },
   "dependencies": {
-    "@sentry/browser": "^7.92.0",
+    "@sentry/browser": "^7.105.0",
     "clsx": "^2.1.0",
     "file-saver": "^2.0.5",
     "firebase": "^10.7.1",
