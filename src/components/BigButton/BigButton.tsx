@@ -1,11 +1,11 @@
 import "./BigButton.css";
 
 import cn from "clsx";
-import Solid, { JSXElement, splitProps } from "solid-js";
+import { type JSX, type JSXElement, splitProps } from "solid-js";
 
 import BigText from "../BigText/BigText";
 
-interface IProps extends Solid.JSX.HTMLAttributes<HTMLDivElement> {
+interface IProps extends JSX.HTMLAttributes<HTMLDivElement> {
   children?: JSXElement;
   selected?: boolean;
   onClick?: ((event: MouseEvent) => void) | undefined;

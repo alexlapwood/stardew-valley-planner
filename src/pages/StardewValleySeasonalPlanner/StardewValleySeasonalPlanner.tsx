@@ -1,6 +1,6 @@
 import "./StardewValleySeasonalPlanner.scss";
 
-import Solid, { createSignal, onMount } from "solid-js";
+import { type Component, createSignal, type JSX, onMount } from "solid-js";
 
 import { imageUrls } from "../../__helpers__/images";
 import DatePicker from "../../components/DatePicker/DatePicker";
@@ -11,7 +11,7 @@ import { crops } from "../../data/sdv.json";
 import { getSeason } from "../../helpers/date";
 import { date, setDate } from "../../state/farm";
 
-interface Props extends Solid.JSX.HTMLAttributes<HTMLDivElement> {}
+interface Props extends JSX.HTMLAttributes<HTMLDivElement> {}
 
 const [windowWidth, setWindowWidth] = createSignal(window.innerWidth);
 const [windowHeight, setWindowHeight] = createSignal(window.innerHeight);
@@ -25,7 +25,7 @@ window.addEventListener("resize", onResize);
 
 document.addEventListener("DOMContentLoaded", onResize);
 
-export const StardewValleySeasonalPlanner: Solid.Component<Props> = ({
+export const StardewValleySeasonalPlanner: Component<Props> = ({
   class: className,
   ...attributes
 }) => {

@@ -67,7 +67,7 @@ Profit/day: 40.48g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url(images/seeds.png); background-position: -16px -0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -16px 0px; height: 16px; width: 16px;"
         />
       </div>
       <div
@@ -81,55 +81,55 @@ Profit/day: 40.48g"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -264px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -264px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -624px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -624px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -536px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -536px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -584px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -584px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -624px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -624px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -672px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -672px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -0px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: 0px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -304px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -304px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -656px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -680px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -680px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -584px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -584px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -672px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -672px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>
@@ -148,7 +148,7 @@ Profit/day: 2.14g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url(images/seeds.png); background-position: -64px -0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -64px 0px; height: 16px; width: 16px;"
         />
       </div>
       <div
@@ -162,39 +162,39 @@ Profit/day: 2.14g"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -272px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -272px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -608px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -608px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -680px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -680px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -0px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: 0px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -336px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -336px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -520px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -720px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -720px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -720px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -720px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>
@@ -213,7 +213,7 @@ Profit/day: 6.79g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url(images/seeds.png); background-position: -128px -0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -128px 0px; height: 16px; width: 16px;"
         />
       </div>
       <div
@@ -227,47 +227,47 @@ Profit/day: 6.79g"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -280px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -280px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -520px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -680px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -680px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -608px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -608px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -584px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -584px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -560px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -560px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -608px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -608px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -632px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -632px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -696px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -696px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -656px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>
@@ -286,7 +286,7 @@ Profit/day: 24.11g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url(images/seeds.png); background-position: -144px -0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -144px 0px; height: 16px; width: 16px;"
         />
       </div>
       <div
@@ -300,47 +300,47 @@ Profit/day: 24.11g"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -280px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -280px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -632px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -632px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -560px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -560px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -560px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -560px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -0px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: 0px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -272px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -272px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -520px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -624px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -624px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>
@@ -359,7 +359,7 @@ Profit/day: 4.29g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url(images/seeds.png); background-position: -224px -0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -224px 0px; height: 16px; width: 16px;"
         />
       </div>
       <div
@@ -373,27 +373,27 @@ Profit/day: 4.29g"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -312px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -312px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -520px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -656px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -608px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -608px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -584px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -584px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -536px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -536px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>
@@ -412,7 +412,7 @@ Profit/day: 6.43g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url(images/seeds.png); background-position: -256px -0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -256px 0px; height: 16px; width: 16px;"
         />
       </div>
       <div
@@ -426,43 +426,43 @@ Profit/day: 6.43g"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -312px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -312px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -656px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -624px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -624px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -0px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: 0px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -272px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -272px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -520px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -624px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -624px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>
@@ -481,7 +481,7 @@ Profit/day: 5.71g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url(images/seeds.png); background-position: -304px -0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -304px 0px; height: 16px; width: 16px;"
         />
       </div>
       <div
@@ -495,19 +495,19 @@ Profit/day: 5.71g"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -344px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -344px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -520px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -608px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -608px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>
@@ -526,7 +526,7 @@ Profit/day: 3.21g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url(images/seeds.png); background-position: -336px -0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -336px 0px; height: 16px; width: 16px;"
         />
       </div>
       <div
@@ -540,31 +540,31 @@ Profit/day: 3.21g"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -384px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -384px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -520px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -656px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -664px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -664px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -624px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -624px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -584px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -584px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -640px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -640px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>
@@ -583,7 +583,7 @@ Profit/day: 4.29g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url(images/seeds.png); background-position: -368px -0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -368px 0px; height: 16px; width: 16px;"
         />
       </div>
       <div
@@ -597,27 +597,27 @@ Profit/day: 4.29g"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -384px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -384px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -632px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -632px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -672px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -672px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -520px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -672px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -672px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -632px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -632px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>
@@ -636,7 +636,7 @@ Profit/day: 8.57g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url(images/seeds.png); background-position: -432px -0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -432px 0px; height: 16px; width: 16px;"
         />
       </div>
       <div
@@ -650,31 +650,31 @@ Profit/day: 8.57g"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -400px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -400px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -576px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -576px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -680px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -680px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -528px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -528px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -520px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -656px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -528px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -528px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>
@@ -693,7 +693,7 @@ Profit/day: 17.86g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url(images/seeds.png); background-position: -464px -0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -464px 0px; height: 16px; width: 16px;"
         />
       </div>
       <div
@@ -707,43 +707,43 @@ Profit/day: 17.86g"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -408px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -408px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -672px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -672px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -656px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -520px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -696px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -696px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -528px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -528px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -552px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -656px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -656px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -712px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -712px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>
@@ -762,7 +762,7 @@ Profit/day: 1.43g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url(images/seeds.png); background-position: -544px -0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -544px 0px; height: 16px; width: 16px;"
         />
       </div>
       <div
@@ -776,23 +776,23 @@ Profit/day: 1.43g"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -416px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -416px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -680px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -680px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -608px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -608px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -584px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -584px 0px; height: 16px; width: 8px;"
             />
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url(images/sdv-font.png); background-position: -640px -0px; height: 16px; width: 8px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -640px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>

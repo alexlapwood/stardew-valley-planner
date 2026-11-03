@@ -1,11 +1,7 @@
-/// <reference types="vitest" />
-/// <reference types="@testing-library/jest-dom" />
-
-import { defineConfig } from "vite";
+import autoprefixer from "autoprefixer";
 import { VitePWA } from "vite-plugin-pwa";
 import solidPlugin from "vite-plugin-solid";
-
-import postcss from "./postcss.config";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   build: {
@@ -13,7 +9,9 @@ export default defineConfig({
   },
 
   css: {
-    postcss,
+    postcss: {
+      plugins: [autoprefixer],
+    },
   },
 
   plugins: [
@@ -69,6 +67,5 @@ export default defineConfig({
     environment: "jsdom",
     exclude: ["**/node_modules/**"],
     globals: true,
-    setupFiles: ["./src/setupTests.ts"],
   },
 });

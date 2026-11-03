@@ -1,5 +1,3 @@
-declare module "visibl";
-
 interface ICrop {
   buy: number;
   harvest: {

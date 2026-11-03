@@ -54,7 +54,6 @@ npm run preview
 **Testing**
 
 - Vitest
-- Playwright
 
 **CSS tooling**
 

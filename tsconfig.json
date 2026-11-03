@@ -5,7 +5,7 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "allowArbitraryExtensions": true,
     "noEmit": true,

@@ -26,7 +26,7 @@ describe("<SideMenu />", () => {
 
     fireEvent.click(screen.getByTestId("seeds-tab"));
 
-    expect(screen.getByTestId("seeds-tab")).toHaveClass("selected");
+    expect(screen.getByTestId("seeds-tab").classList).toContain("selected");
   });
 
   it("shows the equipment menu", () => {
@@ -40,7 +40,7 @@ describe("<SideMenu />", () => {
 
     fireEvent.click(screen.getByTestId("equipment-tab"));
 
-    expect(screen.getByTestId("equipment-tab")).toHaveClass("selected");
+    expect(screen.getByTestId("equipment-tab").classList).toContain("selected");
   });
 
   it("shows the decorations menu", () => {
@@ -54,6 +54,8 @@ describe("<SideMenu />", () => {
 
     fireEvent.click(screen.getByTestId("decorations-tab"));
 
-    expect(screen.getByTestId("decorations-tab")).toHaveClass("selected");
+    expect(screen.getByTestId("decorations-tab").classList).toContain(
+      "selected"
+    );
   });
 });
