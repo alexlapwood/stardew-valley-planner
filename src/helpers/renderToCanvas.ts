@@ -26,7 +26,12 @@ const fenceTileMap = [5, 3, 2, 8, 0, 6, 7, 7, 5, 3, 2, 8, 0, 6, 7, 7];
 
 function forEachTileInMap(
   tileMap: number[][],
-  callBack: (tileValue: number, tileIndex: number, x: number, y: number) => void
+  callBack: (
+    tileValue: number,
+    tileIndex: number,
+    x: number,
+    y: number,
+  ) => void,
 ) {
   tileMap.forEach((row, ix) => {
     row.forEach((cellValue, iy) => {
@@ -55,7 +60,7 @@ export function renderSoilToContext(
     | ImageBitmap,
   farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   currentFarm: string[],
-  date: number
+  date: number,
 ) {
   const soilMap = getSoilMap(farmItems, date, currentFarm);
 
@@ -69,7 +74,7 @@ export function renderSoilToContext(
       x * 16,
       y * 16,
       16,
-      16
+      16,
     );
   });
 }
@@ -83,7 +88,7 @@ export function renderWateredSoilToContext(
     | ImageBitmap,
   farmEquipment: IFarmEquipment,
   currentFarm: string[],
-  date: number
+  date: number,
 ) {
   const wateredSoilMap = getSoilMap(farmEquipment, date, currentFarm);
 
@@ -99,7 +104,7 @@ export function renderWateredSoilToContext(
       x * 16,
       y * 16,
       16,
-      16
+      16,
     );
   });
 }
@@ -113,12 +118,12 @@ export function renderScarecrowProtectionToContext(
     | ImageBitmap,
   farmEquipment: IFarmEquipment,
   currentFarm: string[],
-  date: number
+  date: number,
 ) {
   const scarecrowProtectedSoilMap = getScarecrowMap(
     farmEquipment,
     date,
-    currentFarm
+    currentFarm,
   );
 
   forEachTileInMap(scarecrowProtectedSoilMap, (tileValue, tileIndex, x, y) => {
@@ -134,7 +139,7 @@ export function renderFlooringToContext(
     | HTMLVideoElement
     | ImageBitmap,
   farmItems: IFarmEquipment,
-  date: number
+  date: number,
 ) {
   const flooringMap = getFlooringMap(farmItems, date);
 
@@ -149,7 +154,7 @@ export function renderFlooringToContext(
       x * 16,
       y * 16,
       16,
-      16
+      16,
     );
   });
 }
@@ -160,7 +165,7 @@ export function renderItemsToContext(
   equipmentImage: HTMLImageElement,
   fenceImage: HTMLImageElement,
   farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
-  date: number
+  date: number,
 ) {
   const fenceMap = getFenceMap(farmItems, date);
 
@@ -175,7 +180,7 @@ export function renderItemsToContext(
       const stage = calculateStageOfCrop(
         date - farmItem.datePlanted,
         plantedCropDetails.stages,
-        plantedCropDetails.regrow
+        plantedCropDetails.regrow,
       );
 
       const spriteIndex = stage + 1;
@@ -190,7 +195,7 @@ export function renderItemsToContext(
         farmItem.x,
         farmItem.y,
         plantedCropDetails.id,
-        isFlower
+        isFlower,
       );
     }
 
@@ -217,7 +222,7 @@ export function renderCropToContext(
   x: number,
   y: number,
   id: string,
-  isFlower?: boolean
+  isFlower?: boolean,
 ) {
   const cropIds = Object.keys(crops).sort((a, b) => a.localeCompare(b));
 
@@ -230,7 +235,7 @@ export function renderCropToContext(
     x * 16,
     (y - 1) * 16,
     16,
-    32
+    32,
   );
 
   if (isFlower) {
@@ -243,7 +248,7 @@ export function renderCropToContext(
       x * 16,
       (y - 1) * 16,
       16,
-      32
+      32,
     );
   }
 }
@@ -252,7 +257,7 @@ export function renderEquipmentToContext(
   context: CanvasRenderingContext2D,
   sprite: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement | ImageBitmap,
   installedEquipment: IInstalledEquipment,
-  date: number
+  date: number,
 ) {
   const { equipmentId, skinIndex, x, y } = installedEquipment;
 
@@ -289,7 +294,7 @@ export function renderEquipmentToContext(
     x * 16,
     y * 16 + 16 - 32,
     16,
-    32
+    32,
   );
 }
 
@@ -301,7 +306,7 @@ export function renderFenceToContext(
     | HTMLVideoElement
     | ImageBitmap,
   installedFence: IInstalledEquipment,
-  fenceMap: number[][]
+  fenceMap: number[][],
 ) {
   const north =
     fenceMap[installedFence.x] !== undefined &&
@@ -331,7 +336,7 @@ export function renderFenceToContext(
     installedFence.x * 16,
     installedFence.y * 16 - 16,
     16,
-    32
+    32,
   );
 }
 
@@ -347,7 +352,7 @@ export function renderSelectedRegion(
   highlightRedImage: HTMLImageElement,
   equipmentImage: HTMLImageElement,
   fenceImage: HTMLImageElement,
-  selectedItem: ISelectedItem
+  selectedItem: ISelectedItem,
 ) {
   if (selectedItem.type === "crop") {
     const cropsToPlant: IPlantedCrop[] = [];
@@ -365,14 +370,14 @@ export function renderSelectedRegion(
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      currentFarm
+      currentFarm,
     );
 
     plantableCrops.forEach((cropToPlant) => {
       context.drawImage(
         highlightGreenImage,
         cropToPlant.x * 16,
-        cropToPlant.y * 16
+        cropToPlant.y * 16,
       );
     });
 
@@ -380,7 +385,7 @@ export function renderSelectedRegion(
       context.drawImage(
         highlightRedImage,
         cropToPlant.x * 16,
-        cropToPlant.y * 16
+        cropToPlant.y * 16,
       );
     });
   }
@@ -406,14 +411,14 @@ export function renderSelectedRegion(
           currentCrops,
           currentEquipment,
         },
-        currentFarm
+        currentFarm,
       );
 
     installableEquipment.forEach((equipmentToInstall) => {
       context.drawImage(
         highlightGreenImage,
         equipmentToInstall.x * 16,
-        equipmentToInstall.y * 16
+        equipmentToInstall.y * 16,
       );
     });
 
@@ -421,7 +426,7 @@ export function renderSelectedRegion(
       context.drawImage(
         highlightRedImage,
         equipmentToInstall.x * 16,
-        equipmentToInstall.y * 16
+        equipmentToInstall.y * 16,
       );
     });
   }
@@ -433,14 +438,14 @@ export function renderSelectedRegion(
         const installedEquipment = getEquipmentAtLocation(
           currentEquipment,
           x,
-          y
+          y,
         );
 
         const hasCropToDestroy = findCropToDestroy(plantedCrops, date);
 
         const hasEquipmentToDestroy = findEquipmentToDestroy(
           installedEquipment,
-          date
+          date,
         );
 
         if (hasCropToDestroy || hasEquipmentToDestroy) {

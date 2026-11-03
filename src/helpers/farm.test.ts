@@ -322,7 +322,7 @@ describe("Farm helper", () => {
           x: 0,
           y: 0,
         },
-        0
+        0,
       );
 
       expect(actual).toBe(true);
@@ -337,7 +337,7 @@ describe("Farm helper", () => {
           x: 0,
           y: 0,
         },
-        0
+        0,
       );
 
       expect(actual).toBe(false);
@@ -353,7 +353,7 @@ describe("Farm helper", () => {
           x: 0,
           y: 0,
         },
-        2
+        2,
       );
 
       expect(actual).toBe(false);

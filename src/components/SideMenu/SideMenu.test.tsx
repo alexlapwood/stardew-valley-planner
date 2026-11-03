@@ -55,7 +55,7 @@ describe("<SideMenu />", () => {
     fireEvent.click(screen.getByTestId("decorations-tab"));
 
     expect(screen.getByTestId("decorations-tab").classList).toContain(
-      "selected"
+      "selected",
     );
   });
 });

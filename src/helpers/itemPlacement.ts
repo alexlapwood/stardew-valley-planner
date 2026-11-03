@@ -10,7 +10,7 @@ export function checkCropsToPlant(
     currentCrops: IFarmCrops;
     currentEquipment: IFarmEquipment;
   },
-  currentFarm: string[]
+  currentFarm: string[],
 ) {
   return cropsToPlant.reduce(
     (
@@ -18,18 +18,18 @@ export function checkCropsToPlant(
         plantableCrops: IPlantedCrop[];
         unplantableCrops: IPlantedCrop[];
       },
-      cropToPlant
+      cropToPlant,
     ) => {
       const plantedCrops = getCropsAtLocation(
         currentItems.currentCrops,
         cropToPlant.x,
-        cropToPlant.y
+        cropToPlant.y,
       );
 
       const installedEquipmentList = getEquipmentAtLocation(
         currentItems.currentEquipment,
         cropToPlant.x,
-        cropToPlant.y
+        cropToPlant.y,
       );
 
       const plantedCropConflict = plantedCrops.find((plantedCrop) => {
@@ -38,12 +38,12 @@ export function checkCropsToPlant(
 
         const plantedCropsLastDay = getCropsLastDay(
           plantedCrop,
-          plantedCropDetails
+          plantedCropDetails,
         );
 
         const cropToPlantsLastDay = getCropsLastDay(
           cropToPlant,
-          cropToPlantsDetails
+          cropToPlantsDetails,
         );
 
         const conflictWhilePlanting =
@@ -70,7 +70,7 @@ export function checkCropsToPlant(
 
           const cropToPlantsLastDay = getCropsLastDay(
             cropToPlant,
-            cropToPlantsDetails
+            cropToPlantsDetails,
           );
 
           const conflictWhilePlanting =
@@ -90,7 +90,7 @@ export function checkCropsToPlant(
           }
 
           return false;
-        }
+        },
       );
 
       const isTryingToPlantInSoil =
@@ -110,7 +110,7 @@ export function checkCropsToPlant(
         unplantableCrops: [cropToPlant],
       });
     },
-    { plantableCrops: [], unplantableCrops: [] }
+    { plantableCrops: [], unplantableCrops: [] },
   ) as {
     plantableCrops: IPlantedCrop[];
     unplantableCrops: IPlantedCrop[];
@@ -120,7 +120,7 @@ export function checkCropsToPlant(
 export function checkEquipmentToInstall(
   equipmentToInstallList: IInstalledEquipment[],
   currentItems: { currentCrops: IFarmCrops; currentEquipment: IFarmEquipment },
-  currentFarm: string[]
+  currentFarm: string[],
 ) {
   return equipmentToInstallList.reduce(
     (
@@ -128,18 +128,18 @@ export function checkEquipmentToInstall(
         installableEquipment: IInstalledEquipment[];
         notInstallableEquipment: IInstalledEquipment[];
       },
-      equipmentToInstall
+      equipmentToInstall,
     ) => {
       const plantedCrops = getCropsAtLocation(
         currentItems.currentCrops,
         equipmentToInstall.x,
-        equipmentToInstall.y
+        equipmentToInstall.y,
       );
 
       const installedEquipmentList = getEquipmentAtLocation(
         currentItems.currentEquipment,
         equipmentToInstall.x,
-        equipmentToInstall.y
+        equipmentToInstall.y,
       );
 
       const plantedCropConflictPast = plantedCrops.find((plantedCrop) => {
@@ -147,7 +147,7 @@ export function checkEquipmentToInstall(
 
         const plantedCropsLastDay = getCropsLastDay(
           plantedCrop,
-          plantedCropDetails
+          plantedCropDetails,
         );
 
         const conflictWhileInstalling =
@@ -183,7 +183,7 @@ export function checkEquipmentToInstall(
           }
 
           return false;
-        }
+        },
       );
 
       let dateDestroyed = plantedCrops.reduce(
@@ -202,7 +202,7 @@ export function checkEquipmentToInstall(
 
           return dateDestroyedAcc;
         },
-        undefined
+        undefined,
       );
 
       dateDestroyed = installedEquipmentList.reduce(
@@ -222,7 +222,7 @@ export function checkEquipmentToInstall(
 
           return dateDestroyedAcc;
         },
-        dateDestroyed
+        dateDestroyed,
       );
 
       const farmSpot = currentFarm[equipmentToInstall.y][equipmentToInstall.x];
@@ -246,7 +246,7 @@ export function checkEquipmentToInstall(
         notInstallableEquipment: [equipmentToInstall],
       });
     },
-    { installableEquipment: [], notInstallableEquipment: [] }
+    { installableEquipment: [], notInstallableEquipment: [] },
   ) as {
     installableEquipment: IInstalledEquipment[];
     notInstallableEquipment: IInstalledEquipment[];
@@ -255,14 +255,14 @@ export function checkEquipmentToInstall(
 
 export function findCropToDestroy(
   plantedCrops: IPlantedCrop[],
-  dateToDestroyOn: number
+  dateToDestroyOn: number,
 ) {
   return plantedCrops.find((plantedCrop) => {
     const plantedCropDetails = crops[plantedCrop.cropId];
 
     const plantedCropsLastDay = getCropsLastDay(
       plantedCrop,
-      plantedCropDetails
+      plantedCropDetails,
     );
 
     if (
@@ -281,7 +281,7 @@ export function findCropToDestroy(
 
 export function findEquipmentToDestroy(
   installedEquipmentList: IInstalledEquipment[],
-  dateToDestroyOn: number
+  dateToDestroyOn: number,
 ) {
   return installedEquipmentList.find((installedEquipment) => {
     if (
@@ -298,14 +298,14 @@ export function findEquipmentToDestroy(
 
 export function destroyCrops(
   plantedCrops: IPlantedCrop[],
-  dateToDestroyOn: number
+  dateToDestroyOn: number,
 ) {
   return plantedCrops.map((plantedCrop) => {
     const cropToChecksDetails = crops[plantedCrop.cropId];
 
     const cropToChecksLastDay = getCropsLastDay(
       plantedCrop,
-      cropToChecksDetails
+      cropToChecksDetails,
     );
     if (
       (plantedCrop.dateDestroyed === undefined ||
@@ -322,7 +322,7 @@ export function destroyCrops(
 
 export function destroyEquipment(
   installedEquipmentList: IInstalledEquipment[],
-  dateToDestroyOn: number
+  dateToDestroyOn: number,
 ) {
   return installedEquipmentList.map((installedEquipment) => {
     if (

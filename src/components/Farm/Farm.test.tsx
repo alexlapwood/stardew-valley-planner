@@ -30,15 +30,22 @@ const tilesOutsideRegion = [
 function parsnip(
   x: number,
   y: number,
-  overrides: Partial<IPlantedCrop> = {}
+  overrides: Partial<IPlantedCrop> = {},
 ): IPlantedCrop {
-  return { cropId: "parsnip", datePlanted: 0, type: "crop", x, y, ...overrides };
+  return {
+    cropId: "parsnip",
+    datePlanted: 0,
+    type: "crop",
+    x,
+    y,
+    ...overrides,
+  };
 }
 
 function scarecrow(
   x: number,
   y: number,
-  overrides: Partial<IInstalledEquipment> = {}
+  overrides: Partial<IInstalledEquipment> = {},
 ): IInstalledEquipment {
   return {
     dateInstalled: 0,
@@ -88,11 +95,11 @@ beforeEach(() => {
     imageSmoothingEnabled: true,
   };
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(
-    context as unknown as CanvasRenderingContext2D
+    context as unknown as CanvasRenderingContext2D,
   );
   vi.spyOn(
     HTMLCanvasElement.prototype,
-    "getBoundingClientRect"
+    "getBoundingClientRect",
   ).mockImplementation(function (this: HTMLCanvasElement) {
     return new DOMRect(0, 0, this.width, this.height);
   });
@@ -144,15 +151,15 @@ describe("doing things with a selected region", () => {
     dragAcrossTiles([0, 0], [1, 1]);
 
     expect(crops()).toEqual(
-      byTile(regionTiles.map(([x, y]) => parsnip(x, y, { datePlanted: date })))
+      byTile(regionTiles.map(([x, y]) => parsnip(x, y, { datePlanted: date }))),
     );
   });
 
   it("can destroy crops", () => {
     setCrops(
       byTile(
-        [...regionTiles, ...tilesOutsideRegion].map(([x, y]) => parsnip(x, y))
-      )
+        [...regionTiles, ...tilesOutsideRegion].map(([x, y]) => parsnip(x, y)),
+      ),
     );
 
     render(() => (
@@ -171,7 +178,7 @@ describe("doing things with a selected region", () => {
       byTile([
         ...regionTiles.map(([x, y]) => parsnip(x, y, { dateDestroyed: date })),
         ...tilesOutsideRegion.map(([x, y]) => parsnip(x, y)),
-      ])
+      ]),
     );
   });
 
@@ -190,8 +197,8 @@ describe("doing things with a selected region", () => {
 
     expect(equipment()).toEqual(
       byTile(
-        regionTiles.map(([x, y]) => scarecrow(x, y, { dateInstalled: date }))
-      )
+        regionTiles.map(([x, y]) => scarecrow(x, y, { dateInstalled: date })),
+      ),
     );
   });
 
@@ -199,9 +206,9 @@ describe("doing things with a selected region", () => {
     setEquipment(
       byTile(
         [...regionTiles, ...tilesOutsideRegion].map(([x, y]) =>
-          scarecrow(x, y)
-        )
-      )
+          scarecrow(x, y),
+        ),
+      ),
     );
 
     render(() => (
@@ -219,10 +226,10 @@ describe("doing things with a selected region", () => {
     expect(equipment()).toEqual(
       byTile([
         ...regionTiles.map(([x, y]) =>
-          scarecrow(x, y, { dateDestroyed: date })
+          scarecrow(x, y, { dateDestroyed: date }),
         ),
         ...tilesOutsideRegion.map(([x, y]) => scarecrow(x, y)),
-      ])
+      ]),
     );
   });
 });

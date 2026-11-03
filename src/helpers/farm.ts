@@ -3,7 +3,7 @@ import { getCropsLastDay } from "./crop";
 
 export function forEachTileInRegion(
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
-  cb: (x: number, y: number) => any
+  cb: (x: number, y: number) => any,
 ) {
   const x1 = Math.min(highlightedRegion.x1, highlightedRegion.x2);
   const x2 = Math.max(highlightedRegion.x1, highlightedRegion.x2);
@@ -23,7 +23,7 @@ export function forEachTileInRegion(
 
 export function forEachFarmItem<T>(
   farmItems: IFarmItems<T[]>,
-  callback: (farmItem: T) => void
+  callback: (farmItem: T) => void,
 ) {
   Object.keys(farmItems)
     .sort((a, b) => Number(a) - Number(b))
@@ -55,7 +55,7 @@ export function isCropHereToday(plantedCrop: IPlantedCrop, date: number) {
 
 export function isEquipmentHereToday(
   installedEquipment: IInstalledEquipment,
-  date: number
+  date: number,
 ) {
   if (
     date < installedEquipment.dateInstalled ||
@@ -71,7 +71,7 @@ export function isEquipmentHereToday(
 export function getCropsAtLocation(
   currentCrops: IFarmCrops,
   x: number,
-  y: number
+  y: number,
 ) {
   if (currentCrops[y] !== undefined && currentCrops[y][x] !== undefined) {
     return currentCrops[y][x];
@@ -83,7 +83,7 @@ export function getCropsAtLocation(
 export function getEquipmentAtLocation(
   currentEquipment: IFarmEquipment,
   x: number,
-  y: number
+  y: number,
 ) {
   if (
     currentEquipment[y] !== undefined &&
@@ -98,7 +98,7 @@ export function getEquipmentAtLocation(
 export function getSoilMap(
   farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number,
-  currentFarm: string[]
+  currentFarm: string[],
 ) {
   const soilMap: number[][] = [];
 
@@ -221,7 +221,7 @@ export function getFlooringMap(currentEquipment: IFarmEquipment, date: number) {
 
         flooringMap[x][y] = installedEquipment.skinIndex;
       }
-    }
+    },
   );
 
   return flooringMap;
@@ -229,7 +229,7 @@ export function getFlooringMap(currentEquipment: IFarmEquipment, date: number) {
 
 export function getFenceMap(
   currentEquipment: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
-  date: number
+  date: number,
 ) {
   const fenceMap: number[][] = [];
 
@@ -251,7 +251,7 @@ export function getFenceMap(
           fenceMap[x][y] = installedEquipment.skinIndex;
         }
       }
-    }
+    },
   );
 
   return fenceMap;
@@ -260,7 +260,7 @@ export function getFenceMap(
 export function getScarecrowMap(
   currentEquipment: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number,
-  currentFarm: string[]
+  currentFarm: string[],
 ) {
   const scarecrowMap: number[][] = [];
 
@@ -300,7 +300,7 @@ export function getScarecrowMap(
           scarecrowMap[x][y] = 0;
         }
       }
-    }
+    },
   );
 
   return scarecrowMap;

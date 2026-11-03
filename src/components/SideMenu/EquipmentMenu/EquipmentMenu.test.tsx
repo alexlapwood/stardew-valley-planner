@@ -46,7 +46,7 @@ describe("<EquipmentMenu />", () => {
       ));
 
       expect(container.querySelectorAll(".sdv-list-item")).toHaveLength(
-        equipmentIds.length - 4
+        equipmentIds.length - 4,
       );
     });
 
@@ -63,7 +63,7 @@ describe("<EquipmentMenu />", () => {
       ));
 
       expect(container.querySelectorAll(".sdv-list-item")).toHaveLength(
-        to - from + 1
+        to - from + 1,
       );
     });
   });

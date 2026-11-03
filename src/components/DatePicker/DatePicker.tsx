@@ -22,14 +22,14 @@ export default function DatePicker(props: IProps) {
       0,
       getYear(props.date) * daysInAYear +
         getSeason(props.date) * daysInASeason +
-        day
+        day,
     );
     props.changeDate(newDate);
   };
 
   const changeSeason = (season: number) => {
     props.changeDate(
-      getYear(props.date) * daysInAYear + season * daysInASeason
+      getYear(props.date) * daysInAYear + season * daysInASeason,
     );
   };
 

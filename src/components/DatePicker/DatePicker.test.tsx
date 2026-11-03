@@ -25,7 +25,7 @@ describe("changing the date", () => {
 
           fireEvent.keyDown(
             screen.getByTestId("DatePicker--day-slider-input"),
-            { key }
+            { key },
           );
 
           expect(changeDate).toHaveBeenCalledWith(27);
@@ -43,7 +43,7 @@ describe("changing the date", () => {
 
           fireEvent.keyDown(
             screen.getByTestId("DatePicker--day-slider-input"),
-            { key }
+            { key },
           );
 
           expect(changeDate).toHaveBeenCalledWith(28);
@@ -61,7 +61,7 @@ describe("changing the date", () => {
 
           fireEvent.keyDown(
             screen.getByTestId("DatePicker--day-slider-input"),
-            { key }
+            { key },
           );
 
           expect(changeDate).not.toHaveBeenCalled();
@@ -84,7 +84,7 @@ describe("changing the date", () => {
         render(() => <DatePicker changeDate={changeDate} date={0} />);
 
         fireEvent.click(
-          screen.getByTestId(`DatePicker--season-${theory.season}`)
+          screen.getByTestId(`DatePicker--season-${theory.season}`),
         );
 
         expect(changeDate).toHaveBeenCalledWith(theory.date);

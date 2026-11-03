@@ -74,20 +74,20 @@ export default function Farm(props: IProps) {
     }
 
     const x1 = Math.floor(
-      (currentMousePosition.x - currentMousePosition.left) / 16
+      (currentMousePosition.x - currentMousePosition.left) / 16,
     );
     const y1 = Math.floor(
-      (currentMousePosition.y - currentMousePosition.top) / 16
+      (currentMousePosition.y - currentMousePosition.top) / 16,
     );
     let x2 = x1;
     let y2 = y1;
 
     if (isMouseDown() && currentMouseDownPosition) {
       x2 = Math.floor(
-        (currentMouseDownPosition.x - currentMouseDownPosition.left) / 16
+        (currentMouseDownPosition.x - currentMouseDownPosition.left) / 16,
       );
       y2 = Math.floor(
-        (currentMouseDownPosition.y - currentMouseDownPosition.top) / 16
+        (currentMouseDownPosition.y - currentMouseDownPosition.top) / 16,
       );
     }
 
@@ -106,7 +106,7 @@ export default function Farm(props: IProps) {
         currentCrops: crops(),
         currentEquipment: equipment(),
       },
-      farmLayouts[props.currentFarm.toLowerCase()]
+      farmLayouts[props.currentFarm.toLowerCase()],
     );
 
     let newEquipment: IFarmEquipment = {};
@@ -230,7 +230,7 @@ export default function Farm(props: IProps) {
           ) {
             currentEquipment[y][x] = destroyEquipment(
               currentEquipment[y][x],
-              props.date
+              props.date,
             );
           }
         });
@@ -263,7 +263,7 @@ export default function Farm(props: IProps) {
         currentCrops: crops(),
         currentEquipment: equipment(),
       },
-      farmLayouts[props.currentFarm.toLowerCase()]
+      farmLayouts[props.currentFarm.toLowerCase()],
     );
 
     let newCrops: IFarmCrops = {};
@@ -316,7 +316,7 @@ export default function Farm(props: IProps) {
         currentCrops: crops(),
         currentEquipment: equipment(),
       },
-      farmLayouts[props.currentFarm.toLowerCase()]
+      farmLayouts[props.currentFarm.toLowerCase()],
     );
 
     let newEquipment: IFarmEquipment = {};
@@ -354,35 +354,35 @@ export default function Farm(props: IProps) {
             props.currentFarm === "Test"
               ? "standard"
               : props.currentFarm.toLowerCase()
-          }-${season}.png`
-        )
+          }-${season}.png`,
+        ),
       );
       const highlightGreenImage = props.images.find((image) =>
-        image.src.includes("/images/highlight-green.png")
+        image.src.includes("/images/highlight-green.png"),
       );
       const highlightGreyImage = props.images.find((image) =>
-        image.src.includes("/images/highlight-grey.png")
+        image.src.includes("/images/highlight-grey.png"),
       );
       const highlightRedImage = props.images.find((image) =>
-        image.src.includes("/images/highlight-red.png")
+        image.src.includes("/images/highlight-red.png"),
       );
       const cropsImage = props.images.find((image) =>
-        image.src.includes("/images/crops.png")
+        image.src.includes("/images/crops.png"),
       );
       const equipmentImage = props.images.find((image) =>
-        image.src.includes("/images/equipment-sheet.png")
+        image.src.includes("/images/equipment-sheet.png"),
       );
       const hoeDirtImage = props.images.find((image) =>
-        image.src.includes("/images/hoeDirt.png")
+        image.src.includes("/images/hoeDirt.png"),
       );
       const hoeDirtSnowImage = props.images.find((image) =>
-        image.src.includes("/images/hoeDirtSnow.png")
+        image.src.includes("/images/hoeDirtSnow.png"),
       );
       const fenceImage = props.images.find((image) =>
-        image.src.includes("/images/fences.png")
+        image.src.includes("/images/fences.png"),
       );
       const flooringImage = props.images.find((image) =>
-        image.src.includes("/images/flooring.png")
+        image.src.includes("/images/flooring.png"),
       );
 
       if (
@@ -411,7 +411,7 @@ export default function Farm(props: IProps) {
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
         mergeDeep(crops(), equipment(), potentialEquipment),
         farmLayouts[props.currentFarm.toLowerCase()],
-        props.date
+        props.date,
       );
 
       renderWateredSoilToContext(
@@ -419,14 +419,14 @@ export default function Farm(props: IProps) {
         season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
         mergeDeep(equipment(), potentialEquipment),
         farmLayouts[props.currentFarm.toLowerCase()],
-        props.date
+        props.date,
       );
 
       renderFlooringToContext(
         context,
         flooringImage,
         mergeDeep(equipment(), potentialEquipment),
-        props.date
+        props.date,
       );
 
       renderScarecrowProtectionToContext(
@@ -434,7 +434,7 @@ export default function Farm(props: IProps) {
         highlightGreenImage,
         mergeDeep(equipment(), potentialEquipment),
         farmLayouts[props.currentFarm.toLowerCase()],
-        props.date
+        props.date,
       );
 
       if (mousePosition() && props.selectedItem !== undefined) {
@@ -455,7 +455,7 @@ export default function Farm(props: IProps) {
           highlightRedImage,
           equipmentImage,
           fenceImage,
-          props.selectedItem
+          props.selectedItem,
         );
       }
 
@@ -465,7 +465,7 @@ export default function Farm(props: IProps) {
         equipmentImage,
         fenceImage,
         mergeDeep(crops(), equipment(), potentialEquipment),
-        props.date
+        props.date,
       );
     }
   };

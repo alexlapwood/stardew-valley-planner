@@ -18,7 +18,7 @@ describe("Merging", () => {
 
     expect(result).toMatchObject({
       key1: { key1: "value1", key2: "value2" },
-      key2: { key3: "value3" }
+      key2: { key3: "value3" },
     });
   });
 
@@ -50,7 +50,7 @@ describe("Merging", () => {
       expect(obj1).toMatchObject({ key1: { key1: "value1" } });
       expect(obj2).toMatchObject({
         key1: { key2: "value2" },
-        key2: { key3: "value3" }
+        key2: { key3: "value3" },
       });
     });
 

@@ -4,7 +4,7 @@ const seasons = ["spring", "summer", "fall", "winter"];
 
 export function getCropsLastDay(
   plantedCrop: IPlantedCrop,
-  plantedCropDetails: ICrop
+  plantedCropDetails: ICrop,
 ) {
   if (plantedCrop.dateDestroyed !== undefined) {
     return plantedCrop.dateDestroyed - 1;
@@ -17,7 +17,7 @@ export function getCropsLastDay(
   for (let i = 0; i < 4; i += 1) {
     if (
       !plantedCropDetails.seasons.find(
-        (season) => seasons[(seasonPlanted + i) % 4] === season
+        (season) => seasons[(seasonPlanted + i) % 4] === season,
       )
     ) {
       const lastDay =
@@ -33,7 +33,7 @@ export function getCropsLastDay(
         lastDay,
         plantedCrop.datePlanted +
           plantedCropDetails.stages.reduce((acc, val) => acc + val) -
-          1
+          1,
       );
     }
   }
@@ -52,7 +52,7 @@ export function getCropsLastDay(
 export function calculateStageOfCrop(
   age: number,
   stages: number[],
-  regrow?: number
+  regrow?: number,
 ) {
   let stage = 0;
   let simulatedDay = 0;

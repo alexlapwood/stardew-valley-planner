@@ -22,10 +22,10 @@ export const imageUrls: string[] = [
   "images/wilderness-fall.png",
   "images/wilderness-spring.png",
   "images/wilderness-summer.png",
-  "images/wilderness-winter.png"
+  "images/wilderness-winter.png",
 ];
 
-const images = imageUrls.map(imageUrl => {
+const images = imageUrls.map((imageUrl) => {
   const image = new Image();
   image.src = imageUrl;
   return image;

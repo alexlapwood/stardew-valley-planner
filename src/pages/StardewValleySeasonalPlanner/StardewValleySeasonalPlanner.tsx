@@ -56,7 +56,7 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
       selectedCrop !== undefined &&
       selectedCrop.seasons.find(
         (season) =>
-          season === ["spring", "summer", "fall", "winter"][getSeason(date)]
+          season === ["spring", "summer", "fall", "winter"][getSeason(date)],
       );
 
     setDate(date);

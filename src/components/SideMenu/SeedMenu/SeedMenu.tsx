@@ -45,17 +45,17 @@ export default function SeedMenu(props: IProps) {
 
     const daysUntilFirstHarvest = crop.stages.reduce(
       (acc, stage) => acc + stage,
-      0
+      0,
     );
 
     const harvests =
       crop.regrow === undefined
         ? Math.ceil(
             (lastDay - props.date - daysUntilFirstHarvest) /
-              daysUntilFirstHarvest
+              daysUntilFirstHarvest,
           )
         : Math.ceil(
-            (lastDay - props.date - daysUntilFirstHarvest) / crop.regrow
+            (lastDay - props.date - daysUntilFirstHarvest) / crop.regrow,
           );
 
     return (
@@ -67,7 +67,7 @@ export default function SeedMenu(props: IProps) {
   const calculateProfitPerDay = (crop: ICrop) =>
     Math.round(
       (calculateProfit(crop) / (getLastDayOfYearForCrop(crop) - props.date)) *
-        100
+        100,
     ) / 100;
 
   return (
@@ -84,8 +84,8 @@ export default function SeedMenu(props: IProps) {
                     season ===
                     ["spring", "summer", "fall", "winter"][
                       getSeason(props.date)
-                    ]
-                )
+                    ],
+                ),
             )
             .sort((a, b) => a.localeCompare(b))}
         >

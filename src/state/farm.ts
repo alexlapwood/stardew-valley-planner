@@ -12,29 +12,29 @@ export function setDate(date: number) {
   setDateSignal(date);
   localStorage.setItem(
     "stardewValleySeasonalPlannerV1",
-    JSON.stringify(farmStore())
+    JSON.stringify(farmStore()),
   );
 }
 
 export const [crops, setCropsSignal] = createSignal<IFarmCrops>(
-  localStorageCrops || {}
+  localStorageCrops || {},
 );
 export function setCrops(crops: IFarmCrops) {
   setCropsSignal(crops);
   localStorage.setItem(
     "stardewValleySeasonalPlannerV1",
-    JSON.stringify(farmStore())
+    JSON.stringify(farmStore()),
   );
 }
 
 export const [equipment, setEquipmentSignal] = createSignal<IFarmEquipment>(
-  localStorageEquipment || {}
+  localStorageEquipment || {},
 );
 export function setEquipment(equipment: IFarmEquipment) {
   setEquipmentSignal(equipment);
   localStorage.setItem(
     "stardewValleySeasonalPlannerV1",
-    JSON.stringify(farmStore())
+    JSON.stringify(farmStore()),
   );
 }
 
@@ -86,7 +86,7 @@ export function saveFarm() {
     new Blob([JSON.stringify(farmStore())], {
       type: "text/plain;charset=utf-8",
     }),
-    "Stardew Valley Seasonal Planner.layout.json"
+    "Stardew Valley Seasonal Planner.layout.json",
   );
 }
 

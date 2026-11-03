@@ -1,24 +1,23 @@
+import testFarm from "../__mocks__/testFarm";
 import {
   checkCropsToPlant,
   checkEquipmentToInstall,
   findCropToDestroy,
-  findEquipmentToDestroy
+  findEquipmentToDestroy,
 } from "./itemPlacement";
-
-import testFarm from "../__mocks__/testFarm";
 
 describe("checkCropsToPlant", () => {
   it("can detect overlapping crops", () => {
     const cropsToPlant: IPlantedCrop[] = [
       { cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 },
       { cropId: "parsnip", datePlanted: 0, type: "crop", x: 1, y: 0 },
-      { cropId: "parsnip", datePlanted: 0, type: "crop", x: 2, y: 0 }
+      { cropId: "parsnip", datePlanted: 0, type: "crop", x: 2, y: 0 },
     ];
 
     const currentCrops: IFarmCrops = {
       0: {
-        0: [{ cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 }]
-      }
+        0: [{ cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 }],
+      },
     };
 
     const currentEquipment: IFarmEquipment = {};
@@ -26,7 +25,7 @@ describe("checkCropsToPlant", () => {
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm,
     );
 
     expect(plantableCrops).toHaveLength(2);
@@ -40,13 +39,13 @@ describe("checkCropsToPlant", () => {
       { cropId: "parsnip", datePlanted: 2, type: "crop", x: 0, y: 0 },
       { cropId: "parsnip", datePlanted: 3, type: "crop", x: 0, y: 0 },
       { cropId: "parsnip", datePlanted: 4, type: "crop", x: 0, y: 0 },
-      { cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 }
+      { cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 },
     ];
 
     const currentCrops: IFarmCrops = {
       0: {
-        0: [{ cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 }]
-      }
+        0: [{ cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 }],
+      },
     };
 
     const currentEquipment: IFarmEquipment = {};
@@ -54,7 +53,7 @@ describe("checkCropsToPlant", () => {
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm,
     );
 
     expect(plantableCrops).toHaveLength(2);
@@ -68,13 +67,13 @@ describe("checkCropsToPlant", () => {
       { cropId: "parsnip", datePlanted: 2, type: "crop", x: 0, y: 0 },
       { cropId: "parsnip", datePlanted: 3, type: "crop", x: 0, y: 0 },
       { cropId: "parsnip", datePlanted: 4, type: "crop", x: 0, y: 0 },
-      { cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 }
+      { cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 },
     ];
 
     const currentCrops: IFarmCrops = {
       0: {
-        0: [{ cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 }]
-      }
+        0: [{ cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 }],
+      },
     };
 
     const currentEquipment: IFarmEquipment = {};
@@ -82,7 +81,7 @@ describe("checkCropsToPlant", () => {
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm,
     );
 
     expect(plantableCrops).toHaveLength(2);
@@ -96,7 +95,7 @@ describe("checkCropsToPlant", () => {
       { cropId: "parsnip", datePlanted: 2, type: "crop", x: 0, y: 0 },
       { cropId: "parsnip", datePlanted: 3, type: "crop", x: 0, y: 0 },
       { cropId: "parsnip", datePlanted: 4, type: "crop", x: 0, y: 0 },
-      { cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 }
+      { cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 },
     ];
 
     const currentCrops: IFarmCrops = {
@@ -108,10 +107,10 @@ describe("checkCropsToPlant", () => {
             datePlanted: 5,
             type: "crop",
             x: 0,
-            y: 0
-          }
-        ]
-      }
+            y: 0,
+          },
+        ],
+      },
     };
 
     const currentEquipment: IFarmEquipment = {};
@@ -119,7 +118,7 @@ describe("checkCropsToPlant", () => {
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm,
     );
 
     expect(plantableCrops).toHaveLength(6);
@@ -130,7 +129,7 @@ describe("checkCropsToPlant", () => {
     const cropsToPlant: IPlantedCrop[] = [
       { cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 },
       { cropId: "parsnip", datePlanted: 0, type: "crop", x: 1, y: 0 },
-      { cropId: "parsnip", datePlanted: 0, type: "crop", x: 2, y: 0 }
+      { cropId: "parsnip", datePlanted: 0, type: "crop", x: 2, y: 0 },
     ];
 
     const currentCrops: IFarmCrops = {};
@@ -144,16 +143,16 @@ describe("checkCropsToPlant", () => {
             skinIndex: 0,
             type: "equipment",
             x: 0,
-            y: 0
-          }
-        ]
-      }
+            y: 0,
+          },
+        ],
+      },
     };
 
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm,
     );
 
     expect(plantableCrops).toHaveLength(2);
@@ -164,7 +163,7 @@ describe("checkCropsToPlant", () => {
     const cropsToPlant: IPlantedCrop[] = [
       { cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 },
       { cropId: "parsnip", datePlanted: 1, type: "crop", x: 0, y: 0 },
-      { cropId: "parsnip", datePlanted: 2, type: "crop", x: 0, y: 0 }
+      { cropId: "parsnip", datePlanted: 2, type: "crop", x: 0, y: 0 },
     ];
 
     const currentCrops: IFarmCrops = {};
@@ -178,16 +177,16 @@ describe("checkCropsToPlant", () => {
             skinIndex: 0,
             type: "equipment",
             x: 0,
-            y: 0
-          }
-        ]
-      }
+            y: 0,
+          },
+        ],
+      },
     };
 
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm,
     );
 
     expect(plantableCrops).toHaveLength(0);
@@ -201,7 +200,7 @@ describe("checkCropsToPlant", () => {
       { cropId: "parsnip", datePlanted: 2, type: "crop", x: 0, y: 0 },
       { cropId: "parsnip", datePlanted: 3, type: "crop", x: 0, y: 0 },
       { cropId: "parsnip", datePlanted: 4, type: "crop", x: 0, y: 0 },
-      { cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 }
+      { cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 },
     ];
 
     const currentCrops: IFarmCrops = {};
@@ -215,16 +214,16 @@ describe("checkCropsToPlant", () => {
             skinIndex: 0,
             type: "equipment",
             x: 0,
-            y: 0
-          }
-        ]
-      }
+            y: 0,
+          },
+        ],
+      },
     };
 
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      testFarm
+      testFarm,
     );
 
     expect(plantableCrops).toHaveLength(2);
@@ -241,7 +240,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 0,
@@ -249,7 +248,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 1,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 0,
@@ -257,29 +256,27 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 2,
-        y: 0
-      }
+        y: 0,
+      },
     ];
 
     const currentCrops: IFarmCrops = {
       0: {
-        0: [{ cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 }]
-      }
+        0: [{ cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 }],
+      },
     };
 
     const currentEquipment: IFarmEquipment = {};
 
-    const {
-      installableEquipment,
-      notInstallableEquipment
-    } = checkEquipmentToInstall(
-      equipmentToInstall,
-      {
-        currentCrops,
-        currentEquipment
-      },
-      testFarm
-    );
+    const { installableEquipment, notInstallableEquipment } =
+      checkEquipmentToInstall(
+        equipmentToInstall,
+        {
+          currentCrops,
+          currentEquipment,
+        },
+        testFarm,
+      );
 
     expect(installableEquipment).toHaveLength(2);
     expect(notInstallableEquipment).toHaveLength(1);
@@ -293,7 +290,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 1,
@@ -301,7 +298,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 2,
@@ -309,7 +306,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 3,
@@ -317,7 +314,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 4,
@@ -325,7 +322,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 5,
@@ -333,29 +330,27 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
-      }
+        y: 0,
+      },
     ];
 
     const currentCrops: IFarmCrops = {
       0: {
-        0: [{ cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 }]
-      }
+        0: [{ cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 }],
+      },
     };
 
     const currentEquipment: IFarmEquipment = {};
 
-    const {
-      installableEquipment,
-      notInstallableEquipment
-    } = checkEquipmentToInstall(
-      equipmentToInstall,
-      {
-        currentCrops,
-        currentEquipment
-      },
-      testFarm
-    );
+    const { installableEquipment, notInstallableEquipment } =
+      checkEquipmentToInstall(
+        equipmentToInstall,
+        {
+          currentCrops,
+          currentEquipment,
+        },
+        testFarm,
+      );
 
     expect(installableEquipment).toHaveLength(2);
     expect(notInstallableEquipment).toHaveLength(4);
@@ -369,7 +364,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 1,
@@ -377,7 +372,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 2,
@@ -385,7 +380,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 3,
@@ -393,7 +388,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 4,
@@ -401,7 +396,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 5,
@@ -409,29 +404,27 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
-      }
+        y: 0,
+      },
     ];
 
     const currentCrops: IFarmCrops = {
       0: {
-        0: [{ cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 }]
-      }
+        0: [{ cropId: "parsnip", datePlanted: 5, type: "crop", x: 0, y: 0 }],
+      },
     };
 
     const currentEquipment: IFarmEquipment = {};
 
-    const {
-      installableEquipment,
-      notInstallableEquipment
-    } = checkEquipmentToInstall(
-      equipmentToInstall,
-      {
-        currentCrops,
-        currentEquipment
-      },
-      testFarm
-    );
+    const { installableEquipment, notInstallableEquipment } =
+      checkEquipmentToInstall(
+        equipmentToInstall,
+        {
+          currentCrops,
+          currentEquipment,
+        },
+        testFarm,
+      );
 
     expect(installableEquipment).toHaveLength(5);
     expect(notInstallableEquipment).toHaveLength(1);
@@ -445,7 +438,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 0,
@@ -453,7 +446,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 1,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 0,
@@ -461,8 +454,8 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 2,
-        y: 0
-      }
+        y: 0,
+      },
     ];
 
     const currentCrops: IFarmCrops = {};
@@ -476,23 +469,21 @@ describe("checkEquipmentToInstall", () => {
             skinIndex: 0,
             type: "equipment",
             x: 0,
-            y: 0
-          }
-        ]
-      }
+            y: 0,
+          },
+        ],
+      },
     };
 
-    const {
-      installableEquipment,
-      notInstallableEquipment
-    } = checkEquipmentToInstall(
-      equipmentToInstall,
-      {
-        currentCrops,
-        currentEquipment
-      },
-      testFarm
-    );
+    const { installableEquipment, notInstallableEquipment } =
+      checkEquipmentToInstall(
+        equipmentToInstall,
+        {
+          currentCrops,
+          currentEquipment,
+        },
+        testFarm,
+      );
 
     expect(installableEquipment).toHaveLength(2);
     expect(notInstallableEquipment).toHaveLength(1);
@@ -506,8 +497,8 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
-      }
+        y: 0,
+      },
     ];
 
     const currentCrops: IFarmCrops = {};
@@ -521,23 +512,21 @@ describe("checkEquipmentToInstall", () => {
             skinIndex: 0,
             type: "equipment",
             x: 0,
-            y: 0
-          }
-        ]
-      }
+            y: 0,
+          },
+        ],
+      },
     };
 
-    const {
-      installableEquipment,
-      notInstallableEquipment
-    } = checkEquipmentToInstall(
-      equipmentToInstall,
-      {
-        currentCrops,
-        currentEquipment
-      },
-      testFarm
-    );
+    const { installableEquipment, notInstallableEquipment } =
+      checkEquipmentToInstall(
+        equipmentToInstall,
+        {
+          currentCrops,
+          currentEquipment,
+        },
+        testFarm,
+      );
 
     expect(installableEquipment).toHaveLength(0);
     expect(notInstallableEquipment).toHaveLength(1);
@@ -551,7 +540,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 1,
@@ -559,7 +548,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 2,
@@ -567,7 +556,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 3,
@@ -575,7 +564,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 4,
@@ -583,7 +572,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 5,
@@ -591,8 +580,8 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
-      }
+        y: 0,
+      },
     ];
 
     const currentCrops: IFarmCrops = {};
@@ -606,23 +595,21 @@ describe("checkEquipmentToInstall", () => {
             skinIndex: 0,
             type: "equipment",
             x: 0,
-            y: 0
-          }
-        ]
-      }
+            y: 0,
+          },
+        ],
+      },
     };
 
-    const {
-      installableEquipment,
-      notInstallableEquipment
-    } = checkEquipmentToInstall(
-      equipmentToInstall,
-      {
-        currentCrops,
-        currentEquipment
-      },
-      testFarm
-    );
+    const { installableEquipment, notInstallableEquipment } =
+      checkEquipmentToInstall(
+        equipmentToInstall,
+        {
+          currentCrops,
+          currentEquipment,
+        },
+        testFarm,
+      );
 
     expect(installableEquipment).toHaveLength(5);
     expect(notInstallableEquipment).toHaveLength(1);
@@ -636,7 +623,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 0,
@@ -644,7 +631,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 1,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 0,
@@ -652,8 +639,8 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 2,
-        y: 0
-      }
+        y: 0,
+      },
     ];
 
     const currentCrops: IFarmCrops = {};
@@ -667,23 +654,21 @@ describe("checkEquipmentToInstall", () => {
             skinIndex: 0,
             type: "equipment",
             x: 0,
-            y: 0
-          }
-        ]
-      }
+            y: 0,
+          },
+        ],
+      },
     };
 
-    const {
-      installableEquipment,
-      notInstallableEquipment
-    } = checkEquipmentToInstall(
-      equipmentToInstall,
-      {
-        currentCrops,
-        currentEquipment
-      },
-      testFarm
-    );
+    const { installableEquipment, notInstallableEquipment } =
+      checkEquipmentToInstall(
+        equipmentToInstall,
+        {
+          currentCrops,
+          currentEquipment,
+        },
+        testFarm,
+      );
 
     expect(installableEquipment).toHaveLength(2);
     expect(notInstallableEquipment).toHaveLength(1);
@@ -697,7 +682,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 0,
@@ -705,7 +690,7 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 1,
-        y: 0
+        y: 0,
       },
       {
         dateInstalled: 0,
@@ -713,8 +698,8 @@ describe("checkEquipmentToInstall", () => {
         skinIndex: 0,
         type: "equipment",
         x: 2,
-        y: 0
-      }
+        y: 0,
+      },
     ];
 
     const currentCrops: IFarmCrops = {};
@@ -728,23 +713,21 @@ describe("checkEquipmentToInstall", () => {
             skinIndex: 0,
             type: "equipment",
             x: 0,
-            y: 0
-          }
-        ]
-      }
+            y: 0,
+          },
+        ],
+      },
     };
 
-    const {
-      installableEquipment,
-      notInstallableEquipment
-    } = checkEquipmentToInstall(
-      equipmentToInstall,
-      {
-        currentCrops,
-        currentEquipment
-      },
-      testFarm
-    );
+    const { installableEquipment, notInstallableEquipment } =
+      checkEquipmentToInstall(
+        equipmentToInstall,
+        {
+          currentCrops,
+          currentEquipment,
+        },
+        testFarm,
+      );
 
     expect(installableEquipment).toHaveLength(3);
     expect(notInstallableEquipment).toHaveLength(0);
@@ -754,7 +737,7 @@ describe("checkEquipmentToInstall", () => {
 describe("findCropToDestroy", () => {
   it("can find crops planted today", () => {
     const plantedCrops: IPlantedCrop[] = [
-      { cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 }
+      { cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 },
     ];
 
     const hasCropToDestroy = findCropToDestroy(plantedCrops, 0);
@@ -764,7 +747,7 @@ describe("findCropToDestroy", () => {
 
   it("can find crops on their last day", () => {
     const plantedCrops: IPlantedCrop[] = [
-      { cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 }
+      { cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 },
     ];
 
     const hasCropToDestroy = findCropToDestroy(plantedCrops, 3);
@@ -774,7 +757,7 @@ describe("findCropToDestroy", () => {
 
   it("does not include crops that haven't been planted yet", () => {
     const plantedCrops: IPlantedCrop[] = [
-      { cropId: "parsnip", datePlanted: 1, type: "crop", x: 0, y: 0 }
+      { cropId: "parsnip", datePlanted: 1, type: "crop", x: 0, y: 0 },
     ];
 
     const hasCropToDestroy = findCropToDestroy(plantedCrops, 0);
@@ -784,7 +767,7 @@ describe("findCropToDestroy", () => {
 
   it("does not include crops that have died", () => {
     const plantedCrops: IPlantedCrop[] = [
-      { cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 }
+      { cropId: "parsnip", datePlanted: 0, type: "crop", x: 0, y: 0 },
     ];
 
     const hasCropToDestroy = findCropToDestroy(plantedCrops, 4);
@@ -802,8 +785,8 @@ describe("findEquipmentToDestroy", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
-      }
+        y: 0,
+      },
     ];
 
     const hasEquipmentToDestroy = findEquipmentToDestroy(installedEquipment, 0);
@@ -828,8 +811,8 @@ describe("findEquipmentToDestroy", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
-      }
+        y: 0,
+      },
     ];
 
     const hasEquipmentToDestroy = findEquipmentToDestroy(installedEquipment, 3);
@@ -846,8 +829,8 @@ describe("findEquipmentToDestroy", () => {
         skinIndex: 0,
         type: "equipment",
         x: 0,
-        y: 0
-      }
+        y: 0,
+      },
     ];
 
     const hasEquipmentToDestroy = findEquipmentToDestroy(installedEquipment, 2);
