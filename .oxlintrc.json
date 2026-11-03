@@ -1,0 +1,210 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "import", "oxc", "promise"],
+  "jsPlugins": ["eslint-plugin-solid", "eslint-plugin-perfectionist"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn",
+    "pedantic": "warn",
+    "style": "off",
+    "restriction": "off",
+    "nursery": "off"
+  },
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "ignorePatterns": ["dist", "node_modules"],
+  "rules": {
+    // Ported from the ESLint 8 config: eslint:recommended (the rules that stay on for TS files)
+    "eslint/for-direction": "error",
+    "eslint/no-async-promise-executor": "error",
+    "eslint/no-case-declarations": "error",
+    "eslint/no-class-assign": "error",
+    "eslint/no-compare-neg-zero": "error",
+    "eslint/no-cond-assign": "error",
+    "eslint/no-constant-condition": "error",
+    "eslint/no-control-regex": "error",
+    "eslint/no-debugger": "error",
+    "eslint/no-delete-var": "error",
+    "eslint/no-dupe-else-if": "error",
+    "eslint/no-duplicate-case": "error",
+    "eslint/no-empty": "error",
+    "eslint/no-empty-character-class": "error",
+    "eslint/no-empty-pattern": "error",
+    "eslint/no-ex-assign": "error",
+    "eslint/no-extra-boolean-cast": "error",
+    "eslint/no-fallthrough": "error",
+    "eslint/no-global-assign": "error",
+    "eslint/no-inner-declarations": "error",
+    "eslint/no-invalid-regexp": "error",
+    "eslint/no-irregular-whitespace": "error",
+    "eslint/no-loss-of-precision": "error",
+    "eslint/no-misleading-character-class": "error",
+    "eslint/no-nonoctal-decimal-escape": "error",
+    "eslint/no-prototype-builtins": "error",
+    "eslint/no-regex-spaces": "error",
+    "eslint/no-self-assign": "error",
+    "eslint/no-shadow-restricted-names": "error",
+    "eslint/no-sparse-arrays": "error",
+    "eslint/no-unexpected-multiline": "error",
+    "eslint/no-unsafe-finally": "error",
+    "eslint/no-unsafe-optional-chaining": "error",
+    "eslint/no-unused-labels": "error",
+    "eslint/no-useless-backreference": "error",
+    "eslint/no-useless-catch": "error",
+    "eslint/no-useless-escape": "error",
+    "eslint/no-with": "error",
+    "eslint/require-yield": "error",
+    "eslint/use-isnan": "error",
+    "eslint/valid-typeof": "error",
+
+    // Ported from @typescript-eslint/eslint-recommended (turned on for TS files)
+    "eslint/no-var": "error",
+    "eslint/prefer-const": "error",
+    "eslint/prefer-rest-params": "error",
+    "eslint/prefer-spread": "error",
+
+    // Ported from @typescript-eslint/strict v6 (rules that do not need type information)
+    "eslint/no-array-constructor": "error",
+    "eslint/no-useless-constructor": "error",
+    "typescript/ban-ts-comment": "error",
+    "typescript/ban-types": "error",
+    "typescript/no-duplicate-enum-values": "error",
+    "typescript/no-dynamic-delete": "off",
+    "typescript/no-explicit-any": "error",
+    "typescript/no-extra-non-null-assertion": "error",
+    "typescript/no-extraneous-class": "error",
+    "typescript/no-invalid-void-type": "error",
+    "typescript/no-misused-new": "error",
+    "typescript/no-namespace": "error",
+    "typescript/no-non-null-asserted-nullish-coalescing": "error",
+    "typescript/no-non-null-asserted-optional-chain": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/no-this-alias": "error",
+    "typescript/no-unnecessary-type-constraint": "error",
+    "typescript/no-unsafe-declaration-merging": "error",
+    "typescript/no-var-requires": "error",
+    "typescript/prefer-as-const": "error",
+    "typescript/prefer-literal-enum-member": "error",
+    "typescript/prefer-ts-expect-error": "error",
+    "typescript/triple-slash-reference": "error",
+    "typescript/unified-signatures": "error",
+
+    "eslint/arrow-body-style": ["error", "as-needed"],
+    "eslint/max-lines": [
+      "warn",
+      { "max": 300, "skipBlankLines": true, "skipComments": true }
+    ],
+    "eslint/no-unused-expressions": "error",
+    "eslint/sort-keys": [
+      "error",
+      "asc",
+      { "caseSensitive": false, "natural": true }
+    ],
+
+    // plugin:solid/recommended, without no-destructure and jsx-no-undef
+    "solid/components-return-once": "warn",
+    "solid/event-handlers": "warn",
+    "solid/imports": "warn",
+    "solid/jsx-no-duplicate-props": "error",
+    "solid/jsx-no-script-url": "error",
+    "solid/jsx-uses-vars": "error",
+    "solid/no-innerhtml": "error",
+    "solid/no-react-deps": "warn",
+    "solid/no-react-specific-props": "warn",
+    "solid/no-unknown-namespaces": "error",
+    "solid/prefer-for": "error",
+    "solid/reactivity": "warn",
+    "solid/self-closing-comp": "warn",
+    "solid/style-prop": "warn",
+
+    // Same order as react/jsx-sort-props with its default options
+    "perfectionist/sort-jsx-props": [
+      "error",
+      {
+        // react/jsx-sort-props compares names with a plain `<` (UTF-16 code-unit order), not localeCompare
+        "type": "custom",
+        "alphabet": "$-0123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz",
+        "order": "asc",
+        "ignoreCase": false,
+        "specialCharacters": "keep",
+        "fallbackSort": { "type": "unsorted" },
+        "groups": [],
+        "customGroups": [],
+        "partitionByNewLine": false,
+        "newlinesBetween": "ignore",
+        "newlinesInside": "ignore"
+      }
+    ],
+
+    // SolidJS ref pattern: `let ref; <div ref={ref} />`
+    "no-unassigned-vars": "off",
+
+    // Too noisy / opinionated for this codebase
+    "array-callback-return": "off",
+    "max-lines-per-function": "off",
+    "no-await-in-loop": "off",
+    "no-inline-comments": "off",
+    "no-warning-comments": "off",
+    "import/max-dependencies": "off",
+    "import/no-unassigned-import": "off",
+    "no-map-spread": "off",
+    "require-await": "off",
+    "no-shadow": "off",
+    "no-new": "off",
+    "no-negated-condition": "off",
+    "no-this-in-exported-function": "off",
+    "promise/always-return": "off",
+    "no-lonely-if": "off",
+    "no-loop-func": "off",
+    "max-depth": "off",
+
+    // Unicorn rules that are too strict
+    "unicorn/no-new-array": "off",
+    "unicorn/new-for-builtins": "off",
+    "unicorn/no-lonely-if": "off",
+    "unicorn/prefer-query-selector": "off",
+    "unicorn/no-useless-undefined": "off",
+    "unicorn/prefer-add-event-listener": "off",
+    "unicorn/no-array-callback-reference": "off",
+    "no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "^_",
+        "argsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ]
+  },
+  "overrides": [
+    {
+      // @typescript-eslint/eslint-recommended turns these off for TS files only, so they stay on for plain JS
+      "files": ["**/*.js", "**/*.jsx", "**/*.mjs", "**/*.cjs"],
+      "rules": {
+        "eslint/constructor-super": "error",
+        "eslint/getter-return": "error",
+        "eslint/no-const-assign": "error",
+        "eslint/no-dupe-class-members": "error",
+        "eslint/no-dupe-keys": "error",
+        "eslint/no-func-assign": "error",
+        "eslint/no-import-assign": "error",
+        "eslint/no-new-native-nonconstructor": "error",
+        "eslint/no-obj-calls": "error",
+        "eslint/no-redeclare": "error",
+        "eslint/no-setter-return": "error",
+        "eslint/no-this-before-super": "error",
+        "eslint/no-undef": "error",
+        "eslint/no-unreachable": "error",
+        "eslint/no-unsafe-negation": "error"
+      }
+    },
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx"],
+      "rules": {
+        "eslint/max-lines": "off"
+      }
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "js/ts.experimental.useTsgo": true,
+  "js/ts.tsdk.path": "./node_modules/typescript",
   "files.associations": {
     "*.scss": "sass"
   },
@@ -16,27 +17,26 @@
   ],
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
+    "source.fixAll.oxc": "explicit",
     "source.sortMembers": "explicit"
   },
   "editor.quickSuggestions": {
     "strings": true
   },
-  "eslint.validate": ["javascript", "typescript", "typescriptreact"],
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
-  "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[sass]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "editor.wordWrap": "wordWrapColumn",
   "tailwindCSS.lint.invalidTailwindDirective": "ignore"
