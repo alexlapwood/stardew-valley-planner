@@ -12,9 +12,21 @@ interface IFarmData {
   equipment: IFarmEquipment;
 }
 
+interface IFarmShape {
+  crops: Record<string, unknown>;
+  date: number;
+  equipment: Record<string, unknown>;
+}
+
+interface IBadItem {
+  path: string;
+  value: unknown;
+}
+
 type Cell = Record<string, unknown>;
 
 const storageKey = "stardewValleySeasonalPlannerV1";
+const backupStorageKey = "stardewValleySeasonalPlannerV1Backup";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -39,7 +51,7 @@ function isCellAt(cell: Cell, x: string, y: string) {
   );
 }
 
-function isCropCell(cell: Cell) {
+function isCropCell(cell: Cell): cell is Cell & IPlantedCrop {
   return (
     typeof cell.cropId === "string" &&
     Object.hasOwn(cropDetails, cell.cropId) &&
@@ -49,7 +61,7 @@ function isCropCell(cell: Cell) {
   );
 }
 
-function isEquipmentCell(cell: Cell) {
+function isEquipmentCell(cell: Cell): cell is Cell & IInstalledEquipment {
   if (
     typeof cell.equipmentId !== "string" ||
     !Object.hasOwn(equipmentDetails, cell.equipmentId)
@@ -66,31 +78,74 @@ function isEquipmentCell(cell: Cell) {
   );
 }
 
-function isFarmItems(value: unknown, isCell: (cell: Cell) => boolean) {
+function keepGoodCells<T extends Cell>(
+  name: string,
+  items: Record<string, unknown>,
+  isCell: (cell: Cell) => cell is T,
+) {
+  const badItems: IBadItem[] = [];
+  const goodRows: [string, Record<string, T[]>][] = [];
+
+  Object.entries(items).forEach(([y, row]) => {
+    if (!isRecord(row)) {
+      badItems.push({ path: `${name}[${y}]`, value: row });
+      return;
+    }
+
+    const goodTiles: [string, T[]][] = [];
+
+    Object.entries(row).forEach(([x, cells]) => {
+      if (!Array.isArray(cells)) {
+        badItems.push({ path: `${name}[${y}][${x}]`, value: cells });
+        return;
+      }
+
+      const goodCells: T[] = [];
+
+      cells.forEach((cell: unknown, index) => {
+        if (isRecord(cell) && isCellAt(cell, x, y) && isCell(cell)) {
+          goodCells.push(cell);
+        } else {
+          badItems.push({ path: `${name}[${y}][${x}][${index}]`, value: cell });
+        }
+      });
+
+      goodTiles.push([x, goodCells]);
+    });
+
+    goodRows.push([y, Object.fromEntries(goodTiles)]);
+  });
+
+  return { badItems, goodItems: Object.fromEntries(goodRows) };
+}
+
+function isFarmShape(value: unknown): value is IFarmShape {
   return (
     isRecord(value) &&
-    Object.entries(value).every(
-      ([y, row]) =>
-        isRecord(row) &&
-        Object.entries(row).every(
-          ([x, cells]) =>
-            Array.isArray(cells) &&
-            cells.every(
-              (cell: unknown) =>
-                isRecord(cell) && isCellAt(cell, x, y) && isCell(cell),
-            ),
-        ),
-    )
+    isRecord(value.crops) &&
+    typeof value.date === "number" &&
+    isRecord(value.equipment)
   );
 }
 
-export function isFarmData(value: unknown): value is IFarmData {
-  return (
-    isRecord(value) &&
-    isFarmItems(value.crops, isCropCell) &&
-    typeof value.date === "number" &&
-    isFarmItems(value.equipment, isEquipmentCell)
+function keepGoodFarm(value: IFarmShape) {
+  const crops = keepGoodCells("crops", value.crops, isCropCell);
+  const equipment = keepGoodCells(
+    "equipment",
+    value.equipment,
+    isEquipmentCell,
   );
+  const farm: IFarmData = {
+    crops: crops.goodItems,
+    date: value.date,
+    equipment: equipment.goodItems,
+  };
+
+  return { badItems: [...crops.badItems, ...equipment.badItems], farm };
+}
+
+export function isFarmData(value: unknown): value is IFarmData {
+  return isFarmShape(value) && keepGoodFarm(value).badItems.length === 0;
 }
 
 function parseFarmData(text: string) {
@@ -107,18 +162,57 @@ function newFarm(): IFarmData {
   return { crops: {}, date: 0, equipment: {} };
 }
 
-function loadSavedFarm() {
+function backUpSavedFarm(savedFarm: string) {
+  try {
+    localStorage.setItem(backupStorageKey, savedFarm);
+    console.warn(
+      `The saved farm was copied to the "${backupStorageKey}" localStorage key.`,
+    );
+  } catch (error) {
+    console.error("Could not back up the saved farm.", error);
+  }
+}
+
+function loadSavedFarm(): IFarmData {
   const savedFarm = localStorage.getItem(storageKey);
 
   if (savedFarm === null) {
     return newFarm();
   }
 
+  let data: unknown;
+
   try {
-    return parseFarmData(savedFarm);
-  } catch {
+    data = JSON.parse(savedFarm);
+  } catch (error) {
+    backUpSavedFarm(savedFarm);
+    console.error(
+      "The saved farm is not valid JSON, so a new farm was started.",
+      error,
+    );
     return newFarm();
   }
+
+  if (!isFarmShape(data)) {
+    backUpSavedFarm(savedFarm);
+    console.error(
+      "The saved farm does not have crops, a date and equipment, so a new farm was started.",
+      data,
+    );
+    return newFarm();
+  }
+
+  const { badItems, farm } = keepGoodFarm(data);
+
+  if (badItems.length > 0) {
+    backUpSavedFarm(savedFarm);
+    console.warn(
+      `Removed ${badItems.length} bad items from the saved farm.`,
+      badItems,
+    );
+  }
+
+  return farm;
 }
 
 const savedFarm = loadSavedFarm();

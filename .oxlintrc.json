@@ -72,6 +72,7 @@
     "typescript/ban-ts-comment": "error",
     "typescript/ban-types": "error",
     "typescript/no-duplicate-enum-values": "error",
+    "typescript/no-dynamic-delete": "error",
     "typescript/no-explicit-any": "error",
     "typescript/no-extra-non-null-assertion": "error",
     "typescript/no-extraneous-class": "error",
@@ -97,6 +98,14 @@
       { "max": 300, "skipBlankLines": true, "skipComments": true }
     ],
     "eslint/no-unused-expressions": "error",
+    "eslint/no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "^_",
+        "argsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
     "eslint/sort-keys": [
       "error",
       "asc",
@@ -162,6 +171,12 @@
     "typescript/prefer-readonly-parameter-types": "off",
     "typescript/strict-void-return": "off",
 
+    // This codebase does not use ??=
+    "typescript/prefer-nullish-coalescing": [
+      "warn",
+      { "ignoreIfStatements": true }
+    ],
+
     // Unicorn rules that are too strict
     "unicorn/no-new-array": "off",
     "unicorn/new-for-builtins": "off",
@@ -169,15 +184,7 @@
     "unicorn/prefer-query-selector": "off",
     "unicorn/no-useless-undefined": "off",
     "unicorn/prefer-add-event-listener": "off",
-    "unicorn/no-array-callback-reference": "off",
-    "no-unused-vars": [
-      "error",
-      {
-        "varsIgnorePattern": "^_",
-        "argsIgnorePattern": "^_",
-        "caughtErrorsIgnorePattern": "^_"
-      }
-    ]
+    "unicorn/no-array-callback-reference": "off"
   },
   "overrides": [
     {

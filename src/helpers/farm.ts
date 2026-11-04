@@ -109,7 +109,9 @@ export function getSoilMap(
         return;
       }
 
-      soilMap[x] ??= [];
+      if (soilMap[x] === undefined) {
+        soilMap[x] = [];
+      }
 
       soilMap[x][y] = 0;
     }
@@ -213,7 +215,9 @@ export function getFlooringMap(currentEquipment: IFarmEquipment, date: number) {
       }
 
       if (installedEquipment.equipmentId === "flooring") {
-        flooringMap[x] ??= [];
+        if (flooringMap[x] === undefined) {
+          flooringMap[x] = [];
+        }
 
         flooringMap[x][y] = installedEquipment.skinIndex;
       }
@@ -240,7 +244,9 @@ export function getFenceMap(
         }
 
         if (installedEquipment.equipmentId === "fence") {
-          fenceMap[x] ??= [];
+          if (fenceMap[x] === undefined) {
+            fenceMap[x] = [];
+          }
 
           fenceMap[x][y] = installedEquipment.skinIndex;
         }
@@ -269,7 +275,9 @@ export function getScarecrowMap(
         }
 
         if (installedEquipment.equipmentId === "scarecrow") {
-          scarecrowMap[x] ??= [];
+          if (scarecrowMap[x] === undefined) {
+            scarecrowMap[x] = [];
+          }
 
           for (let iy = -8; iy <= 8; iy++) {
             // 4, 5, 6, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 6, 5, 4
