@@ -1,11 +1,18 @@
 import saveAs from "file-saver";
 import { createSignal } from "solid-js";
 
+import {
+  crops as cropDetails,
+  equipment as equipmentDetails,
+} from "../data/sdv.json";
+
 interface IFarmData {
   crops: IFarmCrops;
   date: number;
   equipment: IFarmEquipment;
 }
+
+type Cell = Record<string, unknown>;
 
 const storageKey = "stardewValleySeasonalPlannerV1";
 
@@ -13,12 +20,76 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function isFarmData(value: unknown): value is IFarmData {
+function isIndex(value: unknown): value is number {
+  return typeof value === "number" && Number.isInteger(value) && value >= 0;
+}
+
+function isOptionalNumber(value: unknown) {
+  return value === undefined || typeof value === "number";
+}
+
+// The draw code reads x and y from the cell, but the place and remove code
+// finds the cell by its row and column keys.
+function isCellAt(cell: Cell, x: string, y: string) {
+  return (
+    isIndex(cell.x) &&
+    cell.x === Number(x) &&
+    isIndex(cell.y) &&
+    cell.y === Number(y)
+  );
+}
+
+function isCropCell(cell: Cell) {
+  return (
+    typeof cell.cropId === "string" &&
+    Object.hasOwn(cropDetails, cell.cropId) &&
+    isOptionalNumber(cell.dateDestroyed) &&
+    typeof cell.datePlanted === "number" &&
+    cell.type === "crop"
+  );
+}
+
+function isEquipmentCell(cell: Cell) {
+  if (
+    typeof cell.equipmentId !== "string" ||
+    !Object.hasOwn(equipmentDetails, cell.equipmentId)
+  ) {
+    return false;
+  }
+
+  return (
+    isOptionalNumber(cell.dateDestroyed) &&
+    typeof cell.dateInstalled === "number" &&
+    isIndex(cell.skinIndex) &&
+    cell.skinIndex < equipmentDetails[cell.equipmentId].skins.length &&
+    cell.type === "equipment"
+  );
+}
+
+function isFarmItems(value: unknown, isCell: (cell: Cell) => boolean) {
   return (
     isRecord(value) &&
-    isRecord(value.crops) &&
+    Object.entries(value).every(
+      ([y, row]) =>
+        isRecord(row) &&
+        Object.entries(row).every(
+          ([x, cells]) =>
+            Array.isArray(cells) &&
+            cells.every(
+              (cell: unknown) =>
+                isRecord(cell) && isCellAt(cell, x, y) && isCell(cell),
+            ),
+        ),
+    )
+  );
+}
+
+export function isFarmData(value: unknown): value is IFarmData {
+  return (
+    isRecord(value) &&
+    isFarmItems(value.crops, isCropCell) &&
     typeof value.date === "number" &&
-    isRecord(value.equipment)
+    isFarmItems(value.equipment, isEquipmentCell)
   );
 }
 
@@ -26,7 +97,7 @@ function parseFarmData(text: string) {
   const data: unknown = JSON.parse(text);
 
   if (!isFarmData(data)) {
-    throw new Error("The farm data must have crops, date and equipment.");
+    throw new Error("The farm data is not valid.");
   }
 
   return data;

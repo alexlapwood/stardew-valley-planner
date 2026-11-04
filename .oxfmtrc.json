@@ -13,7 +13,6 @@
       { "newlinesBetween": true },
       ["parent", "sibling", "index"]
     ],
-    "internalPattern": ["~"],
     "newlinesBetween": true
   },
   "sortPackageJson": false
