@@ -61,21 +61,11 @@ export function openFarm() {
   const input = document.createElement("input");
   input.type = "file";
   input.accept = ".json";
-  input.addEventListener("change", (e) => {
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      const text = e.target?.result;
-
-      if (typeof text === "string") {
-        setFarmStore(JSON.parse(text));
-      }
-    };
-
+  input.addEventListener("change", async (e) => {
     const files = (e.target as HTMLInputElement).files;
 
     if (files && files[0]) {
-      reader.readAsText(files[0]);
+      setFarmStore(JSON.parse(await files[0].text()));
     }
   });
   input.click();

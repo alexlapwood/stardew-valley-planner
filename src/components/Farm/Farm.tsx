@@ -5,7 +5,6 @@ import { createEffect, createSignal, onMount } from "solid-js";
 
 import { farmLayouts } from "../../data/sdv.json";
 import { getCanvasPositionAndScale } from "../../helpers/canvas";
-import { getSeason } from "../../helpers/date";
 import { forEachTileInRegion } from "../../helpers/farm";
 import {
   checkCropsToPlant,
@@ -13,15 +12,8 @@ import {
   destroyCrops,
   destroyEquipment,
 } from "../../helpers/itemPlacement";
-import {
-  renderFlooringToContext,
-  renderItemsToContext,
-  renderScarecrowProtectionToContext,
-  renderSelectedRegion,
-  renderSoilToContext,
-  renderWateredSoilToContext,
-} from "../../helpers/renderToCanvas";
 import { crops, equipment, setCrops, setEquipment } from "../../state/farm";
+import { drawFarm } from "./Farm.canvas";
 
 interface IProps {
   currentFarm:
@@ -168,7 +160,10 @@ export default function Farm(props: IProps) {
       props.disableToolbars(false);
     }
 
-    if (isMouseDown() === false || props.selectedItem === undefined) {
+    const selectedItem = props.selectedItem;
+    const date = props.date;
+
+    if (isMouseDown() === false || selectedItem === undefined) {
       return;
     }
     const highlightedRegion = getHighlightedRegion();
@@ -176,43 +171,39 @@ export default function Farm(props: IProps) {
       return;
     }
 
-    if (props.selectedItem.type === "crop") {
+    if (selectedItem.type === "crop") {
       const cropsToPlant: IPlantedCrop[] = [];
       forEachTileInRegion(highlightedRegion, (x, y) => {
-        if (props.selectedItem?.id) {
-          cropsToPlant.push({
-            cropId: props.selectedItem.id,
-            datePlanted: props.date,
-            type: "crop",
-            x,
-            y,
-          });
-        }
+        cropsToPlant.push({
+          cropId: selectedItem.id,
+          datePlanted: date,
+          type: "crop",
+          x,
+          y,
+        });
       });
 
       plantCrops(cropsToPlant);
     }
 
-    if (props.selectedItem.type === "equipment") {
+    if (selectedItem.type === "equipment") {
       const equipmentToInstall: IInstalledEquipment[] = [];
       forEachTileInRegion(highlightedRegion, (x, y) => {
-        if (props.selectedItem?.id) {
-          equipmentToInstall.push({
-            dateInstalled: props.date,
-            equipmentId: props.selectedItem.id,
-            skinIndex: props.selectedItem.skinIndex || 0,
-            type: "equipment",
-            x,
-            y,
-          });
-        }
+        equipmentToInstall.push({
+          dateInstalled: date,
+          equipmentId: selectedItem.id,
+          skinIndex: selectedItem.skinIndex || 0,
+          type: "equipment",
+          x,
+          y,
+        });
       });
 
       installEquipment(equipmentToInstall);
     }
 
-    if (props.selectedItem.type === "tool") {
-      if (props.selectedItem.id === "pick-axe") {
+    if (selectedItem.type === "tool") {
+      if (selectedItem.id === "pick-axe") {
         const currentCrops: IFarmCrops = mergeDeep({}, crops());
         const currentEquipment: IFarmEquipment = mergeDeep({}, equipment());
 
@@ -221,7 +212,7 @@ export default function Farm(props: IProps) {
             currentCrops[y] !== undefined &&
             currentCrops[y][x] !== undefined
           ) {
-            currentCrops[y][x] = destroyCrops(currentCrops[y][x], props.date);
+            currentCrops[y][x] = destroyCrops(currentCrops[y][x], date);
           }
 
           if (
@@ -230,7 +221,7 @@ export default function Farm(props: IProps) {
           ) {
             currentEquipment[y][x] = destroyEquipment(
               currentEquipment[y][x],
-              props.date,
+              date,
             );
           }
         });
@@ -279,194 +270,17 @@ export default function Farm(props: IProps) {
     setCrops(mergeDeep(crops(), newCrops));
   };
 
-  function getPotentialEquipment() {
-    const highlightedRegion = getHighlightedRegion();
-
-    if (
-      highlightedRegion === undefined ||
-      props.selectedItem === undefined ||
-      props.selectedItem.type !== "equipment"
-    ) {
-      return;
-    }
-
-    const equipmentToInstallList: IInstalledEquipment[] = [];
-    forEachTileInRegion(highlightedRegion, (x, y) => {
-      if (
-        highlightedRegion === undefined ||
-        props.selectedItem === undefined ||
-        props.selectedItem.type !== "equipment"
-      ) {
-        return;
-      }
-
-      equipmentToInstallList.push({
-        dateInstalled: props.date,
-        equipmentId: props.selectedItem.id,
-        skinIndex: props.selectedItem.skinIndex || 0,
-        type: "equipment",
-        x,
-        y,
-      });
-    });
-
-    const { installableEquipment } = checkEquipmentToInstall(
-      equipmentToInstallList,
-      {
-        currentCrops: crops(),
-        currentEquipment: equipment(),
-      },
-      farmLayouts[props.currentFarm.toLowerCase()],
-    );
-
-    let newEquipment: IFarmEquipment = {};
-
-    installableEquipment.forEach((equipmentToInstall) => {
-      newEquipment = mergeDeep(newEquipment, {
-        [equipmentToInstall.y]: {
-          [equipmentToInstall.x]: [equipmentToInstall],
-        },
-      });
-    });
-
-    return newEquipment;
-  }
-
   const updateCanvas = () => {
     if (canvasRef) {
-      const canvasHeight = canvasRef.height;
-      const canvasWidth = canvasRef.width;
-      const context = canvasRef.getContext("2d");
-
-      if (canvasRef === undefined || context === null) {
-        throw new Error("Could not get context for canvas");
-      }
-
-      context.imageSmoothingEnabled = false;
-
-      const season = ["spring", "summer", "fall", "winter"][
-        getSeason(props.date)
-      ];
-
-      const backgroundImage = props.images.find((image) =>
-        image.src.includes(
-          `/images/${
-            props.currentFarm === "Test"
-              ? "standard"
-              : props.currentFarm.toLowerCase()
-          }-${season}.png`,
-        ),
-      );
-      const highlightGreenImage = props.images.find((image) =>
-        image.src.includes("/images/highlight-green.png"),
-      );
-      const highlightGreyImage = props.images.find((image) =>
-        image.src.includes("/images/highlight-grey.png"),
-      );
-      const highlightRedImage = props.images.find((image) =>
-        image.src.includes("/images/highlight-red.png"),
-      );
-      const cropsImage = props.images.find((image) =>
-        image.src.includes("/images/crops.png"),
-      );
-      const equipmentImage = props.images.find((image) =>
-        image.src.includes("/images/equipment-sheet.png"),
-      );
-      const hoeDirtImage = props.images.find((image) =>
-        image.src.includes("/images/hoeDirt.png"),
-      );
-      const hoeDirtSnowImage = props.images.find((image) =>
-        image.src.includes("/images/hoeDirtSnow.png"),
-      );
-      const fenceImage = props.images.find((image) =>
-        image.src.includes("/images/fences.png"),
-      );
-      const flooringImage = props.images.find((image) =>
-        image.src.includes("/images/flooring.png"),
-      );
-
-      if (
-        backgroundImage === undefined ||
-        highlightGreenImage === undefined ||
-        highlightGreyImage === undefined ||
-        highlightRedImage === undefined ||
-        cropsImage === undefined ||
-        equipmentImage === undefined ||
-        hoeDirtImage === undefined ||
-        hoeDirtSnowImage === undefined ||
-        fenceImage === undefined ||
-        flooringImage === undefined
-      ) {
-        throw new Error("Error loading images");
-      }
-
-      context.clearRect(0, 0, canvasWidth, canvasHeight);
-
-      context.drawImage(backgroundImage, 0, 0);
-
-      const potentialEquipment = getPotentialEquipment() || {};
-
-      renderSoilToContext(
-        context,
-        season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
-        mergeDeep(crops(), equipment(), potentialEquipment),
-        farmLayouts[props.currentFarm.toLowerCase()],
-        props.date,
-      );
-
-      renderWateredSoilToContext(
-        context,
-        season === "winter" ? hoeDirtSnowImage : hoeDirtImage,
-        mergeDeep(equipment(), potentialEquipment),
-        farmLayouts[props.currentFarm.toLowerCase()],
-        props.date,
-      );
-
-      renderFlooringToContext(
-        context,
-        flooringImage,
-        mergeDeep(equipment(), potentialEquipment),
-        props.date,
-      );
-
-      renderScarecrowProtectionToContext(
-        context,
-        highlightGreenImage,
-        mergeDeep(equipment(), potentialEquipment),
-        farmLayouts[props.currentFarm.toLowerCase()],
-        props.date,
-      );
-
-      if (mousePosition() && props.selectedItem !== undefined) {
-        const highlightedRegion = getHighlightedRegion();
-        if (highlightedRegion === undefined) {
-          return;
-        }
-
-        renderSelectedRegion(
-          context,
-          crops(),
-          equipment(),
-          farmLayouts[props.currentFarm.toLowerCase()],
-          props.date,
-          highlightedRegion,
-          highlightGreenImage,
-          highlightGreyImage,
-          highlightRedImage,
-          equipmentImage,
-          fenceImage,
-          props.selectedItem,
-        );
-      }
-
-      renderItemsToContext(
-        context,
-        cropsImage,
-        equipmentImage,
-        fenceImage,
-        mergeDeep(crops(), equipment(), potentialEquipment),
-        props.date,
-      );
+      drawFarm(canvasRef, {
+        crops: crops(),
+        currentFarm: props.currentFarm,
+        date: props.date,
+        equipment: equipment(),
+        highlightedRegion: getHighlightedRegion(),
+        images: props.images,
+        selectedItem: props.selectedItem,
+      });
     }
   };
 

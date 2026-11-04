@@ -25,14 +25,14 @@ window.addEventListener("resize", onResize);
 
 document.addEventListener("DOMContentLoaded", onResize);
 
+const plannerHeight = () => (800 * windowHeight()) / windowWidth();
+const plannerScale = () => windowWidth() / 800;
+
 export const StardewValleySeasonalPlanner: Component<Props> = ({
   class: className,
   ...attributes
 }) => {
   document.title = "Stardew Valley Seasonal Planner";
-
-  const plannerHeight = () => (800 * windowHeight()) / windowWidth();
-  const plannerScale = () => windowWidth() / 800;
 
   const [currentFarm] = createSignal<
     "Standard" | "Riverland" | "Forest" | "Hill-top" | "Wilderness" | "Test"
@@ -69,7 +69,7 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
 
     await new Promise<void>((resolve, reject) => {
       image.onerror = () => {
-        reject();
+        reject(new Error(`Could not load image ${imageUrl}`));
       };
       image.onload = () => {
         resolve();
@@ -131,11 +131,9 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
             <div style={{ width: "200px" }}>
               <SideMenu
                 date={date()}
-                // tslint:disable-next-line:jsx-no-lambda
                 selectCrop={(cropId: string) => {
                   setSelectedItem({ id: cropId, type: "crop" });
                 }}
-                // tslint:disable-next-line:jsx-no-lambda
                 selectEquipment={(id: string, skinIndex: number) => {
                   setSelectedItem({ id, skinIndex, type: "equipment" });
                 }}

@@ -15,9 +15,8 @@ export default function BigText(props: { children?: JSXElement }) {
     if (childrenWithText) {
       if (Array.isArray(childrenWithText)) {
         return childrenWithText.join("");
-      } else {
-        return String(childrenWithText);
       }
+      return String(childrenWithText);
     }
 
     return "";
@@ -43,7 +42,7 @@ export default function BigText(props: { children?: JSXElement }) {
           text()
             .split("")
             .map((character) => {
-              const characterIndex = character.charCodeAt(0) - 32;
+              const characterIndex = (character.codePointAt(0) ?? 0) - 32;
               return (
                 <Sprite
                   height={16}

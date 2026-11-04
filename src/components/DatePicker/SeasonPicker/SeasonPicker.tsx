@@ -10,7 +10,6 @@ export default function SeasonPicker(props: IProps) {
     <div class="DatePicker--season flex-horizontal">
       <BigButton
         data-testid="DatePicker--season-spring"
-        // tslint:disable-next-line:jsx-no-lambda
         onClick={() => props.changeSeason(0)}
         selected={props.season === 0}
       >
@@ -18,7 +17,6 @@ export default function SeasonPicker(props: IProps) {
       </BigButton>
       <BigButton
         data-testid="DatePicker--season-summer"
-        // tslint:disable-next-line:jsx-no-lambda
         onClick={() => props.changeSeason(1)}
         selected={props.season === 1}
       >
@@ -26,7 +24,6 @@ export default function SeasonPicker(props: IProps) {
       </BigButton>
       <BigButton
         data-testid="DatePicker--season-fall"
-        // tslint:disable-next-line:jsx-no-lambda
         onClick={() => props.changeSeason(2)}
         selected={props.season === 2}
       >
@@ -34,7 +31,6 @@ export default function SeasonPicker(props: IProps) {
       </BigButton>
       <BigButton
         data-testid="DatePicker--season-winter"
-        // tslint:disable-next-line:jsx-no-lambda
         onClick={() => props.changeSeason(3)}
         selected={props.season === 3}
       >

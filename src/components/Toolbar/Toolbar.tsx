@@ -24,7 +24,6 @@ export default function Toolbar(props: IProps) {
             props.selectedItem.id === "pick-axe",
         })}
         data-testid="tool--pick-axe"
-        // tslint:disable-next-line:jsx-no-lambda
         onClick={() => {
           props.selectTool("pick-axe");
         }}

@@ -3,7 +3,7 @@ import { getCropsLastDay } from "./crop";
 
 export function forEachTileInRegion(
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
-  cb: (x: number, y: number) => any,
+  cb: (x: number, y: number) => void,
 ) {
   const x1 = Math.min(highlightedRegion.x1, highlightedRegion.x2);
   const x2 = Math.max(highlightedRegion.x1, highlightedRegion.x2);
@@ -26,7 +26,7 @@ export function forEachFarmItem<T>(
   callback: (farmItem: T) => void,
 ) {
   Object.keys(farmItems)
-    .sort((a, b) => Number(a) - Number(b))
+    .toSorted((a, b) => Number(a) - Number(b))
     .map((yKey) => {
       if (farmItems[yKey] !== undefined) {
         Object.keys(farmItems[yKey]).map((xKey) => {

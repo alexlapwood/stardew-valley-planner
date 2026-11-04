@@ -72,7 +72,7 @@ describe("changing the date", () => {
 
   describe("changing the season", () => {
     const theories = [
-      { date: 28 * 0, season: "spring" },
+      { date: 0, season: "spring" },
       { date: 28 * 1, season: "summer" },
       { date: 28 * 2, season: "fall" },
       { date: 28 * 3, season: "winter" },

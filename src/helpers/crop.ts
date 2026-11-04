@@ -16,9 +16,7 @@ export function getCropsLastDay(
 
   for (let i = 0; i < 4; i += 1) {
     if (
-      !plantedCropDetails.seasons.find(
-        (season) => seasons[(seasonPlanted + i) % 4] === season,
-      )
+      !plantedCropDetails.seasons.includes(seasons[(seasonPlanted + i) % 4])
     ) {
       const lastDay =
         getYear(plantedCrop.datePlanted) * daysInAYear +

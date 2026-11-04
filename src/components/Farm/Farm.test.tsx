@@ -68,8 +68,9 @@ function byTile<T extends { x: number; y: number }>(items: T[]) {
   return farmItems;
 }
 
+const centreOfTile = (tile: number) => tile * 16 + 8;
+
 function dragAcrossTiles(from: [number, number], to: [number, number]) {
-  const centreOfTile = (tile: number) => tile * 16 + 8;
   const canvas = screen.getByTestId("farm-canvas");
 
   fireEvent.mouseDown(canvas, {

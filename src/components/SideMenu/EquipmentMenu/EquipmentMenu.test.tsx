@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@solidjs/testing-library";
+import { render } from "@solidjs/testing-library";
 
 import { equipmentIds } from "../../../data/sdv.json";
 import EquipmentMenu from "./EquipmentMenu";

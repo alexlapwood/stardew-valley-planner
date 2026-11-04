@@ -14,7 +14,7 @@ interface IProps {
 }
 
 export default function SeedMenu(props: IProps) {
-  const cropIds = Object.keys(crops).sort((a, b) => a.localeCompare(b));
+  const cropIds = Object.keys(crops).toSorted((a, b) => a.localeCompare(b));
 
   const getLastDayOfYearForCrop = (crop: ICrop) => {
     let lastDay = 0;
@@ -86,8 +86,7 @@ export default function SeedMenu(props: IProps) {
                       getSeason(props.date)
                     ],
                 ),
-            )
-            .sort((a, b) => a.localeCompare(b))}
+            )}
         >
           {(cropId) => (
             <div
@@ -98,7 +97,6 @@ export default function SeedMenu(props: IProps) {
                   props.selectedItem.id === cropId,
               })}
               data-testid={`seed--${cropId}`}
-              // tslint:disable-next-line:jsx-no-lambda
               onClick={() => {
                 props.selectCrop(cropId);
               }}
