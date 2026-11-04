@@ -1,13 +1,12 @@
 .DS_Store
-.firebase/
 .solid/
+.vercel
 dist
 node_modules
 
 auto-imports.d.ts
 
 *.log
-/tests/__temp/
 /test-results/
 /playwright-report/
 /playwright/.cache/

@@ -15,12 +15,6 @@ volta install node
 npm install
 ```
 
-#### Optional dependencies
-
-```
-npm i -g firebase-tools
-```
-
 ---
 
 ### Start the development server
@@ -51,14 +45,14 @@ npm run preview
 
 - oxlint, with eslint-plugin-solid and eslint-plugin-perfectionist as JS plugins (`npm run lint`, `npm run lint:fix`)
 - Lint also uses type-aware rules through oxlint-tsgolint.
-- Warnings fail CI.
+- Warnings fail lint.
 - The JS plugins need eslint 10 as a peer dependency. npm installs it. Do not use `--legacy-peer-deps`, because then npm drops eslint and the plugins cannot load.
 
 **Type checking**
 
 - TypeScript 7 (`npm run typecheck`)
 
-`npm run check` runs format, lint and typecheck.
+`npm run check` runs format, lint, typecheck, tests and build.
 
 **Editor**
 
@@ -91,8 +85,8 @@ git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 **Hosting**
 
-- Firebase
+- Vercel
 
 **CI/CD**
 
-- GitHub Actions
+- There is no CI. Run `npm run check` before you push.

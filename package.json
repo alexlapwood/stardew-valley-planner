@@ -5,7 +5,7 @@
   "scripts": {
     "start": "vite --host",
     "dev": "npm start",
-    "check": "npm run format && npm run lint && npm run typecheck",
+    "check": "npm run format && npm run lint && npm run typecheck && npm run test -- --run && npm run build",
     "format": "oxfmt --check",
     "format:fix": "oxfmt",
     "lint": "oxlint --type-aware --deny-warnings",
@@ -13,14 +13,11 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "build": "vite build",
-    "preview": "vite build && vite preview --host",
-    "ci:build": "npm run build",
-    "ci:test": "vitest run --reporter=default --reporter=github-actions --reporter=junit --outputFile.junit=tests/__temp/test-results.xml"
+    "preview": "vite build && vite preview --host"
   },
   "dependencies": {
     "clsx": "^2.1.1",
     "file-saver": "^2.0.5",
-    "firebase": "^13.2.0",
     "immutable": "^5.1.9",
     "solid-js": "^1.9.18"
   },
