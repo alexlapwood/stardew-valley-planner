@@ -53,7 +53,7 @@ exports[`Farm helper > getSoilMap > creates a soil map from the current farm ite
     ,
     0,
     0,
-    ,
+    undefined,
     0,
     0,
   ],
@@ -79,7 +79,7 @@ exports[`Farm helper > getSoilMap > creates a soil map from the current farm ite
 exports[`Farm helper > getSoilMap > does not return soil under paths 1`] = `
 [
   [
-    ,
+    undefined,
     0,
   ],
   [

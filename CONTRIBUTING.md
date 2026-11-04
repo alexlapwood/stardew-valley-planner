@@ -50,6 +50,7 @@ npm run preview
 **Linting**
 
 - oxlint, with eslint-plugin-solid and eslint-plugin-perfectionist as JS plugins (`npm run lint`, `npm run lint:fix`)
+- Lint also uses type-aware rules through oxlint-tsgolint.
 - Warnings fail CI.
 - The JS plugins need eslint 10 as a peer dependency. npm installs it. Do not use `--legacy-peer-deps`, because then npm drops eslint and the plugins cannot load.
 

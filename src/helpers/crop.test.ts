@@ -79,9 +79,9 @@ describe("Crop helper", () => {
       it(`is planted on day ${datePlanted}, takes ${daysToGrow} day${
         daysToGrow > 1 ? "s" : ""
       } to grow, ${
-        regrow
-          ? `will regrow every ${regrow} day${regrow > 1 ? "s" : ""}`
-          : "doesn't regrow"
+        regrow === undefined
+          ? "doesn't regrow"
+          : `will regrow every ${regrow} day${regrow > 1 ? "s" : ""}`
       }, and can grow during ${theory.values.seasons.join(" and ")}`, () => {
         expect(
           getCropsLastDay(
@@ -193,9 +193,9 @@ describe("Crop helper", () => {
       it(`is planted on day ${dayPlanted}, takes ${stages.join(
         " + ",
       )} days to mature, ${
-        regrow
-          ? `will regrow every ${regrow} day${regrow > 1 ? "s" : ""}`
-          : "doesn't regrow"
+        regrow === undefined
+          ? "doesn't regrow"
+          : `will regrow every ${regrow} day${regrow > 1 ? "s" : ""}`
       }, and is checked on day ${dayChecked}`, () => {
         expect(
           calculateStageOfCrop(dayChecked - dayPlanted, stages, regrow),
@@ -249,7 +249,7 @@ describe("Crop helper", () => {
             sell: 0,
           },
         );
-      }).toThrowError("This crop will regrow indefinitely");
+      }).toThrow("This crop will regrow indefinitely");
     });
   });
 });

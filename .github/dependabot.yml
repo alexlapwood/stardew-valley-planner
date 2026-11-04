@@ -8,6 +8,7 @@ updates:
       lint-tools:
         patterns:
           - oxlint
+          - oxlint-tsgolint
           - oxfmt
           - eslint-plugin-*
       npm-minor-and-patch:

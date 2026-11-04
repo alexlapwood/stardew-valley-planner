@@ -72,7 +72,6 @@
     "typescript/ban-ts-comment": "error",
     "typescript/ban-types": "error",
     "typescript/no-duplicate-enum-values": "error",
-    "typescript/no-dynamic-delete": "off",
     "typescript/no-explicit-any": "error",
     "typescript/no-extra-non-null-assertion": "error",
     "typescript/no-extraneous-class": "error",
@@ -160,6 +159,8 @@
     "no-lonely-if": "off",
     "no-loop-func": "off",
     "max-depth": "off",
+    "typescript/prefer-readonly-parameter-types": "off",
+    "typescript/strict-void-return": "off",
 
     // Unicorn rules that are too strict
     "unicorn/no-new-array": "off",
@@ -203,7 +204,8 @@
     {
       "files": ["**/*.test.ts", "**/*.test.tsx"],
       "rules": {
-        "eslint/max-lines": "off"
+        "eslint/max-lines": "off",
+        "typescript/no-unsafe-type-assertion": "off"
       }
     }
   ]

@@ -23,7 +23,7 @@ export function getCropsLastDay(
         (getSeason(plantedCrop.datePlanted) + i) * daysInASeason -
         1;
 
-      if (plantedCropDetails.regrow) {
+      if (plantedCropDetails.regrow !== undefined) {
         return lastDay;
       }
 
@@ -36,7 +36,7 @@ export function getCropsLastDay(
     }
   }
 
-  if (plantedCropDetails.regrow) {
+  if (plantedCropDetails.regrow !== undefined) {
     throw new Error("This crop will regrow indefinitely");
   }
 

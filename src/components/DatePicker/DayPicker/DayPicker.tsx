@@ -14,7 +14,9 @@ export default function DayPicker(props: IProps) {
             data-testid="DatePicker--day-slider-input"
             max="27"
             min="0"
-            onInput={(e) => props.changeDay(Number(e.target.value))}
+            onInput={(e) => {
+              props.changeDay(Number(e.target.value));
+            }}
             onKeyDown={(e) => {
               switch (e.key) {
                 case "ArrowLeft":

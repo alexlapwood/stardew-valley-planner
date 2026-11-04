@@ -16,7 +16,9 @@ export default function YearPicker(props: IProps) {
             class="sdv-button-subtract"
             data-testid="DatePicker--year-subtract"
             disabled={props.year === 0}
-            onClick={() => props.subtractYear()}
+            onClick={() => {
+              props.subtractYear();
+            }}
           />
           <div class="DatePicker--year-text" style={{ display: "block" }}>
             <BigText>Year {String(props.year + 1)}</BigText>
@@ -24,7 +26,9 @@ export default function YearPicker(props: IProps) {
           <button
             class="sdv-button-add"
             data-testid="DatePicker--year-add"
-            onClick={() => props.addYear()}
+            onClick={() => {
+              props.addYear();
+            }}
           />
         </div>
       </div>

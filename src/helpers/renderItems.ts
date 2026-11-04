@@ -36,7 +36,7 @@ export function renderItemsToContext(
 
       const spriteIndex = stage + 1;
       const isFlower =
-        plantedCropDetails.isFlower &&
+        plantedCropDetails.isFlower === true &&
         spriteIndex > plantedCropDetails.stages.length;
 
       renderCropToContext(
@@ -89,7 +89,7 @@ export function renderCropToContext(
     32,
   );
 
-  if (isFlower) {
+  if (isFlower === true) {
     context.drawImage(
       sprite,
       (spriteIndex + 1) * 16,
@@ -123,14 +123,14 @@ export function renderEquipmentToContext(
         return acc;
       }
 
-      if (equipment[id].isSeasonal) {
+      if (equipment[id].isSeasonal === true) {
         return acc + equipment[id].skins.length * 4;
       }
 
       return acc + equipment[id].skins.length;
     }, 0);
 
-  if (equipment[equipmentId].isSeasonal) {
+  if (equipment[equipmentId].isSeasonal === true) {
     equipmentIndex = equipmentIndex + skinIndex * 4 + getSeason(date);
   } else {
     equipmentIndex = equipmentIndex + skinIndex;

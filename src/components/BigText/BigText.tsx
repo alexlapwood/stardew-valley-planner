@@ -11,15 +11,18 @@ export default function BigText(props: { children?: JSXElement }) {
   const [scale, setScale] = createSignal(1);
 
   const text = () => {
-    const childrenWithText = children(() => props.children)();
-    if (childrenWithText) {
-      if (Array.isArray(childrenWithText)) {
-        return childrenWithText.join("");
-      }
-      return String(childrenWithText);
-    }
+    const resolvedChildren = children(() => props.children)();
+    const parts = Array.isArray(resolvedChildren)
+      ? resolvedChildren
+      : [resolvedChildren];
 
-    return "";
+    return parts
+      .map((part) =>
+        typeof part === "string" || typeof part === "number"
+          ? String(part)
+          : "",
+      )
+      .join("");
   };
 
   createRenderEffect(() => {

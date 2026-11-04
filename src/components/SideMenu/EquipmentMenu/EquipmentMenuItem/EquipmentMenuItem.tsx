@@ -48,14 +48,14 @@ export default function EquipmentMenuItem(props: IProps) {
           return acc;
         }
 
-        if (equipment[id].isSeasonal) {
+        if (equipment[id].isSeasonal === true) {
           return acc + equipment[id].skins.length * 4;
         }
 
         return acc + equipment[id].skins.length;
       }, 0);
 
-    if (equipment[props.equipmentId].isSeasonal) {
+    if (equipment[props.equipmentId].isSeasonal === true) {
       equipmentIndex = equipmentIndex + skinIndex * 4 + getSeason(props.date);
     } else {
       equipmentIndex = equipmentIndex + skinIndex;
@@ -156,21 +156,22 @@ export default function EquipmentMenuItem(props: IProps) {
           <BigText>{equipment[props.equipmentId].skins[skinIndex]}</BigText>
         </div>
 
-        {isTrigger && equipment[props.equipmentId].skins.length > 1 && (
-          <>
-            <button
-              class={cn("margin-right", {
-                "sdv-button-down": !isOpen(),
-                "sdv-button-up": isOpen(),
-              })}
-              data-testid="equipment-dropdown--trigger"
-              onClick={(event) => {
-                event.stopPropagation();
-                toggle();
-              }}
-            />
-          </>
-        )}
+        {isTrigger === true &&
+          equipment[props.equipmentId].skins.length > 1 && (
+            <>
+              <button
+                class={cn("margin-right", {
+                  "sdv-button-down": !isOpen(),
+                  "sdv-button-up": isOpen(),
+                })}
+                data-testid="equipment-dropdown--trigger"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  toggle();
+                }}
+              />
+            </>
+          )}
       </div>
     );
   };

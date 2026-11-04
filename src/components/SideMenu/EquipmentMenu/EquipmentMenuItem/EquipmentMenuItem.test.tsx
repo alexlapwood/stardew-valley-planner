@@ -78,6 +78,6 @@ describe("<EquipmentMenuItem />", () => {
     fireEvent.click(screen.getByTestId("equipment-dropdown--trigger"));
     fireEvent.click(screen.getByTestId("equipment-scarecrow--1"));
 
-    expect(selectEquipment).toBeCalledWith("scarecrow", 1);
+    expect(selectEquipment).toHaveBeenCalledWith("scarecrow", 1);
   });
 });

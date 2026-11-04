@@ -62,7 +62,7 @@ export default function Farm(props: IProps) {
     const currentMousePosition = mousePosition();
     const currentMouseDownPosition = mouseDownPosition();
     if (currentMousePosition === undefined) {
-      return;
+      return undefined;
     }
 
     const x1 = Math.floor(
@@ -163,7 +163,7 @@ export default function Farm(props: IProps) {
     const selectedItem = props.selectedItem;
     const date = props.date;
 
-    if (isMouseDown() === false || selectedItem === undefined) {
+    if (!isMouseDown() || selectedItem === undefined) {
       return;
     }
     const highlightedRegion = getHighlightedRegion();
@@ -192,7 +192,7 @@ export default function Farm(props: IProps) {
         equipmentToInstall.push({
           dateInstalled: date,
           equipmentId: selectedItem.id,
-          skinIndex: selectedItem.skinIndex || 0,
+          skinIndex: selectedItem.skinIndex ?? 0,
           type: "equipment",
           x,
           y,
@@ -298,7 +298,13 @@ export default function Farm(props: IProps) {
   });
 
   return (
-    <div class="Farm" onScroll={() => onScroll()} ref={farmRef}>
+    <div
+      class="Farm"
+      onScroll={() => {
+        onScroll();
+      }}
+      ref={farmRef}
+    >
       <div
         class="Farm--canvas-wrapper"
         style={{ transform: `scale(${props.zoom})` }}

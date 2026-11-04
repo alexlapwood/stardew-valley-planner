@@ -111,10 +111,7 @@ export function checkCropsToPlant(
       });
     },
     { plantableCrops: [], unplantableCrops: [] },
-  ) as {
-    plantableCrops: IPlantedCrop[];
-    unplantableCrops: IPlantedCrop[];
-  };
+  );
 }
 
 export function checkEquipmentToInstall(
@@ -247,10 +244,7 @@ export function checkEquipmentToInstall(
       });
     },
     { installableEquipment: [], notInstallableEquipment: [] },
-  ) as {
-    installableEquipment: IInstalledEquipment[];
-    notInstallableEquipment: IInstalledEquipment[];
-  };
+  );
 }
 
 export function findCropToDestroy(

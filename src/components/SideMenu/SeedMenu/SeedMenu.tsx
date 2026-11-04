@@ -59,7 +59,7 @@ export default function SeedMenu(props: IProps) {
           );
 
     return (
-      crop.sell * harvests * (crop.harvest.min || 1) -
+      crop.sell * harvests * (crop.harvest.min ?? 1) -
       crop.buy * (crop.regrow === undefined ? harvests : 1)
     );
   };
@@ -75,17 +75,13 @@ export default function SeedMenu(props: IProps) {
       <div class="SeedMenu sdv-list">
         <For
           each={cropIds
-            .filter((cropId) => !crops[cropId].isIndoorsOnly)
-            .filter(
-              (cropId) =>
-                crops[cropId] &&
-                crops[cropId].seasons.some(
-                  (season) =>
-                    season ===
-                    ["spring", "summer", "fall", "winter"][
-                      getSeason(props.date)
-                    ],
-                ),
+            .filter((cropId) => crops[cropId].isIndoorsOnly !== true)
+            .filter((cropId) =>
+              crops[cropId].seasons.some(
+                (season) =>
+                  season ===
+                  ["spring", "summer", "fall", "winter"][getSeason(props.date)],
+              ),
             )}
         >
           {(cropId) => (

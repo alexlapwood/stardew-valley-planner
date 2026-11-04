@@ -65,7 +65,7 @@ export function renderSelectedRegion(
       equipmentToInstallList.push({
         dateInstalled: date,
         equipmentId: selectedItem.id,
-        skinIndex: selectedItem.skinIndex || 0,
+        skinIndex: selectedItem.skinIndex ?? 0,
         type: "equipment",
         x,
         y,

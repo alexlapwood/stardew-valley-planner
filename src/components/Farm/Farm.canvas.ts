@@ -30,25 +30,14 @@ interface IFarmCanvasState {
   selectedItem?: ISelectedItem;
 }
 
-function findImages<TName extends string>(
-  images: HTMLImageElement[],
-  paths: Record<TName, string>,
-) {
-  const foundImages = {} as Record<TName, HTMLImageElement>;
+function findImage(images: HTMLImageElement[], path: string) {
+  const image = images.find((candidate) => candidate.src.includes(path));
 
-  for (const name of Object.keys(paths) as TName[]) {
-    const image = images.find((candidate) =>
-      candidate.src.includes(paths[name]),
-    );
-
-    if (image === undefined) {
-      throw new Error("Error loading images");
-    }
-
-    foundImages[name] = image;
+  if (image === undefined) {
+    throw new Error("Error loading images");
   }
 
-  return foundImages;
+  return image;
 }
 
 function getPotentialEquipment(
@@ -63,7 +52,7 @@ function getPotentialEquipment(
     selectedItem === undefined ||
     selectedItem.type !== "equipment"
   ) {
-    return;
+    return undefined;
   }
 
   const equipmentToInstallList: IInstalledEquipment[] = [];
@@ -71,7 +60,7 @@ function getPotentialEquipment(
     equipmentToInstallList.push({
       dateInstalled: date,
       equipmentId: selectedItem.id,
-      skinIndex: selectedItem.skinIndex || 0,
+      skinIndex: selectedItem.skinIndex ?? 0,
       type: "equipment",
       x,
       y,
@@ -114,18 +103,21 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
     currentFarm === "Test" ? "standard" : currentFarm.toLowerCase();
   const farmLayout = farmLayouts[currentFarm.toLowerCase()];
 
-  const images = findImages(state.images, {
-    background: `/images/${farmImageName}-${season}.png`,
-    crops: "/images/crops.png",
-    equipment: "/images/equipment-sheet.png",
-    fence: "/images/fences.png",
-    flooring: "/images/flooring.png",
-    highlightGreen: "/images/highlight-green.png",
-    highlightGrey: "/images/highlight-grey.png",
-    highlightRed: "/images/highlight-red.png",
-    hoeDirt: "/images/hoeDirt.png",
-    hoeDirtSnow: "/images/hoeDirtSnow.png",
-  });
+  const images = {
+    background: findImage(
+      state.images,
+      `/images/${farmImageName}-${season}.png`,
+    ),
+    crops: findImage(state.images, "/images/crops.png"),
+    equipment: findImage(state.images, "/images/equipment-sheet.png"),
+    fence: findImage(state.images, "/images/fences.png"),
+    flooring: findImage(state.images, "/images/flooring.png"),
+    highlightGreen: findImage(state.images, "/images/highlight-green.png"),
+    highlightGrey: findImage(state.images, "/images/highlight-grey.png"),
+    highlightRed: findImage(state.images, "/images/highlight-red.png"),
+    hoeDirt: findImage(state.images, "/images/hoeDirt.png"),
+    hoeDirtSnow: findImage(state.images, "/images/hoeDirtSnow.png"),
+  };
 
   context.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -138,7 +130,7 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
       date,
       { currentCrops: crops, currentEquipment: equipment },
       farmLayout,
-    ) || {};
+    ) ?? {};
 
   renderSoilToContext(
     context,

@@ -3,7 +3,7 @@ import { getFlooringMap, getScarecrowMap, getSoilMap } from "./farm";
 const flooringTileMap = [0, 12, 15, 11, 13, 9, 14, 10, 4, 8, 3, 7, 1, 5, 2, 6];
 
 function forEachTileInMap(
-  tileMap: number[][],
+  tileMap: (number | undefined)[][],
   callBack: (
     tileValue: number,
     tileIndex: number,
@@ -13,6 +13,11 @@ function forEachTileInMap(
 ) {
   tileMap.forEach((row, ix) => {
     row.forEach((cellValue, iy) => {
+      // getSoilMap sets the soil under equipment to undefined to remove it
+      if (cellValue === undefined) {
+        return;
+      }
+
       const north =
         tileMap[ix] !== undefined && tileMap[ix][iy - 1] === cellValue;
       const east =

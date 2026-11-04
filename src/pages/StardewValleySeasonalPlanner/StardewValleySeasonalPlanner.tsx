@@ -39,6 +39,7 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
   >("Standard");
   const [images, setImages] = createSignal<HTMLImageElement[]>([]);
   const [isLoading, setIsLoading] = createSignal(true);
+  const [loadingMessage, setLoadingMessage] = createSignal("loading...");
   const [selectedItem, setSelectedItem] = createSignal<ISelectedItem>();
   const [toolbarsDisabled, setToolbarsDisabled] = createSignal(false);
 
@@ -82,18 +83,26 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
     return image;
   });
 
-  onMount(async () => {
-    const images = await Promise.all(imagePromises);
-
-    setImages(images);
+  async function loadImages() {
+    try {
+      setImages(await Promise.all(imagePromises));
+    } catch (error) {
+      console.error("Could not load the images.", error);
+      setLoadingMessage("Could not load the images. Reload the page.");
+      return;
+    }
 
     setIsLoading(false);
+  }
+
+  onMount(() => {
+    void loadImages();
   });
 
   return (
     <>
       {isLoading() ? (
-        <div>loading...</div>
+        <div>{loadingMessage()}</div>
       ) : (
         <div
           class={`pageStardewValleySeasonalPlanner ${className}`}
