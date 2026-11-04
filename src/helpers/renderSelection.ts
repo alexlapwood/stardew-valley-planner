@@ -20,8 +20,6 @@ export function renderSelectedRegion(
   highlightGreenImage: HTMLImageElement,
   highlightGreyImage: HTMLImageElement,
   highlightRedImage: HTMLImageElement,
-  equipmentImage: HTMLImageElement,
-  fenceImage: HTMLImageElement,
   selectedItem: ISelectedItem,
 ) {
   if (selectedItem.type === "crop") {

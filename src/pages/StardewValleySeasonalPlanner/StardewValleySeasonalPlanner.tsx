@@ -52,15 +52,18 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
 
     const selectedCrop = crops[currentItem.id];
 
-    const keepSelectedItem =
+    const isInSeason =
       selectedCrop !== undefined &&
-      selectedCrop.seasons.find(
+      selectedCrop.seasons.some(
         (season) =>
           season === ["spring", "summer", "fall", "winter"][getSeason(date)],
       );
 
     setDate(date);
-    setSelectedItem(keepSelectedItem ? selectedItem : undefined);
+
+    if (!isInSeason) {
+      setSelectedItem(undefined);
+    }
   }
 
   const imagePromises = imageUrls.map(async (imageUrl) => {

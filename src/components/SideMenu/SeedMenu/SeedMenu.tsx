@@ -79,7 +79,7 @@ export default function SeedMenu(props: IProps) {
             .filter(
               (cropId) =>
                 crops[cropId] &&
-                crops[cropId].seasons.find(
+                crops[cropId].seasons.some(
                   (season) =>
                     season ===
                     ["spring", "summer", "fall", "winter"][

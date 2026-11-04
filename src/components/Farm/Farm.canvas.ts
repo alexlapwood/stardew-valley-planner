@@ -182,8 +182,6 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
       images.highlightGreen,
       images.highlightGrey,
       images.highlightRed,
-      images.equipment,
-      images.fence,
       state.selectedItem,
     );
   }

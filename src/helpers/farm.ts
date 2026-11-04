@@ -27,9 +27,9 @@ export function forEachFarmItem<T>(
 ) {
   Object.keys(farmItems)
     .toSorted((a, b) => Number(a) - Number(b))
-    .map((yKey) => {
+    .forEach((yKey) => {
       if (farmItems[yKey] !== undefined) {
-        Object.keys(farmItems[yKey]).map((xKey) => {
+        Object.keys(farmItems[yKey]).forEach((xKey) => {
           farmItems[yKey][xKey].forEach((farmItem: T) => {
             callback(farmItem);
           });

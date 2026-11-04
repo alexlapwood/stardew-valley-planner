@@ -65,7 +65,11 @@ export function openFarm() {
     const files = (e.target as HTMLInputElement).files;
 
     if (files && files[0]) {
-      setFarmStore(JSON.parse(await files[0].text()));
+      try {
+        setFarmStore(JSON.parse(await files[0].text()));
+      } catch (error) {
+        console.error("Could not open the farm file.", error);
+      }
     }
   });
   input.click();
@@ -81,12 +85,11 @@ export function saveFarm() {
 }
 
 document.addEventListener("keydown", function (event) {
-  // Check if Control or Command key is pressed along with 'S' or 'O'
   if ((event.ctrlKey || event.metaKey) && event.key === "s") {
-    event.preventDefault(); // Prevent the default save behavior
-    saveFarm(); // Call your custom save function
+    event.preventDefault();
+    saveFarm();
   } else if ((event.ctrlKey || event.metaKey) && event.key === "o") {
-    event.preventDefault(); // Prevent the default open behavior
-    openFarm(); // Call your custom open function
+    event.preventDefault();
+    openFarm();
   }
 });
