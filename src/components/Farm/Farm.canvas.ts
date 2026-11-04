@@ -13,7 +13,7 @@ import {
   renderWateredSoilToContext,
 } from "../../helpers/renderTileMaps";
 
-interface IRegion {
+export interface IRegion {
   x1: number;
   x2: number;
   y1: number;

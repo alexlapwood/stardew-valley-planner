@@ -1,7 +1,13 @@
 import "./Farm.css";
 
 import { mergeDeep } from "immutable";
-import { createEffect, createSignal, onMount } from "solid-js";
+import {
+  batch,
+  createEffect,
+  createSignal,
+  onCleanup,
+  onMount,
+} from "solid-js";
 
 import { farmLayouts } from "../../data/sdv.json";
 import { getCanvasPositionAndScale } from "../../helpers/canvas";
@@ -13,7 +19,17 @@ import {
   destroyEquipment,
 } from "../../helpers/itemPlacement";
 import { crops, equipment, setCrops, setEquipment } from "../../state/farm";
-import { drawFarm } from "./Farm.canvas";
+import { drawFarm, type IRegion } from "./Farm.canvas";
+import {
+  createMenuBlocker,
+  type DragKind,
+  dragKindByButton,
+  isDragStale,
+  startDrag,
+} from "./Farm.drag";
+import { createHighlightedRegion, type IMousePosition } from "./Farm.region";
+
+const pickAxe: ISelectedItem = { id: "pick-axe", type: "tool" };
 
 interface IProps {
   currentFarm:
@@ -31,64 +47,40 @@ interface IProps {
 }
 
 export default function Farm(props: IProps) {
-  const [isMouseDown, setIsMouseDown] = createSignal(false);
-  const [mouseDownPosition, setMouseDownPosition] = createSignal<{
-    // Left and top are used for updating the the cursor position
-    // on the scroll event (because the scroll event doesn't actually
-    // have access to the cursor position).
-    left: number;
-    top: number;
-    x: number;
-    y: number;
-  }>();
-  const [mousePosition, setMousePosition] = createSignal<{
-    // Left and top are used for updating the the cursor position
-    // on the scroll event (because the scroll event doesn't actually
-    // have access to the cursor position).
-    left: number;
-    top: number;
-    x: number;
-    y: number;
-  }>();
+  const [drag, setDrag] = createSignal<DragKind>();
+  const [mouseDownPosition, setMouseDownPosition] =
+    createSignal<IMousePosition>();
+  const [mousePosition, setMousePosition] = createSignal<IMousePosition>();
 
   let canvasRef: HTMLCanvasElement | undefined;
 
   let farmRef: HTMLDivElement | undefined;
 
+  let stopDrag: (() => void) | undefined;
+
   const farmWidth = 80;
   const farmHeight = 65;
 
-  const getHighlightedRegion = () => {
-    const currentMousePosition = mousePosition();
-    const currentMouseDownPosition = mouseDownPosition();
-    if (currentMousePosition === undefined) {
-      return undefined;
-    }
+  const highlightedRegion = createHighlightedRegion(
+    mousePosition,
+    mouseDownPosition,
+    () => drag() === "pan",
+  );
 
-    const x1 = Math.floor(
-      (currentMousePosition.x - currentMousePosition.left) / 16,
-    );
-    const y1 = Math.floor(
-      (currentMousePosition.y - currentMousePosition.top) / 16,
-    );
-    let x2 = x1;
-    let y2 = y1;
+  const blockMenuAfterRightPress = createMenuBlocker();
 
-    if (isMouseDown() && currentMouseDownPosition) {
-      x2 = Math.floor(
-        (currentMouseDownPosition.x - currentMouseDownPosition.left) / 16,
-      );
-      y2 = Math.floor(
-        (currentMouseDownPosition.y - currentMouseDownPosition.top) / 16,
-      );
-    }
+  const getActiveItem = () =>
+    drag() === "erase" ? pickAxe : props.selectedItem;
 
-    return { x1, x2, y1, y2 };
-  };
+  const getMousePosition = (event: MouseEvent) => {
+    const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(canvasRef);
 
-  const calculateMousePosition = (event: MouseEvent) => {
-    const { scaleX, scaleY } = getCanvasPositionAndScale(canvasRef);
-    return { x: event.clientX * scaleX, y: event.clientY * scaleY };
+    return {
+      left: left * scaleX,
+      top: top * scaleY,
+      x: event.clientX * scaleX,
+      y: event.clientY * scaleY,
+    };
   };
 
   const installEquipment = (equipmentToInstallList: IInstalledEquipment[]) => {
@@ -114,62 +106,33 @@ export default function Farm(props: IProps) {
     setEquipment(mergeDeep(equipment(), newEquipment));
   };
 
-  const onMouseDown = (event: MouseEvent) => {
-    const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(canvasRef);
-
-    const { x, y } = calculateMousePosition(event);
-
-    if (props.disableToolbars !== undefined) {
-      props.disableToolbars(true);
-    }
-
-    setIsMouseDown(true);
-    setMouseDownPosition({
-      left: left * scaleX,
-      top: top * scaleY,
-      x,
-      y,
-    });
-  };
-
-  const onMouseMove = (event: MouseEvent) => {
-    const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(canvasRef);
-
-    const { x, y } = calculateMousePosition(event);
-
-    setMousePosition({
-      left: left * scaleX,
-      top: top * scaleY,
-      x,
-      y,
-    });
-  };
-
-  const onMouseOut = () => {
-    if (props.disableToolbars !== undefined) {
-      props.disableToolbars(false);
-    }
-
-    setIsMouseDown(false);
-    setMouseDownPosition(undefined);
-    setMousePosition(undefined);
-  };
-
-  const onMouseUp = () => {
-    if (props.disableToolbars !== undefined) {
-      props.disableToolbars(false);
-    }
-
-    const selectedItem = props.selectedItem;
+  const eraseRegion = (highlightedRegion: IRegion) => {
     const date = props.date;
+    const currentCrops: IFarmCrops = mergeDeep({}, crops());
+    const currentEquipment: IFarmEquipment = mergeDeep({}, equipment());
 
-    if (!isMouseDown() || selectedItem === undefined) {
-      return;
-    }
-    const highlightedRegion = getHighlightedRegion();
-    if (highlightedRegion === undefined) {
-      return;
-    }
+    forEachTileInRegion(highlightedRegion, (x, y) => {
+      if (currentCrops[y] !== undefined && currentCrops[y][x] !== undefined) {
+        currentCrops[y][x] = destroyCrops(currentCrops[y][x], date);
+      }
+
+      if (
+        currentEquipment[y] !== undefined &&
+        currentEquipment[y][x] !== undefined
+      ) {
+        currentEquipment[y][x] = destroyEquipment(currentEquipment[y][x], date);
+      }
+    });
+
+    setCrops(currentCrops);
+    setEquipment(currentEquipment);
+  };
+
+  const applyItem = (
+    selectedItem: ISelectedItem,
+    highlightedRegion: IRegion,
+  ) => {
+    const date = props.date;
 
     if (selectedItem.type === "crop") {
       const cropsToPlant: IPlantedCrop[] = [];
@@ -202,46 +165,106 @@ export default function Farm(props: IProps) {
       installEquipment(equipmentToInstall);
     }
 
-    if (selectedItem.type === "tool") {
-      if (selectedItem.id === "pick-axe") {
-        const currentCrops: IFarmCrops = mergeDeep({}, crops());
-        const currentEquipment: IFarmEquipment = mergeDeep({}, equipment());
-
-        forEachTileInRegion(highlightedRegion, (x, y) => {
-          if (
-            currentCrops[y] !== undefined &&
-            currentCrops[y][x] !== undefined
-          ) {
-            currentCrops[y][x] = destroyCrops(currentCrops[y][x], date);
-          }
-
-          if (
-            currentEquipment[y] !== undefined &&
-            currentEquipment[y][x] !== undefined
-          ) {
-            currentEquipment[y][x] = destroyEquipment(
-              currentEquipment[y][x],
-              date,
-            );
-          }
-        });
-
-        setCrops(currentCrops);
-        setEquipment(currentEquipment);
-      }
+    if (selectedItem.type === "tool" && selectedItem.id === "pick-axe") {
+      eraseRegion(highlightedRegion);
     }
+  };
 
-    setIsMouseDown(false);
-    setMouseDownPosition(undefined);
+  const endDrag = () => {
+    batch(() => {
+      stopDrag?.();
+      stopDrag = undefined;
+      setDrag(undefined);
+      setMouseDownPosition(undefined);
+      props.disableToolbars?.(false);
+    });
+  };
+
+  const onMouseDown = (event: MouseEvent) => {
+    batch(() => {
+      blockMenuAfterRightPress(event);
+
+      if (event.button === 1) {
+        // Without this, Windows browsers start their own middle-button
+        // auto-scroll.
+        event.preventDefault();
+      }
+
+      const currentDrag = drag();
+      if (currentDrag !== undefined) {
+        endDrag();
+
+        if (!isDragStale(currentDrag, event)) {
+          return;
+        }
+      }
+
+      const kind = dragKindByButton[event.button];
+      if (kind === undefined) {
+        return;
+      }
+
+      props.disableToolbars?.(true);
+      setDrag(kind);
+      stopDrag = startDrag(kind, farmRef, event, endDrag);
+
+      if (kind === "pan") {
+        return;
+      }
+
+      const position = getMousePosition(event);
+      setMouseDownPosition(position);
+      setMousePosition(position);
+    });
+  };
+
+  const onMouseMove = (event: MouseEvent) => {
+    setMousePosition(getMousePosition(event));
+  };
+
+  const onMouseOut = () => {
+    batch(() => {
+      setMousePosition(undefined);
+
+      if (drag() !== "pan") {
+        endDrag();
+      }
+    });
+  };
+
+  const onMouseUp = (event: MouseEvent) => {
+    batch(() => {
+      const kind = drag();
+      if (kind !== undefined && dragKindByButton[event.button] !== kind) {
+        return;
+      }
+
+      const activeItem = getActiveItem();
+      const region = highlightedRegion();
+      if (
+        (kind === "put" || kind === "erase") &&
+        activeItem !== undefined &&
+        region !== undefined
+      ) {
+        applyItem(activeItem, region);
+      }
+
+      endDrag();
+    });
   };
 
   const onScroll = () => {
+    const currentMousePosition = mousePosition();
+    // A pan can scroll the farm while the cursor is off it. A made-up
+    // position here would show a highlight away from the cursor.
+    if (currentMousePosition === undefined) {
+      return;
+    }
+
     const { left, top, scaleX, scaleY } = getCanvasPositionAndScale(canvasRef);
 
     setMousePosition({
-      x: 0,
-      y: 0,
-      ...mousePosition(),
+      ...currentMousePosition,
       left: left * scaleX,
       top: top * scaleY,
     });
@@ -277,20 +300,22 @@ export default function Farm(props: IProps) {
         currentFarm: props.currentFarm,
         date: props.date,
         equipment: equipment(),
-        highlightedRegion: getHighlightedRegion(),
+        highlightedRegion: highlightedRegion(),
         images: props.images,
-        selectedItem: props.selectedItem,
+        selectedItem: getActiveItem(),
       });
     }
   };
 
   onMount(() => {
-    updateCanvas();
-
     if (farmRef !== undefined) {
       farmRef.scrollLeft = farmRef.scrollWidth;
       farmRef.scrollTop = 16 * 4;
     }
+  });
+
+  onCleanup(() => {
+    stopDrag?.();
   });
 
   createEffect(() => {
@@ -300,6 +325,9 @@ export default function Farm(props: IProps) {
   return (
     <div
       class="Farm"
+      onContextMenu={(event) => {
+        event.preventDefault();
+      }}
       onScroll={() => {
         onScroll();
       }}

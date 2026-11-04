@@ -17,4 +17,10 @@
   .Farm--canvas {
     display: block;
   }
+
+  /* A pan keeps going off the farm, so every element shows the cursor. */
+  :root.farm-panning,
+  :root.farm-panning * {
+    cursor: grabbing;
+  }
 }
