@@ -7,10 +7,6 @@ function lightningcssVersion(major: number, minor = 0) {
 }
 
 export default defineConfig({
-  build: {
-    sourcemap: true,
-  },
-
   css: {
     lightningcss: {
       // Same browsers as Vite's default build target ("baseline-widely-available").
