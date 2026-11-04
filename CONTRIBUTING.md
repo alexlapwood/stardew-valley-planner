@@ -45,11 +45,31 @@ npm run preview
 
 **Code formatting**
 
-- Prettier
+- oxfmt (`npm run format`, `npm run format:fix`)
 
 **Linting**
 
-- ESLint
+- oxlint, with eslint-plugin-solid and eslint-plugin-perfectionist as JS plugins (`npm run lint`, `npm run lint:fix`)
+- Warnings fail CI.
+- The JS plugins need eslint 10 as a peer dependency. npm installs it. Do not use `--legacy-peer-deps`, because then npm drops eslint and the plugins cannot load.
+
+**Type checking**
+
+- TypeScript 7 (`npm run typecheck`)
+
+`npm run check` runs format, lint and typecheck.
+
+**Editor**
+
+- VS Code: install the recommended extensions (oxc, TypeScript 7, EditorConfig).
+
+**Git blame**
+
+- To make local `git blame` skip the format commit, run this one time. GitHub does this by itself.
+
+```
+git config blame.ignoreRevsFile .git-blame-ignore-revs
+```
 
 **Testing**
 

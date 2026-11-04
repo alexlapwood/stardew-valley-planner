@@ -35,9 +35,13 @@ jobs:
         id: install
         run: npm ci
 
+      - name: Format
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run format
+
       - name: Lint
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
-        run: npm run ci:lint
+        run: npm run lint
 
       - name: Typecheck
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}

@@ -5,20 +5,17 @@ updates:
     schedule:
       interval: weekly
     groups:
+      lint-tools:
+        patterns:
+          - oxlint
+          - oxfmt
+          - eslint-plugin-*
       npm-minor-and-patch:
         patterns:
           - "*"
         update-types:
           - minor
           - patch
-    ignore:
-      # Held until the ESLint-to-oxlint card. TypeScript 7 waits for the same card.
-      - dependency-name: eslint
-      - dependency-name: "@typescript-eslint/*"
-      - dependency-name: eslint-plugin-*
-      - dependency-name: typescript
-        update-types:
-          - version-update:semver-major
 
   - package-ecosystem: github-actions
     directory: /
