@@ -2,6 +2,8 @@ import { onCleanup } from "solid-js";
 
 export type DragKind = "erase" | "pan" | "put";
 
+export const pickAxe: ISelectedItem = { id: "pick-axe", type: "tool" };
+
 export const dragKindByButton: Record<number, DragKind | undefined> = {
   0: "put",
   1: "pan",

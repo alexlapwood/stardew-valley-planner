@@ -2,8 +2,10 @@ import { mergeDeep } from "immutable";
 
 import { farmLayouts } from "../../data/sdv.json";
 import { getSeason } from "../../helpers/date";
-import { forEachTileInRegion } from "../../helpers/farm";
-import { checkEquipmentToInstall } from "../../helpers/itemPlacement";
+import {
+  equipmentForRegion,
+  installableEquipmentByTile,
+} from "../../helpers/equipmentPlacement";
 import { renderItemsToContext } from "../../helpers/renderItems";
 import { renderSelectedRegion } from "../../helpers/renderSelection";
 import {
@@ -12,13 +14,7 @@ import {
   renderSoilToContext,
   renderWateredSoilToContext,
 } from "../../helpers/renderTileMaps";
-
-export interface IRegion {
-  x1: number;
-  x2: number;
-  y1: number;
-  y2: number;
-}
+import type { IRegion } from "./Farm.region";
 
 interface IFarmCanvasState {
   crops: IFarmCrops;
@@ -55,35 +51,11 @@ function getPotentialEquipment(
     return undefined;
   }
 
-  const equipmentToInstallList: IInstalledEquipment[] = [];
-  forEachTileInRegion(highlightedRegion, (x, y) => {
-    equipmentToInstallList.push({
-      dateInstalled: date,
-      equipmentId: selectedItem.id,
-      skinIndex: selectedItem.skinIndex ?? 0,
-      type: "equipment",
-      x,
-      y,
-    });
-  });
-
-  const { installableEquipment } = checkEquipmentToInstall(
-    equipmentToInstallList,
+  return installableEquipmentByTile(
+    equipmentForRegion(selectedItem, highlightedRegion, date),
     currentItems,
     farmLayout,
   );
-
-  let newEquipment: IFarmEquipment = {};
-
-  installableEquipment.forEach((equipmentToInstall) => {
-    newEquipment = mergeDeep(newEquipment, {
-      [equipmentToInstall.y]: {
-        [equipmentToInstall.x]: [equipmentToInstall],
-      },
-    });
-  });
-
-  return newEquipment;
 }
 
 export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {

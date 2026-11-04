@@ -1,6 +1,11 @@
 import { type Accessor, createMemo } from "solid-js";
 
-import type { IRegion } from "./Farm.canvas";
+export interface IRegion {
+  x1: number;
+  x2: number;
+  y1: number;
+  y2: number;
+}
 
 export interface IMousePosition {
   // Left and top are used for updating the cursor position

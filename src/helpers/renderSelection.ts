@@ -1,3 +1,4 @@
+import { equipmentForRegion } from "./equipmentPlacement";
 import {
   forEachTileInRegion,
   getCropsAtLocation,
@@ -59,18 +60,11 @@ export function renderSelectedRegion(
   }
 
   if (selectedItem.type === "equipment") {
-    const equipmentToInstallList: IInstalledEquipment[] = [];
-
-    forEachTileInRegion(highlightedRegion, (x, y) => {
-      equipmentToInstallList.push({
-        dateInstalled: date,
-        equipmentId: selectedItem.id,
-        skinIndex: selectedItem.skinIndex ?? 0,
-        type: "equipment",
-        x,
-        y,
-      });
-    });
+    const equipmentToInstallList = equipmentForRegion(
+      selectedItem,
+      highlightedRegion,
+      date,
+    );
 
     const { installableEquipment, notInstallableEquipment } =
       checkEquipmentToInstall(
