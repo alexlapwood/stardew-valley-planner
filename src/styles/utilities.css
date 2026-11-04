@@ -1,0 +1,53 @@
+.flex-horizontal {
+  display: flex;
+}
+
+.flex-vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex {
+  flex: 1;
+  min-width: 0;
+}
+
+.flex-no-shrink {
+  flex-shrink: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.relative {
+  position: relative;
+}
+
+.margin-bottom,
+.margin-vertical,
+.margin {
+  margin-bottom: 8px;
+}
+
+.margin-left,
+.margin-horizontal,
+.margin {
+  margin-left: 8px;
+}
+
+.margin-right,
+.margin-horizontal,
+.margin {
+  margin-right: 8px;
+}
+
+.margin-top,
+.margin-vertical,
+.margin {
+  margin-top: 8px;
+}

@@ -1,3 +1,5 @@
-.SideMenu {
-  height: 100%;
+@layer components {
+  .SideMenu {
+    height: 100%;
+  }
 }

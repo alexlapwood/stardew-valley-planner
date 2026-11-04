@@ -1,0 +1,24 @@
+body {
+  margin: 0;
+}
+
+.pageStardewValleySeasonalPlanner {
+  overscroll-behavior: none;
+  image-rendering: pixelated;
+  font-family: monospace;
+  font-size: 8px;
+
+  & * {
+    box-sizing: border-box;
+    image-rendering: pixelated;
+    cursor: url("../images/cursor.png"), default;
+  }
+}
+
+button {
+  background: none;
+  border: none;
+  margin: 0;
+  outline: none;
+  padding: 0;
+}

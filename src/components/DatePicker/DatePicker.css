@@ -1,46 +1,48 @@
-.DatePicker {
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  top: 8px;
-  transition: opacity 0.3s;
-}
+@layer components {
+  .DatePicker {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    top: 8px;
+    transition: opacity 0.3s;
+  }
 
-.DatePicker.disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}
+  .DatePicker.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 
-.DatePicker .flex-horizontal {
-  align-items: center;
-}
+  .DatePicker .flex-horizontal {
+    align-items: center;
+  }
 
-.DatePicker--day {
-  margin: -5px 0;
-}
+  .DatePicker--day {
+    margin: -5px 0;
+  }
 
-.DatePicker--day-text {
-  width: 48px;
-}
+  .DatePicker--day-text {
+    width: 48px;
+  }
 
-.DatePicker--day-slider {
-  padding: 0 4px 0 0;
-  z-index: 0;
-}
+  .DatePicker--day-slider {
+    padding: 0 4px 0 0;
+    z-index: 0;
+  }
 
-.DatePicker--season {
-  overflow: hidden;
-  padding: 1px 16px;
-}
+  .DatePicker--season {
+    overflow: hidden;
+    padding: 1px 16px;
+  }
 
-.DatePicker--year {
-  margin: -5px 0;
-}
+  .DatePicker--year {
+    margin: -5px 0;
+  }
 
-.DatePicker--year-text {
-  width: 64px;
-}
+  .DatePicker--year-text {
+    width: 64px;
+  }
 
-.DatePicker--year .BigText {
-  margin: 0 8px;
+  .DatePicker--year .BigText {
+    margin: 0 8px;
+  }
 }

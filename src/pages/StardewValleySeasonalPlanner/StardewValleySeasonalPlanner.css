@@ -1,0 +1,10 @@
+@layer components {
+  .pageStardewValleySeasonalPlanner {
+    grid-area: body;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    width: 800px;
+    transform-origin: 0 0;
+  }
+}

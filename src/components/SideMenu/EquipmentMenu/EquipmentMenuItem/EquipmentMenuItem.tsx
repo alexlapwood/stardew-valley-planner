@@ -152,7 +152,7 @@ export default function EquipmentMenuItem(props: IProps) {
         }}
       >
         <div class="sdv-list-item-icon">{sprite}</div>
-        <div class="sdv-list-item-text flex margin-right">
+        <div class="flex margin-right">
           <BigText>{equipment[props.equipmentId].skins[skinIndex]}</BigText>
         </div>
 

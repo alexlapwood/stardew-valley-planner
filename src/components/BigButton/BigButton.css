@@ -1,3 +1,5 @@
-.BigButton {
-  margin: -5px 0;
+@layer components {
+  .BigButton {
+    margin: -5px 0;
+  }
 }

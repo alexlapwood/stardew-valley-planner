@@ -1,18 +1,20 @@
-.Farm {
-  flex: 1;
-  height: 100%;
-  display: inline-block;
-  position: relative;
-  overflow: auto;
-  overscroll-behavior: none;
-  width: 100%;
-  -webkit-overflow-scrolling: touch;
-}
+@layer components {
+  .Farm {
+    flex: 1;
+    height: 100%;
+    display: inline-block;
+    position: relative;
+    overflow: auto;
+    overscroll-behavior: none;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
 
-.Farm--canvas-wrapper {
-  transform-origin: 0 0;
-}
+  .Farm--canvas-wrapper {
+    transform-origin: 0 0;
+  }
 
-.Farm--canvas {
-  display: block;
+  .Farm--canvas {
+    display: block;
+  }
 }

@@ -1,0 +1,82 @@
+input[type="range"] {
+  appearance: none;
+  background: none;
+  margin: 0;
+  outline: none;
+  vertical-align: top;
+  width: 100%;
+
+  /*
+   * No side border width, so the WebKit thumb travels the full track width
+   * like the old ::before track did. border-image-width still draws the sides.
+   */
+  &::-webkit-slider-runnable-track {
+    background: #bdac8f;
+    background-clip: padding-box;
+    border-image: url("../images/slider-border.png") 2 stretch;
+    border-image-width: 2px;
+    border-style: solid;
+    border-width: 2px 0;
+    box-sizing: border-box;
+    height: 6px;
+  }
+
+  &::-moz-range-track {
+    background: #bdac8f;
+    background-clip: padding-box;
+    border-image: url("../images/slider-border.png") 2 stretch;
+    border-image-width: 2px;
+    border-style: solid;
+    border-width: 2px 0;
+    box-sizing: border-box;
+    height: 6px;
+  }
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    background: url("../images/slider-thumb.png");
+    height: 6px;
+    /* WebKit puts the thumb at the top of the track content box, not the centre. */
+    margin: -2px 0;
+    width: 10px;
+  }
+
+  &::-moz-range-thumb {
+    background: url("../images/slider-thumb.png");
+    height: 6px;
+    width: 10px;
+  }
+}
+
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+::-webkit-scrollbar-corner {
+  background: black;
+}
+
+::-webkit-scrollbar-track {
+  background: #bdac8f;
+  background-clip: padding-box;
+  border: solid;
+  border-width: 2px;
+  border-image: url("../images/slider-border.png") 2 stretch;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #de7b00;
+  background-clip: padding-box;
+  border: solid;
+  border-width: 3px;
+  border-image: url("../images/slider-thumb-border.png") 3 stretch;
+}
+
+/* Chrome 121+ ignores ::-webkit-scrollbar once scrollbar-color or scrollbar-width is set. */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-color: #de7b00 #bdac8f;
+    scrollbar-width: thin;
+  }
+}

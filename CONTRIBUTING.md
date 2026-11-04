@@ -78,8 +78,8 @@ git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 **CSS tooling**
 
-- PostCSS + Autoprefixer
-- Sass
+- Plain CSS with cascade layers. `src/styles/index.css` sets the layer order.
+- Lightning CSS, through Vite, flattens nesting, adds vendor prefixes and minifies.
 
 **JS framework**
 

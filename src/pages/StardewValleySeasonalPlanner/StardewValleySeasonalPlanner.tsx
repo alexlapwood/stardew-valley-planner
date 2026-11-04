@@ -1,4 +1,4 @@
-import "./StardewValleySeasonalPlanner.scss";
+import "./StardewValleySeasonalPlanner.css";
 
 import { type Component, createSignal, type JSX, onMount } from "solid-js";
 

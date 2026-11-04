@@ -112,7 +112,7 @@ export default function SeedMenu(props: IProps) {
                   y={0}
                 />
               </div>
-              <div class="sdv-list-item-text">
+              <div>
                 <BigText>{crops[cropId].name}</BigText>
               </div>
             </div>

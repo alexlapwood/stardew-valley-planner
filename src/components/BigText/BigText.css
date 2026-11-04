@@ -1,3 +1,5 @@
-.BigText {
-  height: 12px;
+@layer components {
+  .BigText {
+    height: 12px;
+  }
 }

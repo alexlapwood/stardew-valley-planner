@@ -16,7 +16,7 @@ export default function EquipmentMenu(props: IProps) {
           openFarm();
         }}
       >
-        <div class="sdv-list-item-text flex margin-right">
+        <div class="flex margin-right">
           <BigText>Open</BigText>
         </div>
       </div>
@@ -26,7 +26,7 @@ export default function EquipmentMenu(props: IProps) {
           saveFarm();
         }}
       >
-        <div class="sdv-list-item-text flex margin-right">
+        <div class="flex margin-right">
           <BigText>Save</BigText>
         </div>
       </div>

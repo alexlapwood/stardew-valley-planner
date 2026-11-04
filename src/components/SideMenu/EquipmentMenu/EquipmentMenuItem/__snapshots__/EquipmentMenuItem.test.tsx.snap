@@ -20,7 +20,7 @@ exports[`<EquipmentMenuItem /> > renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="sdv-list-item-text flex margin-right"
+        class="flex margin-right"
       >
         <div
           class="BigText"

@@ -1,7 +1,10 @@
-import autoprefixer from "autoprefixer";
 import { VitePWA } from "vite-plugin-pwa";
 import solidPlugin from "vite-plugin-solid";
 import { defineConfig } from "vitest/config";
+
+function lightningcssVersion(major: number, minor = 0) {
+  return (major << 16) | (minor << 8);
+}
 
 export default defineConfig({
   build: {
@@ -9,9 +12,17 @@ export default defineConfig({
   },
 
   css: {
-    postcss: {
-      plugins: [autoprefixer],
+    lightningcss: {
+      // Same browsers as Vite's default build target ("baseline-widely-available").
+      targets: {
+        chrome: lightningcssVersion(111),
+        edge: lightningcssVersion(111),
+        firefox: lightningcssVersion(114),
+        ios_saf: lightningcssVersion(16, 4),
+        safari: lightningcssVersion(16, 4),
+      },
     },
+    transformer: "lightningcss",
   },
 
   plugins: [
