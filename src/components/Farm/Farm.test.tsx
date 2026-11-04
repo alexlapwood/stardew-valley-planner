@@ -138,6 +138,20 @@ function getHighlightedTiles(colour: "green" | "grey" | "red") {
     .map(([, x, y]) => [x / 16, y / 16]);
 }
 
+function getDrawnEquipmentSprites() {
+  return drawImage.mock.calls
+    .filter(
+      ([image]) =>
+        image instanceof HTMLImageElement &&
+        image.src.includes("equipment-sheet"),
+    )
+    .map(([, ...rects]) => rects);
+}
+
+function tallSpriteOnTile(x: number, y: number) {
+  return [x * 16, (y - 1) * 16, 16, 32];
+}
+
 function isPanCursorShown() {
   return document.documentElement.classList.contains("farm-panning");
 }
@@ -259,6 +273,49 @@ describe("doing things with a selected region", () => {
         regionTiles.map(([x, y]) => scarecrow(x, y, { dateInstalled: date })),
       ),
     );
+  });
+
+  it("previews the selected equipment on the hovered tile without installing it", () => {
+    render(() => (
+      <Farm
+        currentFarm="Test"
+        date={date}
+        images={mockImages}
+        selectedItem={{ id: "scarecrow", type: "equipment" }}
+        zoom={1}
+      />
+    ));
+
+    const canvas = screen.getByTestId("farm-canvas");
+    drawImage.mockClear();
+    fireEvent.mouseMove(canvas, pointOnTile(3, 2));
+
+    const scarecrowSprite = [0, 0, 16, 32];
+    expect(getDrawnEquipmentSprites()).toEqual([
+      [...scarecrowSprite, ...tallSpriteOnTile(3, 2)],
+    ]);
+    expect(equipment()).toEqual({});
+  });
+
+  it("installs equipment beside a growing crop but not on it", () => {
+    setCrops(byTile([parsnip(0, 0)]));
+
+    render(() => (
+      <Farm
+        currentFarm="Test"
+        date={date}
+        images={mockImages}
+        selectedItem={{ id: "scarecrow", type: "equipment" }}
+        zoom={1}
+      />
+    ));
+
+    dragAcrossTiles([0, 0], [1, 0]);
+
+    expect(equipment()).toEqual(
+      byTile([scarecrow(1, 0, { dateInstalled: date })]),
+    );
+    expect(crops()).toEqual(byTile([parsnip(0, 0)]));
   });
 
   it("can destroy equipment", () => {
