@@ -167,7 +167,13 @@ beforeEach(() => {
   const context = {
     clearRect,
     drawImage,
+    fillRect: vi.fn(),
+    fillStyle: "#000000",
+    globalAlpha: 1,
+    globalCompositeOperation: "source-over",
     imageSmoothingEnabled: true,
+    restore: vi.fn(),
+    save: vi.fn(),
   };
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(
     context as unknown as CanvasRenderingContext2D,
@@ -1029,5 +1035,129 @@ describe("drawing the farm", () => {
     expect(getHighlightedTiles("green")).toEqual([]);
     expect(getHighlightedTiles("grey")).toEqual([]);
     expect(getHighlightedTiles("red")).toEqual([]);
+  });
+});
+
+interface IFloorLook {
+  variant?: number;
+  x: number;
+  y: number;
+}
+
+function byPosition(a: IFloorLook, b: IFloorLook) {
+  return a.x - b.x || a.y - b.y;
+}
+
+function renderFarmWithFloorSelected(skin: string) {
+  render(() => (
+    <Farm
+      currentFarm="Test"
+      date={date}
+      images={mockImages}
+      selectedItem={{ id: "flooring", skin, type: "equipment" }}
+      zoom={1}
+    />
+  ));
+
+  return screen.getByTestId("farm-canvas");
+}
+
+function mockRandomLooks() {
+  let picks = 0;
+
+  return vi.spyOn(Math, "random").mockImplementation(() => {
+    picks += 1;
+
+    return ((picks * 5) % 16) / 16;
+  });
+}
+
+function getDrawnSteppingStoneLooks(): IFloorLook[] {
+  const variants = items.flooring.floorDrawing?.variants ?? [];
+  const block = items.flooring.skins.stepping_stone_path?.floor?.block;
+  const [blockX, blockY] = block ?? [0, 0];
+
+  return drawImage.mock.calls
+    .filter(
+      ([image]) =>
+        image instanceof HTMLImageElement &&
+        image.src.includes(atlasUrls.flooring),
+    )
+    .map(([, sx, sy, , , dx, dy]) => {
+      const tile = (sx - blockX) / 16 + ((sy - blockY) / 16) * 16;
+
+      return { variant: variants.indexOf(tile), x: dx / 16, y: dy / 16 };
+    })
+    .toSorted(byPosition);
+}
+
+function getPlacedFloors() {
+  return Object.values(equipment())
+    .flatMap((row) => Object.values(row).flat())
+    .toSorted(byPosition);
+}
+
+function getPlacedLooks(): IFloorLook[] {
+  return getPlacedFloors().map(({ variant, x, y }) => ({ variant, x, y }));
+}
+
+function previewDragTo(canvas: HTMLElement, x: number, y: number) {
+  drawImage.mockClear();
+  fireEvent.mouseMove(canvas, {
+    buttons: buttonsBitByButton[leftButton],
+    ...pointOnTile(x, y),
+  });
+
+  return getDrawnSteppingStoneLooks();
+}
+
+describe("placing floors", () => {
+  it("gives each new Stepping Stone tile one look for the whole drag, and puts down the look of the preview", () => {
+    const random = mockRandomLooks();
+    const canvas = renderFarmWithFloorSelected("stepping_stone_path");
+
+    fireEvent.mouseMove(canvas, pointOnTile(0, 0));
+    fireEvent.mouseDown(canvas, { button: leftButton, ...pointOnTile(0, 0) });
+    const firstPreview = previewDragTo(canvas, 1, 1);
+    previewDragTo(canvas, 1, 0);
+    const lastPreview = previewDragTo(canvas, 1, 1);
+
+    expect(random).toHaveBeenCalledTimes(4);
+    expect(lastPreview).toEqual(firstPreview);
+    expect(new Set(lastPreview.map(({ variant }) => variant)).size).toBe(4);
+
+    fireEvent.mouseUp(canvas, { button: leftButton, ...pointOnTile(1, 1) });
+
+    expect(getPlacedLooks()).toEqual(lastPreview);
+  });
+
+  it("picks a new look for a tile after a drag puts the floor down", () => {
+    mockRandomLooks();
+    renderFarmWithFloorSelected("stepping_stone_path");
+
+    dragAcrossTiles([0, 0], [0, 0]);
+    dragAcrossTiles([0, 0], [0, 0], rightButton);
+    dragAcrossTiles([0, 0], [0, 0]);
+
+    const [erased, placed] = getPlacedLooks();
+
+    expect(erased.variant).toEqual(expect.any(Number));
+    expect(placed.variant).toEqual(expect.any(Number));
+    expect(placed.variant).not.toBe(erased.variant);
+  });
+
+  it("does not give a look to a floor that does not connect at random", () => {
+    const random = mockRandomLooks();
+
+    renderFarmWithFloorSelected("wood_floor");
+    dragAcrossTiles([0, 0], [1, 1]);
+
+    const placedFloors = getPlacedFloors();
+
+    expect(placedFloors).toHaveLength(4);
+    placedFloors.forEach((placedFloor) => {
+      expect(placedFloor).not.toHaveProperty("variant");
+    });
+    expect(random).not.toHaveBeenCalled();
   });
 });

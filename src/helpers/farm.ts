@@ -179,12 +179,12 @@ export function getSoilMap(
   return soilMap;
 }
 
-function getSkinMap(
+function getEquipmentMap(
   farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number,
   isWanted: (equipmentId: string) => boolean,
 ) {
-  const skinMap: string[][] = [];
+  const equipmentMap: IInstalledEquipment[][] = [];
 
   forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, (farmItem) => {
     if (
@@ -195,28 +195,30 @@ function getSkinMap(
       return;
     }
 
-    if (skinMap[farmItem.x] === undefined) {
-      skinMap[farmItem.x] = [];
+    if (equipmentMap[farmItem.x] === undefined) {
+      equipmentMap[farmItem.x] = [];
     }
 
-    skinMap[farmItem.x][farmItem.y] = farmItem.skin;
+    equipmentMap[farmItem.x][farmItem.y] = farmItem;
   });
 
-  return skinMap;
+  return equipmentMap;
 }
 
 export function getFlooringMap(
   currentEquipment: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number,
 ) {
-  return getSkinMap(currentEquipment, date, isFloorItem);
+  return getEquipmentMap(currentEquipment, date, isFloorItem);
 }
 
 export function getFenceMap(
   currentEquipment: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number,
 ) {
-  return getSkinMap(currentEquipment, date, isFenceItem);
+  return getEquipmentMap(currentEquipment, date, isFenceItem).map((column) =>
+    column.map(({ skin }) => skin),
+  );
 }
 
 export function getScarecrowMap(

@@ -32,6 +32,7 @@ interface IInstalledEquipment {
   equipmentId: string;
   skin: string;
   type: "equipment";
+  variant?: number;
   x: number;
   y: number;
 }

@@ -1,4 +1,5 @@
 import { crops as cropDetails } from "../data/game/crops.json";
+import { isFloorVariant } from "../helpers/floorVariant";
 import { hasSkin, isItem } from "../helpers/items";
 import { migrateCropCellV1, migrateEquipmentCellV1 } from "./farmMigration";
 
@@ -126,6 +127,18 @@ function keepCell(cell: Cell) {
   return cell;
 }
 
+// A bad variant is dropped, not the cell, because the draw code has a
+// fallback look for a floor cell with no variant.
+function withoutBadVariant(cell: Cell) {
+  if (cell.variant === undefined || isFloorVariant(cell.variant)) {
+    return cell;
+  }
+
+  const { variant: _variant, ...rest } = cell;
+
+  return rest;
+}
+
 // V1 data has no version field.
 export function readFarmData(value: unknown) {
   if (
@@ -136,6 +149,7 @@ export function readFarmData(value: unknown) {
   }
 
   const isV1 = value.version === undefined;
+  const migrateEquipmentCell = isV1 ? migrateEquipmentCellV1 : keepCell;
   const crops = keepGoodCells(
     "crops",
     value.crops,
@@ -146,7 +160,13 @@ export function readFarmData(value: unknown) {
     "equipment",
     value.equipment,
     isEquipmentCell,
-    isV1 ? migrateEquipmentCellV1 : keepCell,
+    (cell) => {
+      const migratedCell = migrateEquipmentCell(cell);
+
+      return migratedCell === undefined
+        ? undefined
+        : withoutBadVariant(migratedCell);
+    },
   );
   const farm: IFarmData = {
     crops: crops.goodItems,

@@ -63,9 +63,22 @@ interface IFenceSkin {
   gate: boolean;
 }
 
+interface IFloorCorners<T> {
+  ne: T;
+  nw: T;
+  se: T;
+  sw: T;
+}
+
+interface IFloorCornerPatch {
+  at: [x: number, y: number];
+  source: TSpriteRect;
+}
+
 interface IFloorSkin {
   block: TSpriteRect;
   connectType: string;
+  corners?: IFloorCorners<IFloorCornerPatch>;
   cornerSize: number;
   id: string;
   shadowType: string;
@@ -112,12 +125,31 @@ interface IFenceDrawing {
   neighbours: ISideValues;
 }
 
+interface IFloorNeighbours extends ISideValues {
+  ne: number;
+  nw: number;
+  se: number;
+  sw: number;
+}
+
+interface IFloorCornerRule {
+  empty: keyof IFloorNeighbours;
+  needs: (keyof IFloorNeighbours)[];
+}
+
+interface IFloorShadow {
+  offset: TTileOffset;
+  opacity: number;
+}
+
 interface IFloorDrawing {
+  corners: IFloorCorners<IFloorCornerRule>;
   drawGuide: Partial<Record<string, number>>;
-  neighbours: ISideValues;
-  randomViews: number[];
+  neighbours: IFloorNeighbours;
+  shadow: IFloorShadow;
   tileSize: number;
   tilesPerRow: number;
+  variants: number[];
 }
 
 interface IItem {

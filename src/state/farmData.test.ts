@@ -288,6 +288,52 @@ describe("Farm data", () => {
         expect(isGoodFarm(farmWithEquipment(theory))).toBe(false);
       });
     });
+
+    describe("floor variants", () => {
+      const steppingStone = {
+        ...validEquipment,
+        equipmentId: "flooring",
+        skin: "stepping_stone_path",
+      };
+
+      it("keeps a variant from 0 to 15", () => {
+        [0, 7, 15].forEach((variant) => {
+          const cell = { ...steppingStone, variant };
+
+          expect(readFarmData(farmWithEquipment(cell))).toEqual({
+            badItems: [],
+            farm: { crops: {}, date: 0, equipment: { 3: { 7: [cell] } } },
+          });
+        });
+      });
+
+      it("drops a variant that is not a whole number from 0 to 15, and keeps the cell", () => {
+        const theories = [-1, 16, 2.5, "3", null, true];
+
+        theories.forEach((theory) => {
+          expect(
+            readFarmData(
+              farmWithEquipment({ ...steppingStone, variant: theory }),
+            ),
+          ).toEqual({
+            badItems: [],
+            farm: {
+              crops: {},
+              date: 0,
+              equipment: { 3: { 7: [steppingStone] } },
+            },
+          });
+        });
+      });
+
+      it("does not add a variant to a cell that has none", () => {
+        const cell = readFarmData(farmWithEquipment(steppingStone))?.farm
+          .equipment[3][7][0];
+
+        expect(cell).toEqual(steppingStone);
+        expect(cell).not.toHaveProperty("variant");
+      });
+    });
   });
 
   describe("toSavedFarmData", () => {

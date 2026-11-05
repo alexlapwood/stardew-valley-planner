@@ -1,7 +1,4 @@
-import { items } from "../data/game/items.json";
-import { getSeason } from "./date";
-import { getFlooringMap, getScarecrowMap, getSoilMap } from "./farm";
-import { getItemSkin } from "./items";
+import { getScarecrowMap, getSoilMap } from "./farm";
 
 interface INeighbours {
   e: boolean;
@@ -116,51 +113,5 @@ export function renderScarecrowProtectionToContext(
 
   forEachTileInMap(scarecrowProtectedSoilMap, (tileValue, neighbours, x, y) => {
     context.drawImage(tileset, 0, 0, 16, 16, x * 16, y * 16, 16, 16);
-  });
-}
-
-export function renderFlooringToContext(
-  context: CanvasRenderingContext2D,
-  tilesets: { flooring: CanvasImageSource; flooringWinter: CanvasImageSource },
-  farmItems: IFarmEquipment,
-  date: number,
-) {
-  const { floorDrawing } = items.flooring;
-
-  if (floorDrawing === undefined) {
-    return;
-  }
-
-  const isWinter = getSeason(date) === 3;
-  const flooringMap = getFlooringMap(farmItems, date);
-
-  forEachTileInMap(flooringMap, (skin, neighbours, x, y) => {
-    const floor = getItemSkin("flooring", skin)?.floor;
-
-    if (floor === undefined) {
-      return;
-    }
-
-    const mask =
-      floorDrawing.neighbours.n * +neighbours.n +
-      floorDrawing.neighbours.e * +neighbours.e +
-      floorDrawing.neighbours.s * +neighbours.s +
-      floorDrawing.neighbours.w * +neighbours.w;
-    const tile = floorDrawing.drawGuide[String(mask)] ?? 0;
-    const winterBlock = isWinter ? floor.winterBlock : undefined;
-    const [blockX, blockY] = winterBlock ?? floor.block;
-    const { tilesPerRow, tileSize } = floorDrawing;
-
-    context.drawImage(
-      winterBlock === undefined ? tilesets.flooring : tilesets.flooringWinter,
-      blockX + (tile % tilesPerRow) * tileSize,
-      blockY + Math.floor(tile / tilesPerRow) * tileSize,
-      tileSize,
-      tileSize,
-      x * 16,
-      y * 16,
-      tileSize,
-      tileSize,
-    );
   });
 }

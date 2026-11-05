@@ -6,6 +6,7 @@ import {
   installableEquipmentByTile,
 } from "../../helpers/equipmentPlacement";
 import { forEachTileInRegion } from "../../helpers/farm";
+import type { TPickFloorVariant } from "../../helpers/floorVariant";
 import {
   checkCropsToPlant,
   destroyCrops,
@@ -18,6 +19,7 @@ import type { IRegion } from "./Farm.region";
 interface IFarmEditState {
   currentFarm: string;
   date: number;
+  pickFloorVariant: TPickFloorVariant;
 }
 
 function plantCrops(cropsToPlant: IPlantedCrop[], currentFarm: string) {
@@ -83,7 +85,7 @@ function eraseRegion(highlightedRegion: IRegion, date: number) {
 export function applyItem(
   selectedItem: ISelectedItem,
   highlightedRegion: IRegion,
-  { currentFarm, date }: IFarmEditState,
+  { currentFarm, date, pickFloorVariant }: IFarmEditState,
 ) {
   if (selectedItem.type === "crop") {
     const cropsToPlant: IPlantedCrop[] = [];
@@ -102,7 +104,12 @@ export function applyItem(
 
   if (selectedItem.type === "equipment") {
     installEquipment(
-      equipmentForRegion(selectedItem, highlightedRegion, date),
+      equipmentForRegion(
+        selectedItem,
+        highlightedRegion,
+        date,
+        pickFloorVariant,
+      ),
       currentFarm,
     );
   }

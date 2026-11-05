@@ -22,8 +22,22 @@ exports[`Farm helper > getFlooringMap > creates a flooring map from the current 
   [
     ,
     ,
-    "wood_floor",
-    "wood_floor",
+    {
+      "dateInstalled": 0,
+      "equipmentId": "flooring",
+      "skin": "wood_floor",
+      "type": "equipment",
+      "x": 3,
+      "y": 2,
+    },
+    {
+      "dateInstalled": 0,
+      "equipmentId": "flooring",
+      "skin": "wood_floor",
+      "type": "equipment",
+      "x": 3,
+      "y": 3,
+    },
   ],
 ]
 `;

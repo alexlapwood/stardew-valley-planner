@@ -7,10 +7,11 @@ import {
   equipmentForRegion,
   installableEquipmentByTile,
 } from "../../helpers/equipmentPlacement";
+import type { TPickFloorVariant } from "../../helpers/floorVariant";
+import { renderFloorsToContext } from "../../helpers/renderFloors";
 import { renderItemsToContext } from "../../helpers/renderItems";
 import { renderSelectedRegion } from "../../helpers/renderSelection";
 import {
-  renderFlooringToContext,
   renderScarecrowProtectionToContext,
   renderSoilToContext,
   renderWateredSoilToContext,
@@ -24,16 +25,13 @@ interface IFarmCanvasState {
   equipment: IFarmEquipment;
   highlightedRegion?: IRegion;
   images: HTMLImageElement[];
+  pickFloorVariant: TPickFloorVariant;
   selectedItem?: ISelectedItem;
 }
 
-function getPotentialEquipment(
-  highlightedRegion: IRegion | undefined,
-  selectedItem: ISelectedItem | undefined,
-  date: number,
-  currentItems: { currentCrops: IFarmCrops; currentEquipment: IFarmEquipment },
-  farmLayout: string[],
-) {
+function getPotentialEquipment(state: IFarmCanvasState, farmLayout: string[]) {
+  const { crops, date, equipment, highlightedRegion, selectedItem } = state;
+
   if (
     highlightedRegion === undefined ||
     selectedItem === undefined ||
@@ -43,8 +41,13 @@ function getPotentialEquipment(
   }
 
   return installableEquipmentByTile(
-    equipmentForRegion(selectedItem, highlightedRegion, date),
-    currentItems,
+    equipmentForRegion(
+      selectedItem,
+      highlightedRegion,
+      date,
+      state.pickFloorVariant,
+    ),
+    { currentCrops: crops, currentEquipment: equipment },
     farmLayout,
   );
 }
@@ -87,14 +90,15 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
 
   context.drawImage(images.background, 0, 0);
 
-  const potentialEquipment =
-    getPotentialEquipment(
-      highlightedRegion,
-      state.selectedItem,
-      date,
-      { currentCrops: crops, currentEquipment: equipment },
-      farmLayout,
-    ) ?? {};
+  const potentialEquipment = getPotentialEquipment(state, farmLayout) ?? {};
+
+  renderFloorsToContext(
+    context,
+    images,
+    mergeDeep(equipment, potentialEquipment),
+    date,
+    { height: canvasHeight / 16, width: canvasWidth / 16 },
+  );
 
   renderSoilToContext(
     context,
@@ -109,13 +113,6 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
     season === "winter" ? images.hoeDirtSnow : images.hoeDirt,
     mergeDeep(equipment, potentialEquipment),
     farmLayout,
-    date,
-  );
-
-  renderFlooringToContext(
-    context,
-    images,
-    mergeDeep(equipment, potentialEquipment),
     date,
   );
 

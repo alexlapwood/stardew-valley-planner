@@ -2,6 +2,7 @@ import "./Farm.css";
 
 import { createEffect, onMount } from "solid-js";
 
+import { createFloorVariantPicker } from "../../helpers/floorVariant";
 import { crops, equipment } from "../../state/farm";
 import { drawFarm } from "./Farm.canvas";
 import { applyItem } from "./Farm.edit";
@@ -30,6 +31,11 @@ export default function Farm(props: IProps) {
   const farmWidth = 80;
   const farmHeight = 65;
 
+  // The preview and the placement share these picks until the drag puts the
+  // floor down, so the preview does not flicker and the placed floor looks
+  // like the preview.
+  const floorVariants = createFloorVariantPicker();
+
   const {
     getActiveItem,
     highlightedRegion,
@@ -46,7 +52,9 @@ export default function Farm(props: IProps) {
       applyItem(item, region, {
         currentFarm: props.currentFarm,
         date: props.date,
+        pickFloorVariant: floorVariants.pick,
       });
+      floorVariants.reset();
     },
     scrollView: () => farmRef,
     selectedItem: () => props.selectedItem,
@@ -61,6 +69,7 @@ export default function Farm(props: IProps) {
         equipment: equipment(),
         highlightedRegion: highlightedRegion(),
         images: props.images,
+        pickFloorVariant: floorVariants.pick,
         selectedItem: getActiveItem(),
       });
     }

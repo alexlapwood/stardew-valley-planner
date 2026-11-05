@@ -944,6 +944,24 @@
     },
     "flooring": {
       "floorDrawing": {
+        "corners": {
+          "ne": {
+            "empty": "ne",
+            "needs": ["n", "e"]
+          },
+          "nw": {
+            "empty": "nw",
+            "needs": ["n", "w"]
+          },
+          "se": {
+            "empty": "se",
+            "needs": ["e", "s"]
+          },
+          "sw": {
+            "empty": "sw",
+            "needs": ["s", "w"]
+          }
+        },
         "drawGuide": {
           "0": 0,
           "1": 48,
@@ -965,14 +983,20 @@
         "neighbours": {
           "e": 2,
           "n": 1,
+          "ne": 16,
+          "nw": 32,
           "s": 4,
+          "se": 64,
+          "sw": 128,
           "w": 8
         },
-        "randomViews": [
-          0, 1, 2, 3, 16, 17, 18, 19, 32, 33, 34, 35, 48, 49, 50, 51
-        ],
+        "shadow": {
+          "offset": [-1, 1],
+          "opacity": 0.33
+        },
         "tileSize": 16,
-        "tilesPerRow": 16
+        "tilesPerRow": 16,
+        "variants": [0, 1, 2, 3, 16, 17, 18, 19, 32, 33, 34, 35, 48, 49, 50, 51]
       },
       "kind": "floor",
       "name": "Flooring",
@@ -1002,6 +1026,24 @@
             "block": [640, 0, 64, 64],
             "connectType": "Default",
             "cornerSize": 4,
+            "corners": {
+              "ne": {
+                "at": [12, 0],
+                "source": [16, 44, 4, 4]
+              },
+              "nw": {
+                "at": [0, 0],
+                "source": [60, 44, 4, 4]
+              },
+              "se": {
+                "at": [12, 12],
+                "source": [16, 0, 4, 4]
+              },
+              "sw": {
+                "at": [0, 12],
+                "source": [60, 0, 4, 4]
+              }
+            },
             "id": "10",
             "shadowType": "Square",
             "winterBlock": [640, 0, 64, 64]
@@ -1038,6 +1080,24 @@
             "block": [192, 0, 64, 64],
             "connectType": "Default",
             "cornerSize": 4,
+            "corners": {
+              "ne": {
+                "at": [12, 0],
+                "source": [16, 44, 4, 4]
+              },
+              "nw": {
+                "at": [0, 0],
+                "source": [60, 44, 4, 4]
+              },
+              "se": {
+                "at": [12, 12],
+                "source": [16, 0, 4, 4]
+              },
+              "sw": {
+                "at": [0, 12],
+                "source": [60, 0, 4, 4]
+              }
+            },
             "id": "3",
             "shadowType": "Square",
             "winterBlock": [192, 0, 64, 64]
@@ -1123,6 +1183,24 @@
             "block": [64, 0, 64, 64],
             "connectType": "Default",
             "cornerSize": 4,
+            "corners": {
+              "ne": {
+                "at": [12, 0],
+                "source": [16, 44, 4, 4]
+              },
+              "nw": {
+                "at": [0, 0],
+                "source": [60, 44, 4, 4]
+              },
+              "se": {
+                "at": [12, 12],
+                "source": [16, 0, 4, 4]
+              },
+              "sw": {
+                "at": [0, 12],
+                "source": [60, 0, 4, 4]
+              }
+            },
             "id": "1",
             "shadowType": "Square",
             "winterBlock": [64, 0, 64, 64]
@@ -1136,6 +1214,24 @@
             "block": [768, 0, 64, 64],
             "connectType": "CornerDecorated",
             "cornerSize": 6,
+            "corners": {
+              "ne": {
+                "at": [10, 0],
+                "source": [16, 42, 6, 6]
+              },
+              "nw": {
+                "at": [0, 0],
+                "source": [58, 42, 6, 6]
+              },
+              "se": {
+                "at": [10, 10],
+                "source": [16, 0, 6, 6]
+              },
+              "sw": {
+                "at": [0, 10],
+                "source": [58, 0, 6, 6]
+              }
+            },
             "id": "12",
             "shadowType": "Contoured",
             "winterBlock": [768, 0, 64, 64]
@@ -1154,6 +1250,24 @@
             "block": [256, 0, 64, 64],
             "connectType": "Default",
             "cornerSize": 4,
+            "corners": {
+              "ne": {
+                "at": [12, 0],
+                "source": [16, 44, 4, 4]
+              },
+              "nw": {
+                "at": [0, 0],
+                "source": [60, 44, 4, 4]
+              },
+              "se": {
+                "at": [12, 12],
+                "source": [16, 0, 4, 4]
+              },
+              "sw": {
+                "at": [0, 12],
+                "source": [60, 0, 4, 4]
+              }
+            },
             "id": "4",
             "shadowType": "Square",
             "winterBlock": [256, 0, 64, 64]
@@ -1172,6 +1286,24 @@
             "block": [128, 0, 64, 64],
             "connectType": "Default",
             "cornerSize": 4,
+            "corners": {
+              "ne": {
+                "at": [12, 0],
+                "source": [16, 44, 4, 4]
+              },
+              "nw": {
+                "at": [0, 0],
+                "source": [60, 44, 4, 4]
+              },
+              "se": {
+                "at": [12, 12],
+                "source": [16, 0, 4, 4]
+              },
+              "sw": {
+                "at": [0, 12],
+                "source": [60, 0, 4, 4]
+              }
+            },
             "id": "2",
             "shadowType": "Square",
             "winterBlock": [128, 0, 64, 64]
@@ -1190,6 +1322,24 @@
             "block": [0, 0, 64, 64],
             "connectType": "Default",
             "cornerSize": 4,
+            "corners": {
+              "ne": {
+                "at": [12, 0],
+                "source": [16, 44, 4, 4]
+              },
+              "nw": {
+                "at": [0, 0],
+                "source": [60, 44, 4, 4]
+              },
+              "se": {
+                "at": [12, 12],
+                "source": [16, 0, 4, 4]
+              },
+              "sw": {
+                "at": [0, 12],
+                "source": [60, 0, 4, 4]
+              }
+            },
             "id": "0",
             "shadowType": "Square",
             "winterBlock": [0, 0, 64, 64]
