@@ -60,16 +60,18 @@ export default defineConfig({
       },
       registerType: "prompt",
       workbox: {
-        // Game data that the app does not use yet. Some of it is large, so it
-        // must not go into the offline precache.
+        // The app does not load these images, so they would only waste
+        // offline storage.
         globIgnores: [
           "**/node_modules/**/*",
-          "data/game/**",
-          "images/game/tilesheets/**",
-          "images/game/{buildings,events,fertilizer,trees}.png",
+          "images/game/{events,fertilizer,trees}.png",
         ],
-        // Include all assets in the manifest.webmanifest file
-        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        // The farm maps are fetched at runtime, so they must be precached for
+        // every farm to work offline.
+        globPatterns: [
+          "**/*.{js,css,html,ico,png,svg}",
+          "data/game/farms/*.json",
+        ],
       },
     }),
   ],

@@ -40,12 +40,12 @@ export function equipmentForRegion(
 export function installableEquipmentByTile(
   equipmentToInstallList: IInstalledEquipment[],
   currentItems: { currentCrops: IFarmCrops; currentEquipment: IFarmEquipment },
-  farmLayout: string[],
+  farmMap: IFarmMap,
 ) {
   const { installableEquipment } = checkEquipmentToInstall(
     equipmentToInstallList,
     currentItems,
-    farmLayout,
+    farmMap,
   );
 
   let equipmentByTile: IFarmEquipment = {};

@@ -11,11 +11,21 @@
   }
 
   .Farm--canvas-wrapper {
+    position: relative;
     transform-origin: 0 0;
   }
 
+  .Farm--map-canvas {
+    display: block;
+    left: 0;
+    position: absolute;
+    top: 0;
+  }
+
+  /* Positioned, so that it paints over the map canvas before it. */
   .Farm--canvas {
     display: block;
+    position: relative;
   }
 
   /* A pan keeps going off the farm, so every element shows the cursor. */

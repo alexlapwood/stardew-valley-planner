@@ -1,0 +1,14 @@
+{
+  "gameVersion": "1.6.15",
+  "water": {
+    "frameHeight": 16,
+    "frameInterval": 200,
+    "frameWidth": 16,
+    "frames": 10,
+    "image": "water",
+    "rows": 2,
+    "slideLength": 16,
+    "slideSpeed": 1.5,
+    "slideStep": 0.25
+  }
+}

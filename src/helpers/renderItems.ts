@@ -10,6 +10,7 @@ import {
 } from "./farm";
 import { getItem, getItemSkin, getSkinSprite } from "./items";
 import { renderFenceToContext } from "./renderFences";
+import type { ISortedDraw } from "./renderSorted";
 
 interface IItemImages {
   crops: CanvasImageSource;
@@ -17,35 +18,58 @@ interface IItemImages {
   items: CanvasImageSource;
 }
 
-export function renderItemsToContext(
+function getItemDraw(
+  context: CanvasRenderingContext2D,
+  images: IItemImages,
+  farmItem: IPlantedCrop | IInstalledEquipment,
+  fenceMap: string[][],
+  date: number,
+) {
+  if (farmItem.type === "crop") {
+    return isCropHereToday(farmItem, date)
+      ? () => {
+          renderCropToContext(context, images.crops, farmItem, date);
+        }
+      : undefined;
+  }
+
+  if (!isEquipmentHereToday(farmItem, date)) {
+    return undefined;
+  }
+
+  const kind = getItem(farmItem.equipmentId)?.kind;
+
+  if (kind === "fence") {
+    return () => {
+      renderFenceToContext(context, images.fences, farmItem, fenceMap);
+    };
+  }
+
+  return kind === "floor"
+    ? undefined
+    : () => {
+        renderEquipmentToContext(context, images.items, farmItem, date);
+      };
+}
+
+export function getItemDraws(
   context: CanvasRenderingContext2D,
   images: IItemImages,
   farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number,
 ) {
   const fenceMap = getFenceMap(farmItems, date);
+  const draws: ISortedDraw[] = [];
 
   forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, (farmItem) => {
-    if (farmItem.type === "crop") {
-      if (isCropHereToday(farmItem, date)) {
-        renderCropToContext(context, images.crops, farmItem, date);
-      }
+    const draw = getItemDraw(context, images, farmItem, fenceMap, date);
 
-      return;
-    }
-
-    if (!isEquipmentHereToday(farmItem, date)) {
-      return;
-    }
-
-    const kind = getItem(farmItem.equipmentId)?.kind;
-
-    if (kind === "fence") {
-      renderFenceToContext(context, images.fences, farmItem, fenceMap);
-    } else if (kind !== "floor") {
-      renderEquipmentToContext(context, images.items, farmItem, date);
+    if (draw !== undefined) {
+      draws.push({ draw, layer: "item", row: farmItem.y });
     }
   });
+
+  return draws;
 }
 
 export function renderCropToContext(

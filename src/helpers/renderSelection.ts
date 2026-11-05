@@ -15,7 +15,7 @@ export function renderSelectedRegion(
   context: CanvasRenderingContext2D,
   currentCrops: IFarmCrops,
   currentEquipment: IFarmEquipment,
-  currentFarm: string[],
+  farmMap: IFarmMap,
   date: number,
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
   highlightGreenImage: HTMLImageElement,
@@ -39,7 +39,7 @@ export function renderSelectedRegion(
     const { plantableCrops, unplantableCrops } = checkCropsToPlant(
       cropsToPlant,
       { currentCrops, currentEquipment },
-      currentFarm,
+      farmMap,
     );
 
     plantableCrops.forEach((cropToPlant) => {
@@ -73,7 +73,7 @@ export function renderSelectedRegion(
           currentCrops,
           currentEquipment,
         },
-        currentFarm,
+        farmMap,
       );
 
     installableEquipment.forEach((equipmentToInstall) => {

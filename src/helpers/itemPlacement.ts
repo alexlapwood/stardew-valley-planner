@@ -4,6 +4,7 @@ import { crops } from "../data/game/crops.json";
 import { getCropsLastDay } from "./crop";
 import { getCropsAtLocation, getEquipmentAtLocation } from "./farm";
 import { isFloorItem } from "./items";
+import { canInstallAt, canPlantAt } from "./placementRules";
 
 export function checkCropsToPlant(
   cropsToPlant: IPlantedCrop[],
@@ -11,7 +12,7 @@ export function checkCropsToPlant(
     currentCrops: IFarmCrops;
     currentEquipment: IFarmEquipment;
   },
-  currentFarm: string[],
+  farmMap: IFarmMap,
 ) {
   return cropsToPlant.reduce(
     (
@@ -94,13 +95,10 @@ export function checkCropsToPlant(
         },
       );
 
-      const isTryingToPlantInSoil =
-        currentFarm[cropToPlant.y][cropToPlant.x] === " ";
-
       if (
         plantedCropConflict === undefined &&
         installedEquipmentConflict === undefined &&
-        isTryingToPlantInSoil
+        canPlantAt(farmMap, cropToPlant.x, cropToPlant.y)
       ) {
         return mergeDeep(acc, {
           plantableCrops: [cropToPlant],
@@ -118,7 +116,7 @@ export function checkCropsToPlant(
 export function checkEquipmentToInstall(
   equipmentToInstallList: IInstalledEquipment[],
   currentItems: { currentCrops: IFarmCrops; currentEquipment: IFarmEquipment },
-  currentFarm: string[],
+  farmMap: IFarmMap,
 ) {
   return equipmentToInstallList.reduce(
     (
@@ -223,17 +221,15 @@ export function checkEquipmentToInstall(
         dateDestroyed,
       );
 
-      const farmSpot = currentFarm[equipmentToInstall.y][equipmentToInstall.x];
-
-      const canInstallEquipmentHere =
-        farmSpot === " " ||
-        farmSpot === "E" ||
-        (farmSpot === "F" && isFloorItem(equipmentToInstall.equipmentId));
-
       if (
         plantedCropConflictPast === undefined &&
         installedEquipmentConflictPast === undefined &&
-        canInstallEquipmentHere
+        canInstallAt(
+          farmMap,
+          equipmentToInstall,
+          equipmentToInstall.x,
+          equipmentToInstall.y,
+        )
       ) {
         return mergeDeep(acc, {
           installableEquipment: [{ ...equipmentToInstall, dateDestroyed }],

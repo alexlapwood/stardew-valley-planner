@@ -48,10 +48,10 @@ export function renderSoilToContext(
   context: CanvasRenderingContext2D,
   tileset: CanvasImageSource,
   farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
-  currentFarm: string[],
+  farmMap: IFarmMap,
   date: number,
 ) {
-  const soilMap = getSoilMap(farmItems, date, currentFarm);
+  const soilMap = getSoilMap(farmItems, date, farmMap);
 
   forEachTileInMap(soilMap, (tileValue, neighbours, x, y) => {
     const tile = getSoilTile(neighbours);
@@ -74,10 +74,10 @@ export function renderWateredSoilToContext(
   context: CanvasRenderingContext2D,
   tileset: CanvasImageSource,
   farmEquipment: IFarmEquipment,
-  currentFarm: string[],
+  farmMap: IFarmMap,
   date: number,
 ) {
-  const wateredSoilMap = getSoilMap(farmEquipment, date, currentFarm);
+  const wateredSoilMap = getSoilMap(farmEquipment, date, farmMap);
 
   const tileOffset = 4 * 16;
 
@@ -102,13 +102,13 @@ export function renderScarecrowProtectionToContext(
   context: CanvasRenderingContext2D,
   tileset: CanvasImageSource,
   farmEquipment: IFarmEquipment,
-  currentFarm: string[],
+  farmMap: IFarmMap,
   date: number,
 ) {
   const scarecrowProtectedSoilMap = getScarecrowMap(
     farmEquipment,
     date,
-    currentFarm,
+    farmMap,
   );
 
   forEachTileInMap(scarecrowProtectedSoilMap, (tileValue, neighbours, x, y) => {

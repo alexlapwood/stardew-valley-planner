@@ -1,6 +1,5 @@
 import { mergeDeep } from "immutable";
 
-import { farmLayouts } from "../../data/sdv.json";
 import {
   equipmentForRegion,
   installableEquipmentByTile,
@@ -17,19 +16,19 @@ import { pickAxe } from "./Farm.drag";
 import type { IRegion } from "./Farm.region";
 
 interface IFarmEditState {
-  currentFarm: string;
   date: number;
+  farmMap: IFarmMap;
   pickFloorVariant: TPickFloorVariant;
 }
 
-function plantCrops(cropsToPlant: IPlantedCrop[], currentFarm: string) {
+function plantCrops(cropsToPlant: IPlantedCrop[], farmMap: IFarmMap) {
   const { plantableCrops } = checkCropsToPlant(
     cropsToPlant,
     {
       currentCrops: crops(),
       currentEquipment: equipment(),
     },
-    farmLayouts[currentFarm.toLowerCase()],
+    farmMap,
   );
 
   let newCrops: IFarmCrops = {};
@@ -47,7 +46,7 @@ function plantCrops(cropsToPlant: IPlantedCrop[], currentFarm: string) {
 
 function installEquipment(
   equipmentToInstallList: IInstalledEquipment[],
-  currentFarm: string,
+  farmMap: IFarmMap,
 ) {
   const newEquipment = installableEquipmentByTile(
     equipmentToInstallList,
@@ -55,7 +54,7 @@ function installEquipment(
       currentCrops: crops(),
       currentEquipment: equipment(),
     },
-    farmLayouts[currentFarm.toLowerCase()],
+    farmMap,
   );
 
   setEquipment(mergeDeep(equipment(), newEquipment));
@@ -85,7 +84,7 @@ function eraseRegion(highlightedRegion: IRegion, date: number) {
 export function applyItem(
   selectedItem: ISelectedItem,
   highlightedRegion: IRegion,
-  { currentFarm, date, pickFloorVariant }: IFarmEditState,
+  { date, farmMap, pickFloorVariant }: IFarmEditState,
 ) {
   if (selectedItem.type === "crop") {
     const cropsToPlant: IPlantedCrop[] = [];
@@ -99,7 +98,7 @@ export function applyItem(
       });
     });
 
-    plantCrops(cropsToPlant, currentFarm);
+    plantCrops(cropsToPlant, farmMap);
   }
 
   if (selectedItem.type === "equipment") {
@@ -110,7 +109,7 @@ export function applyItem(
         date,
         pickFloorVariant,
       ),
-      currentFarm,
+      farmMap,
     );
   }
 

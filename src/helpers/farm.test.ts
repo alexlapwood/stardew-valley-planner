@@ -1,6 +1,6 @@
 import { mergeDeep } from "immutable";
 
-import testFarm from "../__mocks__/testFarm";
+import { testFarmMap } from "../__mocks__/testFarmMap";
 import {
   forEachFarmItem,
   forEachTileInRegion,
@@ -207,7 +207,7 @@ describe("Farm helper", () => {
       farmItems = mergeDeep(farmItems, currentCrops);
       farmItems = mergeDeep(farmItems, currentEquipment);
 
-      const actual = getSoilMap(farmItems, 0, testFarm);
+      const actual = getSoilMap(farmItems, 0, testFarmMap);
 
       expect(actual).toMatchSnapshot();
     });
@@ -240,7 +240,7 @@ describe("Farm helper", () => {
 
       farmItems = mergeDeep(farmItems, currentEquipment);
 
-      const actual = getSoilMap(farmItems, 0, testFarm);
+      const actual = getSoilMap(farmItems, 0, testFarmMap);
 
       expect(actual).toMatchSnapshot();
     });

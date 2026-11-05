@@ -1,4 +1,5 @@
 export const atlasUrls = {
+  buildings: "images/game/buildings.png",
   crops: "images/game/crops.png",
   fences: "images/game/fences.png",
   flooring: "images/game/flooring.png",

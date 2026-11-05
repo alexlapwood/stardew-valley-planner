@@ -1,18 +1,22 @@
 import { fireEvent, render, screen } from "@solidjs/testing-library";
 
 import mockImages from "../../__helpers__/images";
+import {
+  makeTestFarmMapFile,
+  mockFarmMapFetch,
+  testFarmMapFile,
+} from "../../__mocks__/testFarmMap";
 import { items } from "../../data/game/items.json";
 import { atlasUrls } from "../../helpers/atlas";
+import { loadFarmScene, type TFarmId } from "../../helpers/farmMapLoader";
 import { crops, equipment, setCrops, setEquipment } from "../../state/farm";
 import Farm from "./Farm";
 
-// sdv.json has no layout for the "Test" farm. The React version of Farm
-// added this one.
-vi.mock("../../data/sdv.json", async (importOriginal) => {
-  const sdv = await importOriginal<typeof import("../../data/sdv.json")>();
-  const { default: testFarm } = await import("../../__mocks__/testFarm");
-
-  return { ...sdv, farmLayouts: { ...sdv.farmLayouts, test: testFarm } };
+// With the scene loaded before the tests, the farm draws on its first render,
+// so the tests do not have to wait for it.
+beforeAll(async () => {
+  mockFarmMapFetch({ standard: testFarmMapFile });
+  await loadFarmScene("standard", "spring");
 });
 
 const date = 2;
@@ -175,8 +179,13 @@ beforeEach(() => {
     restore: vi.fn(),
     save: vi.fn(),
   };
-  vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(
-    context as unknown as CanvasRenderingContext2D,
+  // The map canvas under the plan has its own context, so that the draws
+  // counted here are the draws of the plan.
+  const mapContext = { ...context, clearRect: vi.fn(), drawImage: vi.fn() };
+  vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(
+    function (this: HTMLCanvasElement) {
+      return this.classList.contains("Farm--map-canvas") ? mapContext : context;
+    } as unknown as HTMLCanvasElement["getContext"],
   );
   vi.spyOn(
     HTMLCanvasElement.prototype,
@@ -196,7 +205,7 @@ afterEach(() => {
 
 it("renders the app without crashing", () => {
   const { container } = render(() => (
-    <Farm currentFarm="Test" date={0} images={mockImages} zoom={1} />
+    <Farm currentFarm="standard" date={0} images={mockImages} zoom={1} />
   ));
   expect(container).toMatchSnapshot();
 });
@@ -204,7 +213,7 @@ it("renders the app without crashing", () => {
 describe("doing things with a selected region", () => {
   it("won't do anything if we're not actually selecting a region of the farm", () => {
     const { container } = render(() => (
-      <Farm currentFarm="Test" date={0} images={mockImages} zoom={1} />
+      <Farm currentFarm="standard" date={0} images={mockImages} zoom={1} />
     ));
 
     const canvas = screen.getByTestId("farm-canvas");
@@ -221,7 +230,7 @@ describe("doing things with a selected region", () => {
   it("can plant crops", () => {
     render(() => (
       <Farm
-        currentFarm="Test"
+        currentFarm="standard"
         date={date}
         images={mockImages}
         selectedItem={{ id: "parsnip", type: "crop" }}
@@ -245,7 +254,7 @@ describe("doing things with a selected region", () => {
 
     render(() => (
       <Farm
-        currentFarm="Test"
+        currentFarm="standard"
         date={date}
         images={mockImages}
         selectedItem={{ id: "pick-axe", type: "tool" }}
@@ -266,7 +275,7 @@ describe("doing things with a selected region", () => {
   it("can install equipment", () => {
     render(() => (
       <Farm
-        currentFarm="Test"
+        currentFarm="standard"
         date={date}
         images={mockImages}
         selectedItem={{ id: "scarecrow", type: "equipment" }}
@@ -286,7 +295,7 @@ describe("doing things with a selected region", () => {
   it("previews the selected equipment on the hovered tile without installing it", () => {
     render(() => (
       <Farm
-        currentFarm="Test"
+        currentFarm="standard"
         date={date}
         images={mockImages}
         selectedItem={{ id: "scarecrow", type: "equipment" }}
@@ -310,7 +319,7 @@ describe("doing things with a selected region", () => {
 
     render(() => (
       <Farm
-        currentFarm="Test"
+        currentFarm="standard"
         date={date}
         images={mockImages}
         selectedItem={{ id: "scarecrow", type: "equipment" }}
@@ -337,7 +346,7 @@ describe("doing things with a selected region", () => {
 
     render(() => (
       <Farm
-        currentFarm="Test"
+        currentFarm="standard"
         date={date}
         images={mockImages}
         selectedItem={{ id: "pick-axe", type: "tool" }}
@@ -363,7 +372,7 @@ describe("doing things with a selected region", () => {
     setEquipment(byTile(allTiles.map(([x, y]) => scarecrow(x, y))));
 
     render(() => (
-      <Farm currentFarm="Test" date={date} images={mockImages} zoom={1} />
+      <Farm currentFarm="standard" date={date} images={mockImages} zoom={1} />
     ));
 
     dragAcrossTiles([0, 0], [1, 1], rightButton);
@@ -389,7 +398,7 @@ describe("doing things with a selected region", () => {
 
     render(() => (
       <Farm
-        currentFarm="Test"
+        currentFarm="standard"
         date={date}
         images={mockImages}
         selectedItem={{ id: "parsnip", type: "crop" }}
@@ -422,7 +431,7 @@ describe("doing things with a selected region", () => {
       setCrops(byTile(allTiles.map(([x, y]) => parsnip(x, y))));
 
       render(() => (
-        <Farm currentFarm="Test" date={date} images={mockImages} zoom={1} />
+        <Farm currentFarm="standard" date={date} images={mockImages} zoom={1} />
       ));
 
       const canvas = screen.getByTestId("farm-canvas");
@@ -451,7 +460,7 @@ describe("doing things with a selected region", () => {
 
     render(() => (
       <Farm
-        currentFarm="Test"
+        currentFarm="standard"
         date={date}
         images={mockImages}
         selectedItem={{ id: "parsnip", type: "crop" }}
@@ -483,7 +492,7 @@ describe("doing things with a selected region", () => {
 
   it("does not open the browser context menu on the farm", () => {
     render(() => (
-      <Farm currentFarm="Test" date={date} images={mockImages} zoom={1} />
+      <Farm currentFarm="standard" date={date} images={mockImages} zoom={1} />
     ));
 
     expect(fireEvent.contextMenu(screen.getByTestId("farm-canvas"))).toBe(
@@ -493,7 +502,7 @@ describe("doing things with a selected region", () => {
 
   it("does not open the browser context menu when a right-button drag from the farm ends off the farm", () => {
     render(() => (
-      <Farm currentFarm="Test" date={date} images={mockImages} zoom={1} />
+      <Farm currentFarm="standard" date={date} images={mockImages} zoom={1} />
     ));
 
     const canvas = screen.getByTestId("farm-canvas");
@@ -507,7 +516,7 @@ describe("doing things with a selected region", () => {
 
   it("opens the browser context menu off the farm after a right click on the farm (macOS and Linux event order)", () => {
     render(() => (
-      <Farm currentFarm="Test" date={date} images={mockImages} zoom={1} />
+      <Farm currentFarm="standard" date={date} images={mockImages} zoom={1} />
     ));
 
     const canvas = screen.getByTestId("farm-canvas");
@@ -543,7 +552,7 @@ describe("doing things with a selected region", () => {
     "opens the browser context menu off the farm after %s when a right press on the farm got no menu event",
     (_, endPress) => {
       const { unmount } = render(() => (
-        <Farm currentFarm="Test" date={date} images={mockImages} zoom={1} />
+        <Farm currentFarm="standard" date={date} images={mockImages} zoom={1} />
       ));
 
       const canvas = screen.getByTestId("farm-canvas");
@@ -564,7 +573,7 @@ describe("doing things with a selected region", () => {
 
     render(() => (
       <Farm
-        currentFarm="Test"
+        currentFarm="standard"
         date={date}
         disableToolbars={disableToolbars}
         images={mockImages}
@@ -607,7 +616,7 @@ describe("doing things with a selected region", () => {
 
       render(() => (
         <Farm
-          currentFarm="Test"
+          currentFarm="standard"
           date={date}
           disableToolbars={disableToolbars}
           images={mockImages}
@@ -648,7 +657,7 @@ describe("doing things with a selected region", () => {
 
       render(() => (
         <Farm
-          currentFarm="Test"
+          currentFarm="standard"
           date={date}
           disableToolbars={disableToolbars}
           images={mockImages}
@@ -688,7 +697,7 @@ describe("doing things with a selected region", () => {
 
       render(() => (
         <Farm
-          currentFarm="Test"
+          currentFarm="standard"
           date={date}
           disableToolbars={disableToolbars}
           images={mockImages}
@@ -728,7 +737,7 @@ describe("doing things with a selected region", () => {
 
     render(() => (
       <Farm
-        currentFarm="Test"
+        currentFarm="standard"
         date={date}
         disableToolbars={disableToolbars}
         images={mockImages}
@@ -753,7 +762,7 @@ describe("panning the farm", () => {
   function renderFarm(disableToolbars = vi.fn()) {
     const result = render(() => (
       <Farm
-        currentFarm="Test"
+        currentFarm="standard"
         date={date}
         disableToolbars={disableToolbars}
         images={mockImages}
@@ -931,7 +940,7 @@ describe("panning the farm", () => {
 function renderFarmWithCropSelected() {
   render(() => (
     <Farm
-      currentFarm="Test"
+      currentFarm="standard"
       date={date}
       images={mockImages}
       selectedItem={{ id: "parsnip", type: "crop" }}
@@ -1036,6 +1045,169 @@ describe("drawing the farm", () => {
     expect(getHighlightedTiles("grey")).toEqual([]);
     expect(getHighlightedTiles("red")).toEqual([]);
   });
+
+  it("draws the default buildings at their spots, with the start house and the broken greenhouse", () => {
+    renderFarmWithCropSelected();
+
+    const buildingDraws = drawImage.mock.calls
+      .filter(
+        ([image]) =>
+          image instanceof HTMLImageElement &&
+          image.src.includes(atlasUrls.buildings),
+      )
+      .map(([, ...rects]) => rects);
+
+    expect(buildingDraws).toContainEqual([
+      112,
+      1504,
+      112,
+      160,
+      25 * 16,
+      10 * 16 - 64,
+      112,
+      160,
+    ]);
+    expect(buildingDraws).toContainEqual([
+      0,
+      1168,
+      178,
+      144,
+      59 * 16 - 16,
+      12 * 16 - 62,
+      178,
+      144,
+    ]);
+  });
+
+  it("draws the farmhouse and the greenhouse with the looks of the farm", () => {
+    render(() => (
+      <Farm
+        currentFarm="standard"
+        date={date}
+        images={mockImages}
+        looks={{ greenhouse: "repaired", house: 1 }}
+        zoom={1}
+      />
+    ));
+
+    const buildingRects = drawImage.mock.calls
+      .filter(
+        ([image]) =>
+          image instanceof HTMLImageElement &&
+          image.src.includes(atlasUrls.buildings),
+      )
+      .map(([, ...rects]) => rects.slice(0, 4));
+
+    expect(buildingRects).toContainEqual([0, 1504, 112, 160]);
+    expect(buildingRects).toContainEqual([178, 1168, 178, 144]);
+    expect(buildingRects).not.toContainEqual([112, 1504, 112, 160]);
+  });
+
+  it("does not plant crops on or beside the greenhouse, where the game takes the tilling away", () => {
+    renderFarmWithCropSelected();
+
+    dragAcrossTiles([23, 15], [25, 15]);
+
+    expect(crops()).toEqual(byTile([parsnip(23, 15, { datePlanted: date })]));
+  });
+});
+
+function renderFarmCanvas(currentFarm: TFarmId, selectedItem?: ISelectedItem) {
+  render(() => (
+    <Farm
+      currentFarm={currentFarm}
+      date={date}
+      images={mockImages}
+      selectedItem={selectedItem}
+      zoom={1}
+    />
+  ));
+
+  return screen.getByTestId<HTMLCanvasElement>("farm-canvas");
+}
+
+async function waitForFirstDraw() {
+  await vi.waitFor(() => {
+    expect(countDraws()).toBe(1);
+  });
+}
+
+describe("loading the farm map", () => {
+  it("draws nothing and has no size until the farm map loads", () => {
+    vi.spyOn(globalThis, "fetch").mockReturnValue(
+      new Promise<Response>(() => {}),
+    );
+
+    const canvas = renderFarmCanvas("forest");
+
+    expect(countDraws()).toBe(0);
+    expect([canvas.width, canvas.height]).toEqual([0, 0]);
+  });
+
+  it("draws once the farm map loads, with the size of the farm map", async () => {
+    mockFarmMapFetch({ wilderness: makeTestFarmMapFile(20, 10) });
+
+    const canvas = renderFarmCanvas("wilderness");
+
+    expect(countDraws()).toBe(0);
+
+    await waitForFirstDraw();
+    expect([canvas.width, canvas.height]).toEqual([320, 160]);
+
+    const mapCanvas =
+      document.querySelector<HTMLCanvasElement>(".Farm--map-canvas");
+
+    expect([mapCanvas?.width, mapCanvas?.height]).toEqual([320, 160]);
+  });
+
+  it("puts items on the far tiles of a farm that is bigger than 80 by 65", async () => {
+    mockFarmMapFetch({ beach: makeTestFarmMapFile(110, 110) });
+
+    const canvas = renderFarmCanvas("beach", { id: "parsnip", type: "crop" });
+    await waitForFirstDraw();
+
+    dragAcrossTiles([108, 108], [109, 109]);
+
+    expect([canvas.width, canvas.height]).toEqual([110 * 16, 110 * 16]);
+    expect(crops()).toEqual(
+      byTile(
+        regionTiles.map(([x, y]) =>
+          parsnip(108 + x, 108 + y, { datePlanted: date }),
+        ),
+      ),
+    );
+  });
+
+  it("scrolls the farmhouse to the middle of the view when the farm loads", async () => {
+    const file = makeTestFarmMapFile(100, 75);
+    file.farm.spots.farmhouse = { height: 5, width: 9, x: 76, y: 16 };
+    mockFarmMapFetch({ meadowlands: file });
+
+    renderFarmCanvas("meadowlands");
+    const scrollView = getScrollView();
+    Object.defineProperty(scrollView, "clientWidth", { value: 600 });
+    await waitForFirstDraw();
+
+    expect(scrollView.scrollLeft).toBe((76 + 9 / 2) * 16 - 600 / 2);
+    expect(scrollView.scrollTop).toBe(4 * 16);
+  });
+
+  it("logs the error and draws nothing when the farm map does not load", async () => {
+    mockFarmMapFetch({});
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+
+    renderFarmCanvas("riverland");
+
+    await vi.waitFor(() => {
+      expect(consoleError).toHaveBeenCalledWith(
+        "Could not load the riverland farm map for spring.",
+        expect.any(Error),
+      );
+    });
+    expect(countDraws()).toBe(0);
+  });
 });
 
 interface IFloorLook {
@@ -1051,7 +1223,7 @@ function byPosition(a: IFloorLook, b: IFloorLook) {
 function renderFarmWithFloorSelected(skin: string) {
   render(() => (
     <Farm
-      currentFarm="Test"
+      currentFarm="standard"
       date={date}
       images={mockImages}
       selectedItem={{ id: "flooring", skin, type: "equipment" }}

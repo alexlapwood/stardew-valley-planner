@@ -1,7 +1,9 @@
 import { atlasUrls } from "../helpers/atlas";
+import { waterImageUrl } from "../helpers/water";
 
 export const imageUrls: string[] = [
   ...Object.values(atlasUrls),
+  waterImageUrl,
   "images/highlight-green.png",
   "images/highlight-grey.png",
   "images/highlight-red.png",
@@ -9,18 +11,6 @@ export const imageUrls: string[] = [
   "images/hoeDirtSnow.png",
   "images/pick-axe.png",
   "images/sdv-font.png",
-  "images/standard-fall.png",
-  "images/standard-spring.png",
-  "images/standard-summer.png",
-  "images/standard-winter.png",
-  "images/riverland-fall.png",
-  "images/riverland-spring.png",
-  "images/riverland-summer.png",
-  "images/riverland-winter.png",
-  "images/wilderness-fall.png",
-  "images/wilderness-spring.png",
-  "images/wilderness-summer.png",
-  "images/wilderness-winter.png",
 ];
 
 const images = imageUrls.map((imageUrl) => {

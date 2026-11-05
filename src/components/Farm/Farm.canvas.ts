@@ -1,16 +1,35 @@
 import { mergeDeep } from "immutable";
 
-import { farmLayouts } from "../../data/sdv.json";
 import { findAtlas, findImage } from "../../helpers/atlas";
 import { getSeasonName } from "../../helpers/date";
+import {
+  drawDefaultBuildingShadows,
+  getDefaultBuildingDraws,
+} from "../../helpers/defaultBuildings";
 import {
   equipmentForRegion,
   installableEquipmentByTile,
 } from "../../helpers/equipmentPlacement";
 import type { TPickFloorVariant } from "../../helpers/floorVariant";
+import { earliestChange } from "../../helpers/mapFrames";
+import {
+  drawMapSlot,
+  getSlotsNextChange,
+  type IMapSlots,
+} from "../../helpers/mapSlots";
+import {
+  getFrontRows,
+  getPassCanvas,
+  getPassesNextChange,
+  renderFrontRowToContext,
+} from "../../helpers/renderFarmMap";
 import { renderFloorsToContext } from "../../helpers/renderFloors";
-import { renderItemsToContext } from "../../helpers/renderItems";
+import { getItemDraws } from "../../helpers/renderItems";
 import { renderSelectedRegion } from "../../helpers/renderSelection";
+import {
+  type ISortedDraw,
+  renderSortedDraws,
+} from "../../helpers/renderSorted";
 import {
   renderScarecrowProtectionToContext,
   renderSoilToContext,
@@ -20,16 +39,18 @@ import type { IRegion } from "./Farm.region";
 
 interface IFarmCanvasState {
   crops: IFarmCrops;
-  currentFarm: string;
   date: number;
   equipment: IFarmEquipment;
   highlightedRegion?: IRegion;
   images: HTMLImageElement[];
+  looks: IFarmLooks;
   pickFloorVariant: TPickFloorVariant;
+  scene: IFarmScene;
   selectedItem?: ISelectedItem;
+  time?: number;
 }
 
-function getPotentialEquipment(state: IFarmCanvasState, farmLayout: string[]) {
+function getPotentialEquipment(state: IFarmCanvasState) {
   const { crops, date, equipment, highlightedRegion, selectedItem } = state;
 
   if (
@@ -48,14 +69,11 @@ function getPotentialEquipment(state: IFarmCanvasState, farmLayout: string[]) {
       state.pickFloorVariant,
     ),
     { currentCrops: crops, currentEquipment: equipment },
-    farmLayout,
+    state.scene.map,
   );
 }
 
-export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
-  const { crops, currentFarm, date, equipment, highlightedRegion } = state;
-  const canvasHeight = canvas.height;
-  const canvasWidth = canvas.width;
+function getContext(canvas: HTMLCanvasElement) {
   const context = canvas.getContext("2d");
 
   if (context === null) {
@@ -64,16 +82,43 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
 
   context.imageSmoothingEnabled = false;
 
+  return context;
+}
+
+export function getMapNextChange(map: IFarmMap, slots: IMapSlots) {
+  return earliestChange([
+    getPassesNextChange(map, ["back", "buildings"]),
+    getSlotsNextChange(slots),
+  ]);
+}
+
+export function getPlanNextChange(map: IFarmMap) {
+  return getPassesNextChange(map, ["front", "above"]);
+}
+
+export function drawMap(
+  canvas: HTMLCanvasElement,
+  scene: IFarmScene,
+  time: number,
+  slots: IMapSlots,
+) {
+  const context = getContext(canvas);
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.drawImage(getPassCanvas(scene, "back", time), 0, 0);
+  drawMapSlot(context, slots.water, time);
+  drawMapSlot(context, slots.underBuildings, time);
+  context.drawImage(getPassCanvas(scene, "buildings", time), 0, 0);
+}
+
+export function drawPlan(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
+  const { crops, date, equipment, highlightedRegion, scene, time } = state;
+  const { map } = scene;
+  const context = getContext(canvas);
   const season = getSeasonName(date);
-  const farmImageName =
-    currentFarm === "Test" ? "standard" : currentFarm.toLowerCase();
-  const farmLayout = farmLayouts[currentFarm.toLowerCase()];
 
   const images = {
-    background: findImage(
-      state.images,
-      `/images/${farmImageName}-${season}.png`,
-    ),
+    buildings: findAtlas(state.images, "buildings"),
     crops: findAtlas(state.images, "crops"),
     fences: findAtlas(state.images, "fences"),
     flooring: findAtlas(state.images, "flooring"),
@@ -86,25 +131,23 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
     items: findAtlas(state.images, "items"),
   };
 
-  context.clearRect(0, 0, canvasWidth, canvasHeight);
+  context.clearRect(0, 0, canvas.width, canvas.height);
 
-  context.drawImage(images.background, 0, 0);
-
-  const potentialEquipment = getPotentialEquipment(state, farmLayout) ?? {};
+  const potentialEquipment = getPotentialEquipment(state) ?? {};
 
   renderFloorsToContext(
     context,
     images,
     mergeDeep(equipment, potentialEquipment),
     date,
-    { height: canvasHeight / 16, width: canvasWidth / 16 },
+    { height: map.height, width: map.width },
   );
 
   renderSoilToContext(
     context,
     season === "winter" ? images.hoeDirtSnow : images.hoeDirt,
     mergeDeep(crops, equipment, potentialEquipment),
-    farmLayout,
+    map,
     date,
   );
 
@@ -112,15 +155,17 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
     context,
     season === "winter" ? images.hoeDirtSnow : images.hoeDirt,
     mergeDeep(equipment, potentialEquipment),
-    farmLayout,
+    map,
     date,
   );
+
+  drawDefaultBuildingShadows(context, images.buildings, map, "overFloors");
 
   renderScarecrowProtectionToContext(
     context,
     images.highlightGreen,
     mergeDeep(equipment, potentialEquipment),
-    farmLayout,
+    map,
     date,
   );
 
@@ -129,7 +174,7 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
       context,
       crops,
       equipment,
-      farmLayout,
+      map,
       date,
       highlightedRegion,
       images.highlightGreen,
@@ -139,10 +184,31 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
     );
   }
 
-  renderItemsToContext(
-    context,
-    images,
-    mergeDeep(crops, equipment, potentialEquipment),
-    date,
-  );
+  const front = getPassCanvas(scene, "front", time);
+  const frontRowDraws = getFrontRows(map).map((row): ISortedDraw => ({
+    draw: () => {
+      renderFrontRowToContext(context, front, row);
+    },
+    layer: "front",
+    row,
+  }));
+
+  renderSortedDraws([
+    ...getItemDraws(
+      context,
+      images,
+      mergeDeep(crops, equipment, potentialEquipment),
+      date,
+    ),
+    ...getDefaultBuildingDraws(
+      context,
+      images.buildings,
+      map,
+      season,
+      state.looks,
+    ),
+    ...frontRowDraws,
+  ]);
+
+  context.drawImage(getPassCanvas(scene, "above", time), 0, 0);
 }

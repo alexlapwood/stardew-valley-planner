@@ -10,6 +10,11 @@ exports[`doing things with a selected region > won't do anything if we're not ac
       style="transform: scale(1);"
     >
       <canvas
+        class="Farm--map-canvas"
+        height="1040"
+        width="1280"
+      />
+      <canvas
         class="Farm--canvas"
         data-testid="farm-canvas"
         height="1040"
@@ -29,6 +34,11 @@ exports[`renders the app without crashing 1`] = `
       class="Farm--canvas-wrapper"
       style="transform: scale(1);"
     >
+      <canvas
+        class="Farm--map-canvas"
+        height="1040"
+        width="1280"
+      />
       <canvas
         class="Farm--canvas"
         data-testid="farm-canvas"

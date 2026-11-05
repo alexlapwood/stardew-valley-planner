@@ -34,6 +34,57 @@
       "name": "Barn",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 64
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 64,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 80,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 96,
+            "y": 64
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 4,
         "width": 7
@@ -44,6 +95,18 @@
           "y": -48
         },
         "sprite": [0, 0, 112, 112]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaaaaa", "aaaaaaa", "aaaaaaa", "aaaaaaa"]
       }
     },
     "big_barn": {
@@ -79,6 +142,57 @@
       "name": "Big Barn",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 64
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 64,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 80,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 96,
+            "y": 64
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 4,
         "width": 7
@@ -89,6 +203,18 @@
           "y": -48
         },
         "sprite": [0, 112, 112, 112]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaaaaa", "aaaaaaa", "aaaaaaa", "aaaaaaa"]
       },
       "upgradeFrom": "barn"
     },
@@ -125,6 +251,50 @@
       "name": "Big Coop",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 48
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 64,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 80,
+            "y": 48
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 3,
         "width": 6
@@ -135,6 +305,18 @@
           "y": -64
         },
         "sprite": [0, 224, 96, 112]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaaaa", "aaaaaa", "aaaaaa"]
       },
       "upgradeFrom": "coop"
     },
@@ -165,6 +347,57 @@
       "name": "Big Shed",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 48
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 64,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 80,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 96,
+            "y": 48
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 3,
         "width": 7
@@ -175,6 +408,18 @@
           "y": -80
         },
         "sprite": [0, 336, 112, 128]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaaaaa", "aaaaaaa", "aaaaaaa"]
       },
       "upgradeFrom": "shed"
     },
@@ -195,6 +440,43 @@
       "name": "Cabin",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 48
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 64,
+            "y": 48
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 3,
         "width": 5
@@ -267,6 +549,23 @@
           "y": -64
         },
         "sprite": [0, 464, 80, 112]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          },
+          "b": {
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaaa", "aaaaa", "baaaa"]
       }
     },
     "coop": {
@@ -302,6 +601,50 @@
       "name": "Coop",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 48
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 64,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 80,
+            "y": 48
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 3,
         "width": 6
@@ -312,6 +655,18 @@
           "y": -64
         },
         "sprite": [0, 576, 96, 112]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaaaa", "aaaaaa", "aaaaaa"]
       }
     },
     "deluxe_barn": {
@@ -347,6 +702,57 @@
       "name": "Deluxe Barn",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 64
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 64,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 80,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 96,
+            "y": 64
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 4,
         "width": 7
@@ -357,6 +763,18 @@
           "y": -48
         },
         "sprite": [0, 688, 112, 112]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaaaaa", "aaaaaaa", "aaaaaaa", "aaaaaaa"]
       },
       "upgradeFrom": "big_barn"
     },
@@ -393,6 +811,50 @@
       "name": "Deluxe Coop",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 48
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 64,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 80,
+            "y": 48
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 3,
         "width": 6
@@ -403,6 +865,18 @@
           "y": -64
         },
         "sprite": [0, 800, 96, 112]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaaaa", "aaaaaa", "aaaaaa"]
       },
       "upgradeFrom": "big_coop"
     },
@@ -434,6 +908,29 @@
       "name": "Desert Obelisk",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 32
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 32
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 32
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 2,
         "width": 3
@@ -444,6 +941,18 @@
           "y": -96
         },
         "sprite": [0, 912, 48, 128]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaa", "aaa"]
       }
     },
     "earth_obelisk": {
@@ -469,6 +978,29 @@
       "name": "Earth Obelisk",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 32
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 32
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 32
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 2,
         "width": 3
@@ -479,6 +1011,18 @@
           "y": -96
         },
         "sprite": [0, 1040, 48, 128]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaa", "aaa"]
       }
     },
     "farmhouse": {
@@ -499,6 +1043,38 @@
         "x": 5,
         "y": 2
       },
+      "looks": {
+        "upgrade_0": {
+          "name": "Start",
+          "sprite": {
+            "offset": {
+              "x": -16,
+              "y": -62
+            },
+            "sprite": [0, 1168, 178, 144]
+          }
+        },
+        "upgrade_1": {
+          "name": "Upgrade 1",
+          "sprite": {
+            "offset": {
+              "x": -16,
+              "y": -62
+            },
+            "sprite": [178, 1168, 178, 144]
+          }
+        },
+        "upgrade_2": {
+          "name": "Upgrades 2 and 3",
+          "sprite": {
+            "offset": {
+              "x": -16,
+              "y": -62
+            },
+            "sprite": [356, 1168, 178, 144]
+          }
+        }
+      },
       "magical": false,
       "name": "Farmhouse",
       "placementTiles": [
@@ -517,6 +1093,71 @@
         }
       ],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 80
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 80
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 80
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 80
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 64,
+            "y": 80
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 80,
+            "y": 80
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 96,
+            "y": 80
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 112,
+            "y": 80
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 128,
+            "y": 80
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 5,
         "width": 9
@@ -527,6 +1168,41 @@
           "y": -62
         },
         "sprite": [0, 1168, 178, 144]
+      },
+      "startLook": "upgrade_0",
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          },
+          "b": {
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          },
+          "c": {
+            "blocked": true,
+            "buildable": false,
+            "tillable": false
+          },
+          "d": {
+            "blocked": true,
+            "buildable": false
+          }
+        },
+        "radius": 1,
+        "rows": [
+          "...........",
+          ".aaaaaaaaa.",
+          ".aaaaaaaaa.",
+          ".aaaaaaaaa.",
+          ".abbbaaaaa.",
+          ".aaaaaaaaac",
+          "......d...."
+        ]
       }
     },
     "fish_pond": {
@@ -557,6 +1233,43 @@
       "name": "Fish Pond",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 80
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 80
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 80
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 80
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 64,
+            "y": 80
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 5,
         "width": 5
@@ -567,6 +1280,18 @@
           "y": -32
         },
         "sprite": [0, 1312, 80, 112]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaaa", "aaaaa", "aaaaa", "aaaaa", "aaaaa"]
       }
     },
     "gold_clock": {
@@ -581,6 +1306,29 @@
       "name": "Gold Clock",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 32
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 32
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 32
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 2,
         "width": 3
@@ -591,6 +1339,18 @@
           "y": -48
         },
         "sprite": [0, 1424, 48, 80]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaa", "aaa"]
       }
     },
     "greenhouse": {
@@ -612,6 +1372,28 @@
         "x": 3,
         "y": 5
       },
+      "looks": {
+        "broken": {
+          "name": "Broken",
+          "sprite": {
+            "offset": {
+              "x": 0,
+              "y": -64
+            },
+            "sprite": [112, 1504, 112, 160]
+          }
+        },
+        "repaired": {
+          "name": "Repaired",
+          "sprite": {
+            "offset": {
+              "x": 0,
+              "y": -64
+            },
+            "sprite": [0, 1504, 112, 160]
+          }
+        }
+      },
       "magical": false,
       "name": "Greenhouse",
       "placementTiles": [
@@ -624,6 +1406,16 @@
         }
       ],
       "shadow": false,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": -16,
+            "y": 0
+          },
+          "sprite": [224, 1504, 128, 144]
+        }
+      ],
+      "shadowUnderFloors": true,
       "size": {
         "height": 6,
         "width": 7
@@ -634,6 +1426,38 @@
           "y": -64
         },
         "sprite": [0, 1504, 112, 160]
+      },
+      "startLook": "broken",
+      "tileRules": {
+        "changes": {
+          "a": {
+            "buildable": true,
+            "tillable": false
+          },
+          "b": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          },
+          "c": {
+            "buildable": false,
+            "tillable": false
+          }
+        },
+        "radius": 2,
+        "rows": [
+          "...........",
+          "...........",
+          ".abbbbbbb..",
+          ".abbbbbbb..",
+          ".abbbbbbb..",
+          ".abbbbbbb..",
+          ".abbbbbbb..",
+          ".abbbbbbb..",
+          ".aaacccaa..",
+          "...accca..."
+        ]
       }
     },
     "island_obelisk": {
@@ -665,6 +1489,29 @@
       "name": "Island Obelisk",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 32
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 32
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 32
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 2,
         "width": 3
@@ -675,6 +1522,18 @@
           "y": -96
         },
         "sprite": [0, 1664, 48, 128]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaa", "aaa"]
       }
     },
     "junimo_hut": {
@@ -712,6 +1571,29 @@
       "name": "Junimo Hut",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 32
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 32
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 32
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 2,
         "width": 3
@@ -728,6 +1610,18 @@
           "winter": [144, 1792, 48, 64]
         },
         "sprite": [0, 1792, 48, 64]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaa", "aaa"]
       }
     },
     "mill": {
@@ -758,6 +1652,36 @@
       "name": "Mill",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 32
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 32
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 32
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 32
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 2,
         "width": 4
@@ -768,6 +1692,18 @@
           "y": -96
         },
         "sprite": [0, 1856, 64, 128]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaa", "aaaa"]
       }
     },
     "pet_bowl": {
@@ -838,6 +1774,18 @@
           "winter": [96, 1984, 32, 32]
         },
         "sprite": [0, 1984, 32, 32]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aa", "aa"]
       }
     },
     "shed": {
@@ -862,6 +1810,57 @@
       "name": "Shed",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 48
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 64,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 80,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 96,
+            "y": 48
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 3,
         "width": 7
@@ -872,6 +1871,18 @@
           "y": -80
         },
         "sprite": [0, 2016, 112, 128]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaaaaa", "aaaaaaa", "aaaaaaa"]
       }
     },
     "shipping_bin": {
@@ -892,6 +1903,22 @@
       "name": "Shipping Bin",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 16
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 16
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 1,
         "width": 2
@@ -902,6 +1929,18 @@
           "y": -23
         },
         "sprite": [0, 2144, 32, 39]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aa"]
       }
     },
     "silo": {
@@ -932,6 +1971,29 @@
       "name": "Silo",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 48
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 48
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 3,
         "width": 3
@@ -942,6 +2004,18 @@
           "y": -80
         },
         "sprite": [0, 2183, 48, 128]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaa", "aaa", "aaa"]
       }
     },
     "slime_hutch": {
@@ -976,6 +2050,57 @@
       "name": "Slime Hutch",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 64
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 64,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 80,
+            "y": 64
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 96,
+            "y": 64
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 4,
         "width": 7
@@ -986,6 +2111,18 @@
           "y": -48
         },
         "sprite": [0, 2311, 112, 112]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaaaaa", "aaaaaaa", "aaaaaaa", "aaaaaaa"]
       }
     },
     "stable": {
@@ -1012,6 +2149,36 @@
       "name": "Stable",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 32
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 32
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 32
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 48,
+            "y": 32
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 2,
         "width": 4
@@ -1022,6 +2189,23 @@
           "y": -64
         },
         "sprite": [0, 2423, 64, 96]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          },
+          "b": {
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaaa", "abba"]
       }
     },
     "water_obelisk": {
@@ -1052,6 +2236,29 @@
       "name": "Water Obelisk",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 32
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 32
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 32
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 2,
         "width": 3
@@ -1062,6 +2269,18 @@
           "y": -96
         },
         "sprite": [0, 2519, 48, 128]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaa", "aaa"]
       }
     },
     "well": {
@@ -1082,6 +2301,29 @@
       "name": "Well",
       "placementTiles": [],
       "shadow": true,
+      "shadowPieces": [
+        {
+          "offset": {
+            "x": 0,
+            "y": 48
+          },
+          "sprite": [112, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 16,
+            "y": 48
+          },
+          "sprite": [128, 0, 16, 16]
+        },
+        {
+          "offset": {
+            "x": 32,
+            "y": 48
+          },
+          "sprite": [144, 0, 16, 16]
+        }
+      ],
       "size": {
         "height": 3,
         "width": 3
@@ -1092,6 +2334,19 @@
           "y": -32
         },
         "sprite": [0, 2647, 48, 80]
+      },
+      "tileRules": {
+        "changes": {
+          "a": {
+            "blocked": true,
+            "buildable": false,
+            "floorable": false,
+            "noSprinklers": false,
+            "tillable": false
+          }
+        },
+        "radius": 0,
+        "rows": ["aaa", "aaa", "aaa"]
       }
     }
   }

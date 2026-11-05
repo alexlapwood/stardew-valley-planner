@@ -9,6 +9,12 @@ import SideMenu from "../../components/SideMenu/SideMenu";
 import Toolbar from "../../components/Toolbar/Toolbar";
 import { crops } from "../../data/game/crops.json";
 import { getSeasonName } from "../../helpers/date";
+import { defaultFarmLooks } from "../../helpers/defaultBuildings";
+import {
+  type IFarmChoice,
+  parseDevFarmSwitch,
+} from "../../helpers/devFarmSwitch";
+import { defaultFarmId, type TFarmId } from "../../helpers/farmMapLoader";
 import { date, setDate } from "../../state/farm";
 
 interface Props extends JSX.HTMLAttributes<HTMLDivElement> {}
@@ -28,15 +34,20 @@ document.addEventListener("DOMContentLoaded", onResize);
 const plannerHeight = () => (800 * windowHeight()) / windowWidth();
 const plannerScale = () => windowWidth() / 800;
 
+// The farm menu does not exist yet, so in development the URL picks the farm
+// and its looks, for example ?farm=beach&house=2&greenhouse=repaired.
+const startFarm: IFarmChoice = import.meta.env.DEV
+  ? parseDevFarmSwitch(window.location.search)
+  : { farm: defaultFarmId, looks: defaultFarmLooks };
+
 export const StardewValleySeasonalPlanner: Component<Props> = ({
   class: className,
   ...attributes
 }) => {
   document.title = "Stardew Valley Seasonal Planner";
 
-  const [currentFarm] = createSignal<
-    "Standard" | "Riverland" | "Forest" | "Hill-top" | "Wilderness" | "Test"
-  >("Standard");
+  const [currentFarm] = createSignal<TFarmId>(startFarm.farm);
+  const [farmLooks] = createSignal<IFarmLooks>(startFarm.looks);
   const [images, setImages] = createSignal<HTMLImageElement[]>([]);
   const [isLoading, setIsLoading] = createSignal(true);
   const [loadingMessage, setLoadingMessage] = createSignal("loading...");
@@ -117,6 +128,7 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
                     setToolbarsDisabled(disabled);
                   }}
                   images={images()}
+                  looks={farmLooks()}
                   selectedItem={selectedItem()}
                   zoom={1}
                 />

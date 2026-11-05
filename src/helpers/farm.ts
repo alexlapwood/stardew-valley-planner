@@ -6,6 +6,9 @@ import {
   isFenceItem,
   isFloorItem,
 } from "./items";
+import { canPlantAt, canWaterAt } from "./placementRules";
+
+type TTileTest = (farmMap: IFarmMap, x: number, y: number) => boolean;
 
 export function forEachTileInRegion(
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
@@ -106,12 +109,11 @@ function markRangeOnSoil(
   range: IItemRange,
   x: number,
   y: number,
-  currentFarm: string[],
+  farmMap: IFarmMap,
+  isInRange: TTileTest,
 ) {
   getRangeOffsets(range).forEach(([dx, dy]) => {
-    const row = currentFarm[y + dy];
-
-    if (!row || row[x + dx] !== " ") {
+    if (!isInRange(farmMap, x + dx, y + dy)) {
       return;
     }
 
@@ -126,7 +128,7 @@ function markRangeOnSoil(
 export function getSoilMap(
   farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number,
-  currentFarm: string[],
+  farmMap: IFarmMap,
 ) {
   const soilMap: (number | undefined)[][] = [];
 
@@ -155,7 +157,7 @@ export function getSoilMap(
       )?.waterRange;
 
       if (waterRange !== undefined) {
-        markRangeOnSoil(soilMap, waterRange, x, y, currentFarm);
+        markRangeOnSoil(soilMap, waterRange, x, y, farmMap, canWaterAt);
       }
     }
   });
@@ -224,7 +226,7 @@ export function getFenceMap(
 export function getScarecrowMap(
   currentEquipment: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number,
-  currentFarm: string[],
+  farmMap: IFarmMap,
 ) {
   const scarecrowMap: number[][] = [];
 
@@ -248,7 +250,7 @@ export function getScarecrowMap(
         return;
       }
 
-      markRangeOnSoil(scarecrowMap, crowRange, x, y, currentFarm);
+      markRangeOnSoil(scarecrowMap, crowRange, x, y, farmMap, canPlantAt);
 
       if (scarecrowMap[x] === undefined) {
         scarecrowMap[x] = [];
