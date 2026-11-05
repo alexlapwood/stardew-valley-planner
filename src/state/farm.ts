@@ -1,216 +1,84 @@
 import saveAs from "file-saver";
 import { createSignal } from "solid-js";
 
-import {
-  crops as cropDetails,
-  equipment as equipmentDetails,
-} from "../data/sdv.json";
+import { type IFarmData, readFarmData, toSavedFarmData } from "./farmData";
 
-interface IFarmData {
-  crops: IFarmCrops;
-  date: number;
-  equipment: IFarmEquipment;
-}
-
-interface IFarmShape {
-  crops: Record<string, unknown>;
-  date: number;
-  equipment: Record<string, unknown>;
-}
-
-interface IBadItem {
-  path: string;
-  value: unknown;
-}
-
-type Cell = Record<string, unknown>;
-
-const storageKey = "stardewValleySeasonalPlannerV1";
-const backupStorageKey = "stardewValleySeasonalPlannerV1Backup";
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function isIndex(value: unknown): value is number {
-  return typeof value === "number" && Number.isInteger(value) && value >= 0;
-}
-
-function isOptionalNumber(value: unknown) {
-  return value === undefined || typeof value === "number";
-}
-
-// The draw code reads x and y from the cell, but the place and remove code
-// finds the cell by its row and column keys.
-function isCellAt(cell: Cell, x: string, y: string) {
-  return (
-    isIndex(cell.x) &&
-    cell.x === Number(x) &&
-    isIndex(cell.y) &&
-    cell.y === Number(y)
-  );
-}
-
-function isCropCell(cell: Cell): cell is Cell & IPlantedCrop {
-  return (
-    typeof cell.cropId === "string" &&
-    Object.hasOwn(cropDetails, cell.cropId) &&
-    isOptionalNumber(cell.dateDestroyed) &&
-    typeof cell.datePlanted === "number" &&
-    cell.type === "crop"
-  );
-}
-
-function isEquipmentCell(cell: Cell): cell is Cell & IInstalledEquipment {
-  if (
-    typeof cell.equipmentId !== "string" ||
-    !Object.hasOwn(equipmentDetails, cell.equipmentId)
-  ) {
-    return false;
-  }
-
-  return (
-    isOptionalNumber(cell.dateDestroyed) &&
-    typeof cell.dateInstalled === "number" &&
-    isIndex(cell.skinIndex) &&
-    cell.skinIndex < equipmentDetails[cell.equipmentId].skins.length &&
-    cell.type === "equipment"
-  );
-}
-
-function keepGoodCells<T extends Cell>(
-  name: string,
-  items: Record<string, unknown>,
-  isCell: (cell: Cell) => cell is T,
-) {
-  const badItems: IBadItem[] = [];
-  const goodRows: [string, Record<string, T[]>][] = [];
-
-  Object.entries(items).forEach(([y, row]) => {
-    if (!isRecord(row)) {
-      badItems.push({ path: `${name}[${y}]`, value: row });
-      return;
-    }
-
-    const goodTiles: [string, T[]][] = [];
-
-    Object.entries(row).forEach(([x, cells]) => {
-      if (!Array.isArray(cells)) {
-        badItems.push({ path: `${name}[${y}][${x}]`, value: cells });
-        return;
-      }
-
-      const goodCells: T[] = [];
-
-      cells.forEach((cell: unknown, index) => {
-        if (isRecord(cell) && isCellAt(cell, x, y) && isCell(cell)) {
-          goodCells.push(cell);
-        } else {
-          badItems.push({ path: `${name}[${y}][${x}][${index}]`, value: cell });
-        }
-      });
-
-      goodTiles.push([x, goodCells]);
-    });
-
-    goodRows.push([y, Object.fromEntries(goodTiles)]);
-  });
-
-  return { badItems, goodItems: Object.fromEntries(goodRows) };
-}
-
-function isFarmShape(value: unknown): value is IFarmShape {
-  return (
-    isRecord(value) &&
-    isRecord(value.crops) &&
-    typeof value.date === "number" &&
-    isRecord(value.equipment)
-  );
-}
-
-function keepGoodFarm(value: IFarmShape) {
-  const crops = keepGoodCells("crops", value.crops, isCropCell);
-  const equipment = keepGoodCells(
-    "equipment",
-    value.equipment,
-    isEquipmentCell,
-  );
-  const farm: IFarmData = {
-    crops: crops.goodItems,
-    date: value.date,
-    equipment: equipment.goodItems,
-  };
-
-  return { badItems: [...crops.badItems, ...equipment.badItems], farm };
-}
-
-export function isFarmData(value: unknown): value is IFarmData {
-  return isFarmShape(value) && keepGoodFarm(value).badItems.length === 0;
-}
-
-function parseFarmData(text: string) {
-  const data: unknown = JSON.parse(text);
-
-  if (!isFarmData(data)) {
-    throw new Error("The farm data is not valid.");
-  }
-
-  return data;
-}
+const storageKey = "stardewValleySeasonalPlannerV2";
+const storageKeyV1 = "stardewValleySeasonalPlannerV1";
 
 function newFarm(): IFarmData {
   return { crops: {}, date: 0, equipment: {} };
 }
 
-function backUpSavedFarm(savedFarm: string) {
+function backUpSavedFarm(key: string, savedFarm: string) {
+  const backupKey = `${key}Backup`;
+
   try {
-    localStorage.setItem(backupStorageKey, savedFarm);
+    localStorage.setItem(backupKey, savedFarm);
     console.warn(
-      `The saved farm was copied to the "${backupStorageKey}" localStorage key.`,
+      `The saved farm was copied to the "${backupKey}" localStorage key.`,
     );
   } catch (error) {
     console.error("Could not back up the saved farm.", error);
   }
 }
 
-function loadSavedFarm(): IFarmData {
-  const savedFarm = localStorage.getItem(storageKey);
-
-  if (savedFarm === null) {
-    return newFarm();
-  }
-
+function readSavedFarm(savedFarm: string) {
   let data: unknown;
 
   try {
     data = JSON.parse(savedFarm);
   } catch (error) {
-    backUpSavedFarm(savedFarm);
     console.error(
       "The saved farm is not valid JSON, so a new farm was started.",
       error,
     );
-    return newFarm();
+    return { farm: newFarm(), isBad: true };
   }
 
-  if (!isFarmShape(data)) {
-    backUpSavedFarm(savedFarm);
+  const result = readFarmData(data);
+
+  if (result === undefined) {
     console.error(
-      "The saved farm does not have crops, a date and equipment, so a new farm was started.",
+      "The saved farm does not have crops, a date and equipment, or its version is not known, so a new farm was started.",
       data,
     );
+    return { farm: newFarm(), isBad: true };
+  }
+
+  if (result.badItems.length > 0) {
+    console.warn(
+      `Removed ${result.badItems.length} bad items from the saved farm.`,
+      result.badItems,
+    );
+  }
+
+  return { farm: result.farm, isBad: result.badItems.length > 0 };
+}
+
+function loadSavedFarm(): IFarmData {
+  const savedFarm = localStorage.getItem(storageKey);
+
+  if (savedFarm !== null) {
+    const { farm, isBad } = readSavedFarm(savedFarm);
+
+    if (isBad) {
+      backUpSavedFarm(storageKey, savedFarm);
+    }
+
+    return farm;
+  }
+
+  const savedFarmV1 = localStorage.getItem(storageKeyV1);
+
+  if (savedFarmV1 === null) {
     return newFarm();
   }
 
-  const { badItems, farm } = keepGoodFarm(data);
+  const { farm } = readSavedFarm(savedFarmV1);
 
-  if (badItems.length > 0) {
-    backUpSavedFarm(savedFarm);
-    console.warn(
-      `Removed ${badItems.length} bad items from the saved farm.`,
-      badItems,
-    );
-  }
+  backUpSavedFarm(storageKeyV1, savedFarmV1);
+  localStorage.setItem(storageKey, toSavedFarmData(farm));
 
   return farm;
 }
@@ -220,7 +88,7 @@ const savedFarm = loadSavedFarm();
 export const [date, setDateSignal] = createSignal(savedFarm.date);
 export function setDate(date: number) {
   setDateSignal(date);
-  localStorage.setItem(storageKey, JSON.stringify(farmStore()));
+  localStorage.setItem(storageKey, toSavedFarmData(farmStore()));
 }
 
 export const [crops, setCropsSignal] = createSignal<IFarmCrops>(
@@ -228,7 +96,7 @@ export const [crops, setCropsSignal] = createSignal<IFarmCrops>(
 );
 export function setCrops(crops: IFarmCrops) {
   setCropsSignal(crops);
-  localStorage.setItem(storageKey, JSON.stringify(farmStore()));
+  localStorage.setItem(storageKey, toSavedFarmData(farmStore()));
 }
 
 export const [equipment, setEquipmentSignal] = createSignal<IFarmEquipment>(
@@ -236,7 +104,7 @@ export const [equipment, setEquipmentSignal] = createSignal<IFarmEquipment>(
 );
 export function setEquipment(equipment: IFarmEquipment) {
   setEquipmentSignal(equipment);
-  localStorage.setItem(storageKey, JSON.stringify(farmStore()));
+  localStorage.setItem(storageKey, toSavedFarmData(farmStore()));
 }
 
 export const farmStore = (): IFarmData => ({
@@ -252,7 +120,23 @@ export const setFarmStore = ({ crops, date, equipment }: IFarmData) => {
 
 async function openFarmFile(file: File) {
   try {
-    setFarmStore(parseFarmData(await file.text()));
+    const data: unknown = JSON.parse(await file.text());
+    const result = readFarmData(data);
+
+    if (result === undefined) {
+      throw new Error(
+        "The file does not have crops, a date and equipment, or its version is not known.",
+      );
+    }
+
+    if (result.badItems.length > 0) {
+      console.warn(
+        `Removed ${result.badItems.length} bad items from the opened farm.`,
+        result.badItems,
+      );
+    }
+
+    setFarmStore(result.farm);
   } catch (error) {
     console.error("Could not open the farm file.", error);
   }
@@ -274,7 +158,7 @@ export function openFarm() {
 
 export function saveFarm() {
   saveAs(
-    new Blob([JSON.stringify(farmStore())], {
+    new Blob([toSavedFarmData(farmStore())], {
       type: "text/plain;charset=utf-8",
     }),
     "Stardew Valley Seasonal Planner.layout.json",

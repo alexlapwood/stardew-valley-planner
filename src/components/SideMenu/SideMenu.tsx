@@ -3,9 +3,13 @@ import "./SideMenu.css";
 import cn from "clsx";
 import { createSignal } from "solid-js";
 
+import { crops } from "../../data/game/crops.json";
+import { items } from "../../data/game/items.json";
+import { atlasSprite } from "../../helpers/atlas";
 import BigText from "../BigText/BigText";
 import Sprite from "../Sprite/Sprite";
 import EquipmentMenu from "./EquipmentMenu/EquipmentMenu";
+import { itemTabs } from "./EquipmentMenu/itemTabs";
 import FileMenu from "./FileMenu/FileMenu";
 import SeedMenu from "./SeedMenu/SeedMenu";
 
@@ -14,9 +18,24 @@ type TCurrentMenu = "seeds" | "equipment" | "decorations" | "file";
 interface IProps {
   date: number;
   selectCrop: (cropId: string) => void;
-  selectEquipment: (equipmentId: string, equipmentIndex: number) => void;
+  selectEquipment: (equipmentId: string, skin: string) => void;
   selectedItem?: ISelectedItem;
 }
+
+function getDefaultIcon(itemId: string): TSpriteRect {
+  const item = items[itemId];
+
+  return item.skins[item.skinOrder[0]]?.icon ?? [0, 0, 0, 0];
+}
+
+const [scarecrowX, scarecrowY] = getDefaultIcon("scarecrow");
+const [plantX, plantY, , plantHeight] = getDefaultIcon("seasonal_plant");
+
+const tabIcons: Record<"decorations" | "equipment" | "seeds", TSpriteRect> = {
+  decorations: [plantX, plantY + plantHeight - 16, 16, 16],
+  equipment: [scarecrowX, scarecrowY, 16, 16],
+  seeds: crops.ancient_fruit.sprites.seed,
+};
 
 export default function SideMenu(props: IProps) {
   const [currentMenu, setCurrentMenu] = createSignal<TCurrentMenu>("seeds");
@@ -47,7 +66,7 @@ export default function SideMenu(props: IProps) {
           data-testid="seeds-tab"
           onClick={showCrops}
         >
-          <Sprite height={16} src="images/seeds.png" width={16} x={16} y={0} />
+          <Sprite {...atlasSprite("crops", tabIcons.seeds)} />
         </div>
         <div
           class={cn("sdv-tab", {
@@ -56,13 +75,7 @@ export default function SideMenu(props: IProps) {
           data-testid="equipment-tab"
           onClick={showEquipment}
         >
-          <Sprite
-            height={16}
-            src="images/equipment-sheet.png"
-            width={16}
-            x={0}
-            y={0}
-          />
+          <Sprite {...atlasSprite("items", tabIcons.equipment)} />
         </div>
         <div
           class={cn("sdv-tab", {
@@ -71,13 +84,7 @@ export default function SideMenu(props: IProps) {
           data-testid="decorations-tab"
           onClick={showDecorations}
         >
-          <Sprite
-            height={16}
-            src="images/equipment-sheet.png"
-            width={16}
-            x={960}
-            y={16}
-          />
+          <Sprite {...atlasSprite("items", tabIcons.decorations)} />
         </div>
         <div
           class={cn("sdv-tab", {
@@ -97,15 +104,15 @@ export default function SideMenu(props: IProps) {
       />
       <EquipmentMenu
         date={props.date}
+        equipmentIds={itemTabs.equipment}
         isVisible={currentMenu() === "equipment"}
-        range={{ to: 22 }}
         selectEquipment={props.selectEquipment}
         selectedItem={props.selectedItem}
       />
       <EquipmentMenu
         date={props.date}
+        equipmentIds={itemTabs.decorations}
         isVisible={currentMenu() === "decorations"}
-        range={{ from: 23 }}
         selectEquipment={props.selectEquipment}
         selectedItem={props.selectedItem}
       />

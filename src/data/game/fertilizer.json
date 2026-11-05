@@ -1,0 +1,192 @@
+{
+  "gameVersion": "1.6.15",
+  "fertilizer": {
+    "basic_fertilizer": {
+      "beforeSproutOnly": true,
+      "itemId": "(O)368",
+      "name": "Basic Fertilizer",
+      "prices": {
+        "SeedShop": {
+          "price": 100
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "qualityLevel": 1,
+      "speedBoost": 0,
+      "sprites": {
+        "icon": [0, 0, 16, 16],
+        "soil": [16, 0, 16, 16]
+      },
+      "target": "soil",
+      "waterRetention": 0
+    },
+    "basic_retaining_soil": {
+      "beforeSproutOnly": false,
+      "itemId": "(O)370",
+      "name": "Basic Retaining Soil",
+      "prices": {
+        "SeedShop": {
+          "price": 100
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "qualityLevel": 0,
+      "speedBoost": 0,
+      "sprites": {
+        "icon": [32, 0, 16, 16],
+        "soil": [48, 0, 16, 16]
+      },
+      "target": "soil",
+      "waterRetention": 0.33
+    },
+    "deluxe_fertilizer": {
+      "beforeSproutOnly": false,
+      "itemId": "(O)919",
+      "name": "Deluxe Fertilizer",
+      "prices": {},
+      "qualityLevel": 3,
+      "speedBoost": 0,
+      "sprites": {
+        "icon": [64, 0, 16, 16],
+        "soil": [80, 0, 16, 16]
+      },
+      "target": "soil",
+      "waterRetention": 0
+    },
+    "deluxe_retaining_soil": {
+      "beforeSproutOnly": false,
+      "itemId": "(O)920",
+      "name": "Deluxe Retaining Soil",
+      "prices": {},
+      "qualityLevel": 0,
+      "speedBoost": 0,
+      "sprites": {
+        "icon": [96, 0, 16, 16],
+        "soil": [112, 0, 16, 16]
+      },
+      "target": "soil",
+      "waterRetention": 1
+    },
+    "deluxe_speed_gro": {
+      "beforeSproutOnly": false,
+      "itemId": "(O)466",
+      "name": "Deluxe Speed-Gro",
+      "prices": {
+        "Sandy": {
+          "price": 80
+        },
+        "SeedShop": {
+          "price": 150
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "qualityLevel": 0,
+      "speedBoost": 0.25,
+      "sprites": {
+        "icon": [128, 0, 16, 16],
+        "soil": [144, 0, 16, 16]
+      },
+      "target": "soil",
+      "waterRetention": 0
+    },
+    "hyper_speed_gro": {
+      "beforeSproutOnly": false,
+      "itemId": "(O)918",
+      "name": "Hyper Speed-Gro",
+      "prices": {},
+      "qualityLevel": 0,
+      "speedBoost": 0.33,
+      "sprites": {
+        "icon": [160, 0, 16, 16],
+        "soil": [176, 0, 16, 16]
+      },
+      "target": "soil",
+      "waterRetention": 0
+    },
+    "quality_fertilizer": {
+      "beforeSproutOnly": true,
+      "itemId": "(O)369",
+      "name": "Quality Fertilizer",
+      "prices": {
+        "SeedShop": {
+          "price": 150
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "qualityLevel": 2,
+      "speedBoost": 0,
+      "sprites": {
+        "icon": [192, 0, 16, 16],
+        "soil": [208, 0, 16, 16]
+      },
+      "target": "soil",
+      "waterRetention": 0
+    },
+    "quality_retaining_soil": {
+      "beforeSproutOnly": false,
+      "itemId": "(O)371",
+      "name": "Quality Retaining Soil",
+      "prices": {
+        "Sandy": {
+          "price": 200
+        },
+        "SeedShop": {
+          "price": 150
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "qualityLevel": 0,
+      "speedBoost": 0,
+      "sprites": {
+        "icon": [224, 0, 16, 16],
+        "soil": [240, 0, 16, 16]
+      },
+      "target": "soil",
+      "waterRetention": 0.66
+    },
+    "speed_gro": {
+      "beforeSproutOnly": false,
+      "itemId": "(O)465",
+      "name": "Speed-Gro",
+      "prices": {
+        "SeedShop": {
+          "price": 100
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "qualityLevel": 0,
+      "speedBoost": 0.1,
+      "sprites": {
+        "icon": [256, 0, 16, 16],
+        "soil": [272, 0, 16, 16]
+      },
+      "target": "soil",
+      "waterRetention": 0
+    },
+    "tree_fertilizer": {
+      "beforeSproutOnly": false,
+      "itemId": "(O)805",
+      "name": "Tree Fertilizer",
+      "prices": {},
+      "qualityLevel": 0,
+      "speedBoost": 0,
+      "sprites": {
+        "icon": [288, 0, 16, 16]
+      },
+      "target": "wildTree",
+      "waterRetention": 0
+    }
+  }
+}

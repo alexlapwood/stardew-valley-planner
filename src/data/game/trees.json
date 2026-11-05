@@ -1,0 +1,845 @@
+{
+  "gameVersion": "1.6.15",
+  "trees": {
+    "apple": {
+      "daysToMature": 28,
+      "fruitItemId": "(O)613",
+      "harvest": {
+        "maxFruit": 3,
+        "quality": [
+          {
+            "daysMature": 0,
+            "quality": 0
+          },
+          {
+            "daysMature": 112,
+            "quality": 1
+          },
+          {
+            "daysMature": 224,
+            "quality": 2
+          },
+          {
+            "daysMature": 336,
+            "quality": 4
+          }
+        ]
+      },
+      "name": "Apple",
+      "placement": {
+        "gardenPot": false,
+        "growthClearance": 1,
+        "treeSpacing": 2
+      },
+      "saplingItemId": "(O)633",
+      "saplingName": "Apple Sapling",
+      "saplingPrices": {
+        "SeedShop": {
+          "price": 4000
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "seasons": ["fall"],
+      "sell": 100,
+      "sprites": {
+        "fruit": [16, 0, 16, 16],
+        "growingOffset": {
+          "x": -16,
+          "y": -68
+        },
+        "matureOffset": {
+          "x": -16,
+          "y": -64
+        },
+        "sapling": [0, 0, 16, 16],
+        "seasons": {
+          "fall": {
+            "growing": [
+              [32, 0, 48, 80],
+              [80, 0, 48, 80],
+              [128, 0, 48, 80],
+              [176, 0, 48, 80]
+            ],
+            "mature": [320, 0, 48, 80]
+          },
+          "spring": {
+            "growing": [
+              [32, 0, 48, 80],
+              [80, 0, 48, 80],
+              [128, 0, 48, 80],
+              [176, 0, 48, 80]
+            ],
+            "mature": [224, 0, 48, 80]
+          },
+          "summer": {
+            "growing": [
+              [32, 0, 48, 80],
+              [80, 0, 48, 80],
+              [128, 0, 48, 80],
+              [176, 0, 48, 80]
+            ],
+            "mature": [272, 0, 48, 80]
+          },
+          "winter": {
+            "growing": [
+              [32, 0, 48, 80],
+              [80, 0, 48, 80],
+              [128, 0, 48, 80],
+              [176, 0, 48, 80]
+            ],
+            "mature": [368, 0, 48, 80]
+          }
+        },
+        "shelteredSeason": "summer"
+      },
+      "stages": [0, 7, 14, 21],
+      "type": "fruitTree"
+    },
+    "apricot": {
+      "daysToMature": 28,
+      "fruitItemId": "(O)634",
+      "harvest": {
+        "maxFruit": 3,
+        "quality": [
+          {
+            "daysMature": 0,
+            "quality": 0
+          },
+          {
+            "daysMature": 112,
+            "quality": 1
+          },
+          {
+            "daysMature": 224,
+            "quality": 2
+          },
+          {
+            "daysMature": 336,
+            "quality": 4
+          }
+        ]
+      },
+      "name": "Apricot",
+      "placement": {
+        "gardenPot": false,
+        "growthClearance": 1,
+        "treeSpacing": 2
+      },
+      "saplingItemId": "(O)629",
+      "saplingName": "Apricot Sapling",
+      "saplingPrices": {
+        "SeedShop": {
+          "price": 2000
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "seasons": ["spring"],
+      "sell": 50,
+      "sprites": {
+        "fruit": [16, 80, 16, 16],
+        "growingOffset": {
+          "x": -16,
+          "y": -68
+        },
+        "matureOffset": {
+          "x": -16,
+          "y": -64
+        },
+        "sapling": [0, 80, 16, 16],
+        "seasons": {
+          "fall": {
+            "growing": [
+              [32, 80, 48, 80],
+              [80, 80, 48, 80],
+              [128, 80, 48, 80],
+              [176, 80, 48, 80]
+            ],
+            "mature": [320, 80, 48, 80]
+          },
+          "spring": {
+            "growing": [
+              [32, 80, 48, 80],
+              [80, 80, 48, 80],
+              [128, 80, 48, 80],
+              [176, 80, 48, 80]
+            ],
+            "mature": [224, 80, 48, 80]
+          },
+          "summer": {
+            "growing": [
+              [32, 80, 48, 80],
+              [80, 80, 48, 80],
+              [128, 80, 48, 80],
+              [176, 80, 48, 80]
+            ],
+            "mature": [272, 80, 48, 80]
+          },
+          "winter": {
+            "growing": [
+              [32, 80, 48, 80],
+              [80, 80, 48, 80],
+              [128, 80, 48, 80],
+              [176, 80, 48, 80]
+            ],
+            "mature": [368, 80, 48, 80]
+          }
+        },
+        "shelteredSeason": "summer"
+      },
+      "stages": [0, 7, 14, 21],
+      "type": "fruitTree"
+    },
+    "banana": {
+      "daysToMature": 28,
+      "fruitItemId": "(O)91",
+      "harvest": {
+        "maxFruit": 3,
+        "quality": [
+          {
+            "daysMature": 0,
+            "quality": 0
+          },
+          {
+            "daysMature": 112,
+            "quality": 1
+          },
+          {
+            "daysMature": 224,
+            "quality": 2
+          },
+          {
+            "daysMature": 336,
+            "quality": 4
+          }
+        ]
+      },
+      "name": "Banana",
+      "placement": {
+        "gardenPot": false,
+        "growthClearance": 1,
+        "treeSpacing": 2
+      },
+      "saplingItemId": "(O)69",
+      "saplingName": "Banana Sapling",
+      "saplingPrices": {
+        "IslandTrade": {
+          "price": 0,
+          "trade": {
+            "count": 5,
+            "item": "Dragon Tooth"
+          }
+        }
+      },
+      "seasons": ["summer"],
+      "sell": 150,
+      "sprites": {
+        "fruit": [16, 160, 16, 16],
+        "growingOffset": {
+          "x": -16,
+          "y": -68
+        },
+        "matureOffset": {
+          "x": -16,
+          "y": -64
+        },
+        "sapling": [0, 160, 16, 16],
+        "seasons": {
+          "fall": {
+            "growing": [
+              [32, 160, 48, 80],
+              [80, 160, 48, 80],
+              [128, 160, 48, 80],
+              [176, 160, 48, 80]
+            ],
+            "mature": [320, 160, 48, 80]
+          },
+          "spring": {
+            "growing": [
+              [32, 160, 48, 80],
+              [80, 160, 48, 80],
+              [128, 160, 48, 80],
+              [176, 160, 48, 80]
+            ],
+            "mature": [224, 160, 48, 80]
+          },
+          "summer": {
+            "growing": [
+              [32, 160, 48, 80],
+              [80, 160, 48, 80],
+              [128, 160, 48, 80],
+              [176, 160, 48, 80]
+            ],
+            "mature": [272, 160, 48, 80]
+          },
+          "winter": {
+            "growing": [
+              [32, 160, 48, 80],
+              [80, 160, 48, 80],
+              [128, 160, 48, 80],
+              [176, 160, 48, 80]
+            ],
+            "mature": [368, 160, 48, 80]
+          }
+        },
+        "shelteredSeason": "summer"
+      },
+      "stages": [0, 7, 14, 21],
+      "type": "fruitTree"
+    },
+    "cherry": {
+      "daysToMature": 28,
+      "fruitItemId": "(O)638",
+      "harvest": {
+        "maxFruit": 3,
+        "quality": [
+          {
+            "daysMature": 0,
+            "quality": 0
+          },
+          {
+            "daysMature": 112,
+            "quality": 1
+          },
+          {
+            "daysMature": 224,
+            "quality": 2
+          },
+          {
+            "daysMature": 336,
+            "quality": 4
+          }
+        ]
+      },
+      "name": "Cherry",
+      "placement": {
+        "gardenPot": false,
+        "growthClearance": 1,
+        "treeSpacing": 2
+      },
+      "saplingItemId": "(O)628",
+      "saplingName": "Cherry Sapling",
+      "saplingPrices": {
+        "SeedShop": {
+          "price": 3400
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "seasons": ["spring"],
+      "sell": 80,
+      "sprites": {
+        "fruit": [16, 240, 16, 16],
+        "growingOffset": {
+          "x": -16,
+          "y": -68
+        },
+        "matureOffset": {
+          "x": -16,
+          "y": -64
+        },
+        "sapling": [0, 240, 16, 16],
+        "seasons": {
+          "fall": {
+            "growing": [
+              [32, 240, 48, 80],
+              [80, 240, 48, 80],
+              [128, 240, 48, 80],
+              [176, 240, 48, 80]
+            ],
+            "mature": [320, 240, 48, 80]
+          },
+          "spring": {
+            "growing": [
+              [32, 240, 48, 80],
+              [80, 240, 48, 80],
+              [128, 240, 48, 80],
+              [176, 240, 48, 80]
+            ],
+            "mature": [224, 240, 48, 80]
+          },
+          "summer": {
+            "growing": [
+              [32, 240, 48, 80],
+              [80, 240, 48, 80],
+              [128, 240, 48, 80],
+              [176, 240, 48, 80]
+            ],
+            "mature": [272, 240, 48, 80]
+          },
+          "winter": {
+            "growing": [
+              [32, 240, 48, 80],
+              [80, 240, 48, 80],
+              [128, 240, 48, 80],
+              [176, 240, 48, 80]
+            ],
+            "mature": [368, 240, 48, 80]
+          }
+        },
+        "shelteredSeason": "summer"
+      },
+      "stages": [0, 7, 14, 21],
+      "type": "fruitTree"
+    },
+    "mango": {
+      "daysToMature": 28,
+      "fruitItemId": "(O)834",
+      "harvest": {
+        "maxFruit": 3,
+        "quality": [
+          {
+            "daysMature": 0,
+            "quality": 0
+          },
+          {
+            "daysMature": 112,
+            "quality": 1
+          },
+          {
+            "daysMature": 224,
+            "quality": 2
+          },
+          {
+            "daysMature": 336,
+            "quality": 4
+          }
+        ]
+      },
+      "name": "Mango",
+      "placement": {
+        "gardenPot": false,
+        "growthClearance": 1,
+        "treeSpacing": 2
+      },
+      "saplingItemId": "(O)835",
+      "saplingName": "Mango Sapling",
+      "saplingPrices": {
+        "IslandTrade": {
+          "price": 0,
+          "trade": {
+            "count": 75,
+            "item": "Mussel"
+          }
+        }
+      },
+      "seasons": ["summer"],
+      "sell": 130,
+      "sprites": {
+        "fruit": [16, 320, 16, 16],
+        "growingOffset": {
+          "x": -16,
+          "y": -68
+        },
+        "matureOffset": {
+          "x": -16,
+          "y": -64
+        },
+        "sapling": [0, 320, 16, 16],
+        "seasons": {
+          "fall": {
+            "growing": [
+              [32, 320, 48, 80],
+              [80, 320, 48, 80],
+              [128, 320, 48, 80],
+              [176, 320, 48, 80]
+            ],
+            "mature": [320, 320, 48, 80]
+          },
+          "spring": {
+            "growing": [
+              [32, 320, 48, 80],
+              [80, 320, 48, 80],
+              [128, 320, 48, 80],
+              [176, 320, 48, 80]
+            ],
+            "mature": [224, 320, 48, 80]
+          },
+          "summer": {
+            "growing": [
+              [32, 320, 48, 80],
+              [80, 320, 48, 80],
+              [128, 320, 48, 80],
+              [176, 320, 48, 80]
+            ],
+            "mature": [272, 320, 48, 80]
+          },
+          "winter": {
+            "growing": [
+              [32, 320, 48, 80],
+              [80, 320, 48, 80],
+              [128, 320, 48, 80],
+              [176, 320, 48, 80]
+            ],
+            "mature": [368, 320, 48, 80]
+          }
+        },
+        "shelteredSeason": "summer"
+      },
+      "stages": [0, 7, 14, 21],
+      "type": "fruitTree"
+    },
+    "orange": {
+      "daysToMature": 28,
+      "fruitItemId": "(O)635",
+      "harvest": {
+        "maxFruit": 3,
+        "quality": [
+          {
+            "daysMature": 0,
+            "quality": 0
+          },
+          {
+            "daysMature": 112,
+            "quality": 1
+          },
+          {
+            "daysMature": 224,
+            "quality": 2
+          },
+          {
+            "daysMature": 336,
+            "quality": 4
+          }
+        ]
+      },
+      "name": "Orange",
+      "placement": {
+        "gardenPot": false,
+        "growthClearance": 1,
+        "treeSpacing": 2
+      },
+      "saplingItemId": "(O)630",
+      "saplingName": "Orange Sapling",
+      "saplingPrices": {
+        "SeedShop": {
+          "price": 4000
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "seasons": ["summer"],
+      "sell": 100,
+      "sprites": {
+        "fruit": [16, 400, 16, 16],
+        "growingOffset": {
+          "x": -16,
+          "y": -68
+        },
+        "matureOffset": {
+          "x": -16,
+          "y": -64
+        },
+        "sapling": [0, 400, 16, 16],
+        "seasons": {
+          "fall": {
+            "growing": [
+              [32, 400, 48, 80],
+              [80, 400, 48, 80],
+              [128, 400, 48, 80],
+              [176, 400, 48, 80]
+            ],
+            "mature": [320, 400, 48, 80]
+          },
+          "spring": {
+            "growing": [
+              [32, 400, 48, 80],
+              [80, 400, 48, 80],
+              [128, 400, 48, 80],
+              [176, 400, 48, 80]
+            ],
+            "mature": [224, 400, 48, 80]
+          },
+          "summer": {
+            "growing": [
+              [32, 400, 48, 80],
+              [80, 400, 48, 80],
+              [128, 400, 48, 80],
+              [176, 400, 48, 80]
+            ],
+            "mature": [272, 400, 48, 80]
+          },
+          "winter": {
+            "growing": [
+              [32, 400, 48, 80],
+              [80, 400, 48, 80],
+              [128, 400, 48, 80],
+              [176, 400, 48, 80]
+            ],
+            "mature": [368, 400, 48, 80]
+          }
+        },
+        "shelteredSeason": "summer"
+      },
+      "stages": [0, 7, 14, 21],
+      "type": "fruitTree"
+    },
+    "peach": {
+      "daysToMature": 28,
+      "fruitItemId": "(O)636",
+      "harvest": {
+        "maxFruit": 3,
+        "quality": [
+          {
+            "daysMature": 0,
+            "quality": 0
+          },
+          {
+            "daysMature": 112,
+            "quality": 1
+          },
+          {
+            "daysMature": 224,
+            "quality": 2
+          },
+          {
+            "daysMature": 336,
+            "quality": 4
+          }
+        ]
+      },
+      "name": "Peach",
+      "placement": {
+        "gardenPot": false,
+        "growthClearance": 1,
+        "treeSpacing": 2
+      },
+      "saplingItemId": "(O)631",
+      "saplingName": "Peach Sapling",
+      "saplingPrices": {
+        "SeedShop": {
+          "price": 6000
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "seasons": ["summer"],
+      "sell": 140,
+      "sprites": {
+        "fruit": [16, 480, 16, 16],
+        "growingOffset": {
+          "x": -16,
+          "y": -68
+        },
+        "matureOffset": {
+          "x": -16,
+          "y": -64
+        },
+        "sapling": [0, 480, 16, 16],
+        "seasons": {
+          "fall": {
+            "growing": [
+              [32, 480, 48, 80],
+              [80, 480, 48, 80],
+              [128, 480, 48, 80],
+              [176, 480, 48, 80]
+            ],
+            "mature": [320, 480, 48, 80]
+          },
+          "spring": {
+            "growing": [
+              [32, 480, 48, 80],
+              [80, 480, 48, 80],
+              [128, 480, 48, 80],
+              [176, 480, 48, 80]
+            ],
+            "mature": [224, 480, 48, 80]
+          },
+          "summer": {
+            "growing": [
+              [32, 480, 48, 80],
+              [80, 480, 48, 80],
+              [128, 480, 48, 80],
+              [176, 480, 48, 80]
+            ],
+            "mature": [272, 480, 48, 80]
+          },
+          "winter": {
+            "growing": [
+              [32, 480, 48, 80],
+              [80, 480, 48, 80],
+              [128, 480, 48, 80],
+              [176, 480, 48, 80]
+            ],
+            "mature": [368, 480, 48, 80]
+          }
+        },
+        "shelteredSeason": "summer"
+      },
+      "stages": [0, 7, 14, 21],
+      "type": "fruitTree"
+    },
+    "pomegranate": {
+      "daysToMature": 28,
+      "fruitItemId": "(O)637",
+      "harvest": {
+        "maxFruit": 3,
+        "quality": [
+          {
+            "daysMature": 0,
+            "quality": 0
+          },
+          {
+            "daysMature": 112,
+            "quality": 1
+          },
+          {
+            "daysMature": 224,
+            "quality": 2
+          },
+          {
+            "daysMature": 336,
+            "quality": 4
+          }
+        ]
+      },
+      "name": "Pomegranate",
+      "placement": {
+        "gardenPot": false,
+        "growthClearance": 1,
+        "treeSpacing": 2
+      },
+      "saplingItemId": "(O)632",
+      "saplingName": "Pomegranate Sapling",
+      "saplingPrices": {
+        "SeedShop": {
+          "price": 6000
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "seasons": ["fall"],
+      "sell": 140,
+      "sprites": {
+        "fruit": [16, 560, 16, 16],
+        "growingOffset": {
+          "x": -16,
+          "y": -68
+        },
+        "matureOffset": {
+          "x": -16,
+          "y": -64
+        },
+        "sapling": [0, 560, 16, 16],
+        "seasons": {
+          "fall": {
+            "growing": [
+              [32, 560, 48, 80],
+              [80, 560, 48, 80],
+              [128, 560, 48, 80],
+              [176, 560, 48, 80]
+            ],
+            "mature": [320, 560, 48, 80]
+          },
+          "spring": {
+            "growing": [
+              [32, 560, 48, 80],
+              [80, 560, 48, 80],
+              [128, 560, 48, 80],
+              [176, 560, 48, 80]
+            ],
+            "mature": [224, 560, 48, 80]
+          },
+          "summer": {
+            "growing": [
+              [32, 560, 48, 80],
+              [80, 560, 48, 80],
+              [128, 560, 48, 80],
+              [176, 560, 48, 80]
+            ],
+            "mature": [272, 560, 48, 80]
+          },
+          "winter": {
+            "growing": [
+              [32, 560, 48, 80],
+              [80, 560, 48, 80],
+              [128, 560, 48, 80],
+              [176, 560, 48, 80]
+            ],
+            "mature": [368, 560, 48, 80]
+          }
+        },
+        "shelteredSeason": "summer"
+      },
+      "stages": [0, 7, 14, 21],
+      "type": "fruitTree"
+    },
+    "tea_bush": {
+      "daysToMature": 20,
+      "fruitItemId": "(O)815",
+      "harvest": {
+        "firstDay": 22,
+        "lastDay": 28,
+        "maxFruit": 1
+      },
+      "name": "Tea Bush",
+      "placement": {
+        "gardenPot": true
+      },
+      "saplingItemId": "(O)251",
+      "saplingName": "Tea Sapling",
+      "saplingPrices": {
+        "Traveler": {
+          "random": true
+        }
+      },
+      "seasons": ["spring", "summer", "fall"],
+      "sell": 50,
+      "sprites": {
+        "fruit": [16, 640, 16, 16],
+        "growingOffset": {
+          "x": 0,
+          "y": -16
+        },
+        "matureOffset": {
+          "x": 0,
+          "y": -16
+        },
+        "sapling": [0, 640, 16, 16],
+        "seasons": {
+          "fall": {
+            "growing": [
+              [160, 640, 16, 32],
+              [176, 640, 16, 32]
+            ],
+            "mature": [192, 640, 16, 32],
+            "ready": [208, 640, 16, 32]
+          },
+          "spring": {
+            "growing": [
+              [32, 640, 16, 32],
+              [48, 640, 16, 32]
+            ],
+            "mature": [64, 640, 16, 32],
+            "ready": [80, 640, 16, 32]
+          },
+          "summer": {
+            "growing": [
+              [96, 640, 16, 32],
+              [112, 640, 16, 32]
+            ],
+            "mature": [128, 640, 16, 32],
+            "ready": [144, 640, 16, 32]
+          },
+          "winter": {
+            "growing": [
+              [224, 640, 16, 32],
+              [240, 640, 16, 32]
+            ],
+            "mature": [256, 640, 16, 32]
+          }
+        },
+        "shelteredSeason": "spring"
+      },
+      "stages": [0, 10],
+      "type": "teaBush"
+    }
+  }
+}

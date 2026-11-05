@@ -8,7 +8,7 @@ exports[`<EquipmentMenu /> > renders correctly 1`] = `
     <div>
       <div
         class="sdv-list-item flex-horizontal"
-        data-testid="equipment-scarecrow--0"
+        data-testid="equipment-scarecrow--scarecrow"
       >
         <div
           class="sdv-list-item-icon"
@@ -18,7 +18,7 @@ exports[`<EquipmentMenu /> > renders correctly 1`] = `
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url("images/equipment-sheet.png"); background-position: 0px 0px; height: 32px; width: 16px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/game/items.png"); background-position: -96px -64px; height: 32px; width: 16px;"
             />
           </div>
         </div>
@@ -80,15 +80,19 @@ exports[`<EquipmentMenu /> > renders correctly 1`] = `
     <div>
       <div
         class="sdv-list-item flex-horizontal"
-        data-testid="equipment-sprinkler--0"
+        data-testid="equipment-sprinkler--sprinkler"
       >
         <div
           class="sdv-list-item-icon"
         >
           <div
-            class="sprite"
-            style="display: inline-block; vertical-align: top; background-image: url("images/equipment-sheet.png"); background-position: -144px -16px; height: 16px; width: 16px;"
-          />
+            style="height: 16px; transform: scale(1); transform-origin: top center; white-space: nowrap; width: 16px;"
+          >
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/game/items.png"); background-position: 0px -96px; height: 16px; width: 16px;"
+            />
+          </div>
         </div>
         <div
           class="flex margin-right"
@@ -148,21 +152,17 @@ exports[`<EquipmentMenu /> > renders correctly 1`] = `
     <div>
       <div
         class="sdv-list-item flex-horizontal"
-        data-testid="equipment-fence--0"
+        data-testid="equipment-fence--wood_fence"
       >
         <div
           class="sdv-list-item-icon"
         >
           <div
-            style="height: 16px; transform: scale(0.5); transform-origin: top left; white-space: nowrap; width: 16px;"
+            style="height: 16px; transform: scale(1); transform-origin: top center; white-space: nowrap; width: 16px;"
           >
             <div
               class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url("images/fences.png"); background-position: 0px 0px; height: 32px; width: 16px;"
-            />
-            <div
-              class="sprite"
-              style="display: inline-block; vertical-align: top; background-image: url("images/fences.png"); background-position: -32px 0px; height: 32px; width: 16px;"
+              style="display: inline-block; vertical-align: top; background-image: url("images/game/items.png"); background-position: -16px -32px; height: 16px; width: 16px;"
             />
           </div>
         </div>

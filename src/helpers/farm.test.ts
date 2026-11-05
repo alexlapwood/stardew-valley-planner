@@ -90,7 +90,7 @@ describe("Farm helper", () => {
       const equipment: IInstalledEquipment = {
         dateInstalled: 0,
         equipmentId: "test",
-        skinIndex: 0,
+        skin: "test",
         type: "equipment",
         x,
         y,
@@ -177,7 +177,7 @@ describe("Farm helper", () => {
             {
               dateInstalled: 0,
               equipmentId: "sprinkler",
-              skinIndex: 0,
+              skin: "sprinkler",
               type: "equipment",
               x: 3,
               y: 3,
@@ -185,7 +185,7 @@ describe("Farm helper", () => {
             {
               dateInstalled: 0,
               equipmentId: "sprinkler",
-              skinIndex: 1,
+              skin: "quality_sprinkler",
               type: "equipment",
               x: 3,
               y: 3,
@@ -193,7 +193,7 @@ describe("Farm helper", () => {
             {
               dateInstalled: 0,
               equipmentId: "sprinkler",
-              skinIndex: 2,
+              skin: "iridium_sprinkler",
               type: "equipment",
               x: 3,
               y: 3,
@@ -219,7 +219,7 @@ describe("Farm helper", () => {
             {
               dateInstalled: 0,
               equipmentId: "sprinkler",
-              skinIndex: 0,
+              skin: "sprinkler",
               type: "equipment",
               x: 0,
               y: 0,
@@ -227,7 +227,7 @@ describe("Farm helper", () => {
             {
               dateInstalled: 0,
               equipmentId: "flooring",
-              skinIndex: 0,
+              skin: "wood_floor",
               type: "equipment",
               x: 0,
               y: 0,
@@ -254,7 +254,7 @@ describe("Farm helper", () => {
             {
               dateInstalled: 0,
               equipmentId: "fence",
-              skinIndex: 0,
+              skin: "wood_fence",
               type: "equipment",
               x: 3,
               y: 2,
@@ -264,7 +264,7 @@ describe("Farm helper", () => {
             {
               dateInstalled: 0,
               equipmentId: "fence",
-              skinIndex: 0,
+              skin: "wood_fence",
               type: "equipment",
               x: 3,
               y: 3,
@@ -287,7 +287,7 @@ describe("Farm helper", () => {
             {
               dateInstalled: 0,
               equipmentId: "flooring",
-              skinIndex: 0,
+              skin: "wood_floor",
               type: "equipment",
               x: 3,
               y: 2,
@@ -297,7 +297,7 @@ describe("Farm helper", () => {
             {
               dateInstalled: 0,
               equipmentId: "flooring",
-              skinIndex: 0,
+              skin: "wood_floor",
               type: "equipment",
               x: 3,
               y: 3,
@@ -357,6 +357,20 @@ describe("Farm helper", () => {
       );
 
       expect(actual).toBe(false);
+    });
+
+    it("keeps a crop that regrows in every season until its planted season comes back", () => {
+      const cactus: IPlantedCrop = {
+        cropId: "cactus_fruit",
+        datePlanted: 0,
+        type: "crop",
+        x: 0,
+        y: 0,
+      };
+
+      expect(isCropHereToday(cactus, 3 * 28)).toBe(true);
+      expect(isCropHereToday(cactus, 4 * 28 - 1)).toBe(true);
+      expect(isCropHereToday(cactus, 4 * 28)).toBe(false);
     });
   });
 });

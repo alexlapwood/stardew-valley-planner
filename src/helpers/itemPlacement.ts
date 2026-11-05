@@ -1,8 +1,9 @@
 import { mergeDeep } from "immutable";
 
-import { crops } from "../data/sdv.json";
+import { crops } from "../data/game/crops.json";
 import { getCropsLastDay } from "./crop";
 import { getCropsAtLocation, getEquipmentAtLocation } from "./farm";
+import { isFloorItem } from "./items";
 
 export function checkCropsToPlant(
   cropsToPlant: IPlantedCrop[],
@@ -162,8 +163,8 @@ export function checkEquipmentToInstall(
       const installedEquipmentConflictPast = installedEquipmentList.find(
         (installedEquipment) => {
           if (
-            (equipmentToInstall.equipmentId === "flooring") !==
-            (installedEquipment.equipmentId === "flooring")
+            isFloorItem(equipmentToInstall.equipmentId) !==
+            isFloorItem(installedEquipment.equipmentId)
           ) {
             return false;
           }
@@ -227,7 +228,7 @@ export function checkEquipmentToInstall(
       const canInstallEquipmentHere =
         farmSpot === " " ||
         farmSpot === "E" ||
-        (farmSpot === "F" && equipmentToInstall.equipmentId === "flooring");
+        (farmSpot === "F" && isFloorItem(equipmentToInstall.equipmentId));
 
       if (
         plantedCropConflictPast === undefined &&

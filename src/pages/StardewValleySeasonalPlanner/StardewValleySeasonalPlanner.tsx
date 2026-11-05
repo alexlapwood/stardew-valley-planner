@@ -7,8 +7,8 @@ import DatePicker from "../../components/DatePicker/DatePicker";
 import Farm from "../../components/Farm/Farm";
 import SideMenu from "../../components/SideMenu/SideMenu";
 import Toolbar from "../../components/Toolbar/Toolbar";
-import { crops } from "../../data/sdv.json";
-import { getSeason } from "../../helpers/date";
+import { crops } from "../../data/game/crops.json";
+import { getSeasonName } from "../../helpers/date";
 import { date, setDate } from "../../state/farm";
 
 interface Props extends JSX.HTMLAttributes<HTMLDivElement> {}
@@ -51,14 +51,9 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
       return;
     }
 
-    const selectedCrop = crops[currentItem.id];
-
     const isInSeason =
-      selectedCrop !== undefined &&
-      selectedCrop.seasons.some(
-        (season) =>
-          season === ["spring", "summer", "fall", "winter"][getSeason(date)],
-      );
+      Object.hasOwn(crops, currentItem.id) &&
+      crops[currentItem.id].seasons.includes(getSeasonName(date));
 
     setDate(date);
 
@@ -146,8 +141,8 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
                 selectCrop={(cropId: string) => {
                   setSelectedItem({ id: cropId, type: "crop" });
                 }}
-                selectEquipment={(id: string, skinIndex: number) => {
-                  setSelectedItem({ id, skinIndex, type: "equipment" });
+                selectEquipment={(id: string, skin: string) => {
+                  setSelectedItem({ id, skin, type: "equipment" });
                 }}
                 selectedItem={selectedItem()}
               />

@@ -1,0 +1,344 @@
+{
+  "gameVersion": "1.6.15",
+  "events": {
+    "birthdays": {
+      "abigail": {
+        "day": 13,
+        "hiddenUntilMet": false,
+        "icon": [0, 0, 16, 24],
+        "name": "Abigail",
+        "season": "fall"
+      },
+      "alex": {
+        "day": 13,
+        "hiddenUntilMet": false,
+        "icon": [16, 0, 16, 24],
+        "name": "Alex",
+        "season": "summer"
+      },
+      "caroline": {
+        "day": 7,
+        "hiddenUntilMet": false,
+        "icon": [32, 0, 16, 24],
+        "name": "Caroline",
+        "season": "winter"
+      },
+      "clint": {
+        "day": 26,
+        "hiddenUntilMet": false,
+        "icon": [48, 0, 16, 24],
+        "name": "Clint",
+        "season": "winter"
+      },
+      "demetrius": {
+        "day": 19,
+        "hiddenUntilMet": false,
+        "icon": [64, 0, 16, 24],
+        "name": "Demetrius",
+        "season": "summer"
+      },
+      "dwarf": {
+        "day": 22,
+        "hiddenUntilMet": true,
+        "icon": [80, 0, 16, 24],
+        "name": "Dwarf",
+        "season": "summer"
+      },
+      "elliott": {
+        "day": 5,
+        "hiddenUntilMet": false,
+        "icon": [96, 0, 16, 24],
+        "name": "Elliott",
+        "season": "fall"
+      },
+      "emily": {
+        "day": 27,
+        "hiddenUntilMet": false,
+        "icon": [112, 0, 16, 24],
+        "name": "Emily",
+        "season": "spring"
+      },
+      "evelyn": {
+        "day": 20,
+        "hiddenUntilMet": false,
+        "icon": [128, 0, 16, 24],
+        "name": "Evelyn",
+        "season": "winter"
+      },
+      "george": {
+        "day": 24,
+        "hiddenUntilMet": false,
+        "icon": [144, 0, 16, 24],
+        "name": "George",
+        "season": "fall"
+      },
+      "gus": {
+        "day": 8,
+        "hiddenUntilMet": false,
+        "icon": [160, 0, 16, 24],
+        "name": "Gus",
+        "season": "summer"
+      },
+      "haley": {
+        "day": 14,
+        "hiddenUntilMet": false,
+        "icon": [176, 0, 16, 24],
+        "name": "Haley",
+        "season": "spring"
+      },
+      "harvey": {
+        "day": 14,
+        "hiddenUntilMet": false,
+        "icon": [192, 0, 16, 24],
+        "name": "Harvey",
+        "season": "winter"
+      },
+      "jas": {
+        "day": 4,
+        "hiddenUntilMet": false,
+        "icon": [208, 0, 16, 24],
+        "name": "Jas",
+        "season": "summer"
+      },
+      "jodi": {
+        "day": 11,
+        "hiddenUntilMet": false,
+        "icon": [224, 0, 16, 24],
+        "name": "Jodi",
+        "season": "fall"
+      },
+      "kent": {
+        "day": 4,
+        "hiddenUntilMet": false,
+        "icon": [240, 0, 16, 24],
+        "name": "Kent",
+        "season": "spring"
+      },
+      "krobus": {
+        "day": 1,
+        "hiddenUntilMet": true,
+        "icon": [256, 0, 16, 24],
+        "name": "Krobus",
+        "season": "winter"
+      },
+      "leah": {
+        "day": 23,
+        "hiddenUntilMet": false,
+        "icon": [272, 0, 16, 24],
+        "name": "Leah",
+        "season": "winter"
+      },
+      "leo": {
+        "day": 26,
+        "hiddenUntilMet": false,
+        "icon": [288, 0, 16, 24],
+        "name": "Leo",
+        "season": "summer"
+      },
+      "lewis": {
+        "day": 7,
+        "hiddenUntilMet": false,
+        "icon": [304, 0, 16, 24],
+        "name": "Lewis",
+        "season": "spring"
+      },
+      "linus": {
+        "day": 3,
+        "hiddenUntilMet": false,
+        "icon": [320, 0, 16, 24],
+        "name": "Linus",
+        "season": "winter"
+      },
+      "marnie": {
+        "day": 18,
+        "hiddenUntilMet": false,
+        "icon": [336, 0, 16, 24],
+        "name": "Marnie",
+        "season": "fall"
+      },
+      "maru": {
+        "day": 10,
+        "hiddenUntilMet": false,
+        "icon": [352, 0, 16, 24],
+        "name": "Maru",
+        "season": "summer"
+      },
+      "pam": {
+        "day": 18,
+        "hiddenUntilMet": false,
+        "icon": [368, 0, 16, 24],
+        "name": "Pam",
+        "season": "spring"
+      },
+      "penny": {
+        "day": 2,
+        "hiddenUntilMet": false,
+        "icon": [384, 0, 16, 24],
+        "name": "Penny",
+        "season": "fall"
+      },
+      "pierre": {
+        "day": 26,
+        "hiddenUntilMet": false,
+        "icon": [400, 0, 16, 24],
+        "name": "Pierre",
+        "season": "spring"
+      },
+      "robin": {
+        "day": 21,
+        "hiddenUntilMet": false,
+        "icon": [416, 0, 16, 24],
+        "name": "Robin",
+        "season": "fall"
+      },
+      "sam": {
+        "day": 17,
+        "hiddenUntilMet": false,
+        "icon": [432, 0, 16, 24],
+        "name": "Sam",
+        "season": "summer"
+      },
+      "sandy": {
+        "day": 15,
+        "hiddenUntilMet": true,
+        "icon": [448, 0, 16, 24],
+        "name": "Sandy",
+        "season": "fall"
+      },
+      "sebastian": {
+        "day": 10,
+        "hiddenUntilMet": false,
+        "icon": [464, 0, 16, 24],
+        "name": "Sebastian",
+        "season": "winter"
+      },
+      "shane": {
+        "day": 20,
+        "hiddenUntilMet": false,
+        "icon": [480, 0, 16, 24],
+        "name": "Shane",
+        "season": "spring"
+      },
+      "vincent": {
+        "day": 10,
+        "hiddenUntilMet": false,
+        "icon": [496, 0, 16, 24],
+        "name": "Vincent",
+        "season": "spring"
+      },
+      "willy": {
+        "day": 24,
+        "hiddenUntilMet": false,
+        "icon": [512, 0, 16, 24],
+        "name": "Willy",
+        "season": "summer"
+      },
+      "wizard": {
+        "day": 17,
+        "hiddenUntilMet": false,
+        "icon": [528, 0, 16, 24],
+        "name": "Wizard",
+        "season": "winter"
+      }
+    },
+    "festivals": {
+      "dance_of_the_moonlight_jellies": {
+        "endDay": 28,
+        "name": "Dance of the Moonlight Jellies",
+        "onCalendar": true,
+        "passive": false,
+        "season": "summer",
+        "startDay": 28
+      },
+      "desert_festival": {
+        "condition": "LOCATION_ACCESSIBLE Desert",
+        "endDay": 17,
+        "name": "Desert Festival",
+        "onCalendar": true,
+        "passive": true,
+        "season": "spring",
+        "startDay": 15
+      },
+      "egg_festival": {
+        "endDay": 13,
+        "name": "Egg Festival",
+        "onCalendar": true,
+        "passive": false,
+        "season": "spring",
+        "startDay": 13
+      },
+      "feast_of_the_winter_star": {
+        "endDay": 25,
+        "name": "Feast of the Winter Star",
+        "onCalendar": true,
+        "passive": false,
+        "season": "winter",
+        "startDay": 25
+      },
+      "festival_of_ice": {
+        "endDay": 8,
+        "name": "Festival of Ice",
+        "onCalendar": true,
+        "passive": false,
+        "season": "winter",
+        "startDay": 8
+      },
+      "flower_dance": {
+        "endDay": 24,
+        "name": "Flower Dance",
+        "onCalendar": true,
+        "passive": false,
+        "season": "spring",
+        "startDay": 24
+      },
+      "luau": {
+        "endDay": 11,
+        "name": "Luau",
+        "onCalendar": true,
+        "passive": false,
+        "season": "summer",
+        "startDay": 11
+      },
+      "night_market": {
+        "endDay": 17,
+        "name": "Night Market",
+        "onCalendar": true,
+        "passive": true,
+        "season": "winter",
+        "startDay": 15
+      },
+      "spirit_s_eve": {
+        "endDay": 27,
+        "name": "Spirit's Eve",
+        "onCalendar": true,
+        "passive": false,
+        "season": "fall",
+        "startDay": 27
+      },
+      "squidfest": {
+        "endDay": 13,
+        "name": "SquidFest",
+        "onCalendar": true,
+        "passive": true,
+        "season": "winter",
+        "startDay": 12
+      },
+      "stardew_valley_fair": {
+        "endDay": 16,
+        "name": "Stardew Valley Fair",
+        "onCalendar": true,
+        "passive": false,
+        "season": "fall",
+        "startDay": 16
+      },
+      "trout_derby": {
+        "endDay": 21,
+        "name": "Trout Derby",
+        "onCalendar": true,
+        "passive": true,
+        "season": "summer",
+        "startDay": 20
+      }
+    }
+  }
+}

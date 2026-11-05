@@ -1,0 +1,130 @@
+type TSpriteRect = [x: number, y: number, width: number, height: number];
+
+type TTileOffset = [dx: number, dy: number];
+
+interface IShopOffer {
+  price?: number;
+  random?: boolean;
+  trade?: { count: number; item: string };
+}
+
+interface ICropHarvest {
+  extraChance: number;
+  max: number;
+  maxPerFarmingLevel: number;
+  min: number;
+}
+
+interface ICropGrowthSprites {
+  growing: TSpriteRect[];
+  planted: TSpriteRect[];
+  ready: TSpriteRect;
+  readyOverlay?: TSpriteRect;
+  regrowing?: TSpriteRect;
+  regrown?: TSpriteRect;
+}
+
+interface ICropSprites {
+  growth: ICropGrowthSprites;
+  growthBySeason?: Partial<Record<string, ICropGrowthSprites>>;
+  harvest: TSpriteRect;
+  seed: TSpriteRect;
+}
+
+interface ICrop {
+  giantCrop: boolean;
+  gingerIsland: boolean;
+  harvest: ICropHarvest;
+  harvestItemId: string;
+  indoorOnly: boolean;
+  name: string;
+  needsWater: boolean;
+  paddy: boolean;
+  regrow?: number;
+  scythe: boolean;
+  seasons: string[];
+  seedItemId: string;
+  seedName: string;
+  seedPrices: Partial<Record<string, IShopOffer>>;
+  sell: number;
+  sprites: ICropSprites;
+  stages: number[];
+  trellis: boolean;
+}
+
+interface IItemRange {
+  radius: number;
+  shape: "circle" | "diamond" | "tiles";
+  tiles?: TTileOffset[];
+}
+
+interface IFenceSkin {
+  block: TSpriteRect;
+  gate: boolean;
+}
+
+interface IFloorSkin {
+  block: TSpriteRect;
+  connectType: string;
+  cornerSize: number;
+  id: string;
+  shadowType: string;
+  winterBlock?: TSpriteRect;
+}
+
+interface IItemSkin {
+  buy?: Partial<Record<string, IShopOffer>>;
+  crowRange?: IItemRange;
+  fence?: IFenceSkin;
+  floor?: IFloorSkin;
+  flowerRange?: IItemRange;
+  icon: TSpriteRect;
+  itemId: string;
+  name: string;
+  sprite?: TSpriteRect;
+  spritesBySeason?: Partial<Record<string, TSpriteRect>>;
+  waterRange?: IItemRange;
+}
+
+interface ISideValues {
+  e: number;
+  n: number;
+  s: number;
+  w: number;
+}
+
+interface IGatePart {
+  closed: TSpriteRect;
+  offset: TTileOffset;
+  open: TSpriteRect;
+}
+
+interface IFenceDrawing {
+  cellHeight: number;
+  cellOffset: TTileOffset;
+  cellWidth: number;
+  columns: number;
+  drawGuide: Partial<Record<string, number>>;
+  gate: {
+    otherCell: number;
+    partsBySum: Partial<Record<string, IGatePart[]>>;
+  };
+  neighbours: ISideValues;
+}
+
+interface IFloorDrawing {
+  drawGuide: Partial<Record<string, number>>;
+  neighbours: ISideValues;
+  randomViews: number[];
+  tileSize: number;
+  tilesPerRow: number;
+}
+
+interface IItem {
+  fenceDrawing?: IFenceDrawing;
+  floorDrawing?: IFloorDrawing;
+  kind: "bigCraftable" | "fence" | "floor" | "object";
+  name: string;
+  skinOrder: string[];
+  skins: Partial<Record<string, IItemSkin>>;
+}

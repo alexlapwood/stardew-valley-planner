@@ -1,8 +1,10 @@
 import cn from "clsx";
 import { For, Show } from "solid-js";
 
-import { crops } from "../../../data/sdv.json";
-import { getSeason, getYear } from "../../../helpers/date";
+import { crops } from "../../../data/game/crops.json";
+import { atlasSprite } from "../../../helpers/atlas";
+import { getSeedCost, isInSeedMenu } from "../../../helpers/crop";
+import { getSeasonName, getYear } from "../../../helpers/date";
 import BigText from "../../BigText/BigText";
 import Sprite from "../../Sprite/Sprite";
 
@@ -58,9 +60,11 @@ export default function SeedMenu(props: IProps) {
             (lastDay - props.date - daysUntilFirstHarvest) / crop.regrow,
           );
 
+    const seedCost = getSeedCost(crop)?.cost ?? 0;
+
     return (
-      crop.sell * harvests * (crop.harvest.min ?? 1) -
-      crop.buy * (crop.regrow === undefined ? harvests : 1)
+      crop.sell * harvests * crop.harvest.min -
+      seedCost * (crop.regrow === undefined ? harvests : 1)
     );
   };
 
@@ -70,18 +74,25 @@ export default function SeedMenu(props: IProps) {
         100,
     ) / 100;
 
+  const getTooltip = (crop: ICrop) => {
+    const seedCost = getSeedCost(crop);
+
+    return (
+      (seedCost === undefined ? "" : `Cost: ${seedCost.label}\n`) +
+      `Sell: ${crop.sell}g\n` +
+      `Profit: ${calculateProfit(crop)}g\n` +
+      `Profit/day: ${calculateProfitPerDay(crop)}g`
+    );
+  };
+
   return (
     <Show when={props.isVisible}>
       <div class="SeedMenu sdv-list">
         <For
           each={cropIds
-            .filter((cropId) => crops[cropId].isIndoorsOnly !== true)
+            .filter((cropId) => isInSeedMenu(crops[cropId]))
             .filter((cropId) =>
-              crops[cropId].seasons.some(
-                (season) =>
-                  season ===
-                  ["spring", "summer", "fall", "winter"][getSeason(props.date)],
-              ),
+              crops[cropId].seasons.includes(getSeasonName(props.date)),
             )}
         >
           {(cropId) => (
@@ -96,21 +107,10 @@ export default function SeedMenu(props: IProps) {
               onClick={() => {
                 props.selectCrop(cropId);
               }}
-              title={
-                `Cost: ${crops[cropId].buy}g\n` +
-                `Sell: ${crops[cropId].sell}g\n` +
-                `Profit: ${calculateProfit(crops[cropId])}g\n` +
-                `Profit/day: ${calculateProfitPerDay(crops[cropId])}g`
-              }
+              title={getTooltip(crops[cropId])}
             >
               <div class="sdv-list-item-icon">
-                <Sprite
-                  height={16}
-                  src="images/seeds.png"
-                  width={16}
-                  x={cropIds.indexOf(cropId) * 16}
-                  y={0}
-                />
+                <Sprite {...atlasSprite("crops", crops[cropId].sprites.seed)} />
               </div>
               <div>
                 <BigText>{crops[cropId].name}</BigText>

@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@solidjs/testing-library";
 
-import { equipmentIds } from "../../../../data/sdv.json";
+import { items } from "../../../../data/game/items.json";
 import EquipmentMenuItem from "./EquipmentMenuItem";
 
 describe("<EquipmentMenuItem />", () => {
@@ -8,7 +8,7 @@ describe("<EquipmentMenuItem />", () => {
     const { container } = render(() => (
       <EquipmentMenuItem
         date={0}
-        equipmentId={equipmentIds[0]}
+        equipmentId="scarecrow"
         selectEquipment={vitest.fn()}
       />
     ));
@@ -27,9 +27,9 @@ describe("<EquipmentMenuItem />", () => {
       />
     ));
 
-    fireEvent.click(screen.getByTestId("equipment-scarecrow--0"));
+    fireEvent.click(screen.getByTestId("equipment-scarecrow--scarecrow"));
 
-    expect(selectEquipment).toHaveBeenCalledWith("scarecrow", 0);
+    expect(selectEquipment).toHaveBeenCalledWith("scarecrow", "scarecrow");
   });
 
   describe("equipment with multiple skins", () => {
@@ -45,7 +45,9 @@ describe("<EquipmentMenuItem />", () => {
 
       fireEvent.click(screen.getByTestId("equipment-dropdown--trigger"));
 
-      expect(container.querySelectorAll(".sdv-list-item")).toHaveLength(10);
+      expect(container.querySelectorAll(".sdv-list-item")).toHaveLength(
+        items.scarecrow.skinOrder.length + 1,
+      );
     });
 
     it("hides extra skins when clicking the dropdown trigger if the dropdown is already open", () => {
@@ -76,8 +78,34 @@ describe("<EquipmentMenuItem />", () => {
     ));
 
     fireEvent.click(screen.getByTestId("equipment-dropdown--trigger"));
-    fireEvent.click(screen.getByTestId("equipment-scarecrow--1"));
+    fireEvent.click(screen.getByTestId("equipment-scarecrow--rarecrow_110"));
 
-    expect(selectEquipment).toHaveBeenCalledWith("scarecrow", 1);
+    expect(selectEquipment).toHaveBeenCalledWith("scarecrow", "rarecrow_110");
+  });
+
+  it("shows the sprite of the current season for a seasonal item", () => {
+    const summer = 28;
+    const summerSprite =
+      items.seasonal_plant.skins.seasonal_plant_184?.spritesBySeason?.summer;
+
+    render(() => (
+      <EquipmentMenuItem
+        date={summer}
+        equipmentId="seasonal_plant"
+        selectEquipment={vitest.fn()}
+      />
+    ));
+
+    const sprite = screen
+      .getByTestId("equipment-seasonal_plant--seasonal_plant_184")
+      .querySelector<HTMLElement>(".sprite");
+
+    expect(summerSprite).toBeDefined();
+    expect(sprite?.style.backgroundPosition).toBe(
+      summerSprite
+        ?.slice(0, 2)
+        .map((position) => `-${position}px`)
+        .join(" "),
+    );
   });
 });

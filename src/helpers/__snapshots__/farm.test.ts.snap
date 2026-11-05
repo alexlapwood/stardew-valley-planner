@@ -8,8 +8,8 @@ exports[`Farm helper > getFenceMap > creates a fence map from the current equipm
   [
     ,
     ,
-    0,
-    0,
+    "wood_fence",
+    "wood_fence",
   ],
 ]
 `;
@@ -22,8 +22,8 @@ exports[`Farm helper > getFlooringMap > creates a flooring map from the current 
   [
     ,
     ,
-    0,
-    0,
+    "wood_floor",
+    "wood_floor",
   ],
 ]
 `;
@@ -79,7 +79,7 @@ exports[`Farm helper > getSoilMap > creates a soil map from the current farm ite
 exports[`Farm helper > getSoilMap > does not return soil under paths 1`] = `
 [
   [
-    undefined,
+    ,
     0,
   ],
   [

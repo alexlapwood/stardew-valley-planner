@@ -1,8 +1,7 @@
+import { atlasUrls } from "../helpers/atlas";
+
 export const imageUrls: string[] = [
-  "images/crops.png",
-  "images/equipment-sheet.png",
-  "images/fences.png",
-  "images/flooring.png",
+  ...Object.values(atlasUrls),
   "images/highlight-green.png",
   "images/highlight-grey.png",
   "images/highlight-red.png",
@@ -10,7 +9,6 @@ export const imageUrls: string[] = [
   "images/hoeDirtSnow.png",
   "images/pick-axe.png",
   "images/sdv-font.png",
-  "images/seeds.png",
   "images/standard-fall.png",
   "images/standard-spring.png",
   "images/standard-summer.png",

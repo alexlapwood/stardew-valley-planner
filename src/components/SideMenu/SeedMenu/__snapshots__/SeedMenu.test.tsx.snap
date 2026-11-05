@@ -57,17 +57,16 @@ exports[`<SeedMenu /> > renders correctly 1`] = `
     <div
       class="sdv-list-item"
       data-testid="seed--ancient_fruit"
-      title="Cost: 1000g
-Sell: 550g
-Profit: 3400g
-Profit/day: 40.48g"
+      title="Sell: 550g
+Profit: 4400g
+Profit/day: 52.38g"
     >
       <div
         class="sdv-list-item-icon"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -16px 0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -128px -32px; height: 16px; width: 16px;"
         />
       </div>
       <div>
@@ -146,7 +145,7 @@ Profit/day: 2.14g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -64px 0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -112px -128px; height: 16px; width: 16px;"
         />
       </div>
       <div>
@@ -198,6 +197,57 @@ Profit/day: 2.14g"
     </div>
     <div
       class="sdv-list-item"
+      data-testid="seed--carrot"
+      title="Cost: Maple Seed ×1
+Sell: 35g
+Profit: 315g
+Profit/day: 11.25g"
+    >
+      <div
+        class="sdv-list-item-icon"
+      >
+        <div
+          class="sprite"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -80px -288px; height: 16px; width: 16px;"
+        />
+      </div>
+      <div>
+        <div
+          class="BigText"
+        >
+          <div
+            style="transform-origin: left center; white-space: nowrap; transform: scale(1);"
+          >
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -280px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -632px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -672px 0px; height: 16px; width: 8px;"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sdv-list-item"
       data-testid="seed--cauliflower"
       title="Cost: 80g
 Sell: 175g
@@ -209,7 +259,7 @@ Profit/day: 6.79g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -128px 0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -112px -320px; height: 16px; width: 16px;"
         />
       </div>
       <div>
@@ -270,17 +320,17 @@ Profit/day: 6.79g"
     <div
       class="sdv-list-item"
       data-testid="seed--coffee_bean"
-      title="Cost: 30g
+      title="Cost: 2500g
 Sell: 15g
-Profit: 1350g
-Profit/day: 24.11g"
+Profit: -1120g
+Profit/day: -20g"
     >
       <div
         class="sdv-list-item-icon"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -144px 0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -128px -352px; height: 16px; width: 16px;"
         />
       </div>
       <div>
@@ -340,6 +390,52 @@ Profit/day: 24.11g"
     </div>
     <div
       class="sdv-list-item"
+      data-testid="seed--fiber"
+      title="Sell: 1g
+Profit: 60g
+Profit/day: 0.54g"
+    >
+      <div
+        class="sdv-list-item-icon"
+      >
+        <div
+          class="sprite"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -288px -512px; height: 16px; width: 16px;"
+        />
+      </div>
+      <div>
+        <div
+          class="BigText"
+        >
+          <div
+            style="transform-origin: left center; white-space: nowrap; transform: scale(1);"
+          >
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -304px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -584px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -528px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sdv-list-item"
       data-testid="seed--garlic"
       title="Cost: 40g
 Sell: 60g
@@ -351,7 +447,7 @@ Profit/day: 4.29g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -224px 0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -96px -544px; height: 16px; width: 16px;"
         />
       </div>
       <div>
@@ -402,7 +498,7 @@ Profit/day: 6.43g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -256px 0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -128px -608px; height: 16px; width: 16px;"
         />
       </div>
       <div>
@@ -469,7 +565,7 @@ Profit/day: 5.71g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -304px 0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -96px -704px; height: 16px; width: 16px;"
         />
       </div>
       <div>
@@ -512,7 +608,7 @@ Profit/day: 3.21g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -336px 0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -96px -768px; height: 16px; width: 16px;"
         />
       </div>
       <div>
@@ -567,7 +663,7 @@ Profit/day: 4.29g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -368px 0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -112px -864px; height: 16px; width: 16px;"
         />
       </div>
       <div>
@@ -618,7 +714,7 @@ Profit/day: 8.57g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -432px 0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -112px -1024px; height: 16px; width: 16px;"
         />
       </div>
       <div>
@@ -673,7 +769,7 @@ Profit/day: 17.86g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -464px 0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -128px -1088px; height: 16px; width: 16px;"
         />
       </div>
       <div>
@@ -740,7 +836,7 @@ Profit/day: 1.43g"
       >
         <div
           class="sprite"
-          style="display: inline-block; vertical-align: top; background-image: url("images/seeds.png"); background-position: -544px 0px; height: 16px; width: 16px;"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -112px -1312px; height: 16px; width: 16px;"
         />
       </div>
       <div>
@@ -769,6 +865,85 @@ Profit/day: 1.43g"
             <div
               class="sprite"
               style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -640px 0px; height: 16px; width: 8px;"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sdv-list-item"
+      data-testid="seed--unmilled_rice"
+      title="Cost: 40g
+Sell: 30g
+Profit: -30g
+Profit/day: -1.07g"
+    >
+      <div
+        class="sdv-list-item-icon"
+      >
+        <div
+          class="sprite"
+          style="display: inline-block; vertical-align: top; background-image: url("images/game/crops.png"); background-position: -96px -1344px; height: 16px; width: 16px;"
+        />
+      </div>
+      <div>
+        <div
+          class="BigText"
+        >
+          <div
+            style="transform-origin: left center; white-space: nowrap; transform: scale(1);"
+          >
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -424px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -624px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -616px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -584px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -608px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -608px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -544px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: 0px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -400px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -584px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -536px 0px; height: 16px; width: 8px;"
+            />
+            <div
+              class="sprite"
+              style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
             />
           </div>
         </div>

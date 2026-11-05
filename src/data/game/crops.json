@@ -1,0 +1,2233 @@
+{
+  "gameVersion": "1.6.15",
+  "crops": {
+    "amaranth": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)300",
+      "indoorOnly": false,
+      "name": "Amaranth",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": true,
+      "seasons": ["fall"],
+      "seedItemId": "(O)299",
+      "seedName": "Amaranth Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 87
+        },
+        "SeedShop": {
+          "price": 70
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 150,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 0, 16, 32],
+            [48, 0, 16, 32],
+            [64, 0, 16, 32]
+          ],
+          "planted": [
+            [0, 0, 16, 32],
+            [16, 0, 16, 32]
+          ],
+          "ready": [80, 0, 16, 32]
+        },
+        "harvest": [112, 0, 16, 16],
+        "seed": [96, 0, 16, 16]
+      },
+      "stages": [1, 2, 2, 2],
+      "trellis": false
+    },
+    "ancient_fruit": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)454",
+      "indoorOnly": false,
+      "name": "Ancient Fruit",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 7,
+      "scythe": false,
+      "seasons": ["spring", "summer", "fall"],
+      "seedItemId": "(O)499",
+      "seedName": "Ancient Seeds",
+      "seedPrices": {},
+      "sell": 550,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 32, 16, 32],
+            [48, 32, 16, 32],
+            [64, 32, 16, 32],
+            [80, 32, 16, 32]
+          ],
+          "planted": [
+            [0, 32, 16, 32],
+            [16, 32, 16, 32]
+          ],
+          "ready": [96, 32, 16, 32],
+          "regrowing": [112, 32, 16, 32],
+          "regrown": [96, 32, 16, 32]
+        },
+        "harvest": [144, 32, 16, 16],
+        "seed": [128, 32, 16, 16]
+      },
+      "stages": [2, 7, 7, 7, 5],
+      "trellis": false
+    },
+    "artichoke": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)274",
+      "indoorOnly": false,
+      "name": "Artichoke",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["fall"],
+      "seedItemId": "(O)489",
+      "seedName": "Artichoke Seeds",
+      "seedPrices": {
+        "SeedShop": {
+          "price": 30
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 160,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 64, 16, 32],
+            [48, 64, 16, 32],
+            [64, 64, 16, 32],
+            [80, 64, 16, 32]
+          ],
+          "planted": [
+            [0, 64, 16, 32],
+            [16, 64, 16, 32]
+          ],
+          "ready": [96, 64, 16, 32]
+        },
+        "harvest": [128, 64, 16, 16],
+        "seed": [112, 64, 16, 16]
+      },
+      "stages": [2, 2, 1, 2, 1],
+      "trellis": false
+    },
+    "beet": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)284",
+      "indoorOnly": false,
+      "name": "Beet",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["fall"],
+      "seedItemId": "(O)494",
+      "seedName": "Beet Seeds",
+      "seedPrices": {
+        "Sandy": {
+          "price": 20
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 100,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 96, 16, 32],
+            [48, 96, 16, 32],
+            [64, 96, 16, 32]
+          ],
+          "planted": [
+            [0, 96, 16, 32],
+            [16, 96, 16, 32]
+          ],
+          "ready": [80, 96, 16, 32]
+        },
+        "harvest": [112, 96, 16, 16],
+        "seed": [96, 96, 16, 16]
+      },
+      "stages": [1, 1, 2, 2],
+      "trellis": false
+    },
+    "blue_jazz": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)597",
+      "indoorOnly": false,
+      "name": "Blue Jazz",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["spring"],
+      "seedItemId": "(O)429",
+      "seedName": "Jazz Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 37
+        },
+        "SeedShop": {
+          "price": 30
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 50,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 128, 16, 32],
+            [48, 128, 16, 32],
+            [64, 128, 16, 32]
+          ],
+          "planted": [
+            [0, 128, 16, 32],
+            [16, 128, 16, 32]
+          ],
+          "ready": [80, 128, 16, 32],
+          "readyOverlay": [96, 128, 16, 32]
+        },
+        "harvest": [128, 128, 16, 16],
+        "seed": [112, 128, 16, 16]
+      },
+      "stages": [1, 2, 2, 2],
+      "trellis": false
+    },
+    "blueberry": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0.02,
+        "max": 3,
+        "maxPerFarmingLevel": 0,
+        "min": 3
+      },
+      "harvestItemId": "(O)258",
+      "indoorOnly": false,
+      "name": "Blueberry",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 4,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)481",
+      "seedName": "Blueberry Seeds",
+      "seedPrices": {
+        "SeedShop": {
+          "price": 80
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 50,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 160, 16, 32],
+            [48, 160, 16, 32],
+            [64, 160, 16, 32],
+            [80, 160, 16, 32]
+          ],
+          "planted": [
+            [0, 160, 16, 32],
+            [16, 160, 16, 32]
+          ],
+          "ready": [96, 160, 16, 32],
+          "regrowing": [112, 160, 16, 32],
+          "regrown": [96, 160, 16, 32]
+        },
+        "harvest": [144, 160, 16, 16],
+        "seed": [128, 160, 16, 16]
+      },
+      "stages": [1, 3, 3, 4, 2],
+      "trellis": false
+    },
+    "bok_choy": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)278",
+      "indoorOnly": false,
+      "name": "Bok Choy",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["fall"],
+      "seedItemId": "(O)491",
+      "seedName": "Bok Choy Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 62
+        },
+        "SeedShop": {
+          "price": 50
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 80,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 192, 16, 32],
+            [48, 192, 16, 32],
+            [64, 192, 16, 32]
+          ],
+          "planted": [
+            [0, 192, 16, 32],
+            [16, 192, 16, 32]
+          ],
+          "ready": [80, 192, 16, 32]
+        },
+        "harvest": [112, 192, 16, 16],
+        "seed": [96, 192, 16, 16]
+      },
+      "stages": [1, 1, 1, 1],
+      "trellis": false
+    },
+    "broccoli": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)Broccoli",
+      "indoorOnly": false,
+      "name": "Broccoli",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 4,
+      "scythe": false,
+      "seasons": ["fall"],
+      "seedItemId": "(O)BroccoliSeeds",
+      "seedName": "Broccoli Seeds",
+      "seedPrices": {
+        "Raccoon": {
+          "price": 0,
+          "trade": {
+            "count": 5,
+            "item": "Moss"
+          }
+        }
+      },
+      "sell": 70,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 224, 16, 32],
+            [48, 224, 16, 32],
+            [64, 224, 16, 32]
+          ],
+          "planted": [
+            [0, 224, 16, 32],
+            [16, 224, 16, 32]
+          ],
+          "ready": [80, 224, 16, 32],
+          "regrowing": [96, 224, 16, 32],
+          "regrown": [112, 224, 16, 32]
+        },
+        "harvest": [144, 224, 16, 16],
+        "seed": [128, 224, 16, 16]
+      },
+      "stages": [1, 2, 2, 3],
+      "trellis": false
+    },
+    "cactus_fruit": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)90",
+      "indoorOnly": true,
+      "name": "Cactus Fruit",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 3,
+      "scythe": false,
+      "seasons": ["spring", "summer", "fall", "winter"],
+      "seedItemId": "(O)802",
+      "seedName": "Cactus Seeds",
+      "seedPrices": {
+        "Sandy": {
+          "price": 150
+        }
+      },
+      "sell": 75,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 256, 16, 32],
+            [48, 256, 16, 32],
+            [64, 256, 16, 32],
+            [80, 256, 16, 32]
+          ],
+          "planted": [
+            [0, 256, 16, 32],
+            [16, 256, 16, 32]
+          ],
+          "ready": [96, 256, 16, 32],
+          "regrowing": [112, 256, 16, 32],
+          "regrown": [96, 256, 16, 32]
+        },
+        "harvest": [144, 256, 16, 16],
+        "seed": [128, 256, 16, 16]
+      },
+      "stages": [2, 2, 2, 3, 3],
+      "trellis": false
+    },
+    "carrot": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)Carrot",
+      "indoorOnly": false,
+      "name": "Carrot",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["spring"],
+      "seedItemId": "(O)CarrotSeeds",
+      "seedName": "Carrot Seeds",
+      "seedPrices": {
+        "Raccoon": {
+          "price": 0,
+          "trade": {
+            "count": 1,
+            "item": "Maple Seed"
+          }
+        }
+      },
+      "sell": 35,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 288, 16, 32],
+            [48, 288, 16, 32]
+          ],
+          "planted": [
+            [0, 288, 16, 32],
+            [16, 288, 16, 32]
+          ],
+          "ready": [64, 288, 16, 32]
+        },
+        "harvest": [96, 288, 16, 16],
+        "seed": [80, 288, 16, 16]
+      },
+      "stages": [1, 1, 1],
+      "trellis": false
+    },
+    "cauliflower": {
+      "giantCrop": true,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)190",
+      "indoorOnly": false,
+      "name": "Cauliflower",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["spring"],
+      "seedItemId": "(O)474",
+      "seedName": "Cauliflower Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 100
+        },
+        "SeedShop": {
+          "price": 80
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 175,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 320, 16, 32],
+            [48, 320, 16, 32],
+            [64, 320, 16, 32],
+            [80, 320, 16, 32]
+          ],
+          "planted": [
+            [0, 320, 16, 32],
+            [16, 320, 16, 32]
+          ],
+          "ready": [96, 320, 16, 32]
+        },
+        "harvest": [128, 320, 16, 16],
+        "seed": [112, 320, 16, 16]
+      },
+      "stages": [1, 2, 4, 4, 1],
+      "trellis": false
+    },
+    "coffee_bean": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0.02,
+        "max": 4,
+        "maxPerFarmingLevel": 0,
+        "min": 4
+      },
+      "harvestItemId": "(O)433",
+      "indoorOnly": false,
+      "name": "Coffee Bean",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 2,
+      "scythe": false,
+      "seasons": ["spring", "summer"],
+      "seedItemId": "(O)433",
+      "seedName": "Coffee Bean",
+      "seedPrices": {
+        "Traveler": {
+          "price": 2500
+        }
+      },
+      "sell": 15,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 352, 16, 32],
+            [48, 352, 16, 32],
+            [64, 352, 16, 32],
+            [80, 352, 16, 32]
+          ],
+          "planted": [
+            [0, 352, 16, 32],
+            [16, 352, 16, 32]
+          ],
+          "ready": [96, 352, 16, 32],
+          "regrowing": [112, 352, 16, 32],
+          "regrown": [96, 352, 16, 32]
+        },
+        "harvest": [128, 352, 16, 16],
+        "seed": [128, 352, 16, 16]
+      },
+      "stages": [1, 2, 2, 3, 2],
+      "trellis": false
+    },
+    "corn": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)270",
+      "indoorOnly": false,
+      "name": "Corn",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 4,
+      "scythe": false,
+      "seasons": ["summer", "fall"],
+      "seedItemId": "(O)487",
+      "seedName": "Corn Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 187
+        },
+        "SeedShop": {
+          "price": 150
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 50,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 384, 16, 32],
+            [48, 384, 16, 32],
+            [64, 384, 16, 32],
+            [80, 384, 16, 32]
+          ],
+          "planted": [
+            [0, 384, 16, 32],
+            [16, 384, 16, 32]
+          ],
+          "ready": [96, 384, 16, 32],
+          "regrowing": [112, 384, 16, 32],
+          "regrown": [96, 384, 16, 32]
+        },
+        "harvest": [144, 384, 16, 16],
+        "seed": [128, 384, 16, 16]
+      },
+      "stages": [2, 3, 3, 3, 3],
+      "trellis": false
+    },
+    "cranberries": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0.1,
+        "max": 2,
+        "maxPerFarmingLevel": 0,
+        "min": 2
+      },
+      "harvestItemId": "(O)282",
+      "indoorOnly": false,
+      "name": "Cranberries",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 5,
+      "scythe": false,
+      "seasons": ["fall"],
+      "seedItemId": "(O)493",
+      "seedName": "Cranberry Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 300
+        },
+        "SeedShop": {
+          "price": 240
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 75,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 416, 16, 32],
+            [48, 416, 16, 32],
+            [64, 416, 16, 32],
+            [80, 416, 16, 32]
+          ],
+          "planted": [
+            [0, 416, 16, 32],
+            [16, 416, 16, 32]
+          ],
+          "ready": [96, 416, 16, 32],
+          "regrowing": [112, 416, 16, 32],
+          "regrown": [96, 416, 16, 32]
+        },
+        "harvest": [144, 416, 16, 16],
+        "seed": [128, 416, 16, 16]
+      },
+      "stages": [1, 2, 1, 1, 2],
+      "trellis": false
+    },
+    "eggplant": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0.002,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)272",
+      "indoorOnly": false,
+      "name": "Eggplant",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 5,
+      "scythe": false,
+      "seasons": ["fall"],
+      "seedItemId": "(O)488",
+      "seedName": "Eggplant Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 25
+        },
+        "SeedShop": {
+          "price": 20
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 60,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 448, 16, 32],
+            [48, 448, 16, 32],
+            [64, 448, 16, 32],
+            [80, 448, 16, 32]
+          ],
+          "planted": [
+            [0, 448, 16, 32],
+            [16, 448, 16, 32]
+          ],
+          "ready": [96, 448, 16, 32],
+          "regrowing": [112, 448, 16, 32],
+          "regrown": [96, 448, 16, 32]
+        },
+        "harvest": [144, 448, 16, 16],
+        "seed": [128, 448, 16, 16]
+      },
+      "stages": [1, 1, 1, 1, 1],
+      "trellis": false
+    },
+    "fairy_rose": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)595",
+      "indoorOnly": false,
+      "name": "Fairy Rose",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["fall"],
+      "seedItemId": "(O)425",
+      "seedName": "Fairy Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 250
+        },
+        "SeedShop": {
+          "price": 200
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 290,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 480, 16, 32],
+            [48, 480, 16, 32],
+            [64, 480, 16, 32]
+          ],
+          "planted": [
+            [0, 480, 16, 32],
+            [16, 480, 16, 32]
+          ],
+          "ready": [80, 480, 16, 32],
+          "readyOverlay": [96, 480, 16, 32]
+        },
+        "harvest": [128, 480, 16, 16],
+        "seed": [112, 480, 16, 16]
+      },
+      "stages": [1, 4, 4, 3],
+      "trellis": false
+    },
+    "fiber": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0.01,
+        "max": 7,
+        "maxPerFarmingLevel": 0,
+        "min": 4
+      },
+      "harvestItemId": "(O)771",
+      "indoorOnly": false,
+      "name": "Fiber",
+      "needsWater": false,
+      "paddy": false,
+      "scythe": true,
+      "seasons": ["spring", "summer", "fall", "winter"],
+      "seedItemId": "(O)885",
+      "seedName": "Fiber Seeds",
+      "seedPrices": {},
+      "sell": 1,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 512, 16, 32],
+            [48, 512, 16, 32],
+            [64, 512, 16, 32]
+          ],
+          "planted": [
+            [0, 512, 16, 32],
+            [16, 512, 16, 32]
+          ],
+          "ready": [80, 512, 16, 32]
+        },
+        "growthBySeason": {
+          "fall": {
+            "growing": [
+              [128, 512, 16, 32],
+              [144, 512, 16, 32],
+              [160, 512, 16, 32]
+            ],
+            "planted": [
+              [96, 512, 16, 32],
+              [112, 512, 16, 32]
+            ],
+            "ready": [176, 512, 16, 32]
+          },
+          "winter": {
+            "growing": [
+              [224, 512, 16, 32],
+              [240, 512, 16, 32],
+              [256, 512, 16, 32]
+            ],
+            "planted": [
+              [192, 512, 16, 32],
+              [208, 512, 16, 32]
+            ],
+            "ready": [272, 512, 16, 32]
+          }
+        },
+        "harvest": [304, 512, 16, 16],
+        "seed": [288, 512, 16, 16]
+      },
+      "stages": [1, 2, 2, 2],
+      "trellis": false
+    },
+    "garlic": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)248",
+      "indoorOnly": false,
+      "name": "Garlic",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["spring"],
+      "seedItemId": "(O)476",
+      "seedName": "Garlic Seeds",
+      "seedPrices": {
+        "SeedShop": {
+          "price": 40
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 60,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 544, 16, 32],
+            [48, 544, 16, 32],
+            [64, 544, 16, 32]
+          ],
+          "planted": [
+            [0, 544, 16, 32],
+            [16, 544, 16, 32]
+          ],
+          "ready": [80, 544, 16, 32]
+        },
+        "harvest": [112, 544, 16, 16],
+        "seed": [96, 544, 16, 16]
+      },
+      "stages": [1, 1, 1, 1],
+      "trellis": false
+    },
+    "grape": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)398",
+      "indoorOnly": false,
+      "name": "Grape",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 3,
+      "scythe": false,
+      "seasons": ["fall"],
+      "seedItemId": "(O)301",
+      "seedName": "Grape Starter",
+      "seedPrices": {
+        "Joja": {
+          "price": 75
+        },
+        "SeedShop": {
+          "price": 60
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 80,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 576, 16, 32],
+            [48, 576, 16, 32],
+            [64, 576, 16, 32],
+            [80, 576, 16, 32]
+          ],
+          "planted": [
+            [0, 576, 16, 32],
+            [16, 576, 16, 32]
+          ],
+          "ready": [96, 576, 16, 32],
+          "regrowing": [112, 576, 16, 32],
+          "regrown": [96, 576, 16, 32]
+        },
+        "harvest": [144, 576, 16, 16],
+        "seed": [128, 576, 16, 16]
+      },
+      "stages": [1, 1, 2, 3, 3],
+      "trellis": true
+    },
+    "green_bean": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)188",
+      "indoorOnly": false,
+      "name": "Green Bean",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 3,
+      "scythe": false,
+      "seasons": ["spring"],
+      "seedItemId": "(O)473",
+      "seedName": "Bean Starter",
+      "seedPrices": {
+        "Joja": {
+          "price": 75
+        },
+        "SeedShop": {
+          "price": 60
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 40,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 608, 16, 32],
+            [48, 608, 16, 32],
+            [64, 608, 16, 32],
+            [80, 608, 16, 32]
+          ],
+          "planted": [
+            [0, 608, 16, 32],
+            [16, 608, 16, 32]
+          ],
+          "ready": [96, 608, 16, 32],
+          "regrowing": [112, 608, 16, 32],
+          "regrown": [96, 608, 16, 32]
+        },
+        "harvest": [144, 608, 16, 16],
+        "seed": [128, 608, 16, 16]
+      },
+      "stages": [1, 1, 1, 3, 4],
+      "trellis": true
+    },
+    "hops": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)304",
+      "indoorOnly": false,
+      "name": "Hops",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 1,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)302",
+      "seedName": "Hops Starter",
+      "seedPrices": {
+        "Joja": {
+          "price": 75
+        },
+        "SeedShop": {
+          "price": 60
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 25,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 640, 16, 32],
+            [48, 640, 16, 32],
+            [64, 640, 16, 32],
+            [80, 640, 16, 32]
+          ],
+          "planted": [
+            [0, 640, 16, 32],
+            [16, 640, 16, 32]
+          ],
+          "ready": [96, 640, 16, 32],
+          "regrowing": [112, 640, 16, 32],
+          "regrown": [96, 640, 16, 32]
+        },
+        "harvest": [144, 640, 16, 16],
+        "seed": [128, 640, 16, 16]
+      },
+      "stages": [1, 1, 2, 3, 4],
+      "trellis": true
+    },
+    "hot_pepper": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0.03,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)260",
+      "indoorOnly": false,
+      "name": "Hot Pepper",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 3,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)482",
+      "seedName": "Pepper Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 50
+        },
+        "SeedShop": {
+          "price": 40
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 40,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 672, 16, 32],
+            [48, 672, 16, 32],
+            [64, 672, 16, 32],
+            [80, 672, 16, 32]
+          ],
+          "planted": [
+            [0, 672, 16, 32],
+            [16, 672, 16, 32]
+          ],
+          "ready": [96, 672, 16, 32],
+          "regrowing": [112, 672, 16, 32],
+          "regrown": [96, 672, 16, 32]
+        },
+        "harvest": [144, 672, 16, 16],
+        "seed": [128, 672, 16, 16]
+      },
+      "stages": [1, 1, 1, 1, 1],
+      "trellis": false
+    },
+    "kale": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)250",
+      "indoorOnly": false,
+      "name": "Kale",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": true,
+      "seasons": ["spring"],
+      "seedItemId": "(O)477",
+      "seedName": "Kale Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 87
+        },
+        "SeedShop": {
+          "price": 70
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 110,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 704, 16, 32],
+            [48, 704, 16, 32],
+            [64, 704, 16, 32]
+          ],
+          "planted": [
+            [0, 704, 16, 32],
+            [16, 704, 16, 32]
+          ],
+          "ready": [80, 704, 16, 32]
+        },
+        "harvest": [112, 704, 16, 16],
+        "seed": [96, 704, 16, 16]
+      },
+      "stages": [1, 2, 2, 1],
+      "trellis": false
+    },
+    "melon": {
+      "giantCrop": true,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)254",
+      "indoorOnly": false,
+      "name": "Melon",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)479",
+      "seedName": "Melon Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 100
+        },
+        "SeedShop": {
+          "price": 80
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 250,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 736, 16, 32],
+            [48, 736, 16, 32],
+            [64, 736, 16, 32],
+            [80, 736, 16, 32]
+          ],
+          "planted": [
+            [0, 736, 16, 32],
+            [16, 736, 16, 32]
+          ],
+          "ready": [96, 736, 16, 32]
+        },
+        "harvest": [128, 736, 16, 16],
+        "seed": [112, 736, 16, 16]
+      },
+      "stages": [1, 2, 3, 3, 3],
+      "trellis": false
+    },
+    "parsnip": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)24",
+      "indoorOnly": false,
+      "name": "Parsnip",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["spring"],
+      "seedItemId": "(O)472",
+      "seedName": "Parsnip Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 25
+        },
+        "SeedShop": {
+          "price": 20
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 35,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 768, 16, 32],
+            [48, 768, 16, 32],
+            [64, 768, 16, 32]
+          ],
+          "planted": [
+            [0, 768, 16, 32],
+            [16, 768, 16, 32]
+          ],
+          "ready": [80, 768, 16, 32]
+        },
+        "harvest": [112, 768, 16, 16],
+        "seed": [96, 768, 16, 16]
+      },
+      "stages": [1, 1, 1, 1],
+      "trellis": false
+    },
+    "pineapple": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)832",
+      "indoorOnly": false,
+      "name": "Pineapple",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 7,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)833",
+      "seedName": "Pineapple Seeds",
+      "seedPrices": {
+        "IslandTrade": {
+          "price": 0,
+          "trade": {
+            "count": 1,
+            "item": "Magma Cap"
+          }
+        }
+      },
+      "sell": 300,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 800, 16, 32],
+            [48, 800, 16, 32],
+            [64, 800, 16, 32],
+            [80, 800, 16, 32]
+          ],
+          "planted": [
+            [0, 800, 16, 32],
+            [16, 800, 16, 32]
+          ],
+          "ready": [96, 800, 16, 32],
+          "regrowing": [112, 800, 16, 32],
+          "regrown": [96, 800, 16, 32]
+        },
+        "harvest": [144, 800, 16, 16],
+        "seed": [128, 800, 16, 16]
+      },
+      "stages": [1, 3, 3, 4, 3],
+      "trellis": false
+    },
+    "poppy": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)376",
+      "indoorOnly": false,
+      "name": "Poppy",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)453",
+      "seedName": "Poppy Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 125
+        },
+        "SeedShop": {
+          "price": 100
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 140,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 832, 16, 32],
+            [48, 832, 16, 32],
+            [64, 832, 16, 32]
+          ],
+          "planted": [
+            [0, 832, 16, 32],
+            [16, 832, 16, 32]
+          ],
+          "ready": [80, 832, 16, 32],
+          "readyOverlay": [96, 832, 16, 32]
+        },
+        "harvest": [128, 832, 16, 16],
+        "seed": [112, 832, 16, 16]
+      },
+      "stages": [1, 2, 2, 2],
+      "trellis": false
+    },
+    "potato": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0.2,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)192",
+      "indoorOnly": false,
+      "name": "Potato",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["spring"],
+      "seedItemId": "(O)475",
+      "seedName": "Potato Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 62
+        },
+        "SeedShop": {
+          "price": 50
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 80,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 864, 16, 32],
+            [48, 864, 16, 32],
+            [64, 864, 16, 32],
+            [80, 864, 16, 32]
+          ],
+          "planted": [
+            [0, 864, 16, 32],
+            [16, 864, 16, 32]
+          ],
+          "ready": [96, 864, 16, 32]
+        },
+        "harvest": [128, 864, 16, 16],
+        "seed": [112, 864, 16, 16]
+      },
+      "stages": [1, 1, 1, 2, 1],
+      "trellis": false
+    },
+    "powdermelon": {
+      "giantCrop": true,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)Powdermelon",
+      "indoorOnly": false,
+      "name": "Powdermelon",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["winter"],
+      "seedItemId": "(O)PowdermelonSeeds",
+      "seedName": "Powdermelon Seeds",
+      "seedPrices": {
+        "Raccoon": {
+          "price": 0,
+          "trade": {
+            "count": 2,
+            "item": "Pine Cone"
+          }
+        }
+      },
+      "sell": 60,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 896, 16, 32],
+            [48, 896, 16, 32],
+            [64, 896, 16, 32],
+            [80, 896, 16, 32]
+          ],
+          "planted": [
+            [0, 896, 16, 32],
+            [16, 896, 16, 32]
+          ],
+          "ready": [96, 896, 16, 32]
+        },
+        "harvest": [128, 896, 16, 16],
+        "seed": [112, 896, 16, 16]
+      },
+      "stages": [1, 1, 1, 2, 2],
+      "trellis": false
+    },
+    "pumpkin": {
+      "giantCrop": true,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)276",
+      "indoorOnly": false,
+      "name": "Pumpkin",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["fall"],
+      "seedItemId": "(O)490",
+      "seedName": "Pumpkin Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 125
+        },
+        "SeedShop": {
+          "price": 100
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 320,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 928, 16, 32],
+            [48, 928, 16, 32],
+            [64, 928, 16, 32],
+            [80, 928, 16, 32]
+          ],
+          "planted": [
+            [0, 928, 16, 32],
+            [16, 928, 16, 32]
+          ],
+          "ready": [96, 928, 16, 32]
+        },
+        "harvest": [128, 928, 16, 16],
+        "seed": [112, 928, 16, 16]
+      },
+      "stages": [1, 2, 3, 4, 3],
+      "trellis": false
+    },
+    "radish": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)264",
+      "indoorOnly": false,
+      "name": "Radish",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)484",
+      "seedName": "Radish Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 50
+        },
+        "SeedShop": {
+          "price": 40
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 90,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 960, 16, 32],
+            [48, 960, 16, 32],
+            [64, 960, 16, 32]
+          ],
+          "planted": [
+            [0, 960, 16, 32],
+            [16, 960, 16, 32]
+          ],
+          "ready": [80, 960, 16, 32]
+        },
+        "harvest": [112, 960, 16, 16],
+        "seed": [96, 960, 16, 16]
+      },
+      "stages": [2, 1, 2, 1],
+      "trellis": false
+    },
+    "red_cabbage": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)266",
+      "indoorOnly": false,
+      "name": "Red Cabbage",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)485",
+      "seedName": "Red Cabbage Seeds",
+      "seedPrices": {
+        "SeedShop": {
+          "price": 100
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 260,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 992, 16, 32],
+            [48, 992, 16, 32],
+            [64, 992, 16, 32],
+            [80, 992, 16, 32]
+          ],
+          "planted": [
+            [0, 992, 16, 32],
+            [16, 992, 16, 32]
+          ],
+          "ready": [96, 992, 16, 32]
+        },
+        "harvest": [128, 992, 16, 16],
+        "seed": [112, 992, 16, 16]
+      },
+      "stages": [2, 1, 2, 2, 2],
+      "trellis": false
+    },
+    "rhubarb": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)252",
+      "indoorOnly": false,
+      "name": "Rhubarb",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["spring"],
+      "seedItemId": "(O)478",
+      "seedName": "Rhubarb Seeds",
+      "seedPrices": {
+        "Sandy": {
+          "price": 100
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 220,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1024, 16, 32],
+            [48, 1024, 16, 32],
+            [64, 1024, 16, 32],
+            [80, 1024, 16, 32]
+          ],
+          "planted": [
+            [0, 1024, 16, 32],
+            [16, 1024, 16, 32]
+          ],
+          "ready": [96, 1024, 16, 32]
+        },
+        "harvest": [128, 1024, 16, 16],
+        "seed": [112, 1024, 16, 16]
+      },
+      "stages": [2, 2, 2, 3, 4],
+      "trellis": false
+    },
+    "starfruit": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)268",
+      "indoorOnly": false,
+      "name": "Starfruit",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)486",
+      "seedName": "Starfruit Seeds",
+      "seedPrices": {
+        "Sandy": {
+          "price": 400
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 750,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1056, 16, 32],
+            [48, 1056, 16, 32],
+            [64, 1056, 16, 32],
+            [80, 1056, 16, 32]
+          ],
+          "planted": [
+            [0, 1056, 16, 32],
+            [16, 1056, 16, 32]
+          ],
+          "ready": [96, 1056, 16, 32]
+        },
+        "harvest": [128, 1056, 16, 16],
+        "seed": [112, 1056, 16, 16]
+      },
+      "stages": [2, 3, 2, 3, 3],
+      "trellis": false
+    },
+    "strawberry": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0.02,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)400",
+      "indoorOnly": false,
+      "name": "Strawberry",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 4,
+      "scythe": false,
+      "seasons": ["spring"],
+      "seedItemId": "(O)745",
+      "seedName": "Strawberry Seeds",
+      "seedPrices": {
+        "Festival_EggFestival_Pierre": {
+          "price": 100
+        }
+      },
+      "sell": 120,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1088, 16, 32],
+            [48, 1088, 16, 32],
+            [64, 1088, 16, 32],
+            [80, 1088, 16, 32]
+          ],
+          "planted": [
+            [0, 1088, 16, 32],
+            [16, 1088, 16, 32]
+          ],
+          "ready": [96, 1088, 16, 32],
+          "regrowing": [112, 1088, 16, 32],
+          "regrown": [96, 1088, 16, 32]
+        },
+        "harvest": [144, 1088, 16, 16],
+        "seed": [128, 1088, 16, 16]
+      },
+      "stages": [1, 1, 2, 2, 2],
+      "trellis": false
+    },
+    "summer_spangle": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)593",
+      "indoorOnly": false,
+      "name": "Summer Spangle",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)455",
+      "seedName": "Spangle Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 62
+        },
+        "SeedShop": {
+          "price": 50
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 90,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1120, 16, 32],
+            [48, 1120, 16, 32],
+            [64, 1120, 16, 32]
+          ],
+          "planted": [
+            [0, 1120, 16, 32],
+            [16, 1120, 16, 32]
+          ],
+          "ready": [80, 1120, 16, 32],
+          "readyOverlay": [96, 1120, 16, 32]
+        },
+        "harvest": [128, 1120, 16, 16],
+        "seed": [112, 1120, 16, 16]
+      },
+      "stages": [1, 2, 3, 2],
+      "trellis": false
+    },
+    "summer_squash": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)SummerSquash",
+      "indoorOnly": false,
+      "name": "Summer Squash",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 3,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)SummerSquashSeeds",
+      "seedName": "Summer Squash Seeds",
+      "seedPrices": {
+        "Raccoon": {
+          "price": 0,
+          "trade": {
+            "count": 15,
+            "item": "Sap"
+          }
+        }
+      },
+      "sell": 45,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1152, 16, 32],
+            [48, 1152, 16, 32],
+            [64, 1152, 16, 32],
+            [80, 1152, 16, 32]
+          ],
+          "planted": [
+            [0, 1152, 16, 32],
+            [16, 1152, 16, 32]
+          ],
+          "ready": [96, 1152, 16, 32],
+          "regrowing": [112, 1152, 16, 32],
+          "regrown": [96, 1152, 16, 32]
+        },
+        "harvest": [144, 1152, 16, 16],
+        "seed": [128, 1152, 16, 16]
+      },
+      "stages": [1, 1, 1, 1, 2],
+      "trellis": false
+    },
+    "sunflower": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)421",
+      "indoorOnly": false,
+      "name": "Sunflower",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["summer", "fall"],
+      "seedItemId": "(O)431",
+      "seedName": "Sunflower Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 125
+        },
+        "SeedShop": {
+          "price": 200
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 80,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1184, 16, 32],
+            [48, 1184, 16, 32],
+            [64, 1184, 16, 32]
+          ],
+          "planted": [
+            [0, 1184, 16, 32],
+            [16, 1184, 16, 32]
+          ],
+          "ready": [80, 1184, 16, 32]
+        },
+        "harvest": [112, 1184, 16, 16],
+        "seed": [96, 1184, 16, 16]
+      },
+      "stages": [1, 2, 3, 2],
+      "trellis": false
+    },
+    "sweet_gem_berry": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)417",
+      "indoorOnly": false,
+      "name": "Sweet Gem Berry",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["fall"],
+      "seedItemId": "(O)347",
+      "seedName": "Rare Seed",
+      "seedPrices": {
+        "Traveler": {
+          "price": 1000
+        }
+      },
+      "sell": 3000,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1216, 16, 32],
+            [48, 1216, 16, 32],
+            [64, 1216, 16, 32],
+            [80, 1216, 16, 32]
+          ],
+          "planted": [
+            [0, 1216, 16, 32],
+            [16, 1216, 16, 32]
+          ],
+          "ready": [96, 1216, 16, 32]
+        },
+        "harvest": [128, 1216, 16, 16],
+        "seed": [112, 1216, 16, 16]
+      },
+      "stages": [2, 4, 6, 6, 6],
+      "trellis": false
+    },
+    "taro_root": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)830",
+      "indoorOnly": false,
+      "name": "Taro Root",
+      "needsWater": true,
+      "paddy": true,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)831",
+      "seedName": "Taro Tuber",
+      "seedPrices": {
+        "IslandTrade": {
+          "price": 0,
+          "trade": {
+            "count": 2,
+            "item": "Bone Fragment"
+          }
+        }
+      },
+      "sell": 100,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1248, 16, 32],
+            [48, 1248, 16, 32],
+            [64, 1248, 16, 32]
+          ],
+          "planted": [
+            [0, 1248, 16, 32],
+            [16, 1248, 16, 32]
+          ],
+          "ready": [80, 1248, 16, 32]
+        },
+        "harvest": [112, 1248, 16, 16],
+        "seed": [96, 1248, 16, 16]
+      },
+      "stages": [1, 2, 3, 4],
+      "trellis": false
+    },
+    "tomato": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0.05,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)256",
+      "indoorOnly": false,
+      "name": "Tomato",
+      "needsWater": true,
+      "paddy": false,
+      "regrow": 4,
+      "scythe": false,
+      "seasons": ["summer"],
+      "seedItemId": "(O)480",
+      "seedName": "Tomato Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 62
+        },
+        "SeedShop": {
+          "price": 50
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 60,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1280, 16, 32],
+            [48, 1280, 16, 32],
+            [64, 1280, 16, 32],
+            [80, 1280, 16, 32]
+          ],
+          "planted": [
+            [0, 1280, 16, 32],
+            [16, 1280, 16, 32]
+          ],
+          "ready": [96, 1280, 16, 32],
+          "regrowing": [112, 1280, 16, 32],
+          "regrown": [96, 1280, 16, 32]
+        },
+        "harvest": [144, 1280, 16, 16],
+        "seed": [128, 1280, 16, 16]
+      },
+      "stages": [2, 2, 2, 2, 3],
+      "trellis": false
+    },
+    "tulip": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)591",
+      "indoorOnly": false,
+      "name": "Tulip",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["spring"],
+      "seedItemId": "(O)427",
+      "seedName": "Tulip Bulb",
+      "seedPrices": {
+        "Joja": {
+          "price": 25
+        },
+        "SeedShop": {
+          "price": 20
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 30,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1312, 16, 32],
+            [48, 1312, 16, 32],
+            [64, 1312, 16, 32]
+          ],
+          "planted": [
+            [0, 1312, 16, 32],
+            [16, 1312, 16, 32]
+          ],
+          "ready": [80, 1312, 16, 32],
+          "readyOverlay": [96, 1312, 16, 32]
+        },
+        "harvest": [128, 1312, 16, 16],
+        "seed": [112, 1312, 16, 16]
+      },
+      "stages": [1, 1, 2, 2],
+      "trellis": false
+    },
+    "unmilled_rice": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0.1,
+        "max": 1,
+        "maxPerFarmingLevel": 0.1,
+        "min": 1
+      },
+      "harvestItemId": "(O)271",
+      "indoorOnly": false,
+      "name": "Unmilled Rice",
+      "needsWater": true,
+      "paddy": true,
+      "scythe": true,
+      "seasons": ["spring"],
+      "seedItemId": "(O)273",
+      "seedName": "Rice Shoot",
+      "seedPrices": {
+        "SeedShop": {
+          "price": 40
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 30,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1344, 16, 32],
+            [48, 1344, 16, 32],
+            [64, 1344, 16, 32]
+          ],
+          "planted": [
+            [0, 1344, 16, 32],
+            [16, 1344, 16, 32]
+          ],
+          "ready": [80, 1344, 16, 32]
+        },
+        "harvest": [112, 1344, 16, 16],
+        "seed": [96, 1344, 16, 16]
+      },
+      "stages": [1, 2, 2, 3],
+      "trellis": false
+    },
+    "wheat": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)262",
+      "indoorOnly": false,
+      "name": "Wheat",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": true,
+      "seasons": ["summer", "fall"],
+      "seedItemId": "(O)483",
+      "seedName": "Wheat Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 12
+        },
+        "SeedShop": {
+          "price": 10
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 25,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1376, 16, 32],
+            [48, 1376, 16, 32],
+            [64, 1376, 16, 32]
+          ],
+          "planted": [
+            [0, 1376, 16, 32],
+            [16, 1376, 16, 32]
+          ],
+          "ready": [80, 1376, 16, 32]
+        },
+        "harvest": [112, 1376, 16, 16],
+        "seed": [96, 1376, 16, 16]
+      },
+      "stages": [1, 1, 1, 1],
+      "trellis": false
+    },
+    "yam": {
+      "giantCrop": false,
+      "gingerIsland": true,
+      "harvest": {
+        "extraChance": 0,
+        "max": 1,
+        "maxPerFarmingLevel": 0,
+        "min": 1
+      },
+      "harvestItemId": "(O)280",
+      "indoorOnly": false,
+      "name": "Yam",
+      "needsWater": true,
+      "paddy": false,
+      "scythe": false,
+      "seasons": ["fall"],
+      "seedItemId": "(O)492",
+      "seedName": "Yam Seeds",
+      "seedPrices": {
+        "Joja": {
+          "price": 75
+        },
+        "SeedShop": {
+          "price": 60
+        },
+        "Traveler": {
+          "random": true
+        }
+      },
+      "sell": 160,
+      "sprites": {
+        "growth": {
+          "growing": [
+            [32, 1408, 16, 32],
+            [48, 1408, 16, 32],
+            [64, 1408, 16, 32]
+          ],
+          "planted": [
+            [0, 1408, 16, 32],
+            [16, 1408, 16, 32]
+          ],
+          "ready": [80, 1408, 16, 32]
+        },
+        "harvest": [112, 1408, 16, 16],
+        "seed": [96, 1408, 16, 16]
+      },
+      "stages": [1, 3, 3, 3],
+      "trellis": false
+    }
+  }
+}

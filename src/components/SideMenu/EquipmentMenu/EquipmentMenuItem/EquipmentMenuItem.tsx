@@ -1,20 +1,25 @@
 import cn from "clsx";
-import { createSignal, JSXElement } from "solid-js";
+import { createSignal } from "solid-js";
 
-import { equipment, equipmentIds } from "../../../../data/sdv.json";
-import { getSeason } from "../../../../helpers/date";
+import { items } from "../../../../data/game/items.json";
+import { atlasSprite } from "../../../../helpers/atlas";
+import { getSeasonName } from "../../../../helpers/date";
 import BigText from "../../../BigText/BigText";
 import Sprite from "../../../Sprite/Sprite";
 
 interface IProps {
   date: number;
   equipmentId: string;
-  selectEquipment: (equipmentId: string, skinIndex: number) => void;
+  selectEquipment: (equipmentId: string, skin: string) => void;
   selectedItem?: ISelectedItem;
 }
 
+const iconSize = 16;
+
 export default function EquipmentMenuItem(props: IProps) {
-  const [currentSkinIndex, setCurrentSkinIndex] = createSignal(0);
+  const item = () => items[props.equipmentId];
+  const [pickedSkin, setPickedSkin] = createSignal<string>();
+  const currentSkin = () => pickedSkin() ?? item().skinOrder[0];
   const [isOpen, setIsOpen] = createSignal(false);
 
   const close = () => {
@@ -34,108 +39,36 @@ export default function EquipmentMenuItem(props: IProps) {
   };
 
   const renderPicklist = () =>
-    equipment[props.equipmentId].skins.map((skinId, skinIndex) => (
-      <div class="margin-left">{renderPickItem(skinIndex)}</div>
+    item().skinOrder.map((skin) => (
+      <div class="margin-left">{renderPickItem(skin)}</div>
     ));
 
-  const renderPickItem = (skinIndex: number, isTrigger?: boolean) => {
-    let sprite: JSXElement;
+  const renderIcon = (skin: IItemSkin) => {
+    const rect = skin.spritesBySeason?.[getSeasonName(props.date)] ?? skin.icon;
+    const scale = Math.min(1, iconSize / Math.max(rect[2], rect[3]));
 
-    let equipmentIndex = equipmentIds
-      .slice(0, equipmentIds.indexOf(props.equipmentId))
-      .reduce((acc, id) => {
-        if (id === "fence" || id === "flooring") {
-          return acc;
-        }
+    return (
+      <div
+        style={{
+          height: `${iconSize}px`,
+          transform: `scale(${scale})`,
+          "transform-origin": "top center",
+          "white-space": "nowrap",
+          width: `${iconSize}px`,
+        }}
+      >
+        <Sprite {...atlasSprite("items", rect)} />
+      </div>
+    );
+  };
 
-        if (equipment[id].isSeasonal === true) {
-          return acc + equipment[id].skins.length * 4;
-        }
+  const renderPickItem = (skinKey: string, isTrigger?: boolean) => {
+    const skin = item().skins[skinKey];
 
-        return acc + equipment[id].skins.length;
-      }, 0);
-
-    if (equipment[props.equipmentId].isSeasonal === true) {
-      equipmentIndex = equipmentIndex + skinIndex * 4 + getSeason(props.date);
-    } else {
-      equipmentIndex = equipmentIndex + skinIndex;
+    if (skin === undefined) {
+      return undefined;
     }
 
-    switch (props.equipmentId) {
-      case "sprinkler":
-        sprite = (
-          <Sprite
-            height={16}
-            src="images/equipment-sheet.png"
-            width={16}
-            x={equipmentIndex * 16}
-            y={16}
-          />
-        );
-        break;
-      case "fence":
-        sprite = (
-          <div
-            style={{
-              height: "16px",
-              transform: "scale(0.5)",
-              "transform-origin": "top left",
-              "white-space": "nowrap",
-              width: "16px",
-            }}
-          >
-            <Sprite
-              height={32}
-              src="images/fences.png"
-              width={16}
-              x={skinIndex * 48}
-              y={0}
-            />
-            <Sprite
-              height={32}
-              src="images/fences.png"
-              width={16}
-              x={skinIndex * 48 + 32}
-              y={0}
-            />
-          </div>
-        );
-        break;
-      case "flooring":
-        sprite = (
-          <div>
-            <Sprite
-              height={16}
-              src="images/flooring.png"
-              width={16}
-              x={(skinIndex % 4) * 64}
-              y={Math.floor(skinIndex / 4) * 64}
-            />
-          </div>
-        );
-        break;
-      default:
-        sprite = (
-          <div
-            style={{
-              height: "16px",
-              transform: "scale(0.5)",
-              "transform-origin": "top center",
-              "white-space": "nowrap",
-              width: "16px",
-            }}
-          >
-            <Sprite
-              height={32}
-              src="images/equipment-sheet.png"
-              width={16}
-              x={equipmentIndex * 16}
-              y={0}
-            />
-          </div>
-        );
-        break;
-    }
     return (
       <div
         class={cn("sdv-list-item", "flex-horizontal", {
@@ -143,42 +76,41 @@ export default function EquipmentMenuItem(props: IProps) {
             props.selectedItem !== undefined &&
             props.selectedItem.type === "equipment" &&
             props.selectedItem.id === props.equipmentId &&
-            props.selectedItem.skinIndex === skinIndex,
+            props.selectedItem.skin === skinKey,
         })}
-        data-testid={`equipment-${props.equipmentId}--${skinIndex}`}
+        data-testid={`equipment-${props.equipmentId}--${skinKey}`}
         onClick={() => {
-          setCurrentSkinIndex(skinIndex);
-          props.selectEquipment(props.equipmentId, skinIndex);
+          setPickedSkin(skinKey);
+          props.selectEquipment(props.equipmentId, skinKey);
         }}
       >
-        <div class="sdv-list-item-icon">{sprite}</div>
+        <div class="sdv-list-item-icon">{renderIcon(skin)}</div>
         <div class="flex margin-right">
-          <BigText>{equipment[props.equipmentId].skins[skinIndex]}</BigText>
+          <BigText>{skin.name}</BigText>
         </div>
 
-        {isTrigger === true &&
-          equipment[props.equipmentId].skins.length > 1 && (
-            <>
-              <button
-                class={cn("margin-right", {
-                  "sdv-button-down": !isOpen(),
-                  "sdv-button-up": isOpen(),
-                })}
-                data-testid="equipment-dropdown--trigger"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  toggle();
-                }}
-              />
-            </>
-          )}
+        {isTrigger === true && item().skinOrder.length > 1 && (
+          <>
+            <button
+              class={cn("margin-right", {
+                "sdv-button-down": !isOpen(),
+                "sdv-button-up": isOpen(),
+              })}
+              data-testid="equipment-dropdown--trigger"
+              onClick={(event) => {
+                event.stopPropagation();
+                toggle();
+              }}
+            />
+          </>
+        )}
       </div>
     );
   };
 
   return (
     <div>
-      {renderPickItem(currentSkinIndex(), true)}
+      {renderPickItem(currentSkin(), true)}
       {isOpen() && renderPicklist()}
     </div>
   );

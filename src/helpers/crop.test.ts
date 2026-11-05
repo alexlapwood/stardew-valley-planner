@@ -1,14 +1,13 @@
-import { calculateStageOfCrop, getCropsLastDay } from "./crop";
+import { crops } from "../data/game/crops.json";
+import {
+  calculateStageOfCrop,
+  getCropSprites,
+  getCropsLastDay,
+  getSeedCost,
+  isInSeedMenu,
+} from "./crop";
 
 describe("Crop helper", () => {
-  const baseCrop = {
-    buy: 0,
-    harvest: {},
-    id: "test_crop",
-    name: "Test Crop",
-    sell: 0,
-  };
-
   const twoSeasons = {
     seasons: ["spring", "summer"],
   };
@@ -66,8 +65,7 @@ describe("Crop helper", () => {
     ];
 
     theories.map((theory) => {
-      const crop: ICrop = {
-        ...baseCrop,
+      const crop = {
         regrow: theory.values.regrow,
         seasons: theory.values.seasons,
         stages: theory.values.stages,
@@ -216,23 +214,43 @@ describe("Crop helper", () => {
         },
         {
           ...greenBeanGrowth,
-          buy: 0,
-          harvest: {},
-          id: "test_crop",
-          name: "Test Crop",
           seasons: ["spring", "summer", "fall", "winter"],
-          sell: 0,
         },
       );
 
       expect(result).toBe(4 * 28 + 4);
     });
 
-    it("throws an error if a crop will never die", () => {
-      expect(() => {
+    describe("ends a crop that regrows in every season on the day before its planted season comes back", () => {
+      const theories = [
+        { datePlanted: 0, expected: 4 * 28 - 1 },
+        { datePlanted: 27, expected: 4 * 28 - 1 },
+        { datePlanted: 4 * 28 - 5, expected: 7 * 28 - 1 },
+        { datePlanted: 4 * 28 + 28 + 3, expected: 4 * 28 + 5 * 28 - 1 },
+      ];
+
+      theories.forEach(({ datePlanted, expected }) => {
+        it(`when it is planted on day ${datePlanted}`, () => {
+          expect(
+            getCropsLastDay(
+              { cropId: "test", datePlanted, type: "crop", x: 0, y: 0 },
+              {
+                ...greenBeanGrowth,
+                regrow: 3,
+                seasons: ["spring", "summer", "fall", "winter"],
+              },
+            ),
+          ).toBe(expected);
+        });
+      });
+    });
+
+    it("ends a crop that regrows in every season on the day before it is destroyed", () => {
+      expect(
         getCropsLastDay(
           {
             cropId: "test",
+            dateDestroyed: 40,
             datePlanted: 0,
             type: "crop",
             x: 0,
@@ -240,16 +258,130 @@ describe("Crop helper", () => {
           },
           {
             ...oneDayGrowth,
-            buy: 0,
-            harvest: {},
-            id: "test_crop",
-            name: "Test Crop",
             regrow: 1,
             seasons: ["spring", "summer", "fall", "winter"],
-            sell: 0,
           },
-        );
-      }).toThrow("This crop will regrow indefinitely");
+        ),
+      ).toBe(39);
+    });
+  });
+
+  describe("isInSeedMenu", () => {
+    it("shows a crop that can grow outdoors", () => {
+      expect(isInSeedMenu({ ...crops.parsnip, indoorOnly: false })).toBe(true);
+    });
+
+    it("hides a crop that grows only indoors", () => {
+      expect(isInSeedMenu({ ...crops.parsnip, indoorOnly: true })).toBe(false);
+    });
+
+    it("shows an outdoor crop that regrows in every season", () => {
+      expect(
+        isInSeedMenu({
+          ...crops.parsnip,
+          indoorOnly: false,
+          regrow: 3,
+          seasons: ["spring", "summer", "fall", "winter"],
+        }),
+      ).toBe(true);
+    });
+  });
+
+  describe("getCropSprites", () => {
+    const { growth } = crops.green_bean.sprites;
+    const daysToGrow = crops.green_bean.stages.reduce((a, b) => a + b);
+    const regrow = crops.green_bean.regrow ?? 0;
+
+    it("shows one of the two planted sprites, picked by the tile", () => {
+      expect(getCropSprites(crops.green_bean, 0, 0, 0, "summer")).toEqual([
+        growth.planted[0],
+      ]);
+      expect(getCropSprites(crops.green_bean, 0, 1, 0, "summer")).toEqual([
+        growth.planted[1],
+      ]);
+    });
+
+    it("shows the growing sprite of each phase", () => {
+      expect(getCropSprites(crops.green_bean, 1, 0, 0, "summer")).toEqual([
+        growth.growing[0],
+      ]);
+      expect(
+        getCropSprites(crops.green_bean, daysToGrow - 1, 0, 0, "summer"),
+      ).toEqual([growth.growing.at(-1)]);
+    });
+
+    it("shows the ready sprite on the first harvest day", () => {
+      expect(
+        getCropSprites(crops.green_bean, daysToGrow, 0, 0, "summer"),
+      ).toEqual([growth.ready]);
+    });
+
+    it("shows the regrowing and regrown sprites after a harvest", () => {
+      expect(
+        getCropSprites(crops.green_bean, daysToGrow + 1, 0, 0, "summer"),
+      ).toEqual([growth.regrowing]);
+      expect(
+        getCropSprites(crops.green_bean, daysToGrow + regrow, 0, 0, "summer"),
+      ).toEqual([growth.regrown]);
+    });
+
+    it("draws the flower overlay over the ready sprite", () => {
+      const tulip = crops.tulip;
+      const tulipDays = tulip.stages.reduce((a, b) => a + b);
+
+      expect(getCropSprites(tulip, tulipDays, 0, 0, "spring")).toEqual([
+        tulip.sprites.growth.ready,
+        tulip.sprites.growth.readyOverlay,
+      ]);
+    });
+
+    it("uses the sprites of the season when the crop has them", () => {
+      expect(getCropSprites(crops.fiber, 0, 0, 0, "winter")).toEqual([
+        crops.fiber.sprites.growthBySeason?.winter?.planted[0],
+      ]);
+      expect(getCropSprites(crops.fiber, 0, 0, 0, "spring")).toEqual([
+        crops.fiber.sprites.growth.planted[0],
+      ]);
+    });
+  });
+
+  describe("getSeedCost", () => {
+    const crop = crops.parsnip;
+
+    it("uses the first gold price in shop order", () => {
+      expect(
+        getSeedCost({
+          ...crop,
+          seedPrices: { Joja: { price: 25 }, SeedShop: { price: 20 } },
+        }),
+      ).toEqual({ cost: 20, label: "20g" });
+    });
+
+    it("skips a random price", () => {
+      expect(
+        getSeedCost({
+          ...crop,
+          seedPrices: {
+            Festival_EggFestival_Pierre: { price: 100 },
+            Traveler: { random: true },
+          },
+        }),
+      ).toEqual({ cost: 100, label: "100g" });
+    });
+
+    it("shows a trade and costs nothing when no shop sells it for gold", () => {
+      expect(
+        getSeedCost({
+          ...crop,
+          seedPrices: {
+            Raccoon: { price: 0, trade: { count: 5, item: "Moss" } },
+          },
+        }),
+      ).toEqual({ cost: 0, label: "Moss ×5" });
+    });
+
+    it("has no cost when no shop sells it", () => {
+      expect(getSeedCost({ ...crop, seedPrices: {} })).toBeUndefined();
     });
   });
 });

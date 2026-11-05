@@ -1,211 +1,122 @@
-import { isFarmData } from "./farm";
+const storageKey = "stardewValleySeasonalPlannerV2";
+const storageKeyV1 = "stardewValleySeasonalPlannerV1";
 
-const validCrop = {
-  cropId: "parsnip",
-  dateDestroyed: 4,
-  datePlanted: 0,
+const cropV1 = {
+  cropId: "cranberry",
+  datePlanted: 56,
   type: "crop",
-  x: 5,
-  y: 3,
+  x: 0,
+  y: 0,
 };
 
-const validEquipment = {
+const sprinklerV1 = {
   dateInstalled: 0,
   equipmentId: "sprinkler",
-  skinIndex: 2,
+  skinIndex: 1,
   type: "equipment",
-  x: 7,
-  y: 3,
+  x: 2,
+  y: 1,
 };
 
-function farmWithCrop(crop: unknown) {
-  return { crops: { 3: { 5: [crop] } }, date: 0, equipment: {} };
-}
+const saveV1 = {
+  crops: { 0: { 0: [cropV1] } },
+  date: 3,
+  equipment: {
+    1: {
+      2: [sprinklerV1],
+      3: [{ ...sprinklerV1, equipmentId: "not_an_item", x: 3 }],
+    },
+  },
+};
 
-function farmWithEquipment(equipment: unknown) {
-  return { crops: {}, date: 0, equipment: { 3: { 7: [equipment] } } };
-}
+const crops = { 0: { 0: [{ ...cropV1, cropId: "cranberries" }] } };
 
-function withoutField(cell: Record<string, unknown>, field: string) {
-  return Object.fromEntries(
-    Object.entries(cell).filter(([key]) => key !== field),
-  );
+const equipment = {
+  1: {
+    2: [
+      {
+        dateInstalled: 0,
+        equipmentId: "sprinkler",
+        skin: "quality_sprinkler",
+        type: "equipment",
+        x: 2,
+        y: 1,
+      },
+    ],
+    3: [],
+  },
+};
+
+async function loadFarmState() {
+  vi.resetModules();
+
+  return import("./farm");
 }
 
 describe("Farm state", () => {
-  describe("isFarmData", () => {
-    it("accepts a valid farm", () => {
-      const farm = {
-        crops: {
-          3: {
-            5: [validCrop, { ...validCrop, dateDestroyed: undefined }],
-            6: [{ ...validCrop, cropId: "cauliflower", x: 6 }],
-          },
+  beforeEach(() => {
+    localStorage.clear();
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("starts a new farm when nothing is saved", async () => {
+    const state = await loadFarmState();
+
+    expect(state.farmStore()).toEqual({ crops: {}, date: 0, equipment: {} });
+  });
+
+  it("loads a V1 save, saves it as V2 and keeps the V1 data", async () => {
+    const savedV1 = JSON.stringify(saveV1);
+    localStorage.setItem(storageKeyV1, savedV1);
+
+    const state = await loadFarmState();
+
+    expect(state.farmStore()).toEqual({ crops, date: 3, equipment });
+    expect(JSON.parse(localStorage.getItem(storageKey) ?? "")).toEqual({
+      crops,
+      date: 3,
+      equipment,
+      version: 2,
+    });
+    expect(localStorage.getItem(storageKeyV1)).toBe(savedV1);
+    expect(localStorage.getItem(`${storageKeyV1}Backup`)).toBe(savedV1);
+    expect(console.warn).toHaveBeenCalledWith(
+      "Removed 1 bad items from the saved farm.",
+      [
+        {
+          path: "equipment[1][3][0]",
+          value: { ...sprinklerV1, equipmentId: "not_an_item", x: 3 },
         },
-        date: 12,
-        equipment: {
-          3: {
-            7: [validEquipment],
-            8: [
-              { ...validEquipment, equipmentId: "fence", skinIndex: 3, x: 8 },
-            ],
-          },
-          4: {
-            7: [{ ...validEquipment, equipmentId: "scarecrow", y: 4 }],
-          },
-        },
-      };
+      ],
+    );
+  });
 
-      expect(isFarmData(farm)).toBe(true);
-    });
+  it("loads the V2 save when there is one", async () => {
+    localStorage.setItem(storageKeyV1, JSON.stringify(saveV1));
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify({ crops: {}, date: 7, equipment, version: 2 }),
+    );
 
-    it("accepts a farm with no crops or equipment", () => {
-      expect(isFarmData({ crops: {}, date: 0, equipment: {} })).toBe(true);
-    });
+    const state = await loadFarmState();
 
-    it("rejects a farm when a row or a tile is not the right shape", () => {
-      const theories = [
-        { crops: { 3: [] }, date: 0, equipment: {} },
-        { crops: { 3: { 5: validCrop } }, date: 0, equipment: {} },
-        { crops: {}, date: 0, equipment: { 3: null } },
-        { crops: {}, date: 0, equipment: { 3: { 7: {} } } },
-      ];
+    expect(state.farmStore()).toEqual({ crops: {}, date: 7, equipment });
+  });
 
-      theories.forEach((theory) => {
-        expect(isFarmData(theory)).toBe(false);
-      });
-    });
+  it("saves a change with the V2 key", async () => {
+    const state = await loadFarmState();
 
-    it("rejects a crop cell that is not an object", () => {
-      const theories = [null, "parsnip", 5, [validCrop]];
+    state.setDate(9);
 
-      theories.forEach((theory) => {
-        expect(isFarmData(farmWithCrop(theory))).toBe(false);
-      });
-    });
-
-    it("rejects a crop cell with a field of the wrong type", () => {
-      const theories = [
-        { ...validCrop, cropId: 1 },
-        { ...validCrop, dateDestroyed: "4" },
-        { ...validCrop, datePlanted: "0" },
-        { ...validCrop, datePlanted: null },
-        { ...validCrop, type: "equipment" },
-        { ...validCrop, x: "5" },
-        { ...validCrop, y: 3.5 },
-      ];
-
-      theories.forEach((theory) => {
-        expect(isFarmData(farmWithCrop(theory))).toBe(false);
-      });
-    });
-
-    it("rejects a crop cell with a missing field", () => {
-      const theories = ["cropId", "datePlanted", "type", "x", "y"];
-
-      theories.forEach((theory) => {
-        expect(isFarmData(farmWithCrop(withoutField(validCrop, theory)))).toBe(
-          false,
-        );
-      });
-    });
-
-    it("rejects a crop cell with an unknown crop id", () => {
-      const theories = ["not_a_crop", "", "toString", "__proto__"];
-
-      theories.forEach((theory) => {
-        expect(isFarmData(farmWithCrop({ ...validCrop, cropId: theory }))).toBe(
-          false,
-        );
-      });
-    });
-
-    it("rejects a crop cell that is not at its own tile", () => {
-      const theories = [
-        { ...validCrop, x: 6 },
-        { ...validCrop, y: 4 },
-      ];
-
-      theories.forEach((theory) => {
-        expect(isFarmData(farmWithCrop(theory))).toBe(false);
-      });
-    });
-
-    it("rejects an equipment cell that is not an object", () => {
-      const theories = [null, "sprinkler", 5, [validEquipment]];
-
-      theories.forEach((theory) => {
-        expect(isFarmData(farmWithEquipment(theory))).toBe(false);
-      });
-    });
-
-    it("rejects an equipment cell with a field of the wrong type", () => {
-      const theories = [
-        { ...validEquipment, dateDestroyed: "4" },
-        { ...validEquipment, dateInstalled: "0" },
-        { ...validEquipment, equipmentId: 1 },
-        { ...validEquipment, skinIndex: "0" },
-        { ...validEquipment, skinIndex: 0.5 },
-        { ...validEquipment, skinIndex: -1 },
-        { ...validEquipment, type: "crop" },
-        { ...validEquipment, x: null },
-        { ...validEquipment, y: "3" },
-      ];
-
-      theories.forEach((theory) => {
-        expect(isFarmData(farmWithEquipment(theory))).toBe(false);
-      });
-    });
-
-    it("rejects an equipment cell with a missing field", () => {
-      const theories = [
-        "dateInstalled",
-        "equipmentId",
-        "skinIndex",
-        "type",
-        "x",
-        "y",
-      ];
-
-      theories.forEach((theory) => {
-        expect(
-          isFarmData(farmWithEquipment(withoutField(validEquipment, theory))),
-        ).toBe(false);
-      });
-    });
-
-    it("rejects an equipment cell with an unknown equipment id", () => {
-      const theories = ["not_equipment", "", "toString", "__proto__"];
-
-      theories.forEach((theory) => {
-        expect(
-          isFarmData(
-            farmWithEquipment({ ...validEquipment, equipmentId: theory }),
-          ),
-        ).toBe(false);
-      });
-    });
-
-    it("rejects an equipment cell with a skin the equipment does not have", () => {
-      const theories = [
-        { ...validEquipment, equipmentId: "sprinkler", skinIndex: 3 },
-        { ...validEquipment, equipmentId: "keg", skinIndex: 1 },
-      ];
-
-      theories.forEach((theory) => {
-        expect(isFarmData(farmWithEquipment(theory))).toBe(false);
-      });
-    });
-
-    it("rejects an equipment cell that is not at its own tile", () => {
-      const theories = [
-        { ...validEquipment, x: 8 },
-        { ...validEquipment, y: 4 },
-      ];
-
-      theories.forEach((theory) => {
-        expect(isFarmData(farmWithEquipment(theory))).toBe(false);
-      });
+    expect(JSON.parse(localStorage.getItem(storageKey) ?? "")).toEqual({
+      crops: {},
+      date: 9,
+      equipment: {},
+      version: 2,
     });
   });
 });

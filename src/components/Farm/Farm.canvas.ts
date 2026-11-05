@@ -1,7 +1,8 @@
 import { mergeDeep } from "immutable";
 
 import { farmLayouts } from "../../data/sdv.json";
-import { getSeason } from "../../helpers/date";
+import { findAtlas, findImage } from "../../helpers/atlas";
+import { getSeasonName } from "../../helpers/date";
 import {
   equipmentForRegion,
   installableEquipmentByTile,
@@ -24,16 +25,6 @@ interface IFarmCanvasState {
   highlightedRegion?: IRegion;
   images: HTMLImageElement[];
   selectedItem?: ISelectedItem;
-}
-
-function findImage(images: HTMLImageElement[], path: string) {
-  const image = images.find((candidate) => candidate.src.includes(path));
-
-  if (image === undefined) {
-    throw new Error("Error loading images");
-  }
-
-  return image;
 }
 
 function getPotentialEquipment(
@@ -70,7 +61,7 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
 
   context.imageSmoothingEnabled = false;
 
-  const season = ["spring", "summer", "fall", "winter"][getSeason(date)];
+  const season = getSeasonName(date);
   const farmImageName =
     currentFarm === "Test" ? "standard" : currentFarm.toLowerCase();
   const farmLayout = farmLayouts[currentFarm.toLowerCase()];
@@ -80,15 +71,16 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
       state.images,
       `/images/${farmImageName}-${season}.png`,
     ),
-    crops: findImage(state.images, "/images/crops.png"),
-    equipment: findImage(state.images, "/images/equipment-sheet.png"),
-    fence: findImage(state.images, "/images/fences.png"),
-    flooring: findImage(state.images, "/images/flooring.png"),
+    crops: findAtlas(state.images, "crops"),
+    fences: findAtlas(state.images, "fences"),
+    flooring: findAtlas(state.images, "flooring"),
+    flooringWinter: findAtlas(state.images, "flooringWinter"),
     highlightGreen: findImage(state.images, "/images/highlight-green.png"),
     highlightGrey: findImage(state.images, "/images/highlight-grey.png"),
     highlightRed: findImage(state.images, "/images/highlight-red.png"),
     hoeDirt: findImage(state.images, "/images/hoeDirt.png"),
     hoeDirtSnow: findImage(state.images, "/images/hoeDirtSnow.png"),
+    items: findAtlas(state.images, "items"),
   };
 
   context.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -122,7 +114,7 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
 
   renderFlooringToContext(
     context,
-    images.flooring,
+    images,
     mergeDeep(equipment, potentialEquipment),
     date,
   );
@@ -152,9 +144,7 @@ export function drawFarm(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
 
   renderItemsToContext(
     context,
-    images.crops,
-    images.equipment,
-    images.fence,
+    images,
     mergeDeep(crops, equipment, potentialEquipment),
     date,
   );

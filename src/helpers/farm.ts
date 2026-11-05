@@ -1,5 +1,11 @@
-import { crops } from "../data/sdv.json";
+import { crops } from "../data/game/crops.json";
 import { getCropsLastDay } from "./crop";
+import {
+  getItemSkin,
+  getRangeOffsets,
+  isFenceItem,
+  isFloorItem,
+} from "./items";
 
 export function forEachTileInRegion(
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
@@ -95,6 +101,28 @@ export function getEquipmentAtLocation(
   return [] as IInstalledEquipment[];
 }
 
+function markRangeOnSoil(
+  tileMap: (number | undefined)[][],
+  range: IItemRange,
+  x: number,
+  y: number,
+  currentFarm: string[],
+) {
+  getRangeOffsets(range).forEach(([dx, dy]) => {
+    const row = currentFarm[y + dy];
+
+    if (!row || row[x + dx] !== " ") {
+      return;
+    }
+
+    if (tileMap[x + dx] === undefined) {
+      tileMap[x + dx] = [];
+    }
+
+    tileMap[x + dx][y + dy] = 0;
+  });
+}
+
 export function getSoilMap(
   farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number,
@@ -121,64 +149,13 @@ export function getSoilMap(
         return;
       }
 
-      if (farmItem.equipmentId === "sprinkler") {
-        if (farmItem.skinIndex === 0) {
-          for (let iy = -1; iy <= 1; iy++) {
-            for (
-              let ix = Math.max(-1, Math.abs(iy) - 1);
-              ix <= Math.min(1, 1 - Math.abs(iy));
-              ix++
-            ) {
-              if (
-                currentFarm[y + iy] &&
-                currentFarm[y + iy][x + ix] &&
-                currentFarm[y + iy][x + ix] === " "
-              ) {
-                if (soilMap[x + ix] === undefined) {
-                  soilMap[x + ix] = [];
-                }
+      const waterRange = getItemSkin(
+        farmItem.equipmentId,
+        farmItem.skin,
+      )?.waterRange;
 
-                soilMap[x + ix][y + iy] = 0;
-              }
-            }
-          }
-        }
-
-        if (farmItem.skinIndex === 1) {
-          for (let iy = -1; iy <= 1; iy++) {
-            for (let ix = -1; ix <= 1; ix++) {
-              if (
-                currentFarm[y + iy] &&
-                currentFarm[y + iy][x + ix] &&
-                currentFarm[y + iy][x + ix] === " "
-              ) {
-                if (soilMap[x + ix] === undefined) {
-                  soilMap[x + ix] = [];
-                }
-
-                soilMap[x + ix][y + iy] = 0;
-              }
-            }
-          }
-        }
-
-        if (farmItem.skinIndex === 2) {
-          for (let iy = -2; iy <= 2; iy++) {
-            for (let ix = -2; ix <= 2; ix++) {
-              if (
-                currentFarm[y + iy] &&
-                currentFarm[y + iy][x + ix] &&
-                currentFarm[y + iy][x + ix] === " "
-              ) {
-                if (soilMap[x + ix] === undefined) {
-                  soilMap[x + ix] = [];
-                }
-
-                soilMap[x + ix][y + iy] = 0;
-              }
-            }
-          }
-        }
+      if (waterRange !== undefined) {
+        markRangeOnSoil(soilMap, waterRange, x, y, currentFarm);
       }
     }
   });
@@ -202,59 +179,44 @@ export function getSoilMap(
   return soilMap;
 }
 
-export function getFlooringMap(currentEquipment: IFarmEquipment, date: number) {
-  const flooringMap: number[][] = [];
+function getSkinMap(
+  farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
+  date: number,
+  isWanted: (equipmentId: string) => boolean,
+) {
+  const skinMap: string[][] = [];
 
-  forEachFarmItem<IInstalledEquipment>(
-    currentEquipment,
-    (installedEquipment) => {
-      const { x, y } = installedEquipment;
+  forEachFarmItem<IPlantedCrop | IInstalledEquipment>(farmItems, (farmItem) => {
+    if (
+      farmItem.type !== "equipment" ||
+      !isWanted(farmItem.equipmentId) ||
+      !isEquipmentHereToday(farmItem, date)
+    ) {
+      return;
+    }
 
-      if (!isEquipmentHereToday(installedEquipment, date)) {
-        return;
-      }
+    if (skinMap[farmItem.x] === undefined) {
+      skinMap[farmItem.x] = [];
+    }
 
-      if (installedEquipment.equipmentId === "flooring") {
-        if (flooringMap[x] === undefined) {
-          flooringMap[x] = [];
-        }
+    skinMap[farmItem.x][farmItem.y] = farmItem.skin;
+  });
 
-        flooringMap[x][y] = installedEquipment.skinIndex;
-      }
-    },
-  );
+  return skinMap;
+}
 
-  return flooringMap;
+export function getFlooringMap(
+  currentEquipment: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
+  date: number,
+) {
+  return getSkinMap(currentEquipment, date, isFloorItem);
 }
 
 export function getFenceMap(
   currentEquipment: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
   date: number,
 ) {
-  const fenceMap: number[][] = [];
-
-  forEachFarmItem<IPlantedCrop | IInstalledEquipment>(
-    currentEquipment,
-    (installedEquipment) => {
-      if (installedEquipment.type === "equipment") {
-        const { x, y } = installedEquipment;
-
-        if (!isEquipmentHereToday(installedEquipment, date)) {
-          return;
-        }
-
-        if (installedEquipment.equipmentId === "fence") {
-          if (fenceMap[x] === undefined) {
-            fenceMap[x] = [];
-          }
-
-          fenceMap[x][y] = installedEquipment.skinIndex;
-        }
-      }
-    },
-  );
-
-  return fenceMap;
+  return getSkinMap(currentEquipment, date, isFenceItem);
 }
 
 export function getScarecrowMap(
@@ -267,39 +229,30 @@ export function getScarecrowMap(
   forEachFarmItem<IPlantedCrop | IInstalledEquipment>(
     currentEquipment,
     (installedEquipment) => {
-      if (installedEquipment.type === "equipment") {
-        const { x, y } = installedEquipment;
-
-        if (!isEquipmentHereToday(installedEquipment, date)) {
-          return;
-        }
-
-        if (installedEquipment.equipmentId === "scarecrow") {
-          if (scarecrowMap[x] === undefined) {
-            scarecrowMap[x] = [];
-          }
-
-          for (let iy = -8; iy <= 8; iy++) {
-            // 4, 5, 6, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 6, 5, 4
-            const rowWidth = Math.min(-Math.abs(iy) + 12, 8);
-            for (let ix = -rowWidth; ix <= rowWidth; ix++) {
-              if (
-                currentFarm[y + iy] &&
-                currentFarm[y + iy][x + ix] &&
-                currentFarm[y + iy][x + ix] === " "
-              ) {
-                if (scarecrowMap[x + ix] === undefined) {
-                  scarecrowMap[x + ix] = [];
-                }
-
-                scarecrowMap[x + ix][y + iy] = 0;
-              }
-            }
-          }
-
-          scarecrowMap[x][y] = 0;
-        }
+      if (installedEquipment.type !== "equipment") {
+        return;
       }
+
+      const { x, y } = installedEquipment;
+      const crowRange = getItemSkin(
+        installedEquipment.equipmentId,
+        installedEquipment.skin,
+      )?.crowRange;
+
+      if (
+        crowRange === undefined ||
+        !isEquipmentHereToday(installedEquipment, date)
+      ) {
+        return;
+      }
+
+      markRangeOnSoil(scarecrowMap, crowRange, x, y, currentFarm);
+
+      if (scarecrowMap[x] === undefined) {
+        scarecrowMap[x] = [];
+      }
+
+      scarecrowMap[x][y] = 0;
     },
   );
 

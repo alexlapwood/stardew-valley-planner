@@ -2,6 +2,7 @@ import { mergeDeep } from "immutable";
 
 import { forEachTileInRegion } from "./farm";
 import { checkEquipmentToInstall } from "./itemPlacement";
+import { getDefaultSkin } from "./items";
 
 export function equipmentForRegion(
   selectedItem: ISelectedItem,
@@ -9,12 +10,13 @@ export function equipmentForRegion(
   date: number,
 ) {
   const equipmentToInstallList: IInstalledEquipment[] = [];
+  const skin = selectedItem.skin ?? getDefaultSkin(selectedItem.id);
 
   forEachTileInRegion(highlightedRegion, (x, y) => {
     equipmentToInstallList.push({
       dateInstalled: date,
       equipmentId: selectedItem.id,
-      skinIndex: selectedItem.skinIndex ?? 0,
+      skin,
       type: "equipment",
       x,
       y,

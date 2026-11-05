@@ -1,0 +1,2910 @@
+{
+  "gameVersion": "1.6.15",
+  "items": {
+    "ancient_stool": {
+      "kind": "bigCraftable",
+      "name": "Ancient Stool",
+      "skinOrder": ["ancient_stool"],
+      "skins": {
+        "ancient_stool": {
+          "icon": [0, 0, 16, 32],
+          "itemId": "(BC)67",
+          "name": "Ancient Stool",
+          "sprite": [0, 0, 16, 32]
+        }
+      }
+    },
+    "ancient_table": {
+      "kind": "bigCraftable",
+      "name": "Ancient Table",
+      "skinOrder": ["ancient_table"],
+      "skins": {
+        "ancient_table": {
+          "icon": [16, 0, 16, 32],
+          "itemId": "(BC)66",
+          "name": "Ancient Table",
+          "sprite": [16, 0, 16, 32]
+        }
+      }
+    },
+    "anvil": {
+      "kind": "bigCraftable",
+      "name": "Anvil",
+      "skinOrder": ["anvil"],
+      "skins": {
+        "anvil": {
+          "icon": [32, 0, 16, 32],
+          "itemId": "(BC)Anvil",
+          "name": "Anvil",
+          "sprite": [32, 0, 16, 32]
+        }
+      }
+    },
+    "arcade_system": {
+      "kind": "bigCraftable",
+      "name": "Arcade System",
+      "skinOrder": [
+        "junimo_kart_arcade_system",
+        "prairie_king_arcade_system",
+        "cursed_p_k_arcade_system"
+      ],
+      "skins": {
+        "cursed_p_k_arcade_system": {
+          "icon": [80, 0, 16, 32],
+          "itemId": "(BC)219",
+          "name": "Cursed P.K. Arcade System",
+          "sprite": [80, 0, 16, 32]
+        },
+        "junimo_kart_arcade_system": {
+          "icon": [48, 0, 16, 32],
+          "itemId": "(BC)159",
+          "name": "Junimo Kart Arcade System",
+          "sprite": [48, 0, 16, 32]
+        },
+        "prairie_king_arcade_system": {
+          "icon": [64, 0, 16, 32],
+          "itemId": "(BC)141",
+          "name": "Prairie King Arcade System",
+          "sprite": [64, 0, 16, 32]
+        }
+      }
+    },
+    "auto_grabber": {
+      "kind": "bigCraftable",
+      "name": "Auto-Grabber",
+      "skinOrder": ["auto_grabber"],
+      "skins": {
+        "auto_grabber": {
+          "buy": {
+            "AnimalShop": {
+              "price": 25000
+            }
+          },
+          "icon": [96, 0, 16, 32],
+          "itemId": "(BC)165",
+          "name": "Auto-Grabber",
+          "sprite": [96, 0, 16, 32]
+        }
+      }
+    },
+    "auto_petter": {
+      "kind": "bigCraftable",
+      "name": "Auto-Petter",
+      "skinOrder": ["auto_petter"],
+      "skins": {
+        "auto_petter": {
+          "buy": {
+            "Joja": {
+              "price": 50000
+            }
+          },
+          "icon": [112, 0, 16, 32],
+          "itemId": "(BC)272",
+          "name": "Auto-Petter",
+          "sprite": [112, 0, 16, 32]
+        }
+      }
+    },
+    "bait_maker": {
+      "kind": "bigCraftable",
+      "name": "Bait Maker",
+      "skinOrder": ["bait_maker"],
+      "skins": {
+        "bait_maker": {
+          "icon": [128, 0, 16, 32],
+          "itemId": "(BC)BaitMaker",
+          "name": "Bait Maker",
+          "sprite": [128, 0, 16, 32]
+        }
+      }
+    },
+    "barrel": {
+      "kind": "bigCraftable",
+      "name": "Barrel",
+      "skinOrder": [
+        "barrel_118",
+        "barrel_120",
+        "barrel_122",
+        "barrel_124",
+        "barrel_174",
+        "barrel_262"
+      ],
+      "skins": {
+        "barrel_118": {
+          "icon": [144, 0, 16, 32],
+          "itemId": "(BC)118",
+          "name": "Barrel",
+          "sprite": [144, 0, 16, 32]
+        },
+        "barrel_120": {
+          "icon": [160, 0, 16, 32],
+          "itemId": "(BC)120",
+          "name": "Barrel",
+          "sprite": [160, 0, 16, 32]
+        },
+        "barrel_122": {
+          "icon": [176, 0, 16, 32],
+          "itemId": "(BC)122",
+          "name": "Barrel",
+          "sprite": [176, 0, 16, 32]
+        },
+        "barrel_124": {
+          "icon": [192, 0, 16, 32],
+          "itemId": "(BC)124",
+          "name": "Barrel",
+          "sprite": [192, 0, 16, 32]
+        },
+        "barrel_174": {
+          "icon": [208, 0, 16, 32],
+          "itemId": "(BC)174",
+          "name": "Barrel",
+          "sprite": [208, 0, 16, 32]
+        },
+        "barrel_262": {
+          "icon": [224, 0, 16, 32],
+          "itemId": "(BC)262",
+          "name": "Barrel",
+          "sprite": [224, 0, 16, 32]
+        }
+      }
+    },
+    "basic_log": {
+      "kind": "bigCraftable",
+      "name": "Basic Log",
+      "skinOrder": ["basic_log"],
+      "skins": {
+        "basic_log": {
+          "buy": {
+            "Carpenter": {
+              "price": 250
+            }
+          },
+          "icon": [240, 0, 16, 32],
+          "itemId": "(BC)35",
+          "name": "Basic Log",
+          "sprite": [240, 0, 16, 32]
+        }
+      }
+    },
+    "bee_house": {
+      "kind": "bigCraftable",
+      "name": "Bee House",
+      "skinOrder": ["bee_house"],
+      "skins": {
+        "bee_house": {
+          "flowerRange": {
+            "radius": 5,
+            "shape": "diamond"
+          },
+          "icon": [256, 0, 16, 32],
+          "itemId": "(BC)10",
+          "name": "Bee House",
+          "sprite": [256, 0, 16, 32]
+        }
+      }
+    },
+    "big_chest": {
+      "kind": "bigCraftable",
+      "name": "Big Chest",
+      "skinOrder": ["big_chest"],
+      "skins": {
+        "big_chest": {
+          "icon": [272, 0, 16, 32],
+          "itemId": "(BC)BigChest",
+          "name": "Big Chest",
+          "sprite": [272, 0, 16, 32]
+        }
+      }
+    },
+    "big_green_cane": {
+      "kind": "bigCraftable",
+      "name": "Big Green Cane",
+      "skinOrder": ["big_green_cane"],
+      "skins": {
+        "big_green_cane": {
+          "buy": {
+            "Festival_NightMarket_DecorationBoat": {
+              "price": 200
+            }
+          },
+          "icon": [288, 0, 16, 32],
+          "itemId": "(BC)40",
+          "name": "Big Green Cane",
+          "sprite": [288, 0, 16, 32]
+        }
+      }
+    },
+    "big_red_cane": {
+      "kind": "bigCraftable",
+      "name": "Big Red Cane",
+      "skinOrder": ["big_red_cane"],
+      "skins": {
+        "big_red_cane": {
+          "buy": {
+            "Festival_NightMarket_DecorationBoat": {
+              "price": 200
+            }
+          },
+          "icon": [304, 0, 16, 32],
+          "itemId": "(BC)44",
+          "name": "Big Red Cane",
+          "sprite": [304, 0, 16, 32]
+        }
+      }
+    },
+    "big_stone_chest": {
+      "kind": "bigCraftable",
+      "name": "Big Stone Chest",
+      "skinOrder": ["big_stone_chest"],
+      "skins": {
+        "big_stone_chest": {
+          "icon": [320, 0, 16, 32],
+          "itemId": "(BC)BigStoneChest",
+          "name": "Big Stone Chest",
+          "sprite": [320, 0, 16, 32]
+        }
+      }
+    },
+    "bone_mill": {
+      "kind": "bigCraftable",
+      "name": "Bone Mill",
+      "skinOrder": ["bone_mill"],
+      "skins": {
+        "bone_mill": {
+          "icon": [336, 0, 16, 32],
+          "itemId": "(BC)90",
+          "name": "Bone Mill",
+          "sprite": [336, 0, 16, 32]
+        }
+      }
+    },
+    "bonfire": {
+      "kind": "bigCraftable",
+      "name": "Bonfire",
+      "skinOrder": ["bonfire"],
+      "skins": {
+        "bonfire": {
+          "icon": [352, 0, 16, 32],
+          "itemId": "(BC)74",
+          "name": "Bonfire",
+          "sprite": [352, 0, 16, 32]
+        }
+      }
+    },
+    "bongo": {
+      "kind": "bigCraftable",
+      "name": "Bongo",
+      "skinOrder": ["bongo"],
+      "skins": {
+        "bongo": {
+          "icon": [368, 0, 16, 32],
+          "itemId": "(BC)75",
+          "name": "Bongo",
+          "sprite": [368, 0, 16, 32]
+        }
+      }
+    },
+    "bookcase": {
+      "kind": "bigCraftable",
+      "name": "Bookcase",
+      "skinOrder": ["bookcase"],
+      "skins": {
+        "bookcase": {
+          "icon": [384, 0, 16, 32],
+          "itemId": "(BC)64",
+          "name": "Bookcase",
+          "sprite": [384, 0, 16, 32]
+        }
+      }
+    },
+    "boulder": {
+      "kind": "bigCraftable",
+      "name": "Boulder",
+      "skinOrder": ["boulder"],
+      "skins": {
+        "boulder": {
+          "icon": [400, 0, 16, 32],
+          "itemId": "(BC)78",
+          "name": "Boulder",
+          "sprite": [400, 0, 16, 32]
+        }
+      }
+    },
+    "brazier": {
+      "kind": "bigCraftable",
+      "name": "Brazier",
+      "skinOrder": [
+        "wooden_brazier",
+        "stone_brazier",
+        "gold_brazier",
+        "carved_brazier",
+        "stump_brazier",
+        "barrel_brazier",
+        "skull_brazier",
+        "marble_brazier"
+      ],
+      "skins": {
+        "barrel_brazier": {
+          "icon": [496, 0, 16, 32],
+          "itemId": "(BC)150",
+          "name": "Barrel Brazier",
+          "sprite": [496, 0, 16, 32]
+        },
+        "carved_brazier": {
+          "icon": [464, 0, 16, 32],
+          "itemId": "(BC)148",
+          "name": "Carved Brazier",
+          "sprite": [464, 0, 16, 32]
+        },
+        "gold_brazier": {
+          "icon": [448, 0, 16, 32],
+          "itemId": "(BC)145",
+          "name": "Gold Brazier",
+          "sprite": [448, 0, 16, 32]
+        },
+        "marble_brazier": {
+          "icon": [528, 0, 16, 32],
+          "itemId": "(BC)151",
+          "name": "Marble Brazier",
+          "sprite": [528, 0, 16, 32]
+        },
+        "skull_brazier": {
+          "icon": [512, 0, 16, 32],
+          "itemId": "(BC)149",
+          "name": "Skull Brazier",
+          "sprite": [512, 0, 16, 32]
+        },
+        "stone_brazier": {
+          "icon": [432, 0, 16, 32],
+          "itemId": "(BC)144",
+          "name": "Stone Brazier",
+          "sprite": [432, 0, 16, 32]
+        },
+        "stump_brazier": {
+          "icon": [480, 0, 16, 32],
+          "itemId": "(BC)147",
+          "name": "Stump Brazier",
+          "sprite": [480, 0, 16, 32]
+        },
+        "wooden_brazier": {
+          "icon": [416, 0, 16, 32],
+          "itemId": "(BC)143",
+          "name": "Wooden Brazier",
+          "sprite": [416, 0, 16, 32]
+        }
+      }
+    },
+    "camera": {
+      "kind": "bigCraftable",
+      "name": "Camera",
+      "skinOrder": ["camera"],
+      "skins": {
+        "camera": {
+          "icon": [544, 0, 16, 32],
+          "itemId": "(BC)106",
+          "name": "Camera",
+          "sprite": [544, 0, 16, 32]
+        }
+      }
+    },
+    "campfire": {
+      "kind": "bigCraftable",
+      "name": "Campfire",
+      "skinOrder": ["campfire_146", "campfire_278"],
+      "skins": {
+        "campfire_146": {
+          "icon": [560, 0, 16, 32],
+          "itemId": "(BC)146",
+          "name": "Campfire",
+          "sprite": [560, 0, 16, 32]
+        },
+        "campfire_278": {
+          "icon": [576, 0, 16, 32],
+          "itemId": "(BC)278",
+          "name": "Campfire",
+          "sprite": [576, 0, 16, 32]
+        }
+      }
+    },
+    "cask": {
+      "kind": "bigCraftable",
+      "name": "Cask",
+      "skinOrder": ["cask"],
+      "skins": {
+        "cask": {
+          "icon": [592, 0, 16, 32],
+          "itemId": "(BC)163",
+          "name": "Cask",
+          "sprite": [592, 0, 16, 32]
+        }
+      }
+    },
+    "charcoal_kiln": {
+      "kind": "bigCraftable",
+      "name": "Charcoal Kiln",
+      "skinOrder": ["charcoal_kiln"],
+      "skins": {
+        "charcoal_kiln": {
+          "icon": [608, 0, 16, 32],
+          "itemId": "(BC)114",
+          "name": "Charcoal Kiln",
+          "sprite": [608, 0, 16, 32]
+        }
+      }
+    },
+    "cheese_press": {
+      "kind": "bigCraftable",
+      "name": "Cheese Press",
+      "skinOrder": ["cheese_press"],
+      "skins": {
+        "cheese_press": {
+          "icon": [624, 0, 16, 32],
+          "itemId": "(BC)16",
+          "name": "Cheese Press",
+          "sprite": [624, 0, 16, 32]
+        }
+      }
+    },
+    "chest": {
+      "kind": "bigCraftable",
+      "name": "Chest",
+      "skinOrder": ["chest"],
+      "skins": {
+        "chest": {
+          "icon": [640, 0, 16, 32],
+          "itemId": "(BC)130",
+          "name": "Chest",
+          "sprite": [640, 0, 16, 32]
+        }
+      }
+    },
+    "chicken_statue": {
+      "kind": "bigCraftable",
+      "name": "Chicken Statue",
+      "skinOrder": ["chicken_statue"],
+      "skins": {
+        "chicken_statue": {
+          "icon": [656, 0, 16, 32],
+          "itemId": "(BC)31",
+          "name": "Chicken Statue",
+          "sprite": [656, 0, 16, 32]
+        }
+      }
+    },
+    "coffee_maker": {
+      "kind": "bigCraftable",
+      "name": "Coffee Maker",
+      "skinOrder": ["coffee_maker"],
+      "skins": {
+        "coffee_maker": {
+          "icon": [672, 0, 16, 32],
+          "itemId": "(BC)246",
+          "name": "Coffee Maker",
+          "sprite": [672, 0, 16, 32]
+        }
+      }
+    },
+    "crate": {
+      "kind": "bigCraftable",
+      "name": "Crate",
+      "skinOrder": [
+        "crate_119",
+        "crate_121",
+        "crate_123",
+        "crate_125",
+        "crate_175",
+        "crate_263"
+      ],
+      "skins": {
+        "crate_119": {
+          "icon": [688, 0, 16, 32],
+          "itemId": "(BC)119",
+          "name": "Crate",
+          "sprite": [688, 0, 16, 32]
+        },
+        "crate_121": {
+          "icon": [704, 0, 16, 32],
+          "itemId": "(BC)121",
+          "name": "Crate",
+          "sprite": [704, 0, 16, 32]
+        },
+        "crate_123": {
+          "icon": [720, 0, 16, 32],
+          "itemId": "(BC)123",
+          "name": "Crate",
+          "sprite": [720, 0, 16, 32]
+        },
+        "crate_125": {
+          "icon": [736, 0, 16, 32],
+          "itemId": "(BC)125",
+          "name": "Crate",
+          "sprite": [736, 0, 16, 32]
+        },
+        "crate_175": {
+          "icon": [752, 0, 16, 32],
+          "itemId": "(BC)175",
+          "name": "Crate",
+          "sprite": [752, 0, 16, 32]
+        },
+        "crate_263": {
+          "icon": [768, 0, 16, 32],
+          "itemId": "(BC)263",
+          "name": "Crate",
+          "sprite": [768, 0, 16, 32]
+        }
+      }
+    },
+    "crystalarium": {
+      "kind": "bigCraftable",
+      "name": "Crystalarium",
+      "skinOrder": ["crystalarium"],
+      "skins": {
+        "crystalarium": {
+          "icon": [784, 0, 16, 32],
+          "itemId": "(BC)21",
+          "name": "Crystalarium",
+          "sprite": [784, 0, 16, 32]
+        }
+      }
+    },
+    "dead_tree": {
+      "kind": "bigCraftable",
+      "name": "Dead Tree",
+      "skinOrder": ["dead_tree"],
+      "skins": {
+        "dead_tree": {
+          "icon": [800, 0, 16, 32],
+          "itemId": "(BC)70",
+          "name": "Dead Tree",
+          "sprite": [800, 0, 16, 32]
+        }
+      }
+    },
+    "deconstructor": {
+      "kind": "bigCraftable",
+      "name": "Deconstructor",
+      "skinOrder": ["deconstructor"],
+      "skins": {
+        "deconstructor": {
+          "buy": {
+            "QiGemShop": {
+              "price": 0,
+              "trade": {
+                "count": 20,
+                "item": "Qi Gem"
+              }
+            }
+          },
+          "icon": [816, 0, 16, 32],
+          "itemId": "(BC)265",
+          "name": "Deconstructor",
+          "sprite": [816, 0, 16, 32]
+        }
+      }
+    },
+    "decorative_pitcher": {
+      "kind": "bigCraftable",
+      "name": "Decorative Pitcher",
+      "skinOrder": ["decorative_pitcher"],
+      "skins": {
+        "decorative_pitcher": {
+          "icon": [832, 0, 16, 32],
+          "itemId": "(BC)111",
+          "name": "Decorative Pitcher",
+          "sprite": [832, 0, 16, 32]
+        }
+      }
+    },
+    "decorative_pot": {
+      "kind": "object",
+      "name": "Decorative Pot",
+      "skinOrder": ["decorative_pot"],
+      "skins": {
+        "decorative_pot": {
+          "icon": [848, 0, 16, 16],
+          "itemId": "(O)461",
+          "name": "Decorative Pot",
+          "sprite": [848, 0, 16, 16]
+        }
+      }
+    },
+    "decorative_spears": {
+      "kind": "bigCraftable",
+      "name": "Decorative Spears",
+      "skinOrder": ["decorative_spears"],
+      "skins": {
+        "decorative_spears": {
+          "icon": [864, 0, 16, 32],
+          "itemId": "(BC)76",
+          "name": "Decorative Spears",
+          "sprite": [864, 0, 16, 32]
+        }
+      }
+    },
+    "dehydrator": {
+      "kind": "bigCraftable",
+      "name": "Dehydrator",
+      "skinOrder": ["dehydrator"],
+      "skins": {
+        "dehydrator": {
+          "icon": [880, 0, 16, 32],
+          "itemId": "(BC)Dehydrator",
+          "name": "Dehydrator",
+          "sprite": [880, 0, 16, 32]
+        }
+      }
+    },
+    "deluxe_worm_bin": {
+      "kind": "bigCraftable",
+      "name": "Deluxe Worm Bin",
+      "skinOrder": ["deluxe_worm_bin"],
+      "skins": {
+        "deluxe_worm_bin": {
+          "icon": [896, 0, 16, 32],
+          "itemId": "(BC)DeluxeWormBin",
+          "name": "Deluxe Worm Bin",
+          "sprite": [896, 0, 16, 32]
+        }
+      }
+    },
+    "door": {
+      "kind": "bigCraftable",
+      "name": "Door",
+      "skinOrder": ["door_79", "door_80"],
+      "skins": {
+        "door_79": {
+          "icon": [912, 0, 16, 32],
+          "itemId": "(BC)79",
+          "name": "Door",
+          "sprite": [912, 0, 16, 32]
+        },
+        "door_80": {
+          "icon": [928, 0, 16, 32],
+          "itemId": "(BC)80",
+          "name": "Door",
+          "sprite": [928, 0, 16, 32]
+        }
+      }
+    },
+    "dried_sunflowers": {
+      "kind": "bigCraftable",
+      "name": "Dried Sunflowers",
+      "skinOrder": ["dried_sunflowers"],
+      "skins": {
+        "dried_sunflowers": {
+          "icon": [944, 0, 16, 32],
+          "itemId": "(BC)112",
+          "name": "Dried Sunflowers",
+          "sprite": [944, 0, 16, 32]
+        }
+      }
+    },
+    "drum_block": {
+      "kind": "object",
+      "name": "Drum Block",
+      "skinOrder": ["drum_block"],
+      "skins": {
+        "drum_block": {
+          "icon": [960, 0, 16, 16],
+          "itemId": "(O)463",
+          "name": "Drum Block",
+          "sprite": [960, 0, 16, 16]
+        }
+      }
+    },
+    "empty_capsule": {
+      "kind": "bigCraftable",
+      "name": "Empty Capsule",
+      "skinOrder": ["empty_capsule"],
+      "skins": {
+        "empty_capsule": {
+          "icon": [976, 0, 16, 32],
+          "itemId": "(BC)98",
+          "name": "Empty Capsule",
+          "sprite": [976, 0, 16, 32]
+        }
+      }
+    },
+    "fancy_table": {
+      "kind": "bigCraftable",
+      "name": "Fancy Table",
+      "skinOrder": ["fancy_table"],
+      "skins": {
+        "fancy_table": {
+          "icon": [992, 0, 16, 32],
+          "itemId": "(BC)65",
+          "name": "Fancy Table",
+          "sprite": [992, 0, 16, 32]
+        }
+      }
+    },
+    "farm_computer": {
+      "kind": "bigCraftable",
+      "name": "Farm Computer",
+      "skinOrder": ["farm_computer"],
+      "skins": {
+        "farm_computer": {
+          "icon": [1008, 0, 16, 32],
+          "itemId": "(BC)239",
+          "name": "Farm Computer",
+          "sprite": [1008, 0, 16, 32]
+        }
+      }
+    },
+    "feed_hopper": {
+      "kind": "bigCraftable",
+      "name": "Feed Hopper",
+      "skinOrder": ["feed_hopper"],
+      "skins": {
+        "feed_hopper": {
+          "icon": [0, 32, 16, 32],
+          "itemId": "(BC)99",
+          "name": "Feed Hopper",
+          "sprite": [0, 32, 16, 32]
+        }
+      }
+    },
+    "fence": {
+      "fenceDrawing": {
+        "cellHeight": 32,
+        "cellOffset": [0, -16],
+        "cellWidth": 16,
+        "columns": 3,
+        "drawGuide": {
+          "0": 5,
+          "10": 9,
+          "100": 10,
+          "1000": 3,
+          "1010": 8,
+          "110": 7,
+          "1100": 6,
+          "1110": 7,
+          "1500": 3,
+          "1510": 2,
+          "1600": 0,
+          "1610": 4,
+          "500": 5,
+          "510": 2,
+          "600": 0,
+          "610": 4
+        },
+        "gate": {
+          "otherCell": 17,
+          "partsBySum": {
+            "10": [
+              {
+                "closed": [0, 192, 24, 48],
+                "offset": [-4, -32],
+                "open": [24, 192, 24, 48]
+              }
+            ],
+            "100": [
+              {
+                "closed": [0, 240, 24, 48],
+                "offset": [-4, -32],
+                "open": [24, 240, 24, 48]
+              }
+            ],
+            "1000": [
+              {
+                "closed": [0, 288, 24, 32],
+                "offset": [5, -21],
+                "open": [24, 288, 24, 32]
+              }
+            ],
+            "110": [
+              {
+                "closed": [0, 128, 24, 32],
+                "offset": [-4, -16],
+                "open": [24, 128, 24, 32]
+              }
+            ],
+            "1500": [
+              {
+                "closed": [0, 160, 16, 16],
+                "offset": [5, -21],
+                "open": [16, 160, 16, 16]
+              },
+              {
+                "closed": [0, 176, 16, 16],
+                "offset": [5, -5],
+                "open": [16, 176, 16, 16]
+              }
+            ],
+            "500": [
+              {
+                "closed": [0, 320, 24, 32],
+                "offset": [5, -21],
+                "open": [24, 320, 24, 32]
+              }
+            ]
+          }
+        },
+        "neighbours": {
+          "e": 100,
+          "n": 1000,
+          "s": 500,
+          "w": 10
+        }
+      },
+      "kind": "fence",
+      "name": "Fence",
+      "skinOrder": [
+        "wood_fence",
+        "stone_fence",
+        "iron_fence",
+        "hardwood_fence",
+        "gate"
+      ],
+      "skins": {
+        "gate": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "fence": {
+            "block": [0, 0, 48, 352],
+            "gate": true
+          },
+          "icon": [80, 32, 16, 16],
+          "itemId": "(O)325",
+          "name": "Gate"
+        },
+        "hardwood_fence": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "fence": {
+            "block": [144, 0, 48, 352],
+            "gate": false
+          },
+          "icon": [64, 32, 16, 16],
+          "itemId": "(O)298",
+          "name": "Hardwood Fence"
+        },
+        "iron_fence": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "fence": {
+            "block": [96, 0, 48, 352],
+            "gate": false
+          },
+          "icon": [48, 32, 16, 16],
+          "itemId": "(O)324",
+          "name": "Iron Fence"
+        },
+        "stone_fence": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "fence": {
+            "block": [48, 0, 48, 352],
+            "gate": false
+          },
+          "icon": [32, 32, 16, 16],
+          "itemId": "(O)323",
+          "name": "Stone Fence"
+        },
+        "wood_fence": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "fence": {
+            "block": [0, 0, 48, 352],
+            "gate": false
+          },
+          "icon": [16, 32, 16, 16],
+          "itemId": "(O)322",
+          "name": "Wood Fence"
+        }
+      }
+    },
+    "fish_smoker": {
+      "kind": "bigCraftable",
+      "name": "Fish Smoker",
+      "skinOrder": ["fish_smoker"],
+      "skins": {
+        "fish_smoker": {
+          "icon": [96, 32, 16, 32],
+          "itemId": "(BC)FishSmoker",
+          "name": "Fish Smoker",
+          "sprite": [96, 32, 16, 32]
+        }
+      }
+    },
+    "flooring": {
+      "floorDrawing": {
+        "drawGuide": {
+          "0": 0,
+          "1": 48,
+          "10": 50,
+          "11": 34,
+          "12": 3,
+          "13": 19,
+          "14": 2,
+          "15": 18,
+          "2": 49,
+          "3": 33,
+          "4": 16,
+          "5": 32,
+          "6": 1,
+          "7": 17,
+          "8": 51,
+          "9": 35
+        },
+        "neighbours": {
+          "e": 2,
+          "n": 1,
+          "s": 4,
+          "w": 8
+        },
+        "randomViews": [
+          0, 1, 2, 3, 16, 17, 18, 19, 32, 33, 34, 35, 48, 49, 50, 51
+        ],
+        "tileSize": 16,
+        "tilesPerRow": 16
+      },
+      "kind": "floor",
+      "name": "Flooring",
+      "skinOrder": [
+        "wood_floor",
+        "stone_floor",
+        "weathered_floor",
+        "crystal_floor",
+        "straw_floor",
+        "gravel_path",
+        "wood_path",
+        "crystal_path",
+        "cobblestone_path",
+        "stepping_stone_path",
+        "brick_floor",
+        "rustic_plank_floor",
+        "stone_walkway_floor"
+      ],
+      "skins": {
+        "brick_floor": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "floor": {
+            "block": [640, 0, 64, 64],
+            "connectType": "Default",
+            "cornerSize": 4,
+            "id": "10",
+            "shadowType": "Square",
+            "winterBlock": [640, 0, 64, 64]
+          },
+          "icon": [272, 32, 16, 16],
+          "itemId": "(O)293",
+          "name": "Brick Floor"
+        },
+        "cobblestone_path": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "floor": {
+            "block": [512, 0, 64, 64],
+            "connectType": "Path",
+            "cornerSize": 4,
+            "id": "8",
+            "shadowType": "None",
+            "winterBlock": [512, 0, 64, 64]
+          },
+          "icon": [240, 32, 16, 16],
+          "itemId": "(O)411",
+          "name": "Cobblestone Path"
+        },
+        "crystal_floor": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "floor": {
+            "block": [192, 0, 64, 64],
+            "connectType": "Default",
+            "cornerSize": 4,
+            "id": "3",
+            "shadowType": "Square",
+            "winterBlock": [192, 0, 64, 64]
+          },
+          "icon": [160, 32, 16, 16],
+          "itemId": "(O)333",
+          "name": "Crystal Floor"
+        },
+        "crystal_path": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "floor": {
+            "block": [448, 0, 64, 64],
+            "connectType": "Path",
+            "cornerSize": 4,
+            "id": "7",
+            "shadowType": "None",
+            "winterBlock": [448, 0, 64, 64]
+          },
+          "icon": [224, 32, 16, 16],
+          "itemId": "(O)409",
+          "name": "Crystal Path"
+        },
+        "gravel_path": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "floor": {
+            "block": [320, 0, 64, 64],
+            "connectType": "Path",
+            "cornerSize": 4,
+            "id": "5",
+            "shadowType": "None",
+            "winterBlock": [320, 0, 64, 64]
+          },
+          "icon": [192, 32, 16, 16],
+          "itemId": "(O)407",
+          "name": "Gravel Path"
+        },
+        "rustic_plank_floor": {
+          "floor": {
+            "block": [704, 0, 64, 64],
+            "connectType": "Path",
+            "cornerSize": 4,
+            "id": "11",
+            "shadowType": "Contoured",
+            "winterBlock": [704, 0, 64, 64]
+          },
+          "icon": [288, 32, 16, 16],
+          "itemId": "(O)840",
+          "name": "Rustic Plank Floor"
+        },
+        "stepping_stone_path": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "floor": {
+            "block": [576, 0, 64, 64],
+            "connectType": "Random",
+            "cornerSize": 4,
+            "id": "9",
+            "shadowType": "None",
+            "winterBlock": [576, 0, 64, 64]
+          },
+          "icon": [256, 32, 16, 16],
+          "itemId": "(O)415",
+          "name": "Stepping Stone Path"
+        },
+        "stone_floor": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "floor": {
+            "block": [64, 0, 64, 64],
+            "connectType": "Default",
+            "cornerSize": 4,
+            "id": "1",
+            "shadowType": "Square",
+            "winterBlock": [64, 0, 64, 64]
+          },
+          "icon": [128, 32, 16, 16],
+          "itemId": "(O)329",
+          "name": "Stone Floor"
+        },
+        "stone_walkway_floor": {
+          "floor": {
+            "block": [768, 0, 64, 64],
+            "connectType": "CornerDecorated",
+            "cornerSize": 6,
+            "id": "12",
+            "shadowType": "Contoured",
+            "winterBlock": [768, 0, 64, 64]
+          },
+          "icon": [304, 32, 16, 16],
+          "itemId": "(O)841",
+          "name": "Stone Walkway Floor"
+        },
+        "straw_floor": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "floor": {
+            "block": [256, 0, 64, 64],
+            "connectType": "Default",
+            "cornerSize": 4,
+            "id": "4",
+            "shadowType": "Square",
+            "winterBlock": [256, 0, 64, 64]
+          },
+          "icon": [176, 32, 16, 16],
+          "itemId": "(O)401",
+          "name": "Straw Floor"
+        },
+        "weathered_floor": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "floor": {
+            "block": [128, 0, 64, 64],
+            "connectType": "Default",
+            "cornerSize": 4,
+            "id": "2",
+            "shadowType": "Square",
+            "winterBlock": [128, 0, 64, 64]
+          },
+          "icon": [144, 32, 16, 16],
+          "itemId": "(O)331",
+          "name": "Weathered Floor"
+        },
+        "wood_floor": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "floor": {
+            "block": [0, 0, 64, 64],
+            "connectType": "Default",
+            "cornerSize": 4,
+            "id": "0",
+            "shadowType": "Square",
+            "winterBlock": [0, 0, 64, 64]
+          },
+          "icon": [112, 32, 16, 16],
+          "itemId": "(O)328",
+          "name": "Wood Floor"
+        },
+        "wood_path": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "floor": {
+            "block": [384, 0, 64, 64],
+            "connectType": "Path",
+            "cornerSize": 4,
+            "id": "6",
+            "shadowType": "None",
+            "winterBlock": [384, 0, 64, 64]
+          },
+          "icon": [208, 32, 16, 16],
+          "itemId": "(O)405",
+          "name": "Wood Path"
+        }
+      }
+    },
+    "flute_block": {
+      "kind": "object",
+      "name": "Flute Block",
+      "skinOrder": ["flute_block"],
+      "skins": {
+        "flute_block": {
+          "icon": [320, 32, 16, 16],
+          "itemId": "(O)464",
+          "name": "Flute Block",
+          "sprite": [320, 32, 16, 16]
+        }
+      }
+    },
+    "foroguemon": {
+      "kind": "bigCraftable",
+      "name": "??Foroguemon??",
+      "skinOrder": ["foroguemon"],
+      "skins": {
+        "foroguemon": {
+          "icon": [336, 32, 16, 32],
+          "itemId": "(BC)162",
+          "name": "??Foroguemon??",
+          "sprite": [336, 32, 16, 32]
+        }
+      }
+    },
+    "furnace": {
+      "kind": "bigCraftable",
+      "name": "Furnace",
+      "skinOrder": ["furnace"],
+      "skins": {
+        "furnace": {
+          "icon": [352, 32, 16, 32],
+          "itemId": "(BC)13",
+          "name": "Furnace",
+          "sprite": [352, 32, 16, 32]
+        }
+      }
+    },
+    "garden_pot": {
+      "kind": "bigCraftable",
+      "name": "Garden Pot",
+      "skinOrder": ["garden_pot"],
+      "skins": {
+        "garden_pot": {
+          "icon": [368, 32, 16, 32],
+          "itemId": "(BC)62",
+          "name": "Garden Pot",
+          "sprite": [368, 32, 16, 32]
+        }
+      }
+    },
+    "geode_crusher": {
+      "kind": "bigCraftable",
+      "name": "Geode Crusher",
+      "skinOrder": ["geode_crusher"],
+      "skins": {
+        "geode_crusher": {
+          "icon": [384, 32, 16, 32],
+          "itemId": "(BC)182",
+          "name": "Geode Crusher",
+          "sprite": [384, 32, 16, 32]
+        }
+      }
+    },
+    "grandfather_clock": {
+      "kind": "bigCraftable",
+      "name": "Grandfather Clock",
+      "skinOrder": ["grandfather_clock"],
+      "skins": {
+        "grandfather_clock": {
+          "icon": [400, 32, 16, 32],
+          "itemId": "(BC)68",
+          "name": "Grandfather Clock",
+          "sprite": [400, 32, 16, 32]
+        }
+      }
+    },
+    "grave_stone": {
+      "kind": "bigCraftable",
+      "name": "Grave Stone",
+      "skinOrder": ["grave_stone"],
+      "skins": {
+        "grave_stone": {
+          "buy": {
+            "Festival_SpiritsEve_Pierre": {
+              "price": 350
+            }
+          },
+          "icon": [416, 32, 16, 32],
+          "itemId": "(BC)47",
+          "name": "Grave Stone",
+          "sprite": [416, 32, 16, 32]
+        }
+      }
+    },
+    "green_canes": {
+      "kind": "bigCraftable",
+      "name": "Green Canes",
+      "skinOrder": ["green_canes"],
+      "skins": {
+        "green_canes": {
+          "buy": {
+            "Festival_NightMarket_DecorationBoat": {
+              "price": 200
+            }
+          },
+          "icon": [432, 32, 16, 32],
+          "itemId": "(BC)41",
+          "name": "Green Canes",
+          "sprite": [432, 32, 16, 32]
+        }
+      }
+    },
+    "heater": {
+      "kind": "bigCraftable",
+      "name": "Heater",
+      "skinOrder": ["heater"],
+      "skins": {
+        "heater": {
+          "buy": {
+            "AnimalShop": {
+              "price": 2000
+            }
+          },
+          "icon": [448, 32, 16, 32],
+          "itemId": "(BC)104",
+          "name": "Heater",
+          "sprite": [448, 32, 16, 32]
+        }
+      }
+    },
+    "heavy_furnace": {
+      "kind": "bigCraftable",
+      "name": "Heavy Furnace",
+      "skinOrder": ["heavy_furnace"],
+      "skins": {
+        "heavy_furnace": {
+          "icon": [464, 32, 16, 32],
+          "itemId": "(BC)HeavyFurnace",
+          "name": "Heavy Furnace",
+          "sprite": [464, 32, 16, 32]
+        }
+      }
+    },
+    "hmtgf": {
+      "kind": "bigCraftable",
+      "name": "??HMTGF??",
+      "skinOrder": ["hmtgf"],
+      "skins": {
+        "hmtgf": {
+          "icon": [480, 32, 16, 32],
+          "itemId": "(BC)155",
+          "name": "??HMTGF??",
+          "sprite": [480, 32, 16, 32]
+        }
+      }
+    },
+    "hopper": {
+      "kind": "bigCraftable",
+      "name": "Hopper",
+      "skinOrder": ["hopper"],
+      "skins": {
+        "hopper": {
+          "buy": {
+            "QiGemShop": {
+              "price": 0,
+              "trade": {
+                "count": 10,
+                "item": "Qi Gem"
+              }
+            }
+          },
+          "icon": [496, 32, 16, 32],
+          "itemId": "(BC)275",
+          "name": "Hopper",
+          "sprite": [496, 32, 16, 32]
+        }
+      }
+    },
+    "house_plant": {
+      "kind": "bigCraftable",
+      "name": "House Plant",
+      "skinOrder": [
+        "house_plant_0",
+        "house_plant_1",
+        "house_plant_2",
+        "house_plant_3",
+        "house_plant_4",
+        "house_plant_5",
+        "house_plant_6",
+        "house_plant_7"
+      ],
+      "skins": {
+        "house_plant_0": {
+          "icon": [512, 32, 16, 32],
+          "itemId": "(BC)0",
+          "name": "House Plant",
+          "sprite": [512, 32, 16, 32]
+        },
+        "house_plant_1": {
+          "icon": [528, 32, 16, 32],
+          "itemId": "(BC)1",
+          "name": "House Plant",
+          "sprite": [528, 32, 16, 32]
+        },
+        "house_plant_2": {
+          "icon": [544, 32, 16, 32],
+          "itemId": "(BC)2",
+          "name": "House Plant",
+          "sprite": [544, 32, 16, 32]
+        },
+        "house_plant_3": {
+          "icon": [560, 32, 16, 32],
+          "itemId": "(BC)3",
+          "name": "House Plant",
+          "sprite": [560, 32, 16, 32]
+        },
+        "house_plant_4": {
+          "icon": [576, 32, 16, 32],
+          "itemId": "(BC)4",
+          "name": "House Plant",
+          "sprite": [576, 32, 16, 32]
+        },
+        "house_plant_5": {
+          "icon": [592, 32, 16, 32],
+          "itemId": "(BC)5",
+          "name": "House Plant",
+          "sprite": [592, 32, 16, 32]
+        },
+        "house_plant_6": {
+          "icon": [608, 32, 16, 32],
+          "itemId": "(BC)6",
+          "name": "House Plant",
+          "sprite": [608, 32, 16, 32]
+        },
+        "house_plant_7": {
+          "icon": [624, 32, 16, 32],
+          "itemId": "(BC)7",
+          "name": "House Plant",
+          "sprite": [624, 32, 16, 32]
+        }
+      }
+    },
+    "incubator": {
+      "kind": "bigCraftable",
+      "name": "Incubator",
+      "skinOrder": ["incubator"],
+      "skins": {
+        "incubator": {
+          "icon": [640, 32, 16, 32],
+          "itemId": "(BC)101",
+          "name": "Incubator",
+          "sprite": [640, 32, 16, 32]
+        }
+      }
+    },
+    "item_pedestal": {
+      "kind": "bigCraftable",
+      "name": "Item Pedestal",
+      "skinOrder": ["item_pedestal"],
+      "skins": {
+        "item_pedestal": {
+          "icon": [656, 32, 16, 32],
+          "itemId": "(BC)221",
+          "name": "Item Pedestal",
+          "sprite": [656, 32, 16, 32]
+        }
+      }
+    },
+    "jack_o_lantern": {
+      "kind": "object",
+      "name": "Jack-O-Lantern",
+      "skinOrder": ["jack_o_lantern"],
+      "skins": {
+        "jack_o_lantern": {
+          "buy": {
+            "Festival_SpiritsEve_Pierre": {
+              "price": 750
+            }
+          },
+          "icon": [672, 32, 16, 16],
+          "itemId": "(O)746",
+          "name": "Jack-O-Lantern",
+          "sprite": [672, 32, 16, 16]
+        }
+      }
+    },
+    "junimo_chest": {
+      "kind": "bigCraftable",
+      "name": "Junimo Chest",
+      "skinOrder": ["junimo_chest"],
+      "skins": {
+        "junimo_chest": {
+          "buy": {
+            "QiGemShop": {
+              "price": 0,
+              "trade": {
+                "count": 30,
+                "item": "Qi Gem"
+              }
+            }
+          },
+          "icon": [688, 32, 16, 32],
+          "itemId": "(BC)256",
+          "name": "Junimo Chest",
+          "sprite": [688, 32, 16, 32]
+        }
+      }
+    },
+    "keg": {
+      "kind": "bigCraftable",
+      "name": "Keg",
+      "skinOrder": ["keg"],
+      "skins": {
+        "keg": {
+          "icon": [704, 32, 16, 32],
+          "itemId": "(BC)12",
+          "name": "Keg",
+          "sprite": [704, 32, 16, 32]
+        }
+      }
+    },
+    "lamp_post": {
+      "kind": "bigCraftable",
+      "name": "Lamp-post",
+      "skinOrder": ["wood_lamp_post", "iron_lamp_post"],
+      "skins": {
+        "iron_lamp_post": {
+          "icon": [736, 32, 16, 32],
+          "itemId": "(BC)153",
+          "name": "Iron Lamp-post",
+          "sprite": [736, 32, 16, 32]
+        },
+        "wood_lamp_post": {
+          "icon": [720, 32, 16, 32],
+          "itemId": "(BC)152",
+          "name": "Wood Lamp-post",
+          "sprite": [720, 32, 16, 32]
+        }
+      }
+    },
+    "lawn_flamingo": {
+      "kind": "bigCraftable",
+      "name": "Lawn Flamingo",
+      "skinOrder": ["lawn_flamingo"],
+      "skins": {
+        "lawn_flamingo": {
+          "buy": {
+            "Festival_EggFestival_Pierre": {
+              "price": 400
+            }
+          },
+          "icon": [752, 32, 16, 32],
+          "itemId": "(BC)36",
+          "name": "Lawn Flamingo",
+          "sprite": [752, 32, 16, 32]
+        }
+      }
+    },
+    "lightning_rod": {
+      "kind": "bigCraftable",
+      "name": "Lightning Rod",
+      "skinOrder": ["lightning_rod"],
+      "skins": {
+        "lightning_rod": {
+          "icon": [768, 32, 16, 32],
+          "itemId": "(BC)9",
+          "name": "Lightning Rod",
+          "sprite": [768, 32, 16, 32]
+        }
+      }
+    },
+    "locked_door": {
+      "kind": "bigCraftable",
+      "name": "Locked Door",
+      "skinOrder": ["locked_door_81", "locked_door_82"],
+      "skins": {
+        "locked_door_81": {
+          "icon": [784, 32, 16, 32],
+          "itemId": "(BC)81",
+          "name": "Locked Door",
+          "sprite": [784, 32, 16, 32]
+        },
+        "locked_door_82": {
+          "icon": [800, 32, 16, 32],
+          "itemId": "(BC)82",
+          "name": "Locked Door",
+          "sprite": [800, 32, 16, 32]
+        }
+      }
+    },
+    "log_section": {
+      "kind": "bigCraftable",
+      "name": "Log Section",
+      "skinOrder": ["log_section"],
+      "skins": {
+        "log_section": {
+          "buy": {
+            "Carpenter": {
+              "price": 350
+            }
+          },
+          "icon": [816, 32, 16, 32],
+          "itemId": "(BC)46",
+          "name": "Log Section",
+          "sprite": [816, 32, 16, 32]
+        }
+      }
+    },
+    "loom": {
+      "kind": "bigCraftable",
+      "name": "Loom",
+      "skinOrder": ["loom"],
+      "skins": {
+        "loom": {
+          "icon": [832, 32, 16, 32],
+          "itemId": "(BC)17",
+          "name": "Loom",
+          "sprite": [832, 32, 16, 32]
+        }
+      }
+    },
+    "mayonnaise_machine": {
+      "kind": "bigCraftable",
+      "name": "Mayonnaise Machine",
+      "skinOrder": ["mayonnaise_machine"],
+      "skins": {
+        "mayonnaise_machine": {
+          "icon": [848, 32, 16, 32],
+          "itemId": "(BC)24",
+          "name": "Mayonnaise Machine",
+          "sprite": [848, 32, 16, 32]
+        }
+      }
+    },
+    "mini_forge": {
+      "kind": "bigCraftable",
+      "name": "Mini-Forge",
+      "skinOrder": ["mini_forge"],
+      "skins": {
+        "mini_forge": {
+          "icon": [864, 32, 16, 32],
+          "itemId": "(BC)MiniForge",
+          "name": "Mini-Forge",
+          "sprite": [864, 32, 16, 32]
+        }
+      }
+    },
+    "mini_jukebox": {
+      "kind": "bigCraftable",
+      "name": "Mini-Jukebox",
+      "skinOrder": ["mini_jukebox"],
+      "skins": {
+        "mini_jukebox": {
+          "icon": [880, 32, 16, 32],
+          "itemId": "(BC)209",
+          "name": "Mini-Jukebox",
+          "sprite": [880, 32, 16, 32]
+        }
+      }
+    },
+    "mini_obelisk": {
+      "kind": "bigCraftable",
+      "name": "Mini-Obelisk",
+      "skinOrder": ["mini_obelisk"],
+      "skins": {
+        "mini_obelisk": {
+          "icon": [896, 32, 16, 32],
+          "itemId": "(BC)238",
+          "name": "Mini-Obelisk",
+          "sprite": [896, 32, 16, 32]
+        }
+      }
+    },
+    "mini_shipping_bin": {
+      "kind": "bigCraftable",
+      "name": "Mini-Shipping Bin",
+      "skinOrder": ["mini_shipping_bin"],
+      "skins": {
+        "mini_shipping_bin": {
+          "buy": {
+            "QiGemShop": {
+              "price": 0,
+              "trade": {
+                "count": 60,
+                "item": "Qi Gem"
+              }
+            }
+          },
+          "icon": [912, 32, 16, 32],
+          "itemId": "(BC)248",
+          "name": "Mini-Shipping Bin",
+          "sprite": [912, 32, 16, 32]
+        }
+      }
+    },
+    "mixed_cane": {
+      "kind": "bigCraftable",
+      "name": "Mixed Cane",
+      "skinOrder": ["mixed_cane"],
+      "skins": {
+        "mixed_cane": {
+          "buy": {
+            "Festival_NightMarket_DecorationBoat": {
+              "price": 200
+            }
+          },
+          "icon": [928, 32, 16, 32],
+          "itemId": "(BC)42",
+          "name": "Mixed Cane",
+          "sprite": [928, 32, 16, 32]
+        }
+      }
+    },
+    "mushroom_box": {
+      "kind": "bigCraftable",
+      "name": "Mushroom Box",
+      "skinOrder": ["mushroom_box"],
+      "skins": {
+        "mushroom_box": {
+          "icon": [944, 32, 16, 32],
+          "itemId": "(BC)128",
+          "name": "Mushroom Box",
+          "sprite": [944, 32, 16, 32]
+        }
+      }
+    },
+    "mushroom_log": {
+      "kind": "bigCraftable",
+      "name": "Mushroom Log",
+      "skinOrder": ["mushroom_log"],
+      "skins": {
+        "mushroom_log": {
+          "icon": [960, 32, 16, 32],
+          "itemId": "(BC)MushroomLog",
+          "name": "Mushroom Log",
+          "sprite": [960, 32, 16, 32]
+        }
+      }
+    },
+    "obsidian_vase": {
+      "kind": "bigCraftable",
+      "name": "Obsidian Vase",
+      "skinOrder": ["obsidian_vase"],
+      "skins": {
+        "obsidian_vase": {
+          "icon": [976, 32, 16, 32],
+          "itemId": "(BC)89",
+          "name": "Obsidian Vase",
+          "sprite": [976, 32, 16, 32]
+        }
+      }
+    },
+    "oil_maker": {
+      "kind": "bigCraftable",
+      "name": "Oil Maker",
+      "skinOrder": ["oil_maker"],
+      "skins": {
+        "oil_maker": {
+          "icon": [992, 32, 16, 32],
+          "itemId": "(BC)19",
+          "name": "Oil Maker",
+          "sprite": [992, 32, 16, 32]
+        }
+      }
+    },
+    "ornamental_hay_bale": {
+      "kind": "bigCraftable",
+      "name": "Ornamental Hay Bale",
+      "skinOrder": ["ornamental_hay_bale"],
+      "skins": {
+        "ornamental_hay_bale": {
+          "buy": {
+            "AnimalShop": {
+              "price": 250
+            }
+          },
+          "icon": [1008, 32, 16, 32],
+          "itemId": "(BC)45",
+          "name": "Ornamental Hay Bale",
+          "sprite": [1008, 32, 16, 32]
+        }
+      }
+    },
+    "pinky_lemon": {
+      "kind": "bigCraftable",
+      "name": "??Pinky Lemon??",
+      "skinOrder": ["pinky_lemon"],
+      "skins": {
+        "pinky_lemon": {
+          "icon": [0, 64, 16, 32],
+          "itemId": "(BC)161",
+          "name": "??Pinky Lemon??",
+          "sprite": [0, 64, 16, 32]
+        }
+      }
+    },
+    "plush_bunny": {
+      "kind": "bigCraftable",
+      "name": "Plush Bunny",
+      "skinOrder": ["plush_bunny"],
+      "skins": {
+        "plush_bunny": {
+          "buy": {
+            "Festival_EggFestival_Pierre": {
+              "price": 2000
+            }
+          },
+          "icon": [16, 64, 16, 32],
+          "itemId": "(BC)107",
+          "name": "Plush Bunny",
+          "sprite": [16, 64, 16, 32]
+        }
+      }
+    },
+    "preserves_jar": {
+      "kind": "bigCraftable",
+      "name": "Preserves Jar",
+      "skinOrder": ["preserves_jar"],
+      "skins": {
+        "preserves_jar": {
+          "icon": [32, 64, 16, 32],
+          "itemId": "(BC)15",
+          "name": "Preserves Jar",
+          "sprite": [32, 64, 16, 32]
+        }
+      }
+    },
+    "recycling_machine": {
+      "kind": "bigCraftable",
+      "name": "Recycling Machine",
+      "skinOrder": ["recycling_machine"],
+      "skins": {
+        "recycling_machine": {
+          "icon": [48, 64, 16, 32],
+          "itemId": "(BC)20",
+          "name": "Recycling Machine",
+          "sprite": [48, 64, 16, 32]
+        }
+      }
+    },
+    "red_canes": {
+      "kind": "bigCraftable",
+      "name": "Red Canes",
+      "skinOrder": ["red_canes"],
+      "skins": {
+        "red_canes": {
+          "buy": {
+            "Festival_NightMarket_DecorationBoat": {
+              "price": 200
+            }
+          },
+          "icon": [64, 64, 16, 32],
+          "itemId": "(BC)43",
+          "name": "Red Canes",
+          "sprite": [64, 64, 16, 32]
+        }
+      }
+    },
+    "ritual_mask": {
+      "kind": "bigCraftable",
+      "name": "Ritual Mask",
+      "skinOrder": ["ritual_mask"],
+      "skins": {
+        "ritual_mask": {
+          "icon": [80, 64, 16, 32],
+          "itemId": "(BC)73",
+          "name": "Ritual Mask",
+          "sprite": [80, 64, 16, 32]
+        }
+      }
+    },
+    "scarecrow": {
+      "kind": "bigCraftable",
+      "name": "Scarecrow",
+      "skinOrder": [
+        "scarecrow",
+        "rarecrow_110",
+        "rarecrow_113",
+        "rarecrow_126",
+        "rarecrow_136",
+        "rarecrow_137",
+        "rarecrow_138",
+        "rarecrow_139",
+        "rarecrow_140",
+        "deluxe_scarecrow"
+      ],
+      "skins": {
+        "deluxe_scarecrow": {
+          "crowRange": {
+            "radius": 17,
+            "shape": "circle"
+          },
+          "icon": [240, 64, 16, 32],
+          "itemId": "(BC)167",
+          "name": "Deluxe Scarecrow",
+          "sprite": [240, 64, 16, 32]
+        },
+        "rarecrow_110": {
+          "crowRange": {
+            "radius": 9,
+            "shape": "circle"
+          },
+          "icon": [112, 64, 16, 32],
+          "itemId": "(BC)110",
+          "name": "Rarecrow",
+          "sprite": [112, 64, 16, 32]
+        },
+        "rarecrow_113": {
+          "buy": {
+            "Festival_SpiritsEve_Pierre": {
+              "price": 5000
+            }
+          },
+          "crowRange": {
+            "radius": 9,
+            "shape": "circle"
+          },
+          "icon": [128, 64, 16, 32],
+          "itemId": "(BC)113",
+          "name": "Rarecrow",
+          "sprite": [128, 64, 16, 32]
+        },
+        "rarecrow_126": {
+          "crowRange": {
+            "radius": 9,
+            "shape": "circle"
+          },
+          "icon": [144, 64, 16, 32],
+          "itemId": "(BC)126",
+          "name": "Rarecrow",
+          "sprite": [144, 64, 16, 32]
+        },
+        "rarecrow_136": {
+          "buy": {
+            "Festival_FestivalOfIce_TravelingMerchant": {
+              "price": 5000
+            },
+            "Traveler": {
+              "price": 4000
+            }
+          },
+          "crowRange": {
+            "radius": 9,
+            "shape": "circle"
+          },
+          "icon": [160, 64, 16, 32],
+          "itemId": "(BC)136",
+          "name": "Rarecrow",
+          "sprite": [160, 64, 16, 32]
+        },
+        "rarecrow_137": {
+          "buy": {
+            "Festival_FlowerDance_Pierre": {
+              "price": 2500
+            }
+          },
+          "crowRange": {
+            "radius": 9,
+            "shape": "circle"
+          },
+          "icon": [176, 64, 16, 32],
+          "itemId": "(BC)137",
+          "name": "Rarecrow",
+          "sprite": [176, 64, 16, 32]
+        },
+        "rarecrow_138": {
+          "buy": {
+            "Dwarf": {
+              "price": 2500
+            }
+          },
+          "crowRange": {
+            "radius": 9,
+            "shape": "circle"
+          },
+          "icon": [192, 64, 16, 32],
+          "itemId": "(BC)138",
+          "name": "Rarecrow",
+          "sprite": [192, 64, 16, 32]
+        },
+        "rarecrow_139": {
+          "crowRange": {
+            "radius": 9,
+            "shape": "circle"
+          },
+          "icon": [208, 64, 16, 32],
+          "itemId": "(BC)139",
+          "name": "Rarecrow",
+          "sprite": [208, 64, 16, 32]
+        },
+        "rarecrow_140": {
+          "crowRange": {
+            "radius": 9,
+            "shape": "circle"
+          },
+          "icon": [224, 64, 16, 32],
+          "itemId": "(BC)140",
+          "name": "Rarecrow",
+          "sprite": [224, 64, 16, 32]
+        },
+        "scarecrow": {
+          "crowRange": {
+            "radius": 9,
+            "shape": "circle"
+          },
+          "icon": [96, 64, 16, 32],
+          "itemId": "(BC)8",
+          "name": "Scarecrow",
+          "sprite": [96, 64, 16, 32]
+        }
+      }
+    },
+    "seasonal_decor": {
+      "kind": "bigCraftable",
+      "name": "Seasonal Decor",
+      "skinOrder": ["seasonal_decor"],
+      "skins": {
+        "seasonal_decor": {
+          "buy": {
+            "Festival_FlowerDance_Pierre": {
+              "price": 350
+            },
+            "Festival_NightMarket_DecorationBoat": {
+              "price": 500
+            }
+          },
+          "icon": [256, 64, 16, 32],
+          "itemId": "(BC)48",
+          "name": "Seasonal Decor",
+          "sprite": [256, 64, 16, 32],
+          "spritesBySeason": {
+            "fall": [288, 64, 16, 32],
+            "spring": [256, 64, 16, 32],
+            "summer": [272, 64, 16, 32],
+            "winter": [304, 64, 16, 32]
+          }
+        }
+      }
+    },
+    "seasonal_plant": {
+      "kind": "bigCraftable",
+      "name": "Seasonal Plant",
+      "skinOrder": [
+        "seasonal_plant_184",
+        "seasonal_plant_188",
+        "seasonal_plant_192",
+        "seasonal_plant_196",
+        "seasonal_plant_200",
+        "seasonal_plant_204"
+      ],
+      "skins": {
+        "seasonal_plant_184": {
+          "buy": {
+            "Festival_EggFestival_Pierre": {
+              "price": 350
+            },
+            "Festival_NightMarket_DecorationBoat": {
+              "price": 500
+            }
+          },
+          "icon": [320, 64, 16, 32],
+          "itemId": "(BC)184",
+          "name": "Seasonal Plant",
+          "sprite": [320, 64, 16, 32],
+          "spritesBySeason": {
+            "fall": [352, 64, 16, 32],
+            "spring": [320, 64, 16, 32],
+            "summer": [336, 64, 16, 32],
+            "winter": [368, 64, 16, 32]
+          }
+        },
+        "seasonal_plant_188": {
+          "buy": {
+            "Festival_EggFestival_Pierre": {
+              "price": 350
+            },
+            "Festival_NightMarket_DecorationBoat": {
+              "price": 500
+            }
+          },
+          "icon": [384, 64, 16, 32],
+          "itemId": "(BC)188",
+          "name": "Seasonal Plant",
+          "sprite": [384, 64, 16, 32],
+          "spritesBySeason": {
+            "fall": [416, 64, 16, 32],
+            "spring": [384, 64, 16, 32],
+            "summer": [400, 64, 16, 32],
+            "winter": [432, 64, 16, 32]
+          }
+        },
+        "seasonal_plant_192": {
+          "buy": {
+            "Festival_FlowerDance_Pierre": {
+              "price": 350
+            },
+            "Festival_NightMarket_DecorationBoat": {
+              "price": 500
+            }
+          },
+          "icon": [448, 64, 16, 32],
+          "itemId": "(BC)192",
+          "name": "Seasonal Plant",
+          "sprite": [448, 64, 16, 32],
+          "spritesBySeason": {
+            "fall": [480, 64, 16, 32],
+            "spring": [448, 64, 16, 32],
+            "summer": [464, 64, 16, 32],
+            "winter": [496, 64, 16, 32]
+          }
+        },
+        "seasonal_plant_196": {
+          "buy": {
+            "Festival_NightMarket_DecorationBoat": {
+              "price": 500
+            },
+            "Sandy": {
+              "price": 100
+            }
+          },
+          "icon": [512, 64, 16, 32],
+          "itemId": "(BC)196",
+          "name": "Seasonal Plant",
+          "sprite": [512, 64, 16, 32],
+          "spritesBySeason": {
+            "fall": [544, 64, 16, 32],
+            "spring": [512, 64, 16, 32],
+            "summer": [528, 64, 16, 32],
+            "winter": [560, 64, 16, 32]
+          }
+        },
+        "seasonal_plant_200": {
+          "buy": {
+            "Carpenter": {
+              "price": 400
+            },
+            "Festival_NightMarket_DecorationBoat": {
+              "price": 500
+            }
+          },
+          "icon": [576, 64, 16, 32],
+          "itemId": "(BC)200",
+          "name": "Seasonal Plant",
+          "sprite": [576, 64, 16, 32],
+          "spritesBySeason": {
+            "fall": [608, 64, 16, 32],
+            "spring": [576, 64, 16, 32],
+            "summer": [592, 64, 16, 32],
+            "winter": [624, 64, 16, 32]
+          }
+        },
+        "seasonal_plant_204": {
+          "buy": {
+            "Festival_FlowerDance_Pierre": {
+              "price": 350
+            },
+            "Festival_NightMarket_DecorationBoat": {
+              "price": 500
+            }
+          },
+          "icon": [640, 64, 16, 32],
+          "itemId": "(BC)204",
+          "name": "Seasonal Plant",
+          "sprite": [640, 64, 16, 32],
+          "spritesBySeason": {
+            "fall": [672, 64, 16, 32],
+            "spring": [640, 64, 16, 32],
+            "summer": [656, 64, 16, 32],
+            "winter": [688, 64, 16, 32]
+          }
+        }
+      }
+    },
+    "seed_maker": {
+      "kind": "bigCraftable",
+      "name": "Seed Maker",
+      "skinOrder": ["seed_maker"],
+      "skins": {
+        "seed_maker": {
+          "icon": [704, 64, 16, 32],
+          "itemId": "(BC)25",
+          "name": "Seed Maker",
+          "sprite": [704, 64, 16, 32]
+        }
+      }
+    },
+    "sewing_machine": {
+      "kind": "bigCraftable",
+      "name": "Sewing Machine",
+      "skinOrder": ["sewing_machine"],
+      "skins": {
+        "sewing_machine": {
+          "icon": [720, 64, 16, 32],
+          "itemId": "(BC)247",
+          "name": "Sewing Machine",
+          "sprite": [720, 64, 16, 32]
+        }
+      }
+    },
+    "sign": {
+      "kind": "bigCraftable",
+      "name": "Sign",
+      "skinOrder": ["wood_sign", "stone_sign", "dark_sign", "text_sign"],
+      "skins": {
+        "dark_sign": {
+          "icon": [768, 64, 16, 32],
+          "itemId": "(BC)39",
+          "name": "Dark Sign",
+          "sprite": [768, 64, 16, 32]
+        },
+        "stone_sign": {
+          "icon": [752, 64, 16, 32],
+          "itemId": "(BC)38",
+          "name": "Stone Sign",
+          "sprite": [752, 64, 16, 32]
+        },
+        "text_sign": {
+          "icon": [784, 64, 16, 32],
+          "itemId": "(BC)TextSign",
+          "name": "Text Sign",
+          "sprite": [800, 64, 16, 32]
+        },
+        "wood_sign": {
+          "icon": [736, 64, 16, 32],
+          "itemId": "(BC)37",
+          "name": "Wood Sign",
+          "sprite": [736, 64, 16, 32]
+        }
+      }
+    },
+    "sign_of_the_vessel": {
+      "kind": "bigCraftable",
+      "name": "Sign Of The Vessel",
+      "skinOrder": ["sign_of_the_vessel"],
+      "skins": {
+        "sign_of_the_vessel": {
+          "buy": {
+            "ShadowShop": {
+              "price": 350
+            }
+          },
+          "icon": [816, 64, 16, 32],
+          "itemId": "(BC)34",
+          "name": "Sign Of The Vessel",
+          "sprite": [816, 64, 16, 32]
+        }
+      }
+    },
+    "singing_stone": {
+      "kind": "bigCraftable",
+      "name": "Singing Stone",
+      "skinOrder": ["singing_stone"],
+      "skins": {
+        "singing_stone": {
+          "icon": [832, 64, 16, 32],
+          "itemId": "(BC)94",
+          "name": "Singing Stone",
+          "sprite": [832, 64, 16, 32]
+        }
+      }
+    },
+    "skeleton_model": {
+      "kind": "bigCraftable",
+      "name": "Skeleton Model",
+      "skinOrder": ["skeleton_model"],
+      "skins": {
+        "skeleton_model": {
+          "icon": [848, 64, 16, 32],
+          "itemId": "(BC)28",
+          "name": "Skeleton Model",
+          "sprite": [848, 64, 16, 32]
+        }
+      }
+    },
+    "slime_ball": {
+      "kind": "bigCraftable",
+      "name": "Slime Ball",
+      "skinOrder": ["slime_ball"],
+      "skins": {
+        "slime_ball": {
+          "icon": [864, 64, 16, 32],
+          "itemId": "(BC)56",
+          "name": "Slime Ball",
+          "sprite": [864, 64, 16, 32]
+        }
+      }
+    },
+    "slime_egg_press": {
+      "kind": "bigCraftable",
+      "name": "Slime Egg-Press",
+      "skinOrder": ["slime_egg_press"],
+      "skins": {
+        "slime_egg_press": {
+          "icon": [880, 64, 16, 32],
+          "itemId": "(BC)158",
+          "name": "Slime Egg-Press",
+          "sprite": [880, 64, 16, 32]
+        }
+      }
+    },
+    "slime_incubator": {
+      "kind": "bigCraftable",
+      "name": "Slime Incubator",
+      "skinOrder": ["slime_incubator"],
+      "skins": {
+        "slime_incubator": {
+          "icon": [896, 64, 16, 32],
+          "itemId": "(BC)156",
+          "name": "Slime Incubator",
+          "sprite": [896, 64, 16, 32]
+        }
+      }
+    },
+    "sloth_skeleton": {
+      "kind": "bigCraftable",
+      "name": "Sloth Skeleton",
+      "skinOrder": ["sloth_skeleton_l", "sloth_skeleton_m", "sloth_skeleton_r"],
+      "skins": {
+        "sloth_skeleton_l": {
+          "icon": [912, 64, 16, 32],
+          "itemId": "(BC)85",
+          "name": "Sloth Skeleton L",
+          "sprite": [912, 64, 16, 32]
+        },
+        "sloth_skeleton_m": {
+          "icon": [928, 64, 16, 32],
+          "itemId": "(BC)86",
+          "name": "Sloth Skeleton M",
+          "sprite": [928, 64, 16, 32]
+        },
+        "sloth_skeleton_r": {
+          "icon": [944, 64, 16, 32],
+          "itemId": "(BC)87",
+          "name": "Sloth Skeleton R",
+          "sprite": [944, 64, 16, 32]
+        }
+      }
+    },
+    "soda_machine": {
+      "kind": "bigCraftable",
+      "name": "Soda Machine",
+      "skinOrder": ["soda_machine"],
+      "skins": {
+        "soda_machine": {
+          "icon": [960, 64, 16, 32],
+          "itemId": "(BC)117",
+          "name": "Soda Machine",
+          "sprite": [960, 64, 16, 32]
+        }
+      }
+    },
+    "solar_panel": {
+      "kind": "bigCraftable",
+      "name": "Solar Panel",
+      "skinOrder": ["solar_panel"],
+      "skins": {
+        "solar_panel": {
+          "icon": [976, 64, 16, 32],
+          "itemId": "(BC)231",
+          "name": "Solar Panel",
+          "sprite": [976, 64, 16, 32]
+        }
+      }
+    },
+    "solid_gold_lewis": {
+      "kind": "bigCraftable",
+      "name": "Solid Gold Lewis",
+      "skinOrder": ["solid_gold_lewis"],
+      "skins": {
+        "solid_gold_lewis": {
+          "icon": [992, 64, 16, 32],
+          "itemId": "(BC)164",
+          "name": "Solid Gold Lewis",
+          "sprite": [992, 64, 16, 32]
+        }
+      }
+    },
+    "spirit_torch": {
+      "kind": "object",
+      "name": "Spirit Torch",
+      "skinOrder": ["spirit_torch"],
+      "skins": {
+        "spirit_torch": {
+          "icon": [1008, 64, 16, 16],
+          "itemId": "(O)94",
+          "name": "Spirit Torch",
+          "sprite": [1008, 64, 16, 16]
+        }
+      }
+    },
+    "sprinkler": {
+      "kind": "object",
+      "name": "Sprinkler",
+      "skinOrder": ["sprinkler", "quality_sprinkler", "iridium_sprinkler"],
+      "skins": {
+        "iridium_sprinkler": {
+          "buy": {
+            "ShadowShop": {
+              "price": 10000
+            }
+          },
+          "icon": [32, 96, 16, 16],
+          "itemId": "(O)645",
+          "name": "Iridium Sprinkler",
+          "sprite": [32, 96, 16, 16],
+          "waterRange": {
+            "radius": 2,
+            "shape": "tiles",
+            "tiles": [
+              [-2, -2],
+              [-1, -2],
+              [0, -2],
+              [1, -2],
+              [2, -2],
+              [-2, -1],
+              [-1, -1],
+              [0, -1],
+              [1, -1],
+              [2, -1],
+              [-2, 0],
+              [-1, 0],
+              [0, 0],
+              [1, 0],
+              [2, 0],
+              [-2, 1],
+              [-1, 1],
+              [0, 1],
+              [1, 1],
+              [2, 1],
+              [-2, 2],
+              [-1, 2],
+              [0, 2],
+              [1, 2],
+              [2, 2]
+            ]
+          }
+        },
+        "quality_sprinkler": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "icon": [16, 96, 16, 16],
+          "itemId": "(O)621",
+          "name": "Quality Sprinkler",
+          "sprite": [16, 96, 16, 16],
+          "waterRange": {
+            "radius": 1,
+            "shape": "tiles",
+            "tiles": [
+              [-1, -1],
+              [0, -1],
+              [1, -1],
+              [-1, 0],
+              [0, 0],
+              [1, 0],
+              [-1, 1],
+              [0, 1],
+              [1, 1]
+            ]
+          }
+        },
+        "sprinkler": {
+          "buy": {
+            "Traveler": {
+              "random": true
+            }
+          },
+          "icon": [0, 96, 16, 16],
+          "itemId": "(O)599",
+          "name": "Sprinkler",
+          "sprite": [0, 96, 16, 16],
+          "waterRange": {
+            "radius": 0,
+            "shape": "tiles",
+            "tiles": [
+              [0, -1],
+              [-1, 0],
+              [1, 0],
+              [0, 1]
+            ]
+          }
+        }
+      }
+    },
+    "standing_geode": {
+      "kind": "bigCraftable",
+      "name": "Standing Geode",
+      "skinOrder": ["standing_geode"],
+      "skins": {
+        "standing_geode": {
+          "icon": [48, 96, 16, 32],
+          "itemId": "(BC)88",
+          "name": "Standing Geode",
+          "sprite": [48, 96, 16, 32]
+        }
+      }
+    },
+    "stardew_hero_trophy": {
+      "kind": "bigCraftable",
+      "name": "Stardew Hero Trophy",
+      "skinOrder": ["stardew_hero_trophy"],
+      "skins": {
+        "stardew_hero_trophy": {
+          "icon": [64, 96, 16, 32],
+          "itemId": "(BC)116",
+          "name": "Stardew Hero Trophy",
+          "sprite": [64, 96, 16, 32]
+        }
+      }
+    },
+    "statue_of_blessings": {
+      "kind": "bigCraftable",
+      "name": "Statue Of Blessings",
+      "skinOrder": ["statue_of_blessings"],
+      "skins": {
+        "statue_of_blessings": {
+          "icon": [80, 96, 16, 32],
+          "itemId": "(BC)StatueOfBlessings",
+          "name": "Statue Of Blessings",
+          "sprite": [80, 96, 16, 32]
+        }
+      }
+    },
+    "statue_of_endless_fortune": {
+      "kind": "bigCraftable",
+      "name": "Statue Of Endless Fortune",
+      "skinOrder": ["statue_of_endless_fortune"],
+      "skins": {
+        "statue_of_endless_fortune": {
+          "icon": [96, 96, 16, 32],
+          "itemId": "(BC)127",
+          "name": "Statue Of Endless Fortune",
+          "sprite": [96, 96, 16, 32]
+        }
+      }
+    },
+    "statue_of_perfection": {
+      "kind": "bigCraftable",
+      "name": "Statue Of Perfection",
+      "skinOrder": ["statue_of_perfection"],
+      "skins": {
+        "statue_of_perfection": {
+          "icon": [112, 96, 16, 32],
+          "itemId": "(BC)160",
+          "name": "Statue Of Perfection",
+          "sprite": [112, 96, 16, 32]
+        }
+      }
+    },
+    "statue_of_the_dwarf_king": {
+      "kind": "bigCraftable",
+      "name": "Statue Of The Dwarf King",
+      "skinOrder": ["statue_of_the_dwarf_king"],
+      "skins": {
+        "statue_of_the_dwarf_king": {
+          "icon": [128, 96, 16, 32],
+          "itemId": "(BC)StatueOfTheDwarfKing",
+          "name": "Statue Of The Dwarf King",
+          "sprite": [128, 96, 16, 32]
+        }
+      }
+    },
+    "statue_of_true_perfection": {
+      "kind": "bigCraftable",
+      "name": "Statue Of True Perfection",
+      "skinOrder": ["statue_of_true_perfection"],
+      "skins": {
+        "statue_of_true_perfection": {
+          "icon": [144, 96, 16, 32],
+          "itemId": "(BC)280",
+          "name": "Statue Of True Perfection",
+          "sprite": [144, 96, 16, 32]
+        }
+      }
+    },
+    "stone_cairn": {
+      "kind": "bigCraftable",
+      "name": "Stone Cairn",
+      "skinOrder": ["stone_cairn"],
+      "skins": {
+        "stone_cairn": {
+          "buy": {
+            "Dwarf": {
+              "price": 200
+            }
+          },
+          "icon": [160, 96, 16, 32],
+          "itemId": "(BC)32",
+          "name": "Stone Cairn",
+          "sprite": [160, 96, 16, 32]
+        }
+      }
+    },
+    "stone_chest": {
+      "kind": "bigCraftable",
+      "name": "Stone Chest",
+      "skinOrder": ["stone_chest"],
+      "skins": {
+        "stone_chest": {
+          "icon": [176, 96, 16, 32],
+          "itemId": "(BC)232",
+          "name": "Stone Chest",
+          "sprite": [176, 96, 16, 32]
+        }
+      }
+    },
+    "stone_frog": {
+      "kind": "bigCraftable",
+      "name": "Stone Frog",
+      "skinOrder": ["stone_frog"],
+      "skins": {
+        "stone_frog": {
+          "icon": [192, 96, 16, 32],
+          "itemId": "(BC)52",
+          "name": "Stone Frog",
+          "sprite": [192, 96, 16, 32]
+        }
+      }
+    },
+    "stone_junimo": {
+      "kind": "bigCraftable",
+      "name": "Stone Junimo",
+      "skinOrder": ["stone_junimo"],
+      "skins": {
+        "stone_junimo": {
+          "icon": [208, 96, 16, 32],
+          "itemId": "(BC)55",
+          "name": "Stone Junimo",
+          "sprite": [208, 96, 16, 32]
+        }
+      }
+    },
+    "stone_owl": {
+      "kind": "bigCraftable",
+      "name": "Stone Owl",
+      "skinOrder": ["stone_owl_54", "stone_owl_95"],
+      "skins": {
+        "stone_owl_54": {
+          "icon": [224, 96, 16, 32],
+          "itemId": "(BC)54",
+          "name": "Stone Owl",
+          "sprite": [224, 96, 16, 32]
+        },
+        "stone_owl_95": {
+          "icon": [240, 96, 16, 32],
+          "itemId": "(BC)95",
+          "name": "Stone Owl",
+          "sprite": [240, 96, 16, 32]
+        }
+      }
+    },
+    "stone_parrot": {
+      "kind": "bigCraftable",
+      "name": "Stone Parrot",
+      "skinOrder": ["stone_parrot"],
+      "skins": {
+        "stone_parrot": {
+          "icon": [256, 96, 16, 32],
+          "itemId": "(BC)53",
+          "name": "Stone Parrot",
+          "sprite": [256, 96, 16, 32]
+        }
+      }
+    },
+    "strange_capsule": {
+      "kind": "bigCraftable",
+      "name": "Strange Capsule",
+      "skinOrder": ["strange_capsule"],
+      "skins": {
+        "strange_capsule": {
+          "icon": [272, 96, 16, 32],
+          "itemId": "(BC)96",
+          "name": "Strange Capsule",
+          "sprite": [272, 96, 16, 32]
+        }
+      }
+    },
+    "suit_of_armor": {
+      "kind": "bigCraftable",
+      "name": "Suit Of Armor",
+      "skinOrder": ["suit_of_armor"],
+      "skins": {
+        "suit_of_armor": {
+          "icon": [288, 96, 16, 32],
+          "itemId": "(BC)33",
+          "name": "Suit Of Armor",
+          "sprite": [288, 96, 16, 32]
+        }
+      }
+    },
+    "table_piece_l": {
+      "kind": "bigCraftable",
+      "name": "Table Piece L",
+      "skinOrder": ["table_piece_l"],
+      "skins": {
+        "table_piece_l": {
+          "icon": [304, 96, 16, 32],
+          "itemId": "(BC)22",
+          "name": "Table Piece L",
+          "sprite": [304, 96, 16, 32]
+        }
+      }
+    },
+    "table_piece_r": {
+      "kind": "bigCraftable",
+      "name": "Table Piece R",
+      "skinOrder": ["table_piece_r"],
+      "skins": {
+        "table_piece_r": {
+          "icon": [320, 96, 16, 32],
+          "itemId": "(BC)23",
+          "name": "Table Piece R",
+          "sprite": [320, 96, 16, 32]
+        }
+      }
+    },
+    "tall_torch": {
+      "kind": "bigCraftable",
+      "name": "Tall Torch",
+      "skinOrder": ["tall_torch"],
+      "skins": {
+        "tall_torch": {
+          "icon": [336, 96, 16, 32],
+          "itemId": "(BC)72",
+          "name": "Tall Torch",
+          "sprite": [336, 96, 16, 32]
+        }
+      }
+    },
+    "teddy_timer": {
+      "kind": "bigCraftable",
+      "name": "Teddy Timer",
+      "skinOrder": ["teddy_timer"],
+      "skins": {
+        "teddy_timer": {
+          "icon": [352, 96, 16, 32],
+          "itemId": "(BC)69",
+          "name": "Teddy Timer",
+          "sprite": [352, 96, 16, 32]
+        }
+      }
+    },
+    "telephone": {
+      "kind": "bigCraftable",
+      "name": "Telephone",
+      "skinOrder": ["telephone"],
+      "skins": {
+        "telephone": {
+          "buy": {
+            "Carpenter": {
+              "price": 2000
+            }
+          },
+          "icon": [368, 96, 16, 32],
+          "itemId": "(BC)214",
+          "name": "Telephone",
+          "sprite": [368, 96, 16, 32]
+        }
+      }
+    },
+    "torch": {
+      "kind": "object",
+      "name": "Torch",
+      "skinOrder": ["torch"],
+      "skins": {
+        "torch": {
+          "icon": [384, 96, 16, 16],
+          "itemId": "(O)93",
+          "name": "Torch",
+          "sprite": [384, 96, 16, 16]
+        }
+      }
+    },
+    "tub_o_flowers": {
+      "kind": "bigCraftable",
+      "name": "Tub o' Flowers",
+      "skinOrder": ["tub_o_flowers"],
+      "skins": {
+        "tub_o_flowers": {
+          "buy": {
+            "Festival_FlowerDance_Pierre": {
+              "price": 250
+            }
+          },
+          "icon": [400, 96, 16, 32],
+          "itemId": "(BC)108",
+          "name": "Tub o' Flowers",
+          "sprite": [400, 96, 16, 32],
+          "spritesBySeason": {
+            "fall": [416, 96, 16, 32],
+            "spring": [400, 96, 16, 32],
+            "summer": [400, 96, 16, 32],
+            "winter": [416, 96, 16, 32]
+          }
+        }
+      }
+    },
+    "wicked_statue": {
+      "kind": "bigCraftable",
+      "name": "Wicked Statue",
+      "skinOrder": ["wicked_statue_83", "wicked_statue_84"],
+      "skins": {
+        "wicked_statue_83": {
+          "icon": [432, 96, 16, 32],
+          "itemId": "(BC)83",
+          "name": "Wicked Statue",
+          "sprite": [432, 96, 16, 32]
+        },
+        "wicked_statue_84": {
+          "icon": [448, 96, 16, 32],
+          "itemId": "(BC)84",
+          "name": "Wicked Statue",
+          "sprite": [448, 96, 16, 32]
+        }
+      }
+    },
+    "wood_chair": {
+      "kind": "bigCraftable",
+      "name": "Wood Chair",
+      "skinOrder": ["wood_chair_26", "wood_chair_27"],
+      "skins": {
+        "wood_chair_26": {
+          "icon": [464, 96, 16, 32],
+          "itemId": "(BC)26",
+          "name": "Wood Chair",
+          "sprite": [464, 96, 16, 32]
+        },
+        "wood_chair_27": {
+          "icon": [480, 96, 16, 32],
+          "itemId": "(BC)27",
+          "name": "Wood Chair",
+          "sprite": [480, 96, 16, 32]
+        }
+      }
+    },
+    "wood_chipper": {
+      "kind": "bigCraftable",
+      "name": "Wood Chipper",
+      "skinOrder": ["wood_chipper"],
+      "skins": {
+        "wood_chipper": {
+          "buy": {
+            "Carpenter": {
+              "price": 1000
+            }
+          },
+          "icon": [496, 96, 16, 32],
+          "itemId": "(BC)211",
+          "name": "Wood Chipper",
+          "sprite": [496, 96, 16, 32]
+        }
+      }
+    },
+    "workbench": {
+      "kind": "bigCraftable",
+      "name": "Workbench",
+      "skinOrder": ["workbench"],
+      "skins": {
+        "workbench": {
+          "buy": {
+            "Carpenter": {
+              "price": 2000
+            }
+          },
+          "icon": [512, 96, 16, 32],
+          "itemId": "(BC)208",
+          "name": "Workbench",
+          "sprite": [512, 96, 16, 32]
+        }
+      }
+    },
+    "worm_bin": {
+      "kind": "bigCraftable",
+      "name": "Worm Bin",
+      "skinOrder": ["worm_bin"],
+      "skins": {
+        "worm_bin": {
+          "icon": [528, 96, 16, 32],
+          "itemId": "(BC)154",
+          "name": "Worm Bin",
+          "sprite": [528, 96, 16, 32]
+        }
+      }
+    }
+  }
+}

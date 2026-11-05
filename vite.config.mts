@@ -60,6 +60,14 @@ export default defineConfig({
       },
       registerType: "prompt",
       workbox: {
+        // Game data that the app does not use yet. Some of it is large, so it
+        // must not go into the offline precache.
+        globIgnores: [
+          "**/node_modules/**/*",
+          "data/game/**",
+          "images/game/tilesheets/**",
+          "images/game/{buildings,events,fertilizer,trees}.png",
+        ],
         // Include all assets in the manifest.webmanifest file
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
       },

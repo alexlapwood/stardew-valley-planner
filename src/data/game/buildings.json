@@ -1,0 +1,1098 @@
+{
+  "gameVersion": "1.6.15",
+  "buildings": {
+    "barn": {
+      "animalDoor": {
+        "height": 1,
+        "width": 2,
+        "x": 3,
+        "y": 3
+      },
+      "buildCost": 6000,
+      "buildDays": 3,
+      "buildMaterials": [
+        {
+          "count": 350,
+          "itemId": "(O)388",
+          "name": "Wood"
+        },
+        {
+          "count": 150,
+          "itemId": "(O)390",
+          "name": "Stone"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Barn",
+      "collision": ["XXXXXXX", "XXXXXXX", "XXXXXXX", "XXXXXXX"],
+      "default": false,
+      "humanDoor": {
+        "x": 1,
+        "y": 3
+      },
+      "magical": false,
+      "name": "Barn",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 4,
+        "width": 7
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -48
+        },
+        "sprite": [0, 0, 112, 112]
+      }
+    },
+    "big_barn": {
+      "animalDoor": {
+        "height": 1,
+        "width": 2,
+        "x": 4,
+        "y": 3
+      },
+      "buildCost": 12000,
+      "buildDays": 2,
+      "buildMaterials": [
+        {
+          "count": 450,
+          "itemId": "(O)388",
+          "name": "Wood"
+        },
+        {
+          "count": 200,
+          "itemId": "(O)390",
+          "name": "Stone"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Big Barn",
+      "collision": ["XXXXXXX", "XXXXXXX", "XXXXXXX", "XXXXXXX"],
+      "default": false,
+      "humanDoor": {
+        "x": 1,
+        "y": 3
+      },
+      "magical": false,
+      "name": "Big Barn",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 4,
+        "width": 7
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -48
+        },
+        "sprite": [0, 112, 112, 112]
+      },
+      "upgradeFrom": "barn"
+    },
+    "big_coop": {
+      "animalDoor": {
+        "height": 1,
+        "width": 1,
+        "x": 2,
+        "y": 2
+      },
+      "buildCost": 10000,
+      "buildDays": 2,
+      "buildMaterials": [
+        {
+          "count": 400,
+          "itemId": "(O)388",
+          "name": "Wood"
+        },
+        {
+          "count": 150,
+          "itemId": "(O)390",
+          "name": "Stone"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Big Coop",
+      "collision": ["XXXXXX", "XXXXXX", "XXXXXX"],
+      "default": false,
+      "humanDoor": {
+        "x": 1,
+        "y": 2
+      },
+      "magical": false,
+      "name": "Big Coop",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 3,
+        "width": 6
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -64
+        },
+        "sprite": [0, 224, 96, 112]
+      },
+      "upgradeFrom": "coop"
+    },
+    "big_shed": {
+      "buildCost": 20000,
+      "buildDays": 2,
+      "buildMaterials": [
+        {
+          "count": 550,
+          "itemId": "(O)388",
+          "name": "Wood"
+        },
+        {
+          "count": 300,
+          "itemId": "(O)390",
+          "name": "Stone"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Big Shed",
+      "collision": ["XXXXXXX", "XXXXXXX", "XXXXXXX"],
+      "default": false,
+      "humanDoor": {
+        "x": 3,
+        "y": 2
+      },
+      "magical": false,
+      "name": "Big Shed",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 3,
+        "width": 7
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -80
+        },
+        "sprite": [0, 336, 112, 128]
+      },
+      "upgradeFrom": "shed"
+    },
+    "cabin": {
+      "buildCondition": "CAN_BUILD_CABIN",
+      "buildCost": 100,
+      "buildDays": 0,
+      "buildMaterials": [],
+      "builder": "Robin",
+      "buildingId": "Cabin",
+      "collision": ["XXXXX", "XXXXX", "OOOOX"],
+      "default": false,
+      "humanDoor": {
+        "x": 2,
+        "y": 1
+      },
+      "magical": false,
+      "name": "Cabin",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 3,
+        "width": 5
+      },
+      "skins": {
+        "beach_cabin": {
+          "name": "Beach Cabin",
+          "sprite": {
+            "offset": {
+              "x": 0,
+              "y": -64
+            },
+            "sprite": [400, 464, 80, 112]
+          }
+        },
+        "log_cabin": {
+          "name": "Log Cabin",
+          "sprite": {
+            "offset": {
+              "x": 0,
+              "y": -64
+            },
+            "sprite": [160, 464, 80, 112]
+          }
+        },
+        "neighbor_cabin": {
+          "name": "Neighbor Cabin",
+          "sprite": {
+            "offset": {
+              "x": 0,
+              "y": -64
+            },
+            "sprite": [240, 464, 80, 112]
+          }
+        },
+        "plank_cabin": {
+          "name": "Plank Cabin",
+          "sprite": {
+            "offset": {
+              "x": 0,
+              "y": -64
+            },
+            "sprite": [80, 464, 80, 112]
+          }
+        },
+        "rustic_cabin": {
+          "name": "Rustic Cabin",
+          "sprite": {
+            "offset": {
+              "x": 0,
+              "y": -64
+            },
+            "sprite": [320, 464, 80, 112]
+          }
+        },
+        "trailer_cabin": {
+          "name": "Trailer Cabin",
+          "sprite": {
+            "offset": {
+              "x": 0,
+              "y": -64
+            },
+            "sprite": [480, 464, 80, 112]
+          }
+        }
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -64
+        },
+        "sprite": [0, 464, 80, 112]
+      }
+    },
+    "coop": {
+      "animalDoor": {
+        "height": 1,
+        "width": 1,
+        "x": 2,
+        "y": 2
+      },
+      "buildCost": 4000,
+      "buildDays": 3,
+      "buildMaterials": [
+        {
+          "count": 300,
+          "itemId": "(O)388",
+          "name": "Wood"
+        },
+        {
+          "count": 100,
+          "itemId": "(O)390",
+          "name": "Stone"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Coop",
+      "collision": ["XXXXXX", "XXXXXX", "XXXXXX"],
+      "default": false,
+      "humanDoor": {
+        "x": 1,
+        "y": 2
+      },
+      "magical": false,
+      "name": "Coop",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 3,
+        "width": 6
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -64
+        },
+        "sprite": [0, 576, 96, 112]
+      }
+    },
+    "deluxe_barn": {
+      "animalDoor": {
+        "height": 1,
+        "width": 2,
+        "x": 4,
+        "y": 3
+      },
+      "buildCost": 25000,
+      "buildDays": 2,
+      "buildMaterials": [
+        {
+          "count": 550,
+          "itemId": "(O)388",
+          "name": "Wood"
+        },
+        {
+          "count": 300,
+          "itemId": "(O)390",
+          "name": "Stone"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Deluxe Barn",
+      "collision": ["XXXXXXX", "XXXXXXX", "XXXXXXX", "XXXXXXX"],
+      "default": false,
+      "humanDoor": {
+        "x": 1,
+        "y": 3
+      },
+      "magical": false,
+      "name": "Deluxe Barn",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 4,
+        "width": 7
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -48
+        },
+        "sprite": [0, 688, 112, 112]
+      },
+      "upgradeFrom": "big_barn"
+    },
+    "deluxe_coop": {
+      "animalDoor": {
+        "height": 1,
+        "width": 1,
+        "x": 2,
+        "y": 2
+      },
+      "buildCost": 20000,
+      "buildDays": 2,
+      "buildMaterials": [
+        {
+          "count": 500,
+          "itemId": "(O)388",
+          "name": "Wood"
+        },
+        {
+          "count": 200,
+          "itemId": "(O)390",
+          "name": "Stone"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Deluxe Coop",
+      "collision": ["XXXXXX", "XXXXXX", "XXXXXX"],
+      "default": false,
+      "humanDoor": {
+        "x": 1,
+        "y": 2
+      },
+      "magical": false,
+      "name": "Deluxe Coop",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 3,
+        "width": 6
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -64
+        },
+        "sprite": [0, 800, 96, 112]
+      },
+      "upgradeFrom": "big_coop"
+    },
+    "desert_obelisk": {
+      "buildCost": 1000000,
+      "buildDays": 0,
+      "buildMaterials": [
+        {
+          "count": 20,
+          "itemId": "(O)337",
+          "name": "Iridium Bar"
+        },
+        {
+          "count": 10,
+          "itemId": "(O)88",
+          "name": "Coconut"
+        },
+        {
+          "count": 10,
+          "itemId": "(O)90",
+          "name": "Cactus Fruit"
+        }
+      ],
+      "builder": "Wizard",
+      "buildingId": "Desert Obelisk",
+      "collision": ["XXX", "XXX"],
+      "default": false,
+      "magical": true,
+      "name": "Desert Obelisk",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 2,
+        "width": 3
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -96
+        },
+        "sprite": [0, 912, 48, 128]
+      }
+    },
+    "earth_obelisk": {
+      "buildCost": 500000,
+      "buildDays": 0,
+      "buildMaterials": [
+        {
+          "count": 10,
+          "itemId": "(O)337",
+          "name": "Iridium Bar"
+        },
+        {
+          "count": 10,
+          "itemId": "(O)86",
+          "name": "Earth Crystal"
+        }
+      ],
+      "builder": "Wizard",
+      "buildingId": "Earth Obelisk",
+      "collision": ["XXX", "XXX"],
+      "default": false,
+      "magical": true,
+      "name": "Earth Obelisk",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 2,
+        "width": 3
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -96
+        },
+        "sprite": [0, 1040, 48, 128]
+      }
+    },
+    "farmhouse": {
+      "buildCost": 0,
+      "buildDays": 0,
+      "buildMaterials": [],
+      "builder": "None",
+      "buildingId": "Farmhouse",
+      "collision": [
+        "XXXXXXXXX",
+        "XXXXXXXXX",
+        "XXXXXXXXX",
+        "XOOOOOOOX",
+        "XXXXOOOXX"
+      ],
+      "default": true,
+      "humanDoor": {
+        "x": 5,
+        "y": 2
+      },
+      "magical": false,
+      "name": "Farmhouse",
+      "placementTiles": [
+        {
+          "height": 1,
+          "width": 1,
+          "x": 9,
+          "y": 4
+        },
+        {
+          "height": 1,
+          "onlyPassable": true,
+          "width": 1,
+          "x": 5,
+          "y": 5
+        }
+      ],
+      "shadow": true,
+      "size": {
+        "height": 5,
+        "width": 9
+      },
+      "sprite": {
+        "offset": {
+          "x": -16,
+          "y": -62
+        },
+        "sprite": [0, 1168, 178, 144]
+      }
+    },
+    "fish_pond": {
+      "buildCost": 5000,
+      "buildDays": 2,
+      "buildMaterials": [
+        {
+          "count": 200,
+          "itemId": "(O)390",
+          "name": "Stone"
+        },
+        {
+          "count": 5,
+          "itemId": "(O)152",
+          "name": "Seaweed"
+        },
+        {
+          "count": 5,
+          "itemId": "(O)153",
+          "name": "Green Algae"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Fish Pond",
+      "collision": ["XXXXX", "XXXXX", "XXXXX", "XXXXX", "XXXXX"],
+      "default": false,
+      "magical": false,
+      "name": "Fish Pond",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 5,
+        "width": 5
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -32
+        },
+        "sprite": [0, 1312, 80, 112]
+      }
+    },
+    "gold_clock": {
+      "buildCost": 10000000,
+      "buildDays": 0,
+      "buildMaterials": [],
+      "builder": "Wizard",
+      "buildingId": "Gold Clock",
+      "collision": ["XXX", "XXX"],
+      "default": false,
+      "magical": true,
+      "name": "Gold Clock",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 2,
+        "width": 3
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -48
+        },
+        "sprite": [0, 1424, 48, 80]
+      }
+    },
+    "greenhouse": {
+      "buildCost": 0,
+      "buildDays": 0,
+      "buildMaterials": [],
+      "builder": "None",
+      "buildingId": "Greenhouse",
+      "collision": [
+        "XXXXXXX",
+        "XXXXXXX",
+        "XXXXXXX",
+        "XXXXXXX",
+        "XXXXXXX",
+        "XXXXXXX"
+      ],
+      "default": true,
+      "humanDoor": {
+        "x": 3,
+        "y": 5
+      },
+      "magical": false,
+      "name": "Greenhouse",
+      "placementTiles": [
+        {
+          "height": 2,
+          "onlyPassable": true,
+          "width": 3,
+          "x": 2,
+          "y": 6
+        }
+      ],
+      "shadow": false,
+      "size": {
+        "height": 6,
+        "width": 7
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -64
+        },
+        "sprite": [0, 1504, 112, 160]
+      }
+    },
+    "island_obelisk": {
+      "buildCondition": "PLAYER_HAS_MAIL Any Visited_Island",
+      "buildCost": 1000000,
+      "buildDays": 0,
+      "buildMaterials": [
+        {
+          "count": 10,
+          "itemId": "(O)337",
+          "name": "Iridium Bar"
+        },
+        {
+          "count": 10,
+          "itemId": "(O)852",
+          "name": "Dragon Tooth"
+        },
+        {
+          "count": 10,
+          "itemId": "(O)91",
+          "name": "Banana"
+        }
+      ],
+      "builder": "Wizard",
+      "buildingId": "Island Obelisk",
+      "collision": ["XXX", "XXX"],
+      "default": false,
+      "magical": true,
+      "name": "Island Obelisk",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 2,
+        "width": 3
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -96
+        },
+        "sprite": [0, 1664, 48, 128]
+      }
+    },
+    "junimo_hut": {
+      "buildCost": 20000,
+      "buildDays": 0,
+      "buildMaterials": [
+        {
+          "count": 200,
+          "itemId": "(O)390",
+          "name": "Stone"
+        },
+        {
+          "count": 9,
+          "itemId": "(O)268",
+          "name": "Starfruit"
+        },
+        {
+          "count": 100,
+          "itemId": "(O)771",
+          "name": "Fiber"
+        }
+      ],
+      "builder": "Wizard",
+      "buildingId": "Junimo Hut",
+      "collision": ["XXX", "XXX"],
+      "default": false,
+      "harvestArea": {
+        "center": {
+          "x": 1,
+          "y": 1
+        },
+        "radius": 8
+      },
+      "magical": true,
+      "name": "Junimo Hut",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 2,
+        "width": 3
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -32
+        },
+        "seasons": {
+          "fall": [96, 1792, 48, 64],
+          "spring": [0, 1792, 48, 64],
+          "summer": [48, 1792, 48, 64],
+          "winter": [144, 1792, 48, 64]
+        },
+        "sprite": [0, 1792, 48, 64]
+      }
+    },
+    "mill": {
+      "buildCost": 2500,
+      "buildDays": 2,
+      "buildMaterials": [
+        {
+          "count": 150,
+          "itemId": "(O)388",
+          "name": "Wood"
+        },
+        {
+          "count": 50,
+          "itemId": "(O)390",
+          "name": "Stone"
+        },
+        {
+          "count": 4,
+          "itemId": "(O)428",
+          "name": "Cloth"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Mill",
+      "collision": ["XXXX", "XXXX"],
+      "default": false,
+      "magical": false,
+      "name": "Mill",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 2,
+        "width": 4
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -96
+        },
+        "sprite": [0, 1856, 64, 128]
+      }
+    },
+    "pet_bowl": {
+      "buildCost": 5000,
+      "buildDays": 0,
+      "buildMaterials": [
+        {
+          "count": 25,
+          "itemId": "(O)709",
+          "name": "Hardwood"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Pet Bowl",
+      "collision": ["OX", "OO"],
+      "default": true,
+      "magical": false,
+      "name": "Pet Bowl",
+      "placementTiles": [],
+      "shadow": false,
+      "size": {
+        "height": 2,
+        "width": 2
+      },
+      "skins": {
+        "hay_pet_bowl": {
+          "name": "Hay Pet Bowl",
+          "sprite": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "seasons": {
+              "fall": [320, 1984, 32, 32],
+              "spring": [256, 1984, 32, 32],
+              "summer": [288, 1984, 32, 32],
+              "winter": [352, 1984, 32, 32]
+            },
+            "sprite": [256, 1984, 32, 32]
+          }
+        },
+        "stone_pet_bowl": {
+          "name": "Stone Pet Bowl",
+          "sprite": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "seasons": {
+              "fall": [192, 1984, 32, 32],
+              "spring": [128, 1984, 32, 32],
+              "summer": [160, 1984, 32, 32],
+              "winter": [224, 1984, 32, 32]
+            },
+            "sprite": [128, 1984, 32, 32]
+          }
+        }
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "seasons": {
+          "fall": [64, 1984, 32, 32],
+          "spring": [0, 1984, 32, 32],
+          "summer": [32, 1984, 32, 32],
+          "winter": [96, 1984, 32, 32]
+        },
+        "sprite": [0, 1984, 32, 32]
+      }
+    },
+    "shed": {
+      "buildCost": 15000,
+      "buildDays": 2,
+      "buildMaterials": [
+        {
+          "count": 300,
+          "itemId": "(O)388",
+          "name": "Wood"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Shed",
+      "collision": ["XXXXXXX", "XXXXXXX", "XXXXXXX"],
+      "default": false,
+      "humanDoor": {
+        "x": 3,
+        "y": 2
+      },
+      "magical": false,
+      "name": "Shed",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 3,
+        "width": 7
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -80
+        },
+        "sprite": [0, 2016, 112, 128]
+      }
+    },
+    "shipping_bin": {
+      "buildCost": 250,
+      "buildDays": 0,
+      "buildMaterials": [
+        {
+          "count": 150,
+          "itemId": "(O)388",
+          "name": "Wood"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Shipping Bin",
+      "collision": ["XX"],
+      "default": true,
+      "magical": false,
+      "name": "Shipping Bin",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 1,
+        "width": 2
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -23
+        },
+        "sprite": [0, 2144, 32, 39]
+      }
+    },
+    "silo": {
+      "buildCost": 100,
+      "buildDays": 2,
+      "buildMaterials": [
+        {
+          "count": 100,
+          "itemId": "(O)390",
+          "name": "Stone"
+        },
+        {
+          "count": 10,
+          "itemId": "(O)330",
+          "name": "Clay"
+        },
+        {
+          "count": 5,
+          "itemId": "(O)334",
+          "name": "Copper Bar"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Silo",
+      "collision": ["XXX", "XXX", "XXX"],
+      "default": false,
+      "magical": false,
+      "name": "Silo",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 3,
+        "width": 3
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -80
+        },
+        "sprite": [0, 2183, 48, 128]
+      }
+    },
+    "slime_hutch": {
+      "buildCost": 10000,
+      "buildDays": 2,
+      "buildMaterials": [
+        {
+          "count": 500,
+          "itemId": "(O)390",
+          "name": "Stone"
+        },
+        {
+          "count": 10,
+          "itemId": "(O)338",
+          "name": "Refined Quartz"
+        },
+        {
+          "count": 1,
+          "itemId": "(O)337",
+          "name": "Iridium Bar"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Slime Hutch",
+      "collision": ["XXXXXXX", "XXXXXXX", "XXXXXXX", "XXXXXXX"],
+      "default": false,
+      "humanDoor": {
+        "x": 3,
+        "y": 3
+      },
+      "magical": false,
+      "name": "Slime Hutch",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 4,
+        "width": 7
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -48
+        },
+        "sprite": [0, 2311, 112, 112]
+      }
+    },
+    "stable": {
+      "buildCondition": "CAN_BUILD_FOR_CABINS Stable",
+      "buildCost": 10000,
+      "buildDays": 2,
+      "buildMaterials": [
+        {
+          "count": 100,
+          "itemId": "(O)709",
+          "name": "Hardwood"
+        },
+        {
+          "count": 5,
+          "itemId": "(O)335",
+          "name": "Iron Bar"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Stable",
+      "collision": ["XXXX", "XOOX"],
+      "default": false,
+      "magical": false,
+      "name": "Stable",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 2,
+        "width": 4
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -64
+        },
+        "sprite": [0, 2423, 64, 96]
+      }
+    },
+    "water_obelisk": {
+      "buildCost": 500000,
+      "buildDays": 0,
+      "buildMaterials": [
+        {
+          "count": 5,
+          "itemId": "(O)337",
+          "name": "Iridium Bar"
+        },
+        {
+          "count": 10,
+          "itemId": "(O)372",
+          "name": "Clam"
+        },
+        {
+          "count": 10,
+          "itemId": "(O)393",
+          "name": "Coral"
+        }
+      ],
+      "builder": "Wizard",
+      "buildingId": "Water Obelisk",
+      "collision": ["XXX", "XXX"],
+      "default": false,
+      "magical": true,
+      "name": "Water Obelisk",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 2,
+        "width": 3
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -96
+        },
+        "sprite": [0, 2519, 48, 128]
+      }
+    },
+    "well": {
+      "buildCost": 1000,
+      "buildDays": 2,
+      "buildMaterials": [
+        {
+          "count": 75,
+          "itemId": "(O)390",
+          "name": "Stone"
+        }
+      ],
+      "builder": "Robin",
+      "buildingId": "Well",
+      "collision": ["XXX", "XXX", "XXX"],
+      "default": false,
+      "magical": false,
+      "name": "Well",
+      "placementTiles": [],
+      "shadow": true,
+      "size": {
+        "height": 3,
+        "width": 3
+      },
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -32
+        },
+        "sprite": [0, 2647, 48, 80]
+      }
+    }
+  }
+}

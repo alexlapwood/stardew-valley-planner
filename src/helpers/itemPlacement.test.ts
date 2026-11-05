@@ -140,7 +140,7 @@ describe("checkCropsToPlant", () => {
           {
             dateInstalled: 0,
             equipmentId: "scarecrow",
-            skinIndex: 0,
+            skin: "scarecrow",
             type: "equipment",
             x: 0,
             y: 0,
@@ -174,7 +174,7 @@ describe("checkCropsToPlant", () => {
           {
             dateInstalled: 0,
             equipmentId: "scarecrow",
-            skinIndex: 0,
+            skin: "scarecrow",
             type: "equipment",
             x: 0,
             y: 0,
@@ -211,7 +211,7 @@ describe("checkCropsToPlant", () => {
           {
             dateInstalled: 5,
             equipmentId: "scarecrow",
-            skinIndex: 0,
+            skin: "scarecrow",
             type: "equipment",
             x: 0,
             y: 0,
@@ -237,7 +237,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -245,7 +245,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 1,
         y: 0,
@@ -253,7 +253,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 2,
         y: 0,
@@ -287,7 +287,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -295,7 +295,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 1,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -303,7 +303,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 2,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -311,7 +311,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 3,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -319,7 +319,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 4,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -327,7 +327,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 5,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -361,7 +361,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -369,7 +369,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 1,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -377,7 +377,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 2,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -385,7 +385,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 3,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -393,7 +393,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 4,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -401,7 +401,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 5,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -435,7 +435,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -443,7 +443,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 1,
         y: 0,
@@ -451,7 +451,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 2,
         y: 0,
@@ -466,7 +466,7 @@ describe("checkEquipmentToInstall", () => {
           {
             dateInstalled: 0,
             equipmentId: "scarecrow",
-            skinIndex: 0,
+            skin: "scarecrow",
             type: "equipment",
             x: 0,
             y: 0,
@@ -494,7 +494,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 999,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -509,7 +509,7 @@ describe("checkEquipmentToInstall", () => {
           {
             dateInstalled: 0,
             equipmentId: "scarecrow",
-            skinIndex: 0,
+            skin: "scarecrow",
             type: "equipment",
             x: 0,
             y: 0,
@@ -537,7 +537,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -545,7 +545,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 1,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -553,7 +553,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 2,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -561,7 +561,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 3,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -569,7 +569,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 4,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -577,7 +577,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 5,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -592,7 +592,7 @@ describe("checkEquipmentToInstall", () => {
           {
             dateInstalled: 5,
             equipmentId: "scarecrow",
-            skinIndex: 0,
+            skin: "scarecrow",
             type: "equipment",
             x: 0,
             y: 0,
@@ -620,7 +620,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "flooring",
-        skinIndex: 0,
+        skin: "wood_floor",
         type: "equipment",
         x: 0,
         y: 0,
@@ -628,7 +628,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "flooring",
-        skinIndex: 0,
+        skin: "wood_floor",
         type: "equipment",
         x: 1,
         y: 0,
@@ -636,7 +636,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "flooring",
-        skinIndex: 0,
+        skin: "wood_floor",
         type: "equipment",
         x: 2,
         y: 0,
@@ -651,7 +651,7 @@ describe("checkEquipmentToInstall", () => {
           {
             dateInstalled: 0,
             equipmentId: "flooring",
-            skinIndex: 0,
+            skin: "wood_floor",
             type: "equipment",
             x: 0,
             y: 0,
@@ -679,7 +679,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "flooring",
-        skinIndex: 0,
+        skin: "wood_floor",
         type: "equipment",
         x: 0,
         y: 0,
@@ -687,7 +687,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "flooring",
-        skinIndex: 0,
+        skin: "wood_floor",
         type: "equipment",
         x: 1,
         y: 0,
@@ -695,7 +695,7 @@ describe("checkEquipmentToInstall", () => {
       {
         dateInstalled: 0,
         equipmentId: "flooring",
-        skinIndex: 0,
+        skin: "wood_floor",
         type: "equipment",
         x: 2,
         y: 0,
@@ -710,7 +710,7 @@ describe("checkEquipmentToInstall", () => {
           {
             dateInstalled: 0,
             equipmentId: "scarecrow",
-            skinIndex: 0,
+            skin: "scarecrow",
             type: "equipment",
             x: 0,
             y: 0,
@@ -782,7 +782,7 @@ describe("findEquipmentToDestroy", () => {
       {
         dateInstalled: 0,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -808,7 +808,7 @@ describe("findEquipmentToDestroy", () => {
         dateDestroyed: 3,
         dateInstalled: 1,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,
@@ -826,7 +826,7 @@ describe("findEquipmentToDestroy", () => {
         dateDestroyed: 3,
         dateInstalled: 1,
         equipmentId: "scarecrow",
-        skinIndex: 0,
+        skin: "scarecrow",
         type: "equipment",
         x: 0,
         y: 0,

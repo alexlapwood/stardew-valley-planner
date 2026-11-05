@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from "@solidjs/testing-library";
 
 import mockImages from "../../__helpers__/images";
+import { items } from "../../data/game/items.json";
+import { atlasUrls } from "../../helpers/atlas";
 import { crops, equipment, setCrops, setEquipment } from "../../state/farm";
 import Farm from "./Farm";
 
@@ -62,7 +64,7 @@ function scarecrow(
   return {
     dateInstalled: 0,
     equipmentId: "scarecrow",
-    skinIndex: 0,
+    skin: "scarecrow",
     type: "equipment",
     x,
     y,
@@ -143,7 +145,7 @@ function getDrawnEquipmentSprites() {
     .filter(
       ([image]) =>
         image instanceof HTMLImageElement &&
-        image.src.includes("equipment-sheet"),
+        image.src.includes(atlasUrls.items),
     )
     .map(([, ...rects]) => rects);
 }
@@ -290,7 +292,7 @@ describe("doing things with a selected region", () => {
     drawImage.mockClear();
     fireEvent.mouseMove(canvas, pointOnTile(3, 2));
 
-    const scarecrowSprite = [0, 0, 16, 32];
+    const scarecrowSprite = items.scarecrow.skins.scarecrow?.sprite ?? [];
     expect(getDrawnEquipmentSprites()).toEqual([
       [...scarecrowSprite, ...tallSpriteOnTile(3, 2)],
     ]);
