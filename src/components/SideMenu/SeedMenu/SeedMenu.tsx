@@ -4,7 +4,8 @@ import { For } from "solid-js";
 import { crops } from "../../../data/game/crops.json";
 import { atlasSprite } from "../../../helpers/atlas";
 import { getSeedCost } from "../../../helpers/crop";
-import { getYear } from "../../../helpers/date";
+import { getCropIncome, getCropProfit } from "../../../helpers/cropIncome";
+import { formatIncomeTooltip } from "../../../helpers/income";
 import BigText from "../../BigText/BigText";
 import Sprite from "../../Sprite/Sprite";
 
@@ -16,72 +17,13 @@ interface IProps {
 }
 
 export default function SeedMenu(props: IProps) {
-  const getLastDayOfYearForCrop = (crop: ICrop) => {
-    let lastDay = 0;
-
-    if (crop.seasons.includes("spring")) {
-      lastDay = 28 * 1;
-    }
-
-    if (crop.seasons.includes("summer")) {
-      lastDay = 28 * 2;
-    }
-
-    if (crop.seasons.includes("fall")) {
-      lastDay = 28 * 3;
-    }
-
-    if (crop.seasons.includes("winter")) {
-      lastDay = 28 * 4;
-    }
-
-    lastDay += getYear(props.date) * 28 * 4;
-
-    return lastDay;
-  };
-
-  const calculateProfit = (crop: ICrop) => {
-    const lastDay = getLastDayOfYearForCrop(crop);
-
-    const daysUntilFirstHarvest = crop.stages.reduce(
-      (acc, stage) => acc + stage,
-      0,
-    );
-
-    const harvests =
-      crop.regrow === undefined
-        ? Math.ceil(
-            (lastDay - props.date - daysUntilFirstHarvest) /
-              daysUntilFirstHarvest,
-          )
-        : Math.ceil(
-            (lastDay - props.date - daysUntilFirstHarvest) / crop.regrow,
-          );
-
-    const seedCost = getSeedCost(crop)?.cost ?? 0;
-
-    return (
-      crop.sell * harvests * crop.harvest.min -
-      seedCost * (crop.regrow === undefined ? harvests : 1)
-    );
-  };
-
-  const calculateProfitPerDay = (crop: ICrop) =>
-    Math.round(
-      (calculateProfit(crop) / (getLastDayOfYearForCrop(crop) - props.date)) *
-        100,
-    ) / 100;
-
-  const getTooltip = (crop: ICrop) => {
-    const seedCost = getSeedCost(crop);
-
-    return (
-      (seedCost === undefined ? "" : `Cost: ${seedCost.label}\n`) +
-      `Sell: ${crop.sell}g\n` +
-      `Profit: ${calculateProfit(crop)}g\n` +
-      `Profit/day: ${calculateProfitPerDay(crop)}g`
-    );
-  };
+  const getTooltip = (crop: ICrop) =>
+    formatIncomeTooltip({
+      cost: getSeedCost(crop),
+      income: getCropIncome(crop, props.date),
+      profit: getCropProfit(crop, props.date),
+      sell: crop.sell,
+    });
 
   return (
     <div class="SeedMenu">

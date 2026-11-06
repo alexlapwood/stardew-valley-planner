@@ -1,16 +1,9 @@
 import { getSeason, getYear } from "./date";
+import { getShopCost } from "./income";
 
 type TCropGrowth = Pick<ICrop, "regrow" | "seasons" | "stages">;
 
 const seasons = ["spring", "summer", "fall", "winter"];
-
-const goldSeedShops = [
-  "SeedShop",
-  "Joja",
-  "Sandy",
-  "Traveler",
-  "Festival_EggFestival_Pierre",
-];
 
 export function getCropsLastDay(
   plantedCrop: IPlantedCrop,
@@ -113,26 +106,6 @@ export function getCropSprites(
   return [growth.growing[stage - 1]];
 }
 
-export function getSeedCost(crop: ICrop) {
-  for (const shop of goldSeedShops) {
-    const offer = crop.seedPrices[shop];
-
-    if (
-      offer?.price !== undefined &&
-      offer.random !== true &&
-      offer.trade === undefined
-    ) {
-      return { cost: offer.price, label: `${offer.price}g` };
-    }
-  }
-
-  const trade = Object.values(crop.seedPrices).find(
-    (offer) => offer?.trade !== undefined,
-  )?.trade;
-
-  if (trade !== undefined) {
-    return { cost: 0, label: `${trade.item} ×${trade.count}` };
-  }
-
-  return undefined;
+export function getSeedCost(crop: Pick<ICrop, "seedPrices">) {
+  return getShopCost(crop.seedPrices);
 }

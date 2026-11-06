@@ -265,6 +265,106 @@ describe("Farm data", () => {
       });
     });
 
+    describe("tree cells", () => {
+      const validTree = {
+        dateDestroyed: 40,
+        datePlanted: 2,
+        treeId: "apple",
+        type: "tree",
+        x: 5,
+        y: 3,
+      };
+
+      it("keeps a tree cell of each tree in the game data, with or without a destroyed date", () => {
+        const theories = [
+          "apple",
+          "apricot",
+          "banana",
+          "cherry",
+          "mango",
+          "orange",
+          "peach",
+          "pomegranate",
+          "tea_bush",
+        ];
+
+        theories.forEach((theory) => {
+          expect(
+            isGoodFarm(farmWithCrop({ ...validTree, treeId: theory })),
+          ).toBe(true);
+        });
+        expect(
+          isGoodFarm(farmWithCrop(withoutField(validTree, "dateDestroyed"))),
+        ).toBe(true);
+      });
+
+      it("keeps crops and trees on the same tile in plan order", () => {
+        const farm = farmFile({ crops: { 3: { 5: [validCrop, validTree] } } });
+
+        expect(readFarmData(farm)).toEqual({
+          badItems: [],
+          data: {
+            crops: { 3: { 5: [validCrop, validTree] } },
+            date: 0,
+            equipment: {},
+            farm: "beach",
+            looks,
+          },
+        });
+      });
+
+      it("drops a tree cell with an unknown tree id, and reports it", () => {
+        const theories = ["not_a_tree", "", "toString", "__proto__", "parsnip"];
+
+        theories.forEach((theory) => {
+          const badTree = { ...validTree, treeId: theory };
+          const result = readFarmData(farmWithCrop(badTree));
+
+          expect(result?.data.crops).toEqual({ 3: { 5: [] } });
+          expect(result?.badItems).toEqual([
+            { path: "crops[3][5][0]", value: badTree },
+          ]);
+        });
+      });
+
+      it("rejects a tree cell with a field of the wrong type", () => {
+        const theories = [
+          { ...validTree, treeId: 1 },
+          { ...validTree, dateDestroyed: "40" },
+          { ...validTree, datePlanted: "2" },
+          { ...validTree, datePlanted: null },
+          { ...validTree, type: "crop" },
+          { ...validTree, x: "5" },
+          { ...validTree, y: 3.5 },
+        ];
+
+        theories.forEach((theory) => {
+          expect(isGoodFarm(farmWithCrop(theory))).toBe(false);
+        });
+      });
+
+      it("rejects a tree cell with a missing field", () => {
+        const theories = ["treeId", "datePlanted", "type", "x", "y"];
+
+        theories.forEach((theory) => {
+          expect(
+            isGoodFarm(farmWithCrop(withoutField(validTree, theory))),
+          ).toBe(false);
+        });
+      });
+
+      it("rejects a tree cell that is not at its own tile", () => {
+        const theories = [
+          { ...validTree, x: 6 },
+          { ...validTree, y: 4 },
+        ];
+
+        theories.forEach((theory) => {
+          expect(isGoodFarm(farmWithCrop(theory))).toBe(false);
+        });
+      });
+    });
+
     it("rejects an equipment cell that is not an object", () => {
       const theories = [null, "sprinkler", 5, [validEquipment]];
 
@@ -405,6 +505,28 @@ describe("Farm data", () => {
 
       expect(saved).toEqual(farm);
       expect(isGoodFarm(saved)).toBe(true);
+    });
+
+    it("saves a tree with the crops with version 3, and reads it back", () => {
+      const apple: IPlantedTree = {
+        datePlanted: 2,
+        treeId: "apple",
+        type: "tree",
+        x: 5,
+        y: 3,
+      };
+      const saved: unknown = JSON.parse(
+        toSavedFarmData({
+          crops: { 3: { 5: [apple] } },
+          date: 0,
+          equipment: {},
+          farm: "beach",
+          looks,
+        } as Parameters<typeof toSavedFarmData>[0]),
+      );
+
+      expect(saved).toEqual(farmWithCrop(apple));
+      expect(readFarmData(saved)?.data.crops).toEqual({ 3: { 5: [apple] } });
     });
 
     it("does not save the plan ID or the plan name", () => {

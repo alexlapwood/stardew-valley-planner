@@ -38,13 +38,28 @@
   /* The rows overlap by 1px to share an outline. The padding keeps that
      overlap inside the list, so the first and the last outline show. */
   .SeedMenu,
+  .TreeMenu,
   .EquipmentMenu {
     padding: 1px 0;
   }
 
   .SeedMenu .sdv-list-item,
+  .TreeMenu .sdv-list-item,
   .EquipmentMenu .sdv-list-item {
     margin: -1px 0;
+  }
+
+  .TreeMenu--heading {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+    padding: 6px 4px 2px;
+  }
+
+  .TreeMenu--icon {
+    flex-shrink: 0;
+    font-size: 12px;
+    line-height: 12px;
   }
 
   .EquipmentMenuItem--name {

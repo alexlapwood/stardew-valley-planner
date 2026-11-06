@@ -11,6 +11,7 @@ import {
   destroyCrops,
   destroyEquipment,
 } from "../../helpers/itemPlacement";
+import { checkTreesToPlant, treesForRegion } from "../../helpers/treePlacement";
 import { crops, equipment, setCrops, setEquipment } from "../../state/farm";
 import { pickAxe } from "./Farm.drag";
 import type { IRegion } from "./Farm.region";
@@ -19,6 +20,20 @@ interface IFarmEditState {
   date: number;
   farmMap: IFarmMap;
   pickFloorVariant: TPickFloorVariant;
+}
+
+function addPlantedItems(plantedItems: readonly TPlantedItem[]) {
+  let newCrops: IFarmCrops = {};
+
+  plantedItems.forEach((plantedItem) => {
+    newCrops = mergeDeep(newCrops, {
+      [plantedItem.y]: {
+        [plantedItem.x]: [plantedItem],
+      },
+    });
+  });
+
+  setCrops(mergeDeep(crops(), newCrops));
 }
 
 function plantCrops(cropsToPlant: IPlantedCrop[], farmMap: IFarmMap) {
@@ -31,17 +46,20 @@ function plantCrops(cropsToPlant: IPlantedCrop[], farmMap: IFarmMap) {
     farmMap,
   );
 
-  let newCrops: IFarmCrops = {};
+  addPlantedItems(plantableCrops);
+}
 
-  plantableCrops.forEach((cropToPlant) => {
-    newCrops = mergeDeep(newCrops, {
-      [cropToPlant.y]: {
-        [cropToPlant.x]: [cropToPlant],
-      },
-    });
-  });
+function plantTrees(treesToPlant: IPlantedTree[], farmMap: IFarmMap) {
+  const { plantableTrees } = checkTreesToPlant(
+    treesToPlant,
+    {
+      currentCrops: crops(),
+      currentEquipment: equipment(),
+    },
+    farmMap,
+  );
 
-  setCrops(mergeDeep(crops(), newCrops));
+  addPlantedItems(plantableTrees);
 }
 
 function installEquipment(
@@ -99,6 +117,13 @@ export function applyItem(
     });
 
     plantCrops(cropsToPlant, farmMap);
+  }
+
+  if (selectedItem.type === "tree") {
+    plantTrees(
+      treesForRegion(selectedItem.id, highlightedRegion, date),
+      farmMap,
+    );
   }
 
   if (selectedItem.type === "equipment") {

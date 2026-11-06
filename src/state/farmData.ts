@@ -1,4 +1,5 @@
 import { crops as cropDetails } from "../data/game/crops.json";
+import { trees as treeDetails } from "../data/game/trees.json";
 import {
   defaultFarmLooks,
   farmhouseLooks,
@@ -65,6 +66,20 @@ function isCropCell(cell: Cell): cell is Cell & IPlantedCrop {
     typeof cell.datePlanted === "number" &&
     cell.type === "crop"
   );
+}
+
+function isTreeCell(cell: Cell): cell is Cell & IPlantedTree {
+  return (
+    typeof cell.treeId === "string" &&
+    Object.hasOwn(treeDetails, cell.treeId) &&
+    isOptionalNumber(cell.dateDestroyed) &&
+    typeof cell.datePlanted === "number" &&
+    cell.type === "tree"
+  );
+}
+
+function isPlantedCell(cell: Cell): cell is Cell & TPlantedItem {
+  return isCropCell(cell) || isTreeCell(cell);
 }
 
 function isEquipmentCell(cell: Cell): cell is Cell & IInstalledEquipment {
@@ -183,7 +198,7 @@ export function readFarmData(value: unknown) {
     return undefined;
   }
 
-  const crops = keepGoodCells("crops", value.crops, isCropCell);
+  const crops = keepGoodCells("crops", value.crops, isPlantedCell);
   const equipment = keepGoodCells(
     "equipment",
     value.equipment,

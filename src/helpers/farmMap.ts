@@ -143,6 +143,7 @@ function isFarmMapData(farm: unknown): farm is IFarmMapData {
     farm.animations.every(isAnimation) &&
     isSpots(farm.spots) &&
     isRules(farm.rules) &&
+    Array.isArray(farm.saplingRows) &&
     Array.isArray(farm.greenhousePath) &&
     farm.greenhousePath.every(isPathTile) &&
     isWater(farm.water)
@@ -257,6 +258,7 @@ export function decodeFarmMap(id: string, { farm }: IFarmMapFile): IFarmMap {
     layers: decodeLayers(id, farm),
     name: farm.name,
     ruleFlags: farm.rules.flags,
+    saplings: decodeRuleRows(farm.saplingRows, width, height),
     spots: farm.spots,
     tilesheets: farm.tilesheets.toSorted((a, b) => a.firstGid - b.firstGid),
     water: farm.water,

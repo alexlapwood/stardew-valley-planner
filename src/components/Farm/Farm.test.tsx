@@ -137,14 +137,21 @@ const clearRect = vi.fn<CanvasRenderingContext2D["clearRect"]>();
 
 const countDraws = () => clearRect.mock.calls.length;
 
-function getHighlightedTiles(colour: "green" | "grey" | "red") {
+function getTilesDrawnWith(imageName: string) {
   return drawImage.mock.calls
     .filter(
       ([image]) =>
-        image instanceof HTMLImageElement &&
-        image.src.includes(`highlight-${colour}`),
+        image instanceof HTMLImageElement && image.src.includes(imageName),
     )
     .map(([, x, y]) => [x / 16, y / 16]);
+}
+
+function getHighlightedTiles(colour: "amber" | "green" | "grey" | "red") {
+  return getTilesDrawnWith(`highlight-${colour}`);
+}
+
+function getOutlinedTiles() {
+  return getTilesDrawnWith("blocker-outline");
 }
 
 function getDrawnEquipmentSprites() {
@@ -1448,5 +1455,132 @@ describe("placing floors", () => {
       expect(placedFloor).not.toHaveProperty("variant");
     });
     expect(random).not.toHaveBeenCalled();
+  });
+});
+
+function appleTree(
+  x: number,
+  y: number,
+  overrides: Partial<IPlantedTree> = {},
+): IPlantedTree {
+  return {
+    datePlanted: 0,
+    treeId: "apple",
+    type: "tree",
+    x,
+    y,
+    ...overrides,
+  };
+}
+
+const apple: ISelectedItem = { id: "apple", type: "tree" };
+
+const teaBush: ISelectedItem = { id: "tea_bush", type: "tree" };
+
+const teaBushOn = (x: number, y: number) =>
+  appleTree(x, y, { datePlanted: date, treeId: "tea_bush" });
+
+function previewTreeDrag(from: [number, number], to: [number, number]) {
+  const canvas = screen.getByTestId("farm-canvas");
+
+  fireEvent.mouseDown(canvas, { button: leftButton, ...pointOnTile(...from) });
+  drawImage.mockClear();
+  fireEvent.mouseMove(canvas, {
+    buttons: buttonsBitByButton[leftButton],
+    ...pointOnTile(...to),
+  });
+}
+
+describe("planting trees", () => {
+  it("plants a tea bush on each free tile of the drag, and not on a crop", () => {
+    setCrops(byTile([parsnip(1, 1)]));
+    renderFarmCanvas("standard", teaBush);
+
+    dragAcrossTiles([0, 0], [1, 1]);
+
+    expect(crops()).toEqual(
+      byTile([
+        teaBushOn(0, 0),
+        teaBushOn(1, 0),
+        teaBushOn(0, 1),
+        parsnip(1, 1),
+      ]),
+    );
+  });
+
+  it("plants fruit trees with 2 empty tiles between them", () => {
+    renderFarmCanvas("standard", apple);
+
+    dragAcrossTiles([0, 0], [6, 3]);
+
+    expect(crops()).toEqual(
+      byTile(
+        [
+          [0, 0],
+          [3, 0],
+          [6, 0],
+          [0, 3],
+          [3, 3],
+          [6, 3],
+        ].map(([x, y]) => appleTree(x, y, { datePlanted: date })),
+      ),
+    );
+  });
+
+  it("highlights the free tiles green and the taken tiles red during the drag", () => {
+    setCrops(byTile([parsnip(1, 1)]));
+    renderFarmCanvas("standard", teaBush);
+
+    previewTreeDrag([0, 0], [1, 1]);
+
+    expect(getHighlightedTiles("green")).toEqual([
+      [0, 0],
+      [1, 0],
+      [0, 1],
+    ]);
+    expect(getHighlightedTiles("red")).toEqual([[1, 1]]);
+    expect(getHighlightedTiles("amber")).toEqual([]);
+    expect(getOutlinedTiles()).toEqual([]);
+  });
+
+  it("highlights a fruit tree amber and outlines the things beside it that stop its growth", () => {
+    setCrops(byTile([parsnip(1, 1)]));
+    renderFarmCanvas("standard", apple);
+
+    previewTreeDrag([0, 0], [3, 0]);
+
+    expect(getHighlightedTiles("green")).toEqual([[3, 0]]);
+    expect(getHighlightedTiles("amber")).toEqual([[0, 0]]);
+    expect(getHighlightedTiles("red")).toEqual([
+      [1, 0],
+      [2, 0],
+    ]);
+    expect(getOutlinedTiles()).toEqual([[1, 1]]);
+
+    fireEvent.mouseUp(screen.getByTestId("farm-canvas"), {
+      button: leftButton,
+      ...pointOnTile(3, 0),
+    });
+
+    expect(crops()).toEqual(
+      byTile([
+        appleTree(0, 0, { datePlanted: date }),
+        appleTree(3, 0, { datePlanted: date }),
+        parsnip(1, 1),
+      ]),
+    );
+  });
+
+  it("ends a tree when the pick-axe erases its trunk tile, and not its other tiles", () => {
+    setCrops(byTile([appleTree(3, 5)]));
+    renderFarmCanvas("standard", { id: "pick-axe", type: "tool" });
+
+    dragAcrossTiles([2, 2], [4, 4]);
+
+    expect(crops()).toEqual(byTile([appleTree(3, 5)]));
+
+    dragAcrossTiles([3, 5], [3, 5]);
+
+    expect(crops()).toEqual(byTile([appleTree(3, 5, { dateDestroyed: date })]));
   });
 });

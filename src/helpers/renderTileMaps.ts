@@ -1,4 +1,4 @@
-import { getScarecrowMap, getSoilMap } from "./farm";
+import { getScarecrowMap, getSoilMap, getWateredSoilMap } from "./farm";
 
 interface INeighbours {
   e: boolean;
@@ -20,7 +20,8 @@ function forEachTileInMap<T extends number | string>(
 ) {
   tileMap.forEach((row, ix) => {
     row.forEach((cellValue, iy) => {
-      // getSoilMap sets the soil under equipment to undefined to remove it
+      // The soil maps set the soil under equipment and trees to undefined to
+      // remove it
       if (cellValue === undefined) {
         return;
       }
@@ -47,7 +48,7 @@ function getSoilTile({ e, n, s, w }: INeighbours) {
 export function renderSoilToContext(
   context: CanvasRenderingContext2D,
   tileset: CanvasImageSource,
-  farmItems: IFarmItems<Array<IPlantedCrop | IInstalledEquipment>>,
+  farmItems: IFarmItems<TFarmItem[]>,
   farmMap: IFarmMap,
   date: number,
 ) {
@@ -73,11 +74,11 @@ export function renderSoilToContext(
 export function renderWateredSoilToContext(
   context: CanvasRenderingContext2D,
   tileset: CanvasImageSource,
-  farmEquipment: IFarmEquipment,
+  farmItems: IFarmItems<TFarmItem[]>,
   farmMap: IFarmMap,
   date: number,
 ) {
-  const wateredSoilMap = getSoilMap(farmEquipment, date, farmMap);
+  const wateredSoilMap = getWateredSoilMap(farmItems, date, farmMap);
 
   const tileOffset = 4 * 16;
 

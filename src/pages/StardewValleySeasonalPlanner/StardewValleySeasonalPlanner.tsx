@@ -217,6 +217,9 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
                     selectEquipment={(id: string, skin: string) => {
                       setSelectedItem({ id, skin, type: "equipment" });
                     }}
+                    selectTree={(treeId: string) => {
+                      setSelectedItem({ id: treeId, type: "tree" });
+                    }}
                     selectedItem={selectedItem()}
                   />
                 </div>

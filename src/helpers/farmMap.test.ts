@@ -106,6 +106,12 @@ describe("parseFarmMap", () => {
       },
     ],
     [
+      "no sapling rows",
+      (farm) => {
+        delete farm.saplingRows;
+      },
+    ],
+    [
       "a greenhouse path tile with no gid",
       (farm) => {
         farm.greenhousePath = [{ x: 0, y: 0 }];

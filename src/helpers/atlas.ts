@@ -5,6 +5,7 @@ export const atlasUrls = {
   flooring: "images/game/flooring.png",
   flooringWinter: "images/game/flooring_winter.png",
   items: "images/game/items.png",
+  trees: "images/game/trees.png",
 } as const;
 
 export type TAtlas = keyof typeof atlasUrls;
@@ -39,6 +40,24 @@ export function drawSprite(
   const [x, y, width, height] = rect;
 
   context.drawImage(image, x, y, width, height, dx, dy, width, height);
+}
+
+// A negative drawImage width does not flip the image, so the flip is a
+// transform that mirrors the sprite inside its own rectangle.
+export function drawSpriteFlipped(
+  context: CanvasRenderingContext2D,
+  image: CanvasImageSource,
+  rect: TSpriteRect,
+  dx: number,
+  dy: number,
+) {
+  const [x, y, width, height] = rect;
+
+  context.save();
+  context.translate(dx + width, dy);
+  context.scale(-1, 1);
+  context.drawImage(image, x, y, width, height, 0, 0, width, height);
+  context.restore();
 }
 
 export function drawSpriteOnTile(

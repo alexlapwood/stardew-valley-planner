@@ -8,8 +8,17 @@ import {
   getFenceMap,
   getFlooringMap,
   getSoilMap,
+  getWateredSoilMap,
   isCropHereToday,
 } from "./farm";
+
+function soilTiles(soilMap: (number | undefined)[][]) {
+  return [...soilMap.keys()].flatMap((x) =>
+    [...(soilMap[x] ?? []).keys()]
+      .filter((y) => soilMap[x][y] === 0)
+      .map((y) => [x, y]),
+  );
+}
 
 describe("Farm helper", () => {
   describe("forEachTileInRegion", () => {
@@ -243,6 +252,81 @@ describe("Farm helper", () => {
       const actual = getSoilMap(farmItems, 0, testFarmMap);
 
       expect(actual).toMatchSnapshot();
+    });
+
+    describe("under trees", () => {
+      // The basic sprinkler waters the 4 tiles beside it: 5,4 4,5 6,5 and 5,6.
+      const sprinkler: IInstalledEquipment = {
+        dateInstalled: 0,
+        equipmentId: "sprinkler",
+        skin: "sprinkler",
+        type: "equipment",
+        x: 5,
+        y: 5,
+      };
+      const apple: IPlantedTree = {
+        dateDestroyed: 10,
+        datePlanted: 0,
+        treeId: "apple",
+        type: "tree",
+        x: 5,
+        y: 4,
+      };
+      const teaBush: IPlantedTree = {
+        datePlanted: 3,
+        treeId: "tea_bush",
+        type: "tree",
+        x: 6,
+        y: 5,
+      };
+      const parsnipUnderTeaBush: IPlantedCrop = {
+        cropId: "parsnip",
+        dateDestroyed: 3,
+        datePlanted: 0,
+        type: "crop",
+        x: 6,
+        y: 5,
+      };
+      const plantedItems: IFarmItems<TFarmItem[]> = {
+        4: { 5: [apple] },
+        5: { 6: [parsnipUnderTeaBush, teaBush] },
+      };
+      const farmItems = mergeDeep(plantedItems, { 5: { 5: [sprinkler] } });
+
+      it.each([
+        ["getSoilMap", getSoilMap],
+        ["getWateredSoilMap", getWateredSoilMap],
+      ])(
+        "%s has no soil on a tree or tea bush tile on the days the tree is there",
+        (_, getMap) => {
+          expect(soilTiles(getMap(farmItems, 5, testFarmMap))).toEqual([
+            [4, 5],
+            [5, 6],
+          ]);
+          expect(soilTiles(getMap(farmItems, 2, testFarmMap))).toEqual([
+            [4, 5],
+            [5, 6],
+            [6, 5],
+          ]);
+          expect(soilTiles(getMap(farmItems, 10, testFarmMap))).toEqual([
+            [4, 5],
+            [5, 4],
+            [5, 6],
+          ]);
+        },
+      );
+
+      it("waters only the sprinkler range, not the crop tiles", () => {
+        expect(
+          soilTiles(
+            getWateredSoilMap(
+              { 0: { 0: [{ ...parsnipUnderTeaBush, x: 0, y: 0 }] } },
+              1,
+              testFarmMap,
+            ),
+          ),
+        ).toEqual([]);
+      });
     });
   });
 

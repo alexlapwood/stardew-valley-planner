@@ -1,6 +1,7 @@
 import { decodeFarmMap } from "../helpers/farmMap";
 
 const tillableBuildableAndFloorable = "z";
+const saplingAllowed = "1";
 
 export const testRuleFlags: IFarmRuleFlags = {
   blocked: 16,
@@ -40,6 +41,9 @@ export function makeTestFarmMapFile(width = 80, height = 65): IFarmMapFile {
           tillableBuildableAndFloorable.repeat(width),
         ),
       },
+      saplingRows: Array.from({ length: height }, () =>
+        saplingAllowed.repeat(width),
+      ),
       spots: structuredClone(testSpots),
       tilesheets: [],
       tillable: width * height,

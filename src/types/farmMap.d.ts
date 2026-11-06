@@ -75,6 +75,7 @@ interface IFarmMapData {
   map: string;
   name: string;
   rules: IFarmRulesData;
+  saplingRows: string[];
   spots: IFarmSpots;
   tilesheets: IFarmTilesheet[];
   tillable: number;
@@ -102,6 +103,7 @@ interface IFarmMap {
   layers: IFarmLayer[];
   name: string;
   ruleFlags: IFarmRuleFlags;
+  saplings: Uint8Array;
   spots: IFarmSpots;
   tilesheets: IFarmTilesheet[];
   water: IFarmWater;

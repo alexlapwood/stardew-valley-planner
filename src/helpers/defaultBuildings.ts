@@ -141,6 +141,19 @@ export function getDefaultBuildings(
   });
 }
 
+function isInSpot(spot: IFarmSpot, x: number, y: number) {
+  return (
+    x >= spot.x &&
+    x < spot.x + spot.width &&
+    y >= spot.y &&
+    y < spot.y + spot.height
+  );
+}
+
+export function isOnDefaultBuilding(map: IFarmMap, x: number, y: number) {
+  return spotNames.some((spotName) => isInSpot(map.spots[spotName], x, y));
+}
+
 function getLookSprite(building: IBuilding, lookKey: string | undefined) {
   return lookKey === undefined
     ? undefined
@@ -167,19 +180,17 @@ export function getDefaultBuildingDraws(
 ): ISortedDraw[] {
   return getDefaultBuildings(map, looks).map(({ building, lookKey, spot }) => {
     const { offset, rect } = getBuildingSprite(building, season, lookKey);
+    const [, , width, height] = rect;
+    const x = spot.x * 16 + offset.x;
+    const y = spot.y * 16 + offset.y;
 
     return {
       draw: () => {
-        drawSprite(
-          context,
-          buildingsImage,
-          rect,
-          spot.x * 16 + offset.x,
-          spot.y * 16 + offset.y,
-        );
+        drawSprite(context, buildingsImage, rect, x, y);
       },
       layer: "building",
       row: spot.y + spot.height - 1,
+      tall: { base: spot, drawn: { height, width, x, y } },
     };
   });
 }

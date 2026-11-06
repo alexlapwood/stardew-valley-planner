@@ -64,7 +64,7 @@ export default defineConfig({
         // offline storage.
         globIgnores: [
           "**/node_modules/**/*",
-          "images/game/{events,fertilizer,trees}.png",
+          "images/game/{events,fertilizer}.png",
         ],
         // The farm maps are fetched at runtime, so they must be precached for
         // every farm to work offline.

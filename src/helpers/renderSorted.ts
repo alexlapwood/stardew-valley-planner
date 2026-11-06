@@ -1,9 +1,12 @@
+import type { ITallSprite } from "./tallSprites";
+
 export type TSortedLayer = "building" | "front" | "item";
 
 export interface ISortedDraw {
   draw: () => void;
   layer: TSortedLayer;
   row: number;
+  tall?: ITallSprite;
 }
 
 // The game sorts a Front tile as if it were one row lower, under the sprites of

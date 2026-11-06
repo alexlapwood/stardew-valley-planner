@@ -10,6 +10,25 @@ import {
   findCropToDestroy,
   findEquipmentToDestroy,
 } from "./itemPlacement";
+import { previewTreesToPlant, treesForRegion } from "./treePlacement";
+
+export interface IHighlightImages {
+  amber: HTMLImageElement;
+  blockerOutline: HTMLImageElement;
+  green: HTMLImageElement;
+  grey: HTMLImageElement;
+  red: HTMLImageElement;
+}
+
+function highlightTiles(
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  tiles: readonly { x: number; y: number }[],
+) {
+  tiles.forEach(({ x, y }) => {
+    context.drawImage(image, x * 16, y * 16);
+  });
+}
 
 export function renderSelectedRegion(
   context: CanvasRenderingContext2D,
@@ -18,9 +37,7 @@ export function renderSelectedRegion(
   farmMap: IFarmMap,
   date: number,
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
-  highlightGreenImage: HTMLImageElement,
-  highlightGreyImage: HTMLImageElement,
-  highlightRedImage: HTMLImageElement,
+  images: IHighlightImages,
   selectedItem: ISelectedItem,
 ) {
   if (selectedItem.type === "crop") {
@@ -42,21 +59,22 @@ export function renderSelectedRegion(
       farmMap,
     );
 
-    plantableCrops.forEach((cropToPlant) => {
-      context.drawImage(
-        highlightGreenImage,
-        cropToPlant.x * 16,
-        cropToPlant.y * 16,
-      );
-    });
+    highlightTiles(context, images.green, plantableCrops);
+    highlightTiles(context, images.red, unplantableCrops);
+  }
 
-    unplantableCrops.forEach((cropToPlant) => {
-      context.drawImage(
-        highlightRedImage,
-        cropToPlant.x * 16,
-        cropToPlant.y * 16,
+  if (selectedItem.type === "tree") {
+    const { blockedTrees, blockerTiles, freeTrees, unplantableTrees } =
+      previewTreesToPlant(
+        treesForRegion(selectedItem.id, highlightedRegion, date),
+        { currentCrops, currentEquipment },
+        farmMap,
       );
-    });
+
+    highlightTiles(context, images.green, freeTrees);
+    highlightTiles(context, images.amber, blockedTrees);
+    highlightTiles(context, images.red, unplantableTrees);
+    highlightTiles(context, images.blockerOutline, blockerTiles);
   }
 
   if (selectedItem.type === "equipment") {
@@ -76,21 +94,8 @@ export function renderSelectedRegion(
         farmMap,
       );
 
-    installableEquipment.forEach((equipmentToInstall) => {
-      context.drawImage(
-        highlightGreenImage,
-        equipmentToInstall.x * 16,
-        equipmentToInstall.y * 16,
-      );
-    });
-
-    notInstallableEquipment.forEach((equipmentToInstall) => {
-      context.drawImage(
-        highlightRedImage,
-        equipmentToInstall.x * 16,
-        equipmentToInstall.y * 16,
-      );
-    });
+    highlightTiles(context, images.green, installableEquipment);
+    highlightTiles(context, images.red, notInstallableEquipment);
   }
 
   if (selectedItem.type === "tool") {
@@ -111,9 +116,9 @@ export function renderSelectedRegion(
         );
 
         if (hasCropToDestroy || hasEquipmentToDestroy) {
-          context.drawImage(highlightRedImage, x * 16, y * 16);
+          context.drawImage(images.red, x * 16, y * 16);
         } else {
-          context.drawImage(highlightGreyImage, x * 16, y * 16);
+          context.drawImage(images.grey, x * 16, y * 16);
         }
       });
     }

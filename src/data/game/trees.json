@@ -28,7 +28,20 @@
       "name": "Apple",
       "placement": {
         "gardenPot": false,
+        "growthBlockers": [
+          "building",
+          "bush",
+          "crop",
+          "floor",
+          "fruitTree",
+          "furniture",
+          "object",
+          "resourceClump",
+          "teaBush",
+          "wildTree"
+        ],
         "growthClearance": 1,
+        "spacingTrees": ["fruitTree", "wildTree"],
         "treeSpacing": 2
       },
       "saplingItemId": "(O)633",
@@ -45,6 +58,48 @@
       "sell": 100,
       "sprites": {
         "fruit": [16, 0, 16, 16],
+        "fruitSpots": [
+          {
+            "flipped": false,
+            "shiftX": {
+              "divisor": 8,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": -12,
+              "modulo": 64,
+              "times": 1
+            },
+            "x": -16,
+            "y": -48
+          },
+          {
+            "flipped": false,
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 232
+            },
+            "x": 8,
+            "y": -64
+          },
+          {
+            "flipped": true,
+            "shiftX": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "x": 0,
+            "y": -40
+          }
+        ],
         "growingOffset": {
           "x": -16,
           "y": -68
@@ -124,7 +179,20 @@
       "name": "Apricot",
       "placement": {
         "gardenPot": false,
+        "growthBlockers": [
+          "building",
+          "bush",
+          "crop",
+          "floor",
+          "fruitTree",
+          "furniture",
+          "object",
+          "resourceClump",
+          "teaBush",
+          "wildTree"
+        ],
         "growthClearance": 1,
+        "spacingTrees": ["fruitTree", "wildTree"],
         "treeSpacing": 2
       },
       "saplingItemId": "(O)629",
@@ -141,6 +209,48 @@
       "sell": 50,
       "sprites": {
         "fruit": [16, 80, 16, 16],
+        "fruitSpots": [
+          {
+            "flipped": false,
+            "shiftX": {
+              "divisor": 8,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": -12,
+              "modulo": 64,
+              "times": 1
+            },
+            "x": -16,
+            "y": -48
+          },
+          {
+            "flipped": false,
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 232
+            },
+            "x": 8,
+            "y": -64
+          },
+          {
+            "flipped": true,
+            "shiftX": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "x": 0,
+            "y": -40
+          }
+        ],
         "growingOffset": {
           "x": -16,
           "y": -68
@@ -220,7 +330,20 @@
       "name": "Banana",
       "placement": {
         "gardenPot": false,
+        "growthBlockers": [
+          "building",
+          "bush",
+          "crop",
+          "floor",
+          "fruitTree",
+          "furniture",
+          "object",
+          "resourceClump",
+          "teaBush",
+          "wildTree"
+        ],
         "growthClearance": 1,
+        "spacingTrees": ["fruitTree", "wildTree"],
         "treeSpacing": 2
       },
       "saplingItemId": "(O)69",
@@ -238,6 +361,48 @@
       "sell": 150,
       "sprites": {
         "fruit": [16, 160, 16, 16],
+        "fruitSpots": [
+          {
+            "flipped": false,
+            "shiftX": {
+              "divisor": 8,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": -12,
+              "modulo": 64,
+              "times": 1
+            },
+            "x": -16,
+            "y": -48
+          },
+          {
+            "flipped": false,
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 232
+            },
+            "x": 8,
+            "y": -64
+          },
+          {
+            "flipped": true,
+            "shiftX": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "x": 0,
+            "y": -40
+          }
+        ],
         "growingOffset": {
           "x": -16,
           "y": -68
@@ -317,7 +482,20 @@
       "name": "Cherry",
       "placement": {
         "gardenPot": false,
+        "growthBlockers": [
+          "building",
+          "bush",
+          "crop",
+          "floor",
+          "fruitTree",
+          "furniture",
+          "object",
+          "resourceClump",
+          "teaBush",
+          "wildTree"
+        ],
         "growthClearance": 1,
+        "spacingTrees": ["fruitTree", "wildTree"],
         "treeSpacing": 2
       },
       "saplingItemId": "(O)628",
@@ -334,6 +512,48 @@
       "sell": 80,
       "sprites": {
         "fruit": [16, 240, 16, 16],
+        "fruitSpots": [
+          {
+            "flipped": false,
+            "shiftX": {
+              "divisor": 8,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": -12,
+              "modulo": 64,
+              "times": 1
+            },
+            "x": -16,
+            "y": -48
+          },
+          {
+            "flipped": false,
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 232
+            },
+            "x": 8,
+            "y": -64
+          },
+          {
+            "flipped": true,
+            "shiftX": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "x": 0,
+            "y": -40
+          }
+        ],
         "growingOffset": {
           "x": -16,
           "y": -68
@@ -413,7 +633,20 @@
       "name": "Mango",
       "placement": {
         "gardenPot": false,
+        "growthBlockers": [
+          "building",
+          "bush",
+          "crop",
+          "floor",
+          "fruitTree",
+          "furniture",
+          "object",
+          "resourceClump",
+          "teaBush",
+          "wildTree"
+        ],
         "growthClearance": 1,
+        "spacingTrees": ["fruitTree", "wildTree"],
         "treeSpacing": 2
       },
       "saplingItemId": "(O)835",
@@ -431,6 +664,48 @@
       "sell": 130,
       "sprites": {
         "fruit": [16, 320, 16, 16],
+        "fruitSpots": [
+          {
+            "flipped": false,
+            "shiftX": {
+              "divisor": 8,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": -12,
+              "modulo": 64,
+              "times": 1
+            },
+            "x": -16,
+            "y": -48
+          },
+          {
+            "flipped": false,
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 232
+            },
+            "x": 8,
+            "y": -64
+          },
+          {
+            "flipped": true,
+            "shiftX": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "x": 0,
+            "y": -40
+          }
+        ],
         "growingOffset": {
           "x": -16,
           "y": -68
@@ -510,7 +785,20 @@
       "name": "Orange",
       "placement": {
         "gardenPot": false,
+        "growthBlockers": [
+          "building",
+          "bush",
+          "crop",
+          "floor",
+          "fruitTree",
+          "furniture",
+          "object",
+          "resourceClump",
+          "teaBush",
+          "wildTree"
+        ],
         "growthClearance": 1,
+        "spacingTrees": ["fruitTree", "wildTree"],
         "treeSpacing": 2
       },
       "saplingItemId": "(O)630",
@@ -527,6 +815,48 @@
       "sell": 100,
       "sprites": {
         "fruit": [16, 400, 16, 16],
+        "fruitSpots": [
+          {
+            "flipped": false,
+            "shiftX": {
+              "divisor": 8,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": -12,
+              "modulo": 64,
+              "times": 1
+            },
+            "x": -16,
+            "y": -48
+          },
+          {
+            "flipped": false,
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 232
+            },
+            "x": 8,
+            "y": -64
+          },
+          {
+            "flipped": true,
+            "shiftX": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "x": 0,
+            "y": -40
+          }
+        ],
         "growingOffset": {
           "x": -16,
           "y": -68
@@ -606,7 +936,20 @@
       "name": "Peach",
       "placement": {
         "gardenPot": false,
+        "growthBlockers": [
+          "building",
+          "bush",
+          "crop",
+          "floor",
+          "fruitTree",
+          "furniture",
+          "object",
+          "resourceClump",
+          "teaBush",
+          "wildTree"
+        ],
         "growthClearance": 1,
+        "spacingTrees": ["fruitTree", "wildTree"],
         "treeSpacing": 2
       },
       "saplingItemId": "(O)631",
@@ -623,6 +966,48 @@
       "sell": 140,
       "sprites": {
         "fruit": [16, 480, 16, 16],
+        "fruitSpots": [
+          {
+            "flipped": false,
+            "shiftX": {
+              "divisor": 8,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": -12,
+              "modulo": 64,
+              "times": 1
+            },
+            "x": -16,
+            "y": -48
+          },
+          {
+            "flipped": false,
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 232
+            },
+            "x": 8,
+            "y": -64
+          },
+          {
+            "flipped": true,
+            "shiftX": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "x": 0,
+            "y": -40
+          }
+        ],
         "growingOffset": {
           "x": -16,
           "y": -68
@@ -702,7 +1087,20 @@
       "name": "Pomegranate",
       "placement": {
         "gardenPot": false,
+        "growthBlockers": [
+          "building",
+          "bush",
+          "crop",
+          "floor",
+          "fruitTree",
+          "furniture",
+          "object",
+          "resourceClump",
+          "teaBush",
+          "wildTree"
+        ],
         "growthClearance": 1,
+        "spacingTrees": ["fruitTree", "wildTree"],
         "treeSpacing": 2
       },
       "saplingItemId": "(O)632",
@@ -719,6 +1117,48 @@
       "sell": 140,
       "sprites": {
         "fruit": [16, 560, 16, 16],
+        "fruitSpots": [
+          {
+            "flipped": false,
+            "shiftX": {
+              "divisor": 8,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": -12,
+              "modulo": 64,
+              "times": 1
+            },
+            "x": -16,
+            "y": -48
+          },
+          {
+            "flipped": false,
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 232
+            },
+            "x": 8,
+            "y": -64
+          },
+          {
+            "flipped": true,
+            "shiftX": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "shiftY": {
+              "divisor": 12,
+              "modulo": 64,
+              "times": 200
+            },
+            "x": 0,
+            "y": -40
+          }
+        ],
         "growingOffset": {
           "x": -16,
           "y": -68

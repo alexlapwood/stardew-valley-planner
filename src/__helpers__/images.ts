@@ -4,6 +4,8 @@ import { waterImageUrl } from "../helpers/water";
 export const imageUrls: string[] = [
   ...Object.values(atlasUrls),
   waterImageUrl,
+  "images/blocker-outline.png",
+  "images/highlight-amber.png",
   "images/highlight-green.png",
   "images/highlight-grey.png",
   "images/highlight-red.png",

@@ -3,6 +3,8 @@
 exports[`<SeedMenu /> > Crops that don regrow > calculates the profit correctly 1`] = `
 "Cost: 60g
 Sell: 40g
+Income: 240g
+Income/day: 8.57g
 Profit: 180g
 Profit/day: 6.43g"
 `;
@@ -10,20 +12,26 @@ Profit/day: 6.43g"
 exports[`<SeedMenu /> > Crops that don regrow > calculates the profit correctly for crops planted just before they go out of season 1`] = `
 "Cost: 60g
 Sell: 40g
-Profit: -100g
-Profit/day: -20g"
+Income: 0g
+Income/day: 0g
+Profit: -60g
+Profit/day: -12g"
 `;
 
 exports[`<SeedMenu /> > Crops that don regrow > calculates the profit correctly for crops planted out of season 1`] = `
 "Cost: 60g
 Sell: 40g
-Profit: -140g
-Profit/day: -35g"
+Income: 0g
+Income/day: 0g
+Profit: -60g
+Profit/day: -15g"
 `;
 
 exports[`<SeedMenu /> > Crops that don't regrow > calculates the profit correctly 1`] = `
 "Cost: 20g
 Sell: 35g
+Income: 210g
+Income/day: 7.5g
 Profit: 90g
 Profit/day: 3.21g"
 `;
@@ -31,6 +39,8 @@ Profit/day: 3.21g"
 exports[`<SeedMenu /> > Crops that don't regrow > calculates the profit correctly for crops planted just before they go out of season 1`] = `
 "Cost: 20g
 Sell: 35g
+Income: 35g
+Income/day: 7g
 Profit: 15g
 Profit/day: 3g"
 `;
@@ -38,6 +48,8 @@ Profit/day: 3g"
 exports[`<SeedMenu /> > Crops that don't regrow > calculates the profit correctly for crops planted out of season 1`] = `
 "Cost: 20g
 Sell: 35g
+Income: 0g
+Income/day: 0g
 Profit: 0g
 Profit/day: 0g"
 `;
@@ -45,6 +57,8 @@ Profit/day: 0g"
 exports[`<SeedMenu /> > Crops that don't regrow > calculates the profit correctly for year 2 1`] = `
 "Cost: 20g
 Sell: 35g
+Income: 210g
+Income/day: 7.5g
 Profit: 90g
 Profit/day: 3.21g"
 `;
@@ -58,8 +72,8 @@ exports[`<SeedMenu /> > renders correctly 1`] = `
       class="sdv-list-item"
       data-testid="seed--ancient_fruit"
       title="Sell: 550g
-Profit: 4400g
-Profit/day: 52.38g"
+Income: 4400g
+Income/day: 52.38g"
     >
       <div
         class="sdv-list-item-icon"
@@ -137,6 +151,8 @@ Profit/day: 52.38g"
       data-testid="seed--blue_jazz"
       title="Cost: 30g
 Sell: 50g
+Income: 150g
+Income/day: 5.36g
 Profit: 60g
 Profit/day: 2.14g"
     >
@@ -200,8 +216,8 @@ Profit/day: 2.14g"
       data-testid="seed--carrot"
       title="Cost: Maple Seed ×1
 Sell: 35g
-Profit: 315g
-Profit/day: 11.25g"
+Income: 315g
+Income/day: 11.25g"
     >
       <div
         class="sdv-list-item-icon"
@@ -251,6 +267,8 @@ Profit/day: 11.25g"
       data-testid="seed--cauliflower"
       title="Cost: 80g
 Sell: 175g
+Income: 350g
+Income/day: 12.5g
 Profit: 190g
 Profit/day: 6.79g"
     >
@@ -322,6 +340,8 @@ Profit/day: 6.79g"
       data-testid="seed--coffee_bean"
       title="Cost: 2500g
 Sell: 15g
+Income: 1380g
+Income/day: 24.64g
 Profit: -1120g
 Profit/day: -20g"
     >
@@ -392,8 +412,8 @@ Profit/day: -20g"
       class="sdv-list-item"
       data-testid="seed--fiber"
       title="Sell: 1g
-Profit: 60g
-Profit/day: 0.54g"
+Income: 60g
+Income/day: 0.54g"
     >
       <div
         class="sdv-list-item-icon"
@@ -439,6 +459,8 @@ Profit/day: 0.54g"
       data-testid="seed--garlic"
       title="Cost: 40g
 Sell: 60g
+Income: 360g
+Income/day: 12.86g
 Profit: 120g
 Profit/day: 4.29g"
     >
@@ -490,6 +512,8 @@ Profit/day: 4.29g"
       data-testid="seed--green_bean"
       title="Cost: 60g
 Sell: 40g
+Income: 240g
+Income/day: 8.57g
 Profit: 180g
 Profit/day: 6.43g"
     >
@@ -557,6 +581,8 @@ Profit/day: 6.43g"
       data-testid="seed--kale"
       title="Cost: 70g
 Sell: 110g
+Income: 440g
+Income/day: 15.71g
 Profit: 160g
 Profit/day: 5.71g"
     >
@@ -600,6 +626,8 @@ Profit/day: 5.71g"
       data-testid="seed--parsnip"
       title="Cost: 20g
 Sell: 35g
+Income: 210g
+Income/day: 7.5g
 Profit: 90g
 Profit/day: 3.21g"
     >
@@ -655,6 +683,8 @@ Profit/day: 3.21g"
       data-testid="seed--potato"
       title="Cost: 50g
 Sell: 80g
+Income: 320g
+Income/day: 11.43g
 Profit: 120g
 Profit/day: 4.29g"
     >
@@ -706,6 +736,8 @@ Profit/day: 4.29g"
       data-testid="seed--rhubarb"
       title="Cost: 100g
 Sell: 220g
+Income: 440g
+Income/day: 15.71g
 Profit: 240g
 Profit/day: 8.57g"
     >
@@ -761,6 +793,8 @@ Profit/day: 8.57g"
       data-testid="seed--strawberry"
       title="Cost: 100g
 Sell: 120g
+Income: 600g
+Income/day: 21.43g
 Profit: 500g
 Profit/day: 17.86g"
     >
@@ -828,6 +862,8 @@ Profit/day: 17.86g"
       data-testid="seed--tulip"
       title="Cost: 20g
 Sell: 30g
+Income: 120g
+Income/day: 4.29g
 Profit: 40g
 Profit/day: 1.43g"
     >
@@ -875,6 +911,8 @@ Profit/day: 1.43g"
       data-testid="seed--unmilled_rice"
       title="Cost: 40g
 Sell: 30g
+Income: 90g
+Income/day: 3.21g
 Profit: -30g
 Profit/day: -1.07g"
     >

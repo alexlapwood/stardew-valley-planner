@@ -1,5 +1,6 @@
 import { crops } from "../../data/game/crops.json";
 import { items } from "../../data/game/items.json";
+import { trees } from "../../data/game/trees.json";
 import { itemTabIds, type TItemTabId } from "../../data/itemTabs";
 import { isInSeedMenu } from "../../helpers/crop";
 import { getSeasonName } from "../../helpers/date";
@@ -35,6 +36,18 @@ export function getCropIdsInSeason(date: number) {
 
 export function searchCropIds(cropIds: readonly string[], search: string) {
   return cropIds.filter((cropId) => matchesSearch(crops[cropId].name, search));
+}
+
+const treeMenuIds = Object.keys(trees).toSorted((a, b) =>
+  compareNames(trees[a].name, trees[b].name),
+);
+
+// The game lets a sapling be planted in any season, so the list does not change
+// with the date.
+export function searchTreeIds(search: string) {
+  return treeMenuIds.filter((treeId) =>
+    matchesSearch(trees[treeId].name, search),
+  );
 }
 
 export function getItemName(itemId: string) {

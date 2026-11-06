@@ -8,12 +8,15 @@ import SideMenu from "./SideMenu";
 const spring = 0;
 const summer = 28;
 
+const winter = 84;
+
 function renderSideMenu(date = spring) {
   return render(() => (
     <SideMenu
       date={date}
       selectCrop={vitest.fn()}
       selectEquipment={vitest.fn()}
+      selectTree={vitest.fn()}
     />
   ));
 }
@@ -27,6 +30,17 @@ function shownCropIds() {
     list("crops").querySelectorAll<HTMLElement>("[data-testid^='seed--']"),
     (row) => row.dataset.testid?.replace("seed--", "") ?? "",
   );
+}
+
+function shownTreeIds() {
+  return Array.from(
+    list("crops").querySelectorAll<HTMLElement>("[data-testid^='tree--']"),
+    (row) => row.dataset.testid?.replace("tree--", "") ?? "",
+  );
+}
+
+function headings(element: HTMLElement) {
+  return within(element).queryAllByRole("heading", { hidden: true });
 }
 
 function shownRows(tabId: string) {
@@ -184,20 +198,86 @@ describe("<SideMenu />", () => {
   it("has no title above the list", () => {
     renderSideMenu();
 
-    expect(screen.queryAllByRole("heading", { hidden: true })).toEqual([]);
+    expect(
+      screen
+        .queryAllByRole("heading", { hidden: true })
+        .filter((heading) => heading.closest("[role='tabpanel']") === null),
+    ).toEqual([]);
   });
 
-  it.each(["crops", "items", "decorations"])(
+  it.each(["items", "decorations"])(
     "shows the %s tab as 1 list with no headings",
     (tabId) => {
       renderSideMenu();
 
-      expect(
-        within(list(tabId)).queryAllByRole("heading", { hidden: true }),
-      ).toEqual([]);
+      expect(headings(list(tabId))).toEqual([]);
       expect(list(tabId).children).toHaveLength(1);
     },
   );
+
+  it("shows the crops, and then the trees under a Trees heading", () => {
+    renderSideMenu();
+
+    const menus = Array.from(list("crops").children);
+    const cropHeadings = headings(list("crops"));
+
+    expect(menus.map((menu) => menu.className)).toEqual([
+      "SeedMenu",
+      "TreeMenu",
+    ]);
+    expect(
+      cropHeadings.map((heading) => heading.getAttribute("aria-label")),
+    ).toEqual(["Trees"]);
+    expect(menus[1].firstElementChild).toBe(cropHeadings[0]);
+  });
+
+  it.each([
+    ["spring", spring],
+    ["summer", summer],
+    ["winter", winter],
+  ])("shows all the trees A-Z by name in %s", (_, date) => {
+    renderSideMenu(date);
+
+    expect(shownTreeIds()).toEqual([
+      "apple",
+      "apricot",
+      "banana",
+      "cherry",
+      "mango",
+      "orange",
+      "peach",
+      "pomegranate",
+      "tea_bush",
+    ]);
+  });
+
+  it("selects a tree, and marks the selected tree", () => {
+    const selectTree = vitest.fn();
+    const [selectedItem, setSelectedItem] = createSignal<ISelectedItem>();
+
+    render(() => (
+      <SideMenu
+        date={spring}
+        selectCrop={vitest.fn()}
+        selectEquipment={vitest.fn()}
+        selectTree={selectTree}
+        selectedItem={selectedItem()}
+      />
+    ));
+
+    fireEvent.click(screen.getByTestId("tree--tea_bush"));
+
+    expect(selectTree).toHaveBeenCalledExactlyOnceWith("tea_bush");
+
+    setSelectedItem({ id: "tea_bush", type: "tree" });
+
+    expect(
+      Array.from(
+        list("crops").querySelectorAll<HTMLElement>(".selected"),
+        (row) => row.dataset.testid,
+      ),
+    ).toEqual(["tree--tea_bush"]);
+  });
 
   it.each(["items", "decorations"])(
     "shows the %s A-Z by the name on the row",
@@ -244,6 +324,7 @@ describe("<SideMenu />", () => {
         date={date()}
         selectCrop={vitest.fn()}
         selectEquipment={vitest.fn()}
+        selectTree={vitest.fn()}
       />
     ));
 
@@ -445,6 +526,7 @@ describe("<SideMenu />", () => {
           date={spring}
           selectCrop={vitest.fn()}
           selectEquipment={selectEquipment}
+          selectTree={vitest.fn()}
         />
       ));
 
@@ -470,6 +552,7 @@ describe("<SideMenu />", () => {
           date={spring}
           selectCrop={vitest.fn()}
           selectEquipment={selectEquipment}
+          selectTree={vitest.fn()}
         />
       ));
 
@@ -516,6 +599,7 @@ describe("<SideMenu />", () => {
           date={spring}
           selectCrop={selectCrop}
           selectEquipment={vitest.fn()}
+          selectTree={vitest.fn()}
         />
       ));
 
@@ -523,6 +607,20 @@ describe("<SideMenu />", () => {
       fireEvent.click(screen.getByTestId("seed--parsnip"));
 
       expect(selectCrop).toHaveBeenCalledExactlyOnceWith("parsnip");
+    });
+
+    it("finds the trees by name, and hides the Trees heading when no tree matches", () => {
+      renderSideMenu(winter);
+
+      search("AP");
+
+      expect(shownTreeIds()).toEqual(["apple", "apricot"]);
+      expect(fadedTabIds()).not.toContain("crops");
+
+      search("parsnip");
+
+      expect(shownTreeIds()).toEqual([]);
+      expect(headings(list("crops"))).toEqual([]);
     });
 
     it("shows only the crops in season again when the text is cleared", () => {

@@ -8,10 +8,16 @@ import { drawMap, drawPlan } from "./Farm.canvas";
 
 type TDrawImage = CanvasRenderingContext2D["drawImage"];
 
-const contexts = new Map<
-  HTMLCanvasElement,
-  { drawImage: ReturnType<typeof vi.fn<TDrawImage>> }
->();
+interface IMockContext {
+  drawImage: ReturnType<typeof vi.fn<TDrawImage>>;
+  globalAlpha: number;
+  restore: ReturnType<typeof vi.fn<() => void>>;
+  save: ReturnType<typeof vi.fn<() => void>>;
+  scale: ReturnType<typeof vi.fn<(x: number, y: number) => void>>;
+  translate: ReturnType<typeof vi.fn<(x: number, y: number) => void>>;
+}
+
+const contexts = new Map<HTMLCanvasElement, IMockContext>();
 
 function contextOf(canvas: HTMLCanvasElement) {
   let context = contexts.get(canvas);
@@ -27,7 +33,9 @@ function contextOf(canvas: HTMLCanvasElement) {
       imageSmoothingEnabled: true,
       restore: vi.fn(),
       save: vi.fn(),
-    } as unknown as { drawImage: ReturnType<typeof vi.fn<TDrawImage>> };
+      scale: vi.fn(),
+      translate: vi.fn(),
+    } as IMockContext;
     contexts.set(canvas, context);
   }
 
@@ -111,6 +119,77 @@ function drawKindOf(image: CanvasImageSource, sy: number) {
     ["highlight", "/images/highlight-green.png"],
     ["crop", atlasUrls.crops],
   ].find(([, path]) => image.src.includes(path))?.[0];
+}
+
+function getTreeAndItemDraws(canvas: HTMLCanvasElement) {
+  return contextOf(canvas).drawImage.mock.calls.flatMap(([image, ...args]) => {
+    if (!(image instanceof HTMLImageElement)) {
+      return [];
+    }
+
+    if (image.src.includes(atlasUrls.trees)) {
+      return [`tree ${args.join(",")}`];
+    }
+
+    if (image.src.includes(atlasUrls.items)) {
+      return [`item row ${(args[5] + args[3]) / 16 - 1}`];
+    }
+
+    return image.src.includes("/images/hoeDirt.png") ? ["soil"] : [];
+  });
+}
+
+function appleFromDay0(x: number, y: number): IPlantedTree {
+  return { datePlanted: 0, treeId: "apple", type: "tree", x, y };
+}
+
+const fall = 56;
+
+const cursorOn = (x: number, y: number) => ({ x1: x, x2: x, y1: y, y2: y });
+
+function drawWithTree(
+  plantedTree: IPlantedTree,
+  date: number,
+  highlightedRegion?: { x1: number; x2: number; y1: number; y2: number },
+  equipment: IFarmEquipment = {},
+) {
+  const canvas = document.createElement("canvas");
+  const context = contextOf(canvas);
+  const alphas: [string, number][] = [];
+  const savedAlphas: number[] = [];
+
+  context.save.mockImplementation(() => {
+    savedAlphas.push(context.globalAlpha);
+  });
+  context.restore.mockImplementation(() => {
+    context.globalAlpha = savedAlphas.pop() ?? 1;
+  });
+  context.drawImage.mockImplementation((image, sx, sy) => {
+    if (!(image instanceof HTMLImageElement)) {
+      return;
+    }
+
+    if (image.src.includes(atlasUrls.trees)) {
+      alphas.push([`tree ${sx},${sy}`, context.globalAlpha]);
+    }
+
+    if (image.src.includes(atlasUrls.buildings) && sy !== 0) {
+      alphas.push([buildingNamesByRectTop[sy], context.globalAlpha]);
+    }
+  });
+
+  drawPlan(canvas, {
+    crops: { [plantedTree.y]: { [plantedTree.x]: [plantedTree] } },
+    date,
+    equipment,
+    highlightedRegion,
+    images: mockImages,
+    looks: defaultFarmLooks,
+    pickFloorVariant: () => 0,
+    scene: makeScene(),
+  });
+
+  return { alphas, canvas, context };
 }
 
 beforeEach(() => {
@@ -218,6 +297,176 @@ describe("drawPlan", () => {
       "greenhouse",
       "above",
     ]);
+  });
+
+  it("draws a tree at its trunk row with the mature offset, over the rows above it, and with no soil under it", () => {
+    const scene = makeScene();
+    const canvas = document.createElement("canvas");
+    const apple: IPlantedTree = {
+      datePlanted: 0,
+      treeId: "apple",
+      type: "tree",
+      x: 2,
+      y: 4,
+    };
+
+    drawPlan(canvas, {
+      crops: { 4: { 2: [apple] } },
+      date: 28,
+      equipment: {
+        3: { 4: [scarecrow(4, 3)] },
+        5: { 4: [scarecrow(4, 5)] },
+      },
+      images: mockImages,
+      looks: defaultFarmLooks,
+      pickFloorVariant: () => 0,
+      scene,
+    });
+
+    expect(getTreeAndItemDraws(canvas)).toEqual([
+      "item row 3",
+      "tree 272,0,48,80,16,0,48,80",
+      "item row 5",
+    ]);
+  });
+
+  it("draws a young tree while a scarecrow beside it stops its growth", () => {
+    const scene = makeScene();
+    const canvas = document.createElement("canvas");
+    const apple: IPlantedTree = {
+      datePlanted: 0,
+      treeId: "apple",
+      type: "tree",
+      x: 2,
+      y: 4,
+    };
+
+    drawPlan(canvas, {
+      crops: { 4: { 2: [apple] } },
+      date: 28,
+      equipment: { 5: { 3: [{ ...scarecrow(3, 5), dateDestroyed: 7 }] } },
+      images: mockImages,
+      looks: defaultFarmLooks,
+      pickFloorVariant: () => 0,
+      scene,
+    });
+
+    expect(getTreeAndItemDraws(canvas)).toEqual([
+      "tree 176,0,48,80,16,-4,48,80",
+    ]);
+  });
+
+  it("draws 3 fruit just after the crown of a mature fruit tree in its season, at the shifted spots, the third one flipped", () => {
+    const { canvas, context } = drawWithTree(
+      appleFromDay0(2, 4),
+      fall,
+      undefined,
+      {
+        3: { 4: [scarecrow(4, 3)] },
+        5: { 4: [scarecrow(4, 5)] },
+      },
+    );
+
+    // Tile x 2: 2 × 200 mod 64 = 16 and 2 × 232 mod 64 = 16, so the spots are
+    // (32 − 16 + 16 / 8, 64 − 48 − 2 / 12), (32 + 8, 64 − 64 + 16 / 12) and
+    // (32 + 16 / 12, 64 − 40 + 16 / 12), rounded to whole pixels.
+    expect(getTreeAndItemDraws(canvas)).toEqual([
+      "item row 3",
+      "tree 320,0,48,80,16,0,48,80",
+      "tree 16,0,16,16,18,16,16,16",
+      "tree 16,0,16,16,40,1,16,16",
+      "tree 16,0,16,16,0,0,16,16",
+      "item row 5",
+    ]);
+    expect(context.translate).toHaveBeenCalledWith(33 + 16, 25);
+    expect(context.scale).toHaveBeenCalledWith(-1, 1);
+  });
+
+  it("draws no fruit on a mature fruit tree out of its season or in winter", () => {
+    const summerDraws = getTreeAndItemDraws(
+      drawWithTree(appleFromDay0(2, 4), fall - 1).canvas,
+    );
+    const winterDraws = getTreeAndItemDraws(
+      drawWithTree(appleFromDay0(2, 4), fall + 28).canvas,
+    );
+
+    expect(summerDraws).toEqual(["tree 272,0,48,80,16,0,48,80"]);
+    expect(winterDraws).toEqual(["tree 368,0,48,80,16,0,48,80"]);
+  });
+
+  it("draws a mature tree and its fruit faded while the cursor is on its leaves, and not while it is on the trunk row", () => {
+    const onLeaves = drawWithTree(appleFromDay0(2, 4), fall, cursorOn(2, 2));
+    const onTrunk = drawWithTree(appleFromDay0(2, 4), fall, cursorOn(2, 4));
+    const besideTrunk = drawWithTree(appleFromDay0(2, 4), fall, cursorOn(3, 4));
+
+    expect(onLeaves.alphas.filter(([name]) => name.startsWith("tree"))).toEqual(
+      [
+        ["tree 320,0", 0.4],
+        ["tree 16,0", 0.4],
+        ["tree 16,0", 0.4],
+        ["tree 16,0", 0.4],
+      ],
+    );
+    expect(onLeaves.context.globalAlpha).toBe(1);
+    expect(
+      [onTrunk, besideTrunk].map(({ alphas }) =>
+        alphas
+          .filter(([name]) => name.startsWith("tree"))
+          .map(([, alpha]) => alpha),
+      ),
+    ).toEqual([
+      [1, 1, 1, 1],
+      [1, 1, 1, 1],
+    ]);
+  });
+
+  it("does not fade a young tree, whose frame is mostly empty", () => {
+    const { alphas } = drawWithTree(appleFromDay0(2, 4), 22, cursorOn(2, 2));
+
+    expect(alphas.filter(([name]) => name.startsWith("tree"))).toEqual([
+      ["tree 176,0", 1],
+    ]);
+  });
+
+  it("fades the farmhouse while the cursor is on its roof, and no other building", () => {
+    const { alphas } = drawWithTree(appleFromDay0(2, 4), fall, cursorOn(4, 6));
+
+    expect(alphas.filter(([name]) => !name.startsWith("tree"))).toEqual([
+      ["shipping bin", 1],
+      ["pet bowl", 1],
+      ["farmhouse", 0.4],
+      ["greenhouse", 1],
+    ]);
+  });
+
+  it("draws no hoe dirt and no watered soil on a tree tile in a sprinkler range", () => {
+    const { canvas } = drawWithTree(appleFromDay0(2, 4), fall, undefined, {
+      4: {
+        3: [
+          {
+            dateInstalled: 0,
+            equipmentId: "sprinkler",
+            skin: "quality_sprinkler",
+            type: "equipment",
+            x: 3,
+            y: 4,
+          },
+        ],
+      },
+    });
+    const soilTiles = (watered: boolean) =>
+      contextOf(canvas)
+        .drawImage.mock.calls.filter(
+          ([image, sx]) =>
+            image instanceof HTMLImageElement &&
+            image.src.includes("/images/hoeDirt.png") &&
+            sx >= 64 === watered,
+        )
+        .map(([, , , , , dx, dy]) => `${dx / 16},${dy / 16}`);
+    const rangeWithNoTree = ["2,3", "2,5", "3,3", "3,5", "4,3", "4,4", "4,5"];
+
+    expect(soilTiles(false).toSorted()).toEqual(rangeWithNoTree);
+    expect(soilTiles(true).toSorted()).toEqual(rangeWithNoTree);
   });
 
   it("draws the building shadows over the floors and the soil, and under the highlight and all sprites", () => {

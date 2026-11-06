@@ -35,6 +35,8 @@ import {
   renderSoilToContext,
   renderWateredSoilToContext,
 } from "../../helpers/renderTileMaps";
+import { fadeTallSprites } from "../../helpers/tallSprites";
+import { getTreeSchedule } from "../../helpers/treeGrowth";
 import type { IRegion } from "./Farm.region";
 
 interface IFarmCanvasState {
@@ -123,17 +125,23 @@ export function drawPlan(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
     fences: findAtlas(state.images, "fences"),
     flooring: findAtlas(state.images, "flooring"),
     flooringWinter: findAtlas(state.images, "flooringWinter"),
-    highlightGreen: findImage(state.images, "/images/highlight-green.png"),
-    highlightGrey: findImage(state.images, "/images/highlight-grey.png"),
-    highlightRed: findImage(state.images, "/images/highlight-red.png"),
+    highlight: {
+      amber: findImage(state.images, "/images/highlight-amber.png"),
+      blockerOutline: findImage(state.images, "/images/blocker-outline.png"),
+      green: findImage(state.images, "/images/highlight-green.png"),
+      grey: findImage(state.images, "/images/highlight-grey.png"),
+      red: findImage(state.images, "/images/highlight-red.png"),
+    },
     hoeDirt: findImage(state.images, "/images/hoeDirt.png"),
     hoeDirtSnow: findImage(state.images, "/images/hoeDirtSnow.png"),
     items: findAtlas(state.images, "items"),
+    trees: findAtlas(state.images, "trees"),
   };
 
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   const potentialEquipment = getPotentialEquipment(state) ?? {};
+  const plannedItems = mergeDeep(crops, equipment, potentialEquipment);
 
   renderFloorsToContext(
     context,
@@ -146,7 +154,7 @@ export function drawPlan(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
   renderSoilToContext(
     context,
     season === "winter" ? images.hoeDirtSnow : images.hoeDirt,
-    mergeDeep(crops, equipment, potentialEquipment),
+    plannedItems,
     map,
     date,
   );
@@ -154,7 +162,7 @@ export function drawPlan(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
   renderWateredSoilToContext(
     context,
     season === "winter" ? images.hoeDirtSnow : images.hoeDirt,
-    mergeDeep(equipment, potentialEquipment),
+    plannedItems,
     map,
     date,
   );
@@ -163,7 +171,7 @@ export function drawPlan(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
 
   renderScarecrowProtectionToContext(
     context,
-    images.highlightGreen,
+    images.highlight.green,
     mergeDeep(equipment, potentialEquipment),
     map,
     date,
@@ -177,12 +185,16 @@ export function drawPlan(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
       map,
       date,
       highlightedRegion,
-      images.highlightGreen,
-      images.highlightGrey,
-      images.highlightRed,
+      images.highlight,
       state.selectedItem,
     );
   }
+
+  const growthPlan = {
+    currentCrops: crops,
+    currentEquipment: equipment,
+    farmMap: map,
+  };
 
   const front = getPassCanvas(scene, "front", time);
   const frontRowDraws = getFrontRows(map).map((row): ISortedDraw => ({
@@ -193,22 +205,25 @@ export function drawPlan(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
     row,
   }));
 
-  renderSortedDraws([
-    ...getItemDraws(
+  renderSortedDraws(
+    fadeTallSprites(
       context,
-      images,
-      mergeDeep(crops, equipment, potentialEquipment),
-      date,
+      [
+        ...getItemDraws(context, images, plannedItems, date, (plantedTree) =>
+          getTreeSchedule(growthPlan, plantedTree),
+        ),
+        ...getDefaultBuildingDraws(
+          context,
+          images.buildings,
+          map,
+          season,
+          state.looks,
+        ),
+        ...frontRowDraws,
+      ],
+      highlightedRegion,
     ),
-    ...getDefaultBuildingDraws(
-      context,
-      images.buildings,
-      map,
-      season,
-      state.looks,
-    ),
-    ...frontRowDraws,
-  ]);
+  );
 
   context.drawImage(getPassCanvas(scene, "above", time), 0, 0);
 }

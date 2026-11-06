@@ -2,7 +2,11 @@ import { mergeDeep } from "immutable";
 
 import { crops } from "../data/game/crops.json";
 import { getCropsLastDay } from "./crop";
-import { getCropsAtLocation, getEquipmentAtLocation } from "./farm";
+import {
+  getCropsAtLocation,
+  getEquipmentAtLocation,
+  getPlantedLastDay,
+} from "./farm";
 import { isFloorItem } from "./items";
 import { canInstallAt, canPlantAt } from "./placementRules";
 
@@ -35,13 +39,9 @@ export function checkCropsToPlant(
       );
 
       const plantedCropConflict = plantedCrops.find((plantedCrop) => {
-        const plantedCropDetails = crops[plantedCrop.cropId];
         const cropToPlantsDetails = crops[cropToPlant.cropId];
 
-        const plantedCropsLastDay = getCropsLastDay(
-          plantedCrop,
-          plantedCropDetails,
-        );
+        const plantedCropsLastDay = getPlantedLastDay(plantedCrop);
 
         const cropToPlantsLastDay = getCropsLastDay(
           cropToPlant,
@@ -139,12 +139,7 @@ export function checkEquipmentToInstall(
       );
 
       const plantedCropConflictPast = plantedCrops.find((plantedCrop) => {
-        const plantedCropDetails = crops[plantedCrop.cropId];
-
-        const plantedCropsLastDay = getCropsLastDay(
-          plantedCrop,
-          plantedCropDetails,
-        );
+        const plantedCropsLastDay = getPlantedLastDay(plantedCrop);
 
         const conflictWhileInstalling =
           equipmentToInstall.dateInstalled >= plantedCrop.datePlanted &&
@@ -245,16 +240,11 @@ export function checkEquipmentToInstall(
 }
 
 export function findCropToDestroy(
-  plantedCrops: IPlantedCrop[],
+  plantedCrops: TPlantedItem[],
   dateToDestroyOn: number,
 ) {
   return plantedCrops.find((plantedCrop) => {
-    const plantedCropDetails = crops[plantedCrop.cropId];
-
-    const plantedCropsLastDay = getCropsLastDay(
-      plantedCrop,
-      plantedCropDetails,
-    );
+    const plantedCropsLastDay = getPlantedLastDay(plantedCrop);
 
     if (
       (plantedCrop.dateDestroyed === undefined ||
@@ -288,16 +278,11 @@ export function findEquipmentToDestroy(
 }
 
 export function destroyCrops(
-  plantedCrops: IPlantedCrop[],
+  plantedCrops: TPlantedItem[],
   dateToDestroyOn: number,
 ) {
   return plantedCrops.map((plantedCrop) => {
-    const cropToChecksDetails = crops[plantedCrop.cropId];
-
-    const cropToChecksLastDay = getCropsLastDay(
-      plantedCrop,
-      cropToChecksDetails,
-    );
+    const cropToChecksLastDay = getPlantedLastDay(plantedCrop);
     if (
       (plantedCrop.dateDestroyed === undefined ||
         dateToDestroyOn < plantedCrop.dateDestroyed) &&

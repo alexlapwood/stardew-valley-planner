@@ -2,9 +2,84 @@ import { testFarmMap } from "../__mocks__/testFarmMap";
 import {
   checkCropsToPlant,
   checkEquipmentToInstall,
+  destroyCrops,
   findCropToDestroy,
   findEquipmentToDestroy,
 } from "./itemPlacement";
+
+const appleTree: IPlantedTree = {
+  datePlanted: 10,
+  treeId: "apple",
+  type: "tree",
+  x: 0,
+  y: 0,
+};
+
+function parsnipOn(datePlanted: number): IPlantedCrop {
+  return { cropId: "parsnip", datePlanted, type: "crop", x: 0, y: 0 };
+}
+
+function scarecrowOn(dateInstalled: number): IInstalledEquipment {
+  return {
+    dateInstalled,
+    equipmentId: "scarecrow",
+    skin: "scarecrow",
+    type: "equipment",
+    x: 0,
+    y: 0,
+  };
+}
+
+describe("items on a tree tile", () => {
+  const currentCrops: IFarmCrops = { 0: { 0: [appleTree] } };
+
+  it("does not plant a crop while the tree is there, or that grows into the planting day", () => {
+    const { plantableCrops, unplantableCrops } = checkCropsToPlant(
+      [parsnipOn(0), parsnipOn(7), parsnipOn(10), parsnipOn(112)],
+      { currentCrops, currentEquipment: {} },
+      testFarmMap,
+    );
+
+    expect(plantableCrops).toEqual([parsnipOn(0)]);
+    expect(unplantableCrops).toEqual([
+      parsnipOn(7),
+      parsnipOn(10),
+      parsnipOn(112),
+    ]);
+  });
+
+  it("installs equipment only before the tree, and removes it on the planting day", () => {
+    const { installableEquipment, notInstallableEquipment } =
+      checkEquipmentToInstall(
+        [scarecrowOn(0), scarecrowOn(10), scarecrowOn(112)],
+        { currentCrops, currentEquipment: {} },
+        testFarmMap,
+      );
+
+    expect(installableEquipment).toEqual([
+      { ...scarecrowOn(0), dateDestroyed: 10 },
+    ]);
+    expect(notInstallableEquipment).toEqual([
+      scarecrowOn(10),
+      scarecrowOn(112),
+    ]);
+  });
+
+  it("finds and destroys the tree from its planting day, with no last day", () => {
+    expect(findCropToDestroy([appleTree], 9)).toBeUndefined();
+    expect(findCropToDestroy([appleTree], 500)).toBe(appleTree);
+    expect(destroyCrops([{ ...appleTree }], 500)).toEqual([
+      { ...appleTree, dateDestroyed: 500 },
+    ]);
+  });
+
+  it("does not destroy a tree again after it is destroyed", () => {
+    const destroyedTree = { ...appleTree, dateDestroyed: 20 };
+
+    expect(findCropToDestroy([destroyedTree], 20)).toBeUndefined();
+    expect(destroyCrops([{ ...destroyedTree }], 30)).toEqual([destroyedTree]);
+  });
+});
 
 describe("checkCropsToPlant", () => {
   it("can detect overlapping crops", () => {

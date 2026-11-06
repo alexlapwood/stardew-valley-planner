@@ -5,6 +5,14 @@ import SeedMenu from "./SeedMenu";
 
 const cropIds = getCropIdsInSeason(0);
 
+function tooltip(cropId: string, date: number) {
+  render(() => (
+    <SeedMenu cropIds={[cropId]} date={date} selectCrop={vitest.fn()} />
+  ));
+
+  return screen.getByTestId(`seed--${cropId}`).getAttribute("title");
+}
+
 describe("<SeedMenu />", () => {
   it("renders correctly", () => {
     const { container } = render(() => (
@@ -24,6 +32,41 @@ describe("<SeedMenu />", () => {
     fireEvent.click(screen.getByTestId("seed--green_bean"));
 
     expect(selectCropMock).toHaveBeenCalledWith("green_bean");
+  });
+
+  describe("tooltip", () => {
+    it.each([
+      [
+        "parsnip",
+        0,
+        "Cost: 20g\nSell: 35g\nIncome: 210g\nIncome/day: 7.5g\nProfit: 90g\nProfit/day: 3.21g",
+      ],
+      [
+        "strawberry",
+        0,
+        "Cost: 100g\nSell: 120g\nIncome: 600g\nIncome/day: 21.43g\nProfit: 500g\nProfit/day: 17.86g",
+      ],
+      [
+        "blueberry",
+        28,
+        "Cost: 80g\nSell: 50g\nIncome: 600g\nIncome/day: 21.43g\nProfit: 520g\nProfit/day: 18.57g",
+      ],
+    ])(
+      "shows cost, sell, income and profit for %s on day %i",
+      (cropId, date, expected) => {
+        expect(tooltip(cropId, date)).toBe(expected);
+      },
+    );
+
+    it("shows no profit when the seed has no gold price", () => {
+      expect(tooltip("ancient_fruit", 0)).toBe(
+        "Sell: 550g\nIncome: 4400g\nIncome/day: 52.38g",
+      );
+    });
+
+    it("shows no profit when the seed is only a trade", () => {
+      expect(tooltip("carrot", 0)).not.toContain("Profit");
+    });
   });
 
   describe("Crops that don't regrow", () => {

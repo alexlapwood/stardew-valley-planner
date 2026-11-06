@@ -16,12 +16,15 @@ import {
   getTabItemIds,
   searchCropIds,
   searchItemIds,
+  searchTreeIds,
 } from "./sideMenuItems";
+import TreeMenu from "./TreeMenu/TreeMenu";
 
 interface IProps {
   date: number;
   selectCrop: (cropId: string) => void;
   selectEquipment: (equipmentId: string, skin: string) => void;
+  selectTree: (treeId: string) => void;
   selectedItem?: ISelectedItem;
 }
 
@@ -90,6 +93,8 @@ export default function SideMenu(props: IProps) {
     searchCropIds(getCropIdsInSeason(props.date), searchText()),
   );
 
+  const treeIds = createMemo(() => searchTreeIds(searchText()));
+
   const shownItemIds = createMemo(() => ({
     decorations: new Set(searchItemIds(tabItemIds.decorations, searchText())),
     items: new Set(searchItemIds(tabItemIds.items, searchText())),
@@ -98,7 +103,7 @@ export default function SideMenu(props: IProps) {
   const hasNoMatches = (tabId: TTabId) =>
     isSearching() &&
     (tabId === "crops"
-      ? cropIds().length === 0
+      ? cropIds().length === 0 && treeIds().length === 0
       : shownItemIds()[tabId].size === 0);
 
   return (
@@ -145,12 +150,20 @@ export default function SideMenu(props: IProps) {
               role="tabpanel"
             >
               {tab.id === "crops" ? (
-                <SeedMenu
-                  cropIds={cropIds()}
-                  date={props.date}
-                  selectCrop={props.selectCrop}
-                  selectedItem={props.selectedItem}
-                />
+                <>
+                  <SeedMenu
+                    cropIds={cropIds()}
+                    date={props.date}
+                    selectCrop={props.selectCrop}
+                    selectedItem={props.selectedItem}
+                  />
+                  <TreeMenu
+                    date={props.date}
+                    selectTree={props.selectTree}
+                    selectedItem={props.selectedItem}
+                    treeIds={treeIds()}
+                  />
+                </>
               ) : (
                 <EquipmentMenu
                   date={props.date}
