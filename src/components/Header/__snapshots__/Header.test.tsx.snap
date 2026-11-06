@@ -1,0 +1,285 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<Header /> > renders correctly 1`] = `
+<div>
+  <div
+    class="Header"
+  >
+    <div
+      class="PlanSwitcher"
+    >
+      <div
+        aria-expanded="false"
+        aria-label="Standard Farm > My farm"
+        class="PlanSwitcher--trigger sdv-button-big sdv-hover-effect sdv-grow-from-top-left"
+        data-testid="plan-switcher"
+        role="button"
+      >
+        <div
+          class="Header--label"
+        >
+          <span
+            class="Header--icon"
+          >
+            🌾
+          </span>
+          <div
+            class="PlanSwitcher--name"
+          >
+            <div
+              class="BigText"
+            >
+              <div
+                style="transform-origin: left center; white-space: nowrap; transform: scale(1);"
+              >
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -408px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -672px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -624px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -544px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -544px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: 0px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -304px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -616px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: 0px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -240px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: 0px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -360px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -712px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: 0px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -560px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -616px 0px; height: 16px; width: 8px;"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="PlanSwitcher--arrow sdv-button-down"
+          />
+        </div>
+      </div>
+      
+    </div>
+    <div
+      class="Header--buttons"
+    >
+      <div
+        class="UpgradesMenu"
+      >
+        <div
+          aria-expanded="false"
+          aria-label="Upgrades"
+          class="Header--button sdv-button-big sdv-hover-effect sdv-grow-from-top"
+          data-testid="header--upgrades"
+          role="button"
+        >
+          <div
+            class="Header--label"
+          >
+            <span
+              class="Header--icon"
+            >
+              🏠
+            </span>
+            <div
+              class="BigText"
+            >
+              <div
+                style="transform-origin: left center; white-space: nowrap; transform: scale(1);"
+              >
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -424px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -640px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -568px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -656px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -544px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
+                />
+                <div
+                  class="sprite"
+                  style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -664px 0px; height: 16px; width: 8px;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div
+        aria-label="Open"
+        class="Header--button sdv-button-big sdv-hover-effect sdv-grow-from-top"
+        data-testid="header--open"
+        role="button"
+      >
+        <div
+          class="Header--label"
+        >
+          <span
+            class="Header--icon"
+          >
+            📂
+          </span>
+          <div
+            class="BigText"
+          >
+            <div
+              style="transform-origin: left center; white-space: nowrap; transform: scale(1);"
+            >
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -376px 0px; height: 16px; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -640px 0px; height: 16px; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -624px 0px; height: 16px; width: 8px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        aria-label="Save"
+        class="Header--button sdv-button-big sdv-hover-effect sdv-grow-from-top-right"
+        data-testid="header--save"
+        role="button"
+      >
+        <div
+          class="Header--label"
+        >
+          <span
+            class="Header--icon"
+          >
+            💾
+          </span>
+          <div
+            class="BigText"
+          >
+            <div
+              style="transform-origin: left center; white-space: nowrap; transform: scale(1);"
+            >
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -408px 0px; height: 16px; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -520px 0px; height: 16px; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -688px 0px; height: 16px; width: 8px;"
+              />
+              <div
+                class="sprite"
+                style="display: inline-block; vertical-align: top; background-image: url("images/sdv-font.png"); background-position: -552px 0px; height: 16px; width: 8px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,19 +1,22 @@
 import "./SideMenu.css";
 
 import cn from "clsx";
-import { createSignal } from "solid-js";
+import { createMemo, createSignal, For } from "solid-js";
 
 import { crops } from "../../data/game/crops.json";
 import { items } from "../../data/game/items.json";
+import type { TItemTabId } from "../../data/itemTabs";
 import { atlasSprite } from "../../helpers/atlas";
-import BigText from "../BigText/BigText";
+import NameField from "../NameField/NameField";
 import Sprite from "../Sprite/Sprite";
 import EquipmentMenu from "./EquipmentMenu/EquipmentMenu";
-import { itemTabs } from "./EquipmentMenu/itemTabs";
-import FileMenu from "./FileMenu/FileMenu";
 import SeedMenu from "./SeedMenu/SeedMenu";
-
-type TCurrentMenu = "seeds" | "equipment" | "decorations" | "file";
+import {
+  getCropIdsInSeason,
+  getTabItemIds,
+  searchCropIds,
+  searchItemIds,
+} from "./sideMenuItems";
 
 interface IProps {
   date: number;
@@ -22,101 +25,148 @@ interface IProps {
   selectedItem?: ISelectedItem;
 }
 
+type TTabId = "crops" | TItemTabId;
+
+interface ITab {
+  icon: ReturnType<typeof atlasSprite>;
+  id: TTabId;
+  name: string;
+}
+
+const tabIconSize = 16;
+
 function getDefaultIcon(itemId: string): TSpriteRect {
   const item = items[itemId];
 
   return item.skins[item.skinOrder[0]]?.icon ?? [0, 0, 0, 0];
 }
 
+// A tab has room for 16 px of a 32 px tall sprite, so it shows the part of the
+// item that is easy to see: the head of the scarecrow and the pot of the plant.
 const [scarecrowX, scarecrowY] = getDefaultIcon("scarecrow");
 const [plantX, plantY, , plantHeight] = getDefaultIcon("seasonal_plant");
 
-const tabIcons: Record<"decorations" | "equipment" | "seeds", TSpriteRect> = {
-  decorations: [plantX, plantY + plantHeight - 16, 16, 16],
-  equipment: [scarecrowX, scarecrowY, 16, 16],
-  seeds: crops.ancient_fruit.sprites.seed,
+const tabs: readonly ITab[] = [
+  {
+    icon: atlasSprite("crops", crops.ancient_fruit.sprites.seed),
+    id: "crops",
+    name: "Crops",
+  },
+  {
+    icon: atlasSprite("items", [
+      scarecrowX,
+      scarecrowY,
+      tabIconSize,
+      tabIconSize,
+    ]),
+    id: "items",
+    name: "Items",
+  },
+  {
+    icon: atlasSprite("items", [
+      plantX,
+      plantY + plantHeight - tabIconSize,
+      tabIconSize,
+      tabIconSize,
+    ]),
+    id: "decorations",
+    name: "Decorations",
+  },
+];
+
+const tabItemIds: Record<TItemTabId, string[]> = {
+  decorations: getTabItemIds("decorations"),
+  items: getTabItemIds("items"),
 };
 
 export default function SideMenu(props: IProps) {
-  const [currentMenu, setCurrentMenu] = createSignal<TCurrentMenu>("seeds");
+  const [currentTabId, setCurrentTabId] = createSignal(tabs[0].id);
+  const [searchText, setSearchText] = createSignal("");
+  const [openDropdownId, setOpenDropdownId] = createSignal<string>();
 
-  const showCrops = () => {
-    setCurrentMenu("seeds");
-  };
+  const isSearching = () => searchText().trim() !== "";
 
-  const showEquipment = () => {
-    setCurrentMenu("equipment");
-  };
+  const cropIds = createMemo(() =>
+    searchCropIds(getCropIdsInSeason(props.date), searchText()),
+  );
 
-  const showDecorations = () => {
-    setCurrentMenu("decorations");
-  };
+  const shownItemIds = createMemo(() => ({
+    decorations: new Set(searchItemIds(tabItemIds.decorations, searchText())),
+    items: new Set(searchItemIds(tabItemIds.items, searchText())),
+  }));
 
-  const showFile = () => {
-    setCurrentMenu("file");
-  };
+  const hasNoMatches = (tabId: TTabId) =>
+    isSearching() &&
+    (tabId === "crops"
+      ? cropIds().length === 0
+      : shownItemIds()[tabId].size === 0);
 
   return (
     <div class="SideMenu flex-vertical">
-      <div class="flex-horizontal flex-no-shrink">
-        <div
-          class={cn("sdv-tab", {
-            selected: currentMenu() === "seeds",
-          })}
-          data-testid="seeds-tab"
-          onClick={showCrops}
-        >
-          <Sprite {...atlasSprite("crops", tabIcons.seeds)} />
-        </div>
-        <div
-          class={cn("sdv-tab", {
-            selected: currentMenu() === "equipment",
-          })}
-          data-testid="equipment-tab"
-          onClick={showEquipment}
-        >
-          <Sprite {...atlasSprite("items", tabIcons.equipment)} />
-        </div>
-        <div
-          class={cn("sdv-tab", {
-            selected: currentMenu() === "decorations",
-          })}
-          data-testid="decorations-tab"
-          onClick={showDecorations}
-        >
-          <Sprite {...atlasSprite("items", tabIcons.decorations)} />
-        </div>
-        <div
-          class={cn("sdv-tab", {
-            selected: currentMenu() === "file",
-          })}
-          data-testid="file-tab"
-          onClick={showFile}
-        >
-          <BigText>File</BigText>
-        </div>
+      <div class="SideMenu--tabs" role="tablist">
+        <For each={tabs}>
+          {(tab) => (
+            <div
+              aria-label={tab.name}
+              aria-selected={tab.id === currentTabId()}
+              class={cn("sdv-tab", {
+                "no-matches": hasNoMatches(tab.id),
+                selected: tab.id === currentTabId(),
+              })}
+              data-testid={`${tab.id}-tab`}
+              onClick={() => {
+                setCurrentTabId(tab.id);
+              }}
+              role="tab"
+              title={tab.name}
+            >
+              <Sprite {...tab.icon} />
+            </div>
+          )}
+        </For>
       </div>
-      <SeedMenu
-        date={props.date}
-        isVisible={currentMenu() === "seeds"}
-        selectCrop={props.selectCrop}
-        selectedItem={props.selectedItem}
-      />
-      <EquipmentMenu
-        date={props.date}
-        equipmentIds={itemTabs.equipment}
-        isVisible={currentMenu() === "equipment"}
-        selectEquipment={props.selectEquipment}
-        selectedItem={props.selectedItem}
-      />
-      <EquipmentMenu
-        date={props.date}
-        equipmentIds={itemTabs.decorations}
-        isVisible={currentMenu() === "decorations"}
-        selectEquipment={props.selectEquipment}
-        selectedItem={props.selectedItem}
-      />
-      <FileMenu isVisible={currentMenu() === "file"} />
+      <div class="SideMenu--frame sdv-list">
+        <NameField
+          changeValue={setSearchText}
+          class="SideMenu--search"
+          label="Search"
+          placeholder="Search"
+          testId="side-menu--search"
+          value={searchText()}
+        />
+        <For each={tabs}>
+          {(tab) => (
+            <div
+              aria-label={tab.name}
+              class={cn("SideMenu--list", {
+                hidden: tab.id !== currentTabId(),
+              })}
+              data-testid={`side-menu--list-${tab.id}`}
+              role="tabpanel"
+            >
+              {tab.id === "crops" ? (
+                <SeedMenu
+                  cropIds={cropIds()}
+                  date={props.date}
+                  selectCrop={props.selectCrop}
+                  selectedItem={props.selectedItem}
+                />
+              ) : (
+                <EquipmentMenu
+                  date={props.date}
+                  equipmentIds={tabItemIds[tab.id]}
+                  openDropdownId={openDropdownId()}
+                  search={searchText()}
+                  selectEquipment={props.selectEquipment}
+                  selectedItem={props.selectedItem}
+                  setOpenDropdownId={setOpenDropdownId}
+                  shownIds={shownItemIds()[tab.id]}
+                />
+              )}
+            </div>
+          )}
+        </For>
+      </div>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import {
   isFarmId,
   loadFarmMap,
   loadFarmScene,
+  loadOneSeasonScene,
   peekFarmScene,
 } from "./farmMapLoader";
 
@@ -103,6 +104,29 @@ describe("isFarmId", () => {
 
   it.each(["Standard", "test", "", "hill-top"])("does not know %j", (id) => {
     expect(isFarmId(id)).toBe(false);
+  });
+});
+
+describe("loadOneSeasonScene", () => {
+  it("loads only the tilesheet images of the season", async () => {
+    mockFarmMapFetch({
+      preview: fileWithTilesheet({ spring: "spring_sheet" }),
+    });
+
+    const scene = await loadOneSeasonScene("preview", "spring");
+
+    expect(scene.season).toBe("spring");
+    expect(sheetSources(scene)).toEqual([
+      `${import.meta.env.BASE_URL}images/game/tilesheets/spring_sheet.png`,
+    ]);
+    expect(peekFarmScene("preview", "spring")).toBeUndefined();
+  });
+
+  it("gives the scene of a farm that is already loaded", async () => {
+    mockFarmMapFetch({ loaded: fileWithTilesheet(allSeasonImages) });
+    const scene = await loadFarmScene("loaded", "spring");
+
+    await expect(loadOneSeasonScene("loaded", "spring")).resolves.toBe(scene);
   });
 });
 

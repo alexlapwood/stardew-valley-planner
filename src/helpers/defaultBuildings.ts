@@ -25,15 +25,31 @@ export const greenhouseLooks: readonly TGreenhouseLook[] = [
   "repaired",
 ];
 
+// The first pet bowl look is the building's own sprite. The others are its
+// skins in buildings.json.
+export const petBowlLooks: readonly TPetBowlLook[] = [
+  "pet_bowl",
+  "hay_pet_bowl",
+  "stone_pet_bowl",
+];
+
+export interface ILookOption<T> {
+  look: T;
+  name: string;
+}
+
 const farmhouseLookKey = (house: TFarmhouseLook) => `upgrade_${house}`;
 
 const greenhouseLookKey = (greenhouse: TGreenhouseLook) => greenhouse;
+
+const petBowlLookKey = (petBowl: TPetBowlLook) => petBowl;
 
 const lookKeyBySpot: Partial<
   Record<keyof IFarmSpots, (looks: IFarmLooks) => string>
 > = {
   farmhouse: ({ house }) => farmhouseLookKey(house),
   greenhouse: ({ greenhouse }) => greenhouseLookKey(greenhouse),
+  petBowl: ({ petBowl }) => petBowlLookKey(petBowl),
 };
 
 const spotNames: (keyof IFarmSpots)[] = [
@@ -71,7 +87,43 @@ function findStartLook<T>(
 export const defaultFarmLooks: IFarmLooks = {
   greenhouse: findStartLook("greenhouse", greenhouseLooks, greenhouseLookKey),
   house: findStartLook("farmhouse", farmhouseLooks, farmhouseLookKey),
+  petBowl: "pet_bowl",
 };
+
+function findLook(building: IBuilding, lookKey: string) {
+  return building.looks?.[lookKey] ?? building.skins?.[lookKey];
+}
+
+function getLookOptions<T>(
+  buildingId: string,
+  looks: readonly T[],
+  lookKey: (look: T) => string,
+): ILookOption<T>[] {
+  const building = getBuilding(buildingId);
+
+  return looks.map((look) => ({
+    look,
+    name: findLook(building, lookKey(look))?.name ?? building.name,
+  }));
+}
+
+export const farmhouseLookOptions = getLookOptions(
+  "farmhouse",
+  farmhouseLooks,
+  farmhouseLookKey,
+);
+
+export const greenhouseLookOptions = getLookOptions(
+  "greenhouse",
+  greenhouseLooks,
+  greenhouseLookKey,
+);
+
+export const petBowlLookOptions = getLookOptions(
+  "pet_bowl",
+  petBowlLooks,
+  petBowlLookKey,
+);
 
 export function getDefaultBuildings(
   map: IFarmMap,
@@ -90,7 +142,9 @@ export function getDefaultBuildings(
 }
 
 function getLookSprite(building: IBuilding, lookKey: string | undefined) {
-  return lookKey === undefined ? undefined : building.looks?.[lookKey]?.sprite;
+  return lookKey === undefined
+    ? undefined
+    : findLook(building, lookKey)?.sprite;
 }
 
 export function getBuildingSprite(

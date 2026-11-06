@@ -118,7 +118,10 @@ type TFarmhouseLook = 0 | 1 | 2;
 
 type TGreenhouseLook = "broken" | "repaired";
 
+type TPetBowlLook = "hay_pet_bowl" | "pet_bowl" | "stone_pet_bowl";
+
 interface IFarmLooks {
   greenhouse: TGreenhouseLook;
   house: TFarmhouseLook;
+  petBowl: TPetBowlLook;
 }

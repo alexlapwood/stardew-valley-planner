@@ -1,21 +1,34 @@
 import "./StardewValleySeasonalPlanner.css";
 
-import { type Component, createSignal, type JSX, onMount } from "solid-js";
+import {
+  type Component,
+  createSignal,
+  type JSX,
+  onMount,
+  Show,
+} from "solid-js";
 
 import { imageUrls } from "../../__helpers__/images";
 import DatePicker from "../../components/DatePicker/DatePicker";
 import Farm from "../../components/Farm/Farm";
+import Header from "../../components/Header/Header";
+import PlanView from "../../components/PlanView/PlanView";
 import SideMenu from "../../components/SideMenu/SideMenu";
 import Toolbar from "../../components/Toolbar/Toolbar";
 import { crops } from "../../data/game/crops.json";
 import { getSeasonName } from "../../helpers/date";
-import { defaultFarmLooks } from "../../helpers/defaultBuildings";
 import {
-  type IFarmChoice,
+  hasDevFarmSwitch,
   parseDevFarmSwitch,
 } from "../../helpers/devFarmSwitch";
-import { defaultFarmId, type TFarmId } from "../../helpers/farmMapLoader";
-import { date, setDate } from "../../state/farm";
+import {
+  date,
+  openPlanFile,
+  planStore,
+  savePlanFile,
+  setDate,
+} from "../../state/farm";
+import { defaultPlanName, newFarmData } from "../../state/plan";
 
 interface Props extends JSX.HTMLAttributes<HTMLDivElement> {}
 
@@ -34,11 +47,28 @@ document.addEventListener("DOMContentLoaded", onResize);
 const plannerHeight = () => (800 * windowHeight()) / windowWidth();
 const plannerScale = () => windowWidth() / 800;
 
-// The farm menu does not exist yet, so in development the URL picks the farm
-// and its looks, for example ?farm=beach&house=2&greenhouse=repaired.
-const startFarm: IFarmChoice = import.meta.env.DEV
-  ? parseDevFarmSwitch(window.location.search)
-  : { farm: defaultFarmId, looks: defaultFarmLooks };
+// A new browser, like a headless one that takes screenshots, opens on the New
+// plan page and cannot click, so in development ?farm=beach adds a plan for
+// that farm and opens it in the editor.
+async function addDevFarmPlan() {
+  if (!import.meta.env.DEV || !hasDevFarmSwitch(window.location.search)) {
+    return;
+  }
+
+  const farm = parseDevFarmSwitch(window.location.search);
+
+  await planStore.addPlan(
+    newFarmData(farm),
+    defaultPlanName(farm, planStore.plans()),
+  );
+  // A reload must not add the plan again.
+  window.history.replaceState(null, "", window.location.pathname);
+}
+
+async function loadPlans() {
+  await planStore.start();
+  await addDevFarmPlan();
+}
 
 export const StardewValleySeasonalPlanner: Component<Props> = ({
   class: className,
@@ -46,8 +76,6 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
 }) => {
   document.title = "Stardew Valley Seasonal Planner";
 
-  const [currentFarm] = createSignal<TFarmId>(startFarm.farm);
-  const [farmLooks] = createSignal<IFarmLooks>(startFarm.looks);
   const [images, setImages] = createSignal<HTMLImageElement[]>([]);
   const [isLoading, setIsLoading] = createSignal(true);
   const [loadingMessage, setLoadingMessage] = createSignal("loading...");
@@ -90,11 +118,24 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
   });
 
   async function loadImages() {
-    try {
-      setImages(await Promise.all(imagePromises));
-    } catch (error) {
-      console.error("Could not load the images.", error);
+    setImages(await Promise.all(imagePromises));
+  }
+
+  async function loadPage() {
+    const [imagesResult, plansResult] = await Promise.allSettled([
+      loadImages(),
+      loadPlans(),
+    ]);
+
+    if (imagesResult.status === "rejected") {
+      console.error("Could not load the images.", imagesResult.reason);
       setLoadingMessage("Could not load the images. Reload the page.");
+      return;
+    }
+
+    if (plansResult.status === "rejected") {
+      console.error("Could not load the plans.", plansResult.reason);
+      setLoadingMessage("Could not load the plans. Reload the page.");
       return;
     }
 
@@ -102,66 +143,88 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
   }
 
   onMount(() => {
-    void loadImages();
+    void loadPage();
   });
 
   return (
-    <>
-      {isLoading() ? (
-        <div>{loadingMessage()}</div>
-      ) : (
-        <div
-          class={`pageStardewValleySeasonalPlanner ${className}`}
-          style={{
-            height: plannerHeight() + "px",
-            transform: "scale(" + plannerScale() + ")",
-          }}
-          {...attributes}
-        >
-          <div class="flex-horizontal" style={{ height: "100%" }}>
-            <div class="flex-vertical flex overflow-hidden">
-              <div class="relative flex overflow-hidden">
-                <Farm
-                  currentFarm={currentFarm()}
-                  date={date()}
-                  disableToolbars={(disabled: boolean) => {
-                    setToolbarsDisabled(disabled);
-                  }}
-                  images={images()}
-                  looks={farmLooks()}
-                  selectedItem={selectedItem()}
-                  zoom={1}
-                />
-                <Toolbar
-                  images={images()}
-                  isDisabled={toolbarsDisabled()}
-                  selectTool={(toolId: string) => {
-                    setSelectedItem({ id: toolId, type: "tool" });
-                  }}
-                  selectedItem={selectedItem()}
-                />
-                <DatePicker
-                  changeDate={changeDate}
-                  date={date()}
-                  isDisabled={toolbarsDisabled()}
-                />
+    <Show fallback={<div>{loadingMessage()}</div>} when={!isLoading()}>
+      <div
+        class={`pageStardewValleySeasonalPlanner ${className}`}
+        style={{
+          height: plannerHeight() + "px",
+          transform: "scale(" + plannerScale() + ")",
+        }}
+        {...attributes}
+      >
+        <PlanView images={images()} openFile={openPlanFile} store={planStore}>
+          {(plan, openNewPlan) => (
+            <div class="flex-vertical" style={{ height: "100%" }}>
+              <Header
+                changeLooks={(looks) => {
+                  planStore.setLooks(looks);
+                }}
+                changePlan={(id) => {
+                  void planStore.openPlan(id);
+                }}
+                deletePlan={(id) => {
+                  void planStore.deletePlan(id);
+                }}
+                looks={plan().looks}
+                newPlan={openNewPlan}
+                openFile={openPlanFile}
+                plan={plan()}
+                plans={planStore.plans()}
+                renamePlan={(id, name) => {
+                  void planStore.renamePlan(id, name);
+                }}
+                saveFile={savePlanFile}
+              />
+              <div class="flex-horizontal flex overflow-hidden">
+                <div class="flex-vertical flex overflow-hidden">
+                  <div class="relative flex overflow-hidden">
+                    <Farm
+                      currentFarm={plan().farm}
+                      date={date()}
+                      disableToolbars={(disabled: boolean) => {
+                        setToolbarsDisabled(disabled);
+                      }}
+                      images={images()}
+                      looks={plan().looks}
+                      selectedItem={selectedItem()}
+                      zoom={1}
+                    />
+                    <Toolbar
+                      images={images()}
+                      isDisabled={toolbarsDisabled()}
+                      selectTool={(toolId: string) => {
+                        setSelectedItem({ id: toolId, type: "tool" });
+                      }}
+                      selectedItem={selectedItem()}
+                    />
+                    <DatePicker
+                      changeDate={changeDate}
+                      date={date()}
+                      isDisabled={toolbarsDisabled()}
+                    />
+                  </div>
+                </div>
+                <div style={{ width: "200px" }}>
+                  <SideMenu
+                    date={date()}
+                    selectCrop={(cropId: string) => {
+                      setSelectedItem({ id: cropId, type: "crop" });
+                    }}
+                    selectEquipment={(id: string, skin: string) => {
+                      setSelectedItem({ id, skin, type: "equipment" });
+                    }}
+                    selectedItem={selectedItem()}
+                  />
+                </div>
               </div>
             </div>
-            <div style={{ width: "200px" }}>
-              <SideMenu
-                date={date()}
-                selectCrop={(cropId: string) => {
-                  setSelectedItem({ id: cropId, type: "crop" });
-                }}
-                selectEquipment={(id: string, skin: string) => {
-                  setSelectedItem({ id, skin, type: "equipment" });
-                }}
-                selectedItem={selectedItem()}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+          )}
+        </PlanView>
+      </div>
+    </Show>
   );
 };

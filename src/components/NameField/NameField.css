@@ -1,0 +1,49 @@
+@layer components {
+  .NameField {
+    background: #ffd284;
+    background-clip: padding-box;
+    border-image: url("../../images/list-border.png") 5 stretch;
+    border-style: solid;
+    border-width: 5px;
+    display: block;
+    height: 26px;
+    min-width: 0;
+    position: relative;
+    text-align: left;
+  }
+
+  .NameField--text {
+    display: flex;
+    flex-direction: column;
+    inset: 0 var(--NameField-indent, 4px);
+    justify-content: center;
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  /* The letters must stay on top of the input letters, so a long name scrolls
+     with the input instead of shrinking to fit. */
+  .NameField--text > div {
+    width: max-content;
+  }
+
+  .NameField--placeholder {
+    opacity: 0.5;
+  }
+
+  /* The typed letters are hidden under the bitmap font, so each letter takes
+     one 8 px font cell and the caret stays next to the letter it follows. */
+  .NameField--input {
+    background: none;
+    border: none;
+    caret-color: #56160c;
+    color: transparent;
+    font: 12px monospace;
+    height: 100%;
+    letter-spacing: calc(8px - 1ch);
+    outline: none;
+    padding: 0 var(--NameField-indent, 4px);
+    width: 100%;
+  }
+}

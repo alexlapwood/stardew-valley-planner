@@ -52,7 +52,7 @@ Profit/day: 3.21g"
 exports[`<SeedMenu /> > renders correctly 1`] = `
 <div>
   <div
-    class="SeedMenu sdv-list"
+    class="SeedMenu"
   >
     <div
       class="sdv-list-item"

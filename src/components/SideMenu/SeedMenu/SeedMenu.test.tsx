@@ -1,11 +1,14 @@
 import { fireEvent, render, screen } from "@solidjs/testing-library";
 
+import { getCropIdsInSeason } from "../sideMenuItems";
 import SeedMenu from "./SeedMenu";
+
+const cropIds = getCropIdsInSeason(0);
 
 describe("<SeedMenu />", () => {
   it("renders correctly", () => {
     const { container } = render(() => (
-      <SeedMenu date={0} isVisible={true} selectCrop={vitest.fn()} />
+      <SeedMenu cropIds={cropIds} date={0} selectCrop={vitest.fn()} />
     ));
 
     expect(container).toMatchSnapshot();
@@ -15,7 +18,7 @@ describe("<SeedMenu />", () => {
     const selectCropMock = vitest.fn();
 
     render(() => (
-      <SeedMenu date={0} isVisible={true} selectCrop={selectCropMock} />
+      <SeedMenu cropIds={cropIds} date={0} selectCrop={selectCropMock} />
     ));
 
     fireEvent.click(screen.getByTestId("seed--green_bean"));
@@ -26,7 +29,7 @@ describe("<SeedMenu />", () => {
   describe("Crops that don't regrow", () => {
     it("calculates the profit correctly", () => {
       render(() => (
-        <SeedMenu date={0} isVisible={true} selectCrop={vitest.fn()} />
+        <SeedMenu cropIds={cropIds} date={0} selectCrop={vitest.fn()} />
       ));
 
       const tooltip = screen.getByTestId("seed--parsnip").getAttribute("title");
@@ -36,7 +39,7 @@ describe("<SeedMenu />", () => {
 
     it("calculates the profit correctly for year 2", () => {
       render(() => (
-        <SeedMenu date={28 * 4} isVisible={true} selectCrop={vitest.fn()} />
+        <SeedMenu cropIds={cropIds} date={28 * 4} selectCrop={vitest.fn()} />
       ));
 
       const tooltip = screen.getByTestId("seed--parsnip").getAttribute("title");
@@ -46,7 +49,7 @@ describe("<SeedMenu />", () => {
 
     it("calculates the profit correctly for crops planted just before they go out of season", () => {
       render(() => (
-        <SeedMenu date={23} isVisible={true} selectCrop={vitest.fn()} />
+        <SeedMenu cropIds={cropIds} date={23} selectCrop={vitest.fn()} />
       ));
 
       const tooltip = screen.getByTestId("seed--parsnip").getAttribute("title");
@@ -56,7 +59,7 @@ describe("<SeedMenu />", () => {
 
     it("calculates the profit correctly for crops planted out of season", () => {
       render(() => (
-        <SeedMenu date={24} isVisible={true} selectCrop={vitest.fn()} />
+        <SeedMenu cropIds={cropIds} date={24} selectCrop={vitest.fn()} />
       ));
 
       const tooltip = screen.getByTestId("seed--parsnip").getAttribute("title");
@@ -68,7 +71,7 @@ describe("<SeedMenu />", () => {
   describe("Crops that don regrow", () => {
     it("calculates the profit correctly", () => {
       render(() => (
-        <SeedMenu date={0} isVisible={true} selectCrop={vitest.fn()} />
+        <SeedMenu cropIds={cropIds} date={0} selectCrop={vitest.fn()} />
       ));
 
       const tooltip = screen
@@ -80,7 +83,7 @@ describe("<SeedMenu />", () => {
 
     it("calculates the profit correctly for crops planted just before they go out of season", () => {
       render(() => (
-        <SeedMenu date={23} isVisible={true} selectCrop={vitest.fn()} />
+        <SeedMenu cropIds={cropIds} date={23} selectCrop={vitest.fn()} />
       ));
 
       const tooltip = screen
@@ -91,7 +94,7 @@ describe("<SeedMenu />", () => {
 
     it("calculates the profit correctly for crops planted out of season", () => {
       render(() => (
-        <SeedMenu date={24} isVisible={true} selectCrop={vitest.fn()} />
+        <SeedMenu cropIds={cropIds} date={24} selectCrop={vitest.fn()} />
       ));
 
       const tooltip = screen

@@ -1,23 +1,21 @@
 import cn from "clsx";
-import { For, Show } from "solid-js";
+import { For } from "solid-js";
 
 import { crops } from "../../../data/game/crops.json";
 import { atlasSprite } from "../../../helpers/atlas";
-import { getSeedCost, isInSeedMenu } from "../../../helpers/crop";
-import { getSeasonName, getYear } from "../../../helpers/date";
+import { getSeedCost } from "../../../helpers/crop";
+import { getYear } from "../../../helpers/date";
 import BigText from "../../BigText/BigText";
 import Sprite from "../../Sprite/Sprite";
 
 interface IProps {
+  cropIds: string[];
   date: number;
-  isVisible: boolean;
   selectCrop: (cropId: string) => void;
   selectedItem?: ISelectedItem;
 }
 
 export default function SeedMenu(props: IProps) {
-  const cropIds = Object.keys(crops).toSorted((a, b) => a.localeCompare(b));
-
   const getLastDayOfYearForCrop = (crop: ICrop) => {
     let lastDay = 0;
 
@@ -86,39 +84,31 @@ export default function SeedMenu(props: IProps) {
   };
 
   return (
-    <Show when={props.isVisible}>
-      <div class="SeedMenu sdv-list">
-        <For
-          each={cropIds
-            .filter((cropId) => isInSeedMenu(crops[cropId]))
-            .filter((cropId) =>
-              crops[cropId].seasons.includes(getSeasonName(props.date)),
-            )}
-        >
-          {(cropId) => (
-            <div
-              class={cn("sdv-list-item", {
-                selected:
-                  props.selectedItem !== undefined &&
-                  props.selectedItem.type === "crop" &&
-                  props.selectedItem.id === cropId,
-              })}
-              data-testid={`seed--${cropId}`}
-              onClick={() => {
-                props.selectCrop(cropId);
-              }}
-              title={getTooltip(crops[cropId])}
-            >
-              <div class="sdv-list-item-icon">
-                <Sprite {...atlasSprite("crops", crops[cropId].sprites.seed)} />
-              </div>
-              <div>
-                <BigText>{crops[cropId].name}</BigText>
-              </div>
+    <div class="SeedMenu">
+      <For each={props.cropIds}>
+        {(cropId) => (
+          <div
+            class={cn("sdv-list-item", {
+              selected:
+                props.selectedItem !== undefined &&
+                props.selectedItem.type === "crop" &&
+                props.selectedItem.id === cropId,
+            })}
+            data-testid={`seed--${cropId}`}
+            onClick={() => {
+              props.selectCrop(cropId);
+            }}
+            title={getTooltip(crops[cropId])}
+          >
+            <div class="sdv-list-item-icon">
+              <Sprite {...atlasSprite("crops", crops[cropId].sprites.seed)} />
             </div>
-          )}
-        </For>
-      </div>
-    </Show>
+            <div>
+              <BigText>{crops[cropId].name}</BigText>
+            </div>
+          </div>
+        )}
+      </For>
+    </div>
   );
 }

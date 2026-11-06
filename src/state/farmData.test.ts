@@ -18,17 +18,26 @@ const validEquipment = {
   y: 3,
 };
 
-function farmWithCrop(crop: unknown) {
-  return { crops: { 3: { 5: [crop] } }, date: 0, equipment: {}, version: 2 };
-}
+const looks = { greenhouse: "repaired", house: 2, petBowl: "hay_pet_bowl" };
 
-function farmWithEquipment(equipment: unknown) {
+function farmFile(fields: Record<string, unknown> = {}) {
   return {
     crops: {},
     date: 0,
-    equipment: { 3: { 7: [equipment] } },
-    version: 2,
+    equipment: {},
+    farm: "beach",
+    looks,
+    version: 3,
+    ...fields,
   };
+}
+
+function farmWithCrop(crop: unknown) {
+  return farmFile({ crops: { 3: { 5: [crop] } } });
+}
+
+function farmWithEquipment(equipment: unknown) {
+  return farmFile({ equipment: { 3: { 7: [equipment] } } });
 }
 
 function withoutField(cell: Record<string, unknown>, field: string) {
@@ -44,7 +53,7 @@ function isGoodFarm(value: unknown) {
 describe("Farm data", () => {
   describe("readFarmData", () => {
     it("accepts a valid farm", () => {
-      const farm = {
+      const farm = farmFile({
         crops: {
           3: {
             5: [validCrop, { ...validCrop, dateDestroyed: undefined }],
@@ -75,46 +84,108 @@ describe("Farm data", () => {
             ],
           },
         },
-        version: 2,
-      };
+      });
 
       expect(readFarmData(farm)).toEqual({
         badItems: [],
-        farm: { crops: farm.crops, date: 12, equipment: farm.equipment },
+        data: {
+          crops: farm.crops,
+          date: 12,
+          equipment: farm.equipment,
+          farm: "beach",
+          looks,
+        },
       });
     });
 
     it("accepts a farm with no crops or equipment", () => {
-      expect(
-        isGoodFarm({ crops: {}, date: 0, equipment: {}, version: 2 }),
-      ).toBe(true);
+      expect(isGoodFarm(farmFile())).toBe(true);
     });
 
     it("does not read a farm with an unknown version", () => {
-      expect(
-        readFarmData({ crops: {}, date: 0, equipment: {}, version: 3 }),
-      ).toBeUndefined();
+      const theories = [2, 4, undefined, "3"];
+
+      theories.forEach((theory) => {
+        expect(readFarmData(farmFile({ version: theory }))).toBeUndefined();
+      });
+    });
+
+    it("does not read a farm with no farm type or an unknown farm type", () => {
+      const theories = [undefined, "", "Beach", "toString", 1];
+
+      theories.forEach((theory) => {
+        expect(readFarmData(farmFile({ farm: theory }))).toBeUndefined();
+      });
+    });
+
+    it("does not read a farm with no looks", () => {
+      const theories = [undefined, null, [], "repaired"];
+
+      theories.forEach((theory) => {
+        expect(readFarmData(farmFile({ looks: theory }))).toBeUndefined();
+      });
     });
 
     it("does not read a value that is not a farm", () => {
-      const theories = [null, [], { crops: {}, date: "0", equipment: {} }];
+      const theories = [null, [], farmFile({ date: "0" })];
 
       theories.forEach((theory) => {
         expect(readFarmData(theory)).toBeUndefined();
       });
     });
 
+    it("uses the start look for a look it does not know, and reports it", () => {
+      const result = readFarmData(
+        farmFile({
+          looks: { greenhouse: "fixed", house: 3, petBowl: "gold_pet_bowl" },
+        }),
+      );
+
+      expect(result?.data.looks).toEqual({
+        greenhouse: "broken",
+        house: 0,
+        petBowl: "pet_bowl",
+      });
+      expect(result?.badItems).toEqual([
+        { path: "looks.greenhouse", value: "fixed" },
+        { path: "looks.house", value: 3 },
+        { path: "looks.petBowl", value: "gold_pet_bowl" },
+      ]);
+    });
+
+    it("uses the pet bowl with no skin when the looks have no pet bowl, and reports it", () => {
+      const result = readFarmData(
+        farmFile({ looks: { greenhouse: "repaired", house: 2 } }),
+      );
+
+      expect(result?.data.looks).toEqual({
+        greenhouse: "repaired",
+        house: 2,
+        petBowl: "pet_bowl",
+      });
+      expect(result?.badItems).toEqual([
+        { path: "looks.petBowl", value: undefined },
+      ]);
+    });
+
+    it.each(["pet_bowl", "hay_pet_bowl", "stone_pet_bowl"])(
+      "reads the %s pet bowl look",
+      (petBowl) => {
+        const result = readFarmData(farmFile({ looks: { ...looks, petBowl } }));
+
+        expect(result?.data.looks.petBowl).toBe(petBowl);
+        expect(result?.badItems).toEqual([]);
+      },
+    );
+
     it("drops only the bad cells and keeps the good ones", () => {
-      const farm = {
+      const farm = farmFile({
         crops: { 3: { 5: [validCrop, { ...validCrop, cropId: "nope" }] } },
-        date: 0,
-        equipment: {},
-        version: 2,
-      };
+      });
 
       const result = readFarmData(farm);
 
-      expect(result?.farm.crops).toEqual({ 3: { 5: [validCrop] } });
+      expect(result?.data.crops).toEqual({ 3: { 5: [validCrop] } });
       expect(result?.badItems).toEqual([
         { path: "crops[3][5][1]", value: { ...validCrop, cropId: "nope" } },
       ]);
@@ -122,10 +193,10 @@ describe("Farm data", () => {
 
     it("rejects a farm when a row or a tile is not the right shape", () => {
       const theories = [
-        { crops: { 3: [] }, date: 0, equipment: {}, version: 2 },
-        { crops: { 3: { 5: validCrop } }, date: 0, equipment: {}, version: 2 },
-        { crops: {}, date: 0, equipment: { 3: null }, version: 2 },
-        { crops: {}, date: 0, equipment: { 3: { 7: {} } }, version: 2 },
+        farmFile({ crops: { 3: [] } }),
+        farmFile({ crops: { 3: { 5: validCrop } } }),
+        farmFile({ equipment: { 3: null } }),
+        farmFile({ equipment: { 3: { 7: {} } } }),
       ];
 
       theories.forEach((theory) => {
@@ -181,25 +252,6 @@ describe("Farm data", () => {
       expect(
         isGoodFarm(farmWithCrop({ ...validCrop, cropId: "cactus_fruit" })),
       ).toBe(true);
-    });
-
-    it("keeps a V1 cactus cell as cactus fruit", () => {
-      const cactusV1 = { ...validCrop, cropId: "cactus" };
-
-      expect(
-        readFarmData({
-          crops: { 3: { 5: [cactusV1] } },
-          date: 0,
-          equipment: {},
-        }),
-      ).toEqual({
-        badItems: [],
-        farm: {
-          crops: { 3: { 5: [{ ...cactusV1, cropId: "cactus_fruit" }] } },
-          date: 0,
-          equipment: {},
-        },
-      });
     });
 
     it("rejects a crop cell that is not at its own tile", () => {
@@ -271,6 +323,7 @@ describe("Farm data", () => {
         { ...validEquipment, equipmentId: "sprinkler", skin: "scarecrow" },
         { ...validEquipment, equipmentId: "keg", skin: "toString" },
         { ...validEquipment, equipmentId: "keg", skin: "" },
+        { ...withoutField(validEquipment, "skin"), skinIndex: 2 },
       ];
 
       theories.forEach((theory) => {
@@ -300,10 +353,9 @@ describe("Farm data", () => {
         [0, 7, 15].forEach((variant) => {
           const cell = { ...steppingStone, variant };
 
-          expect(readFarmData(farmWithEquipment(cell))).toEqual({
-            badItems: [],
-            farm: { crops: {}, date: 0, equipment: { 3: { 7: [cell] } } },
-          });
+          expect(readFarmData(farmWithEquipment(cell))?.data.equipment).toEqual(
+            { 3: { 7: [cell] } },
+          );
         });
       });
 
@@ -317,17 +369,19 @@ describe("Farm data", () => {
             ),
           ).toEqual({
             badItems: [],
-            farm: {
+            data: {
               crops: {},
               date: 0,
               equipment: { 3: { 7: [steppingStone] } },
+              farm: "beach",
+              looks,
             },
           });
         });
       });
 
       it("does not add a variant to a cell that has none", () => {
-        const cell = readFarmData(farmWithEquipment(steppingStone))?.farm
+        const cell = readFarmData(farmWithEquipment(steppingStone))?.data
           .equipment[3][7][0];
 
         expect(cell).toEqual(steppingStone);
@@ -337,18 +391,37 @@ describe("Farm data", () => {
   });
 
   describe("toSavedFarmData", () => {
-    it("saves the farm with version 2, and reads it back", () => {
+    it("saves the farm type, the looks and the items with version 3, and reads them back", () => {
       const farm = farmWithEquipment(validEquipment);
       const saved: unknown = JSON.parse(
         toSavedFarmData({
           crops: {},
           date: 0,
           equipment: { 3: { 7: [validEquipment] } },
+          farm: "beach",
+          looks: { greenhouse: "repaired", house: 2, petBowl: "hay_pet_bowl" },
         } as Parameters<typeof toSavedFarmData>[0]),
       );
 
       expect(saved).toEqual(farm);
       expect(isGoodFarm(saved)).toBe(true);
+    });
+
+    it("does not save the plan ID or the plan name", () => {
+      const saved: unknown = JSON.parse(
+        toSavedFarmData({
+          crops: {},
+          date: 0,
+          equipment: {},
+          farm: "standard",
+          id: "abc",
+          looks: { greenhouse: "broken", house: 0, petBowl: "pet_bowl" },
+          name: "My farm",
+        } as Parameters<typeof toSavedFarmData>[0]),
+      );
+
+      expect(saved).not.toHaveProperty("id");
+      expect(saved).not.toHaveProperty("name");
     });
   });
 });

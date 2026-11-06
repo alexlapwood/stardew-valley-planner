@@ -1,17 +1,23 @@
-import { render } from "@solidjs/testing-library";
+import { fireEvent, render, screen, within } from "@solidjs/testing-library";
+import { createSignal } from "solid-js";
 
-import { items } from "../../../data/game/items.json";
 import EquipmentMenu from "./EquipmentMenu";
-import { itemTabs } from "./itemTabs";
+
+function openSkins(container: HTMLElement) {
+  return Array.from(
+    container.querySelectorAll<HTMLElement>(".margin-left > .sdv-list-item"),
+    (option) => option.dataset.testid,
+  );
+}
 
 describe("<EquipmentMenu />", () => {
   it("renders correctly", () => {
     const { container } = render(() => (
       <EquipmentMenu
         date={0}
-        equipmentIds={itemTabs.equipment.slice(0, 3)}
-        isVisible={true}
+        equipmentIds={["scarecrow", "sprinkler", "fence"]}
         selectEquipment={vitest.fn()}
+        setOpenDropdownId={vitest.fn()}
       />
     ));
 
@@ -25,8 +31,8 @@ describe("<EquipmentMenu />", () => {
       <EquipmentMenu
         date={0}
         equipmentIds={equipmentIds}
-        isVisible={true}
         selectEquipment={vitest.fn()}
+        setOpenDropdownId={vitest.fn()}
       />
     ));
 
@@ -34,12 +40,52 @@ describe("<EquipmentMenu />", () => {
       equipmentIds.length,
     );
   });
-});
 
-describe("itemTabs", () => {
-  it("puts every item in exactly one tab", () => {
-    const tabbedIds = [...itemTabs.equipment, ...itemTabs.decorations];
+  it("opens only the dropdown of the open id", () => {
+    const { container } = render(() => (
+      <EquipmentMenu
+        date={0}
+        equipmentIds={["scarecrow", "sprinkler", "fence"]}
+        openDropdownId="sprinkler"
+        selectEquipment={vitest.fn()}
+        setOpenDropdownId={vitest.fn()}
+      />
+    ));
 
-    expect(tabbedIds.toSorted()).toEqual(Object.keys(items).toSorted());
+    expect(openSkins(container)).toEqual([
+      "equipment-sprinkler--sprinkler",
+      "equipment-sprinkler--quality_sprinkler",
+      "equipment-sprinkler--iridium_sprinkler",
+    ]);
+  });
+
+  it("opens a dropdown by its item id, and closes it", () => {
+    const [openDropdownId, setOpenDropdownId] = createSignal<string>();
+    const changeOpenDropdownId = vitest.fn((id: string | undefined) => {
+      setOpenDropdownId(id);
+    });
+
+    const { container } = render(() => (
+      <EquipmentMenu
+        date={0}
+        equipmentIds={["scarecrow", "sprinkler", "fence"]}
+        openDropdownId={openDropdownId()}
+        selectEquipment={vitest.fn()}
+        setOpenDropdownId={changeOpenDropdownId}
+      />
+    ));
+
+    const fenceTrigger = within(
+      screen.getByTestId("equipment-fence--wood_fence"),
+    ).getByTestId("equipment-dropdown--trigger");
+
+    fireEvent.click(fenceTrigger);
+
+    expect(changeOpenDropdownId).toHaveBeenLastCalledWith("fence");
+
+    fireEvent.click(fenceTrigger);
+
+    expect(changeOpenDropdownId).toHaveBeenLastCalledWith(undefined);
+    expect(openSkins(container)).toEqual([]);
   });
 });

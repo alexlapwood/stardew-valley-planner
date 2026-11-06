@@ -3,9 +3,13 @@ import { buildings } from "../data/game/buildings.json";
 import {
   defaultFarmLooks,
   drawDefaultBuildingShadows,
+  farmhouseLookOptions,
   getBuildingSprite,
   getDefaultBuildingDraws,
   getDefaultBuildings,
+  greenhouseLookOptions,
+  petBowlLookOptions,
+  petBowlLooks,
   type TShadowLayer,
 } from "./defaultBuildings";
 import { renderSortedDraws } from "./renderSorted";
@@ -47,14 +51,50 @@ function drawShadows(layer: TShadowLayer) {
 }
 
 describe("defaultFarmLooks", () => {
-  it("are the start looks of the farmhouse and the greenhouse in buildings.json", () => {
+  it("are the start looks of the farmhouse and the greenhouse in buildings.json, and the pet bowl with no skin", () => {
     const [farmhouse, greenhouse] = getDefaultBuildings(testFarmMap);
 
     expect([farmhouse.lookKey, greenhouse.lookKey]).toEqual([
       buildings.farmhouse.startLook,
       buildings.greenhouse.startLook,
     ]);
-    expect(defaultFarmLooks).toEqual({ greenhouse: "broken", house: 0 });
+    expect(defaultFarmLooks).toEqual({
+      greenhouse: "broken",
+      house: 0,
+      petBowl: "pet_bowl",
+    });
+  });
+});
+
+describe("look options", () => {
+  it("have the names of the looks in buildings.json", () => {
+    expect(farmhouseLookOptions).toEqual([
+      { look: 0, name: "Start" },
+      { look: 1, name: "Upgrade 1" },
+      { look: 2, name: "Upgrades 2 and 3" },
+    ]);
+    expect(greenhouseLookOptions).toEqual([
+      { look: "broken", name: "Broken" },
+      { look: "repaired", name: "Repaired" },
+    ]);
+  });
+
+  it("have the pet bowl with no skin first, then each pet bowl skin in buildings.json", () => {
+    const skins = buildings.pet_bowl.skins ?? {};
+
+    expect(petBowlLooks).toEqual(["pet_bowl", ...Object.keys(skins)]);
+    expect(petBowlLookOptions).toEqual([
+      { look: "pet_bowl", name: buildings.pet_bowl.name },
+      ...Object.entries(skins).map(([look, skin]) => ({
+        look,
+        name: skin?.name,
+      })),
+    ]);
+    expect(petBowlLookOptions.map(({ name }) => name)).toEqual([
+      "Pet Bowl",
+      "Hay Pet Bowl",
+      "Stone Pet Bowl",
+    ]);
   });
 });
 
@@ -73,19 +113,20 @@ describe("getDefaultBuildings", () => {
     ]);
   });
 
-  it("gives the start house and the broken greenhouse when no looks are given", () => {
+  it("gives the start house, the broken greenhouse and the pet bowl with no skin when no looks are given", () => {
     expect(
       getDefaultBuildings(testFarmMap).map(({ lookKey }) => lookKey),
-    ).toEqual(["upgrade_0", "broken", undefined, undefined]);
+    ).toEqual(["upgrade_0", "broken", "pet_bowl", undefined]);
   });
 
-  it("gives the look key of the farmhouse and the greenhouse from the farm looks", () => {
+  it("gives the look key of the farmhouse, the greenhouse and the pet bowl from the farm looks", () => {
     expect(
       getDefaultBuildings(testFarmMap, {
         greenhouse: "repaired",
         house: 2,
+        petBowl: "stone_pet_bowl",
       }).map(({ lookKey }) => lookKey),
-    ).toEqual(["upgrade_2", "repaired", undefined, undefined]);
+    ).toEqual(["upgrade_2", "repaired", "stone_pet_bowl", undefined]);
   });
 });
 
@@ -140,6 +181,21 @@ describe("getBuildingSprite", () => {
       brokenSprite.sprite,
     );
   });
+
+  it("uses the sprite of the skin, in the season", () => {
+    const hay = buildings.pet_bowl.skins?.hay_pet_bowl?.sprite;
+
+    expect(
+      getBuildingSprite(buildings.pet_bowl, "fall", "hay_pet_bowl"),
+    ).toEqual({ offset: hay?.offset, rect: hay?.seasons?.fall });
+  });
+
+  it("uses the sprite of the building for the pet bowl with no skin", () => {
+    expect(getBuildingSprite(buildings.pet_bowl, "fall", "pet_bowl")).toEqual({
+      offset: buildings.pet_bowl.sprite.offset,
+      rect: buildings.pet_bowl.sprite.seasons?.fall,
+    });
+  });
 });
 
 describe("getDefaultBuildingDraws", () => {
@@ -168,6 +224,7 @@ describe("getDefaultBuildingDraws", () => {
 
   it("draws the farmhouse and the greenhouse with the sprites of the farm looks", () => {
     const { calls } = drawBuildings("spring", {
+      ...defaultFarmLooks,
       greenhouse: "repaired",
       house: 2,
     });
@@ -177,6 +234,22 @@ describe("getDefaultBuildingDraws", () => {
       [356, 1168, 178, 144, 59 * 16 - 16, 12 * 16 - 62, 178, 144],
     ]);
   });
+
+  it.each([
+    ["hay_pet_bowl", "spring", 256],
+    ["hay_pet_bowl", "winter", 352],
+    ["stone_pet_bowl", "summer", 160],
+  ] as const)(
+    "draws the %s skin of the pet bowl in %s, at the same spot",
+    (petBowl, season, x) => {
+      const { calls } = drawBuildings(season, {
+        ...defaultFarmLooks,
+        petBowl,
+      });
+
+      expect(calls[0]).toEqual([x, 1984, 32, 32, 53 * 16, 7 * 16, 32, 32]);
+    },
+  );
 });
 
 describe("drawDefaultBuildingShadows", () => {

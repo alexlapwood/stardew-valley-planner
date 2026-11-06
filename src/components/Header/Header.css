@@ -1,0 +1,155 @@
+@layer components {
+  .Header {
+    align-items: center;
+    display: grid;
+    flex-shrink: 0;
+    gap: 8px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    position: relative;
+    z-index: 10;
+  }
+
+  .Header--buttons {
+    display: flex;
+    flex-shrink: 0;
+    gap: 4px;
+  }
+
+  .Header--button.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .Header--label {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+    margin: -5px 0;
+  }
+
+  .Header--icon {
+    flex-shrink: 0;
+    font-size: 12px;
+    line-height: 12px;
+  }
+
+  /* The grid cell ends at the gap before the buttons, and the switcher grows
+     10% when it is hovered or open, so it must not grow into the gap. */
+  .PlanSwitcher {
+    justify-self: start;
+    max-width: calc(100% / 1.1);
+    min-width: 0;
+    position: relative;
+  }
+
+  .PlanSwitcher--name {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .PlanSwitcher--arrow {
+    flex-shrink: 0;
+  }
+
+  /* The side panel is the right 200 px of the 800 px page, so the list stops
+     8 px before it, like the gap in the header. */
+  .PlanSwitcher--list {
+    background-color: #ffd284;
+    left: 0;
+    max-height: 240px;
+    max-width: 592px;
+    min-width: 100%;
+    position: absolute;
+    text-align: left;
+    top: 100%;
+    width: max-content;
+    z-index: 2;
+  }
+
+  .PlanSwitcher--new-plan {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+  }
+
+  .PlanSwitcher--heading {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+    padding: 6px 4px 2px;
+  }
+
+  .PlanRow {
+    gap: 4px;
+    padding-right: 2px;
+  }
+
+  .PlanRow--text {
+    flex: 1;
+    margin: 0 8px;
+    min-width: 0;
+  }
+
+  /* The buttons are taller than a row, and they overlap the row frame so that
+     the row does not grow. */
+  .PlanRow--button {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    margin: -4px 0;
+    padding: 0 2px;
+  }
+
+  .PlanRow--renaming {
+    position: relative;
+    visibility: hidden;
+  }
+
+  /* The field covers the hidden row, so it has the same size, and the name
+     does not move when the field opens. */
+  .PlanSwitcher .PlanRow--name {
+    --NameField-indent: 8px;
+
+    height: auto;
+    inset: -5px;
+    position: absolute;
+    visibility: visible;
+  }
+
+  .UpgradesMenu {
+    position: relative;
+  }
+
+  /* A hovered option grows past the padding, and the list is too short to
+     scroll. */
+  .UpgradesMenu--list {
+    align-items: center;
+    background-color: #ffd284;
+    display: grid;
+    gap: 4px 8px;
+    grid-template-columns: max-content max-content;
+    overflow: visible;
+    padding: 2px 4px;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 2;
+  }
+
+  .LookSwitch--label {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+  }
+
+  .LookSwitch--options {
+    display: flex;
+  }
+
+  /* The orange row marks the picked look, so a look that is not picked only
+     grows on hover, like the buttons. */
+  .LookSwitch--option:not(.selected):hover {
+    background: #ffd284;
+    border-image-source: url("../../images/list-item-border.png");
+  }
+}

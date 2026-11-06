@@ -2,4 +2,74 @@
   .SideMenu {
     height: 100%;
   }
+
+  .SideMenu--tabs {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .sdv-tab.no-matches .sprite {
+    opacity: 0.35;
+  }
+
+  /* The inner pixel of the border art is clear. The art keeps its 5px, but the
+     border is 4px, so the content covers that pixel and touches the art. */
+  .SideMenu--frame {
+    border-image-width: 5px;
+    border-width: 4px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .SideMenu--search {
+    flex-shrink: 0;
+  }
+
+  .SideMenu--list {
+    flex: 1;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* The rows overlap by 1px to share an outline. The padding keeps that
+     overlap inside the list, so the first and the last outline show. */
+  .SeedMenu,
+  .EquipmentMenu {
+    padding: 1px 0;
+  }
+
+  .SeedMenu .sdv-list-item,
+  .EquipmentMenu .sdv-list-item {
+    margin: -1px 0;
+  }
+
+  .EquipmentMenuItem--name {
+    margin-right: 2px;
+  }
+
+  /* A clear 23x28 hit area on the row frame and the end of the name opens the
+     list. The negative margins keep the old 11px space in the row, so the name
+     and the 7px arrow stay where they were. The name text has a transform, so
+     it is above the button. The relative ::before puts the hit area above the
+     name. */
+  .EquipmentMenuItem--toggle {
+    align-self: stretch;
+    background-position: right 7px center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+    height: auto;
+    margin: -5px -5px -5px -7px;
+    width: 23px;
+
+    &::before {
+      content: "";
+      display: block;
+      height: 100%;
+      position: relative;
+    }
+  }
 }

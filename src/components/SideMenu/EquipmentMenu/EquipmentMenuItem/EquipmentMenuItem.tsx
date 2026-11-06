@@ -3,43 +3,56 @@ import { createSignal } from "solid-js";
 
 import { items } from "../../../../data/game/items.json";
 import { atlasSprite } from "../../../../helpers/atlas";
+import { createClickAway } from "../../../../helpers/clickAway";
 import { getSeasonName } from "../../../../helpers/date";
+import { createEscapeKey } from "../../../../helpers/keyboard";
 import BigText from "../../../BigText/BigText";
 import Sprite from "../../../Sprite/Sprite";
+import { getMatchingSkins, getShownSkin } from "../../sideMenuItems";
 
 interface IProps {
   date: number;
   equipmentId: string;
+  isHidden?: boolean;
+  isOpen: boolean;
+  search?: string;
   selectEquipment: (equipmentId: string, skin: string) => void;
   selectedItem?: ISelectedItem;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 const iconSize = 16;
 
 export default function EquipmentMenuItem(props: IProps) {
+  let rootRef: HTMLDivElement | undefined;
+
   const item = () => items[props.equipmentId];
+  const hasSkins = () => item().skinOrder.length > 1;
   const [pickedSkin, setPickedSkin] = createSignal<string>();
   const currentSkin = () => pickedSkin() ?? item().skinOrder[0];
-  const [isOpen, setIsOpen] = createSignal(false);
+  const search = () => props.search ?? "";
+  const shownSkin = () =>
+    getShownSkin(props.equipmentId, currentSkin(), search());
+
+  const isSelected = () =>
+    props.selectedItem?.type === "equipment" &&
+    props.selectedItem.id === props.equipmentId;
 
   const close = () => {
-    setIsOpen(false);
-  };
-
-  const open = () => {
-    setIsOpen(true);
-  };
-
-  const toggle = () => {
-    if (isOpen()) {
-      close();
-    } else {
-      open();
+    if (props.isOpen) {
+      props.setIsOpen(false);
     }
   };
 
+  createClickAway(
+    () => rootRef,
+    () => props.isOpen,
+    close,
+  );
+  createEscapeKey(() => props.isOpen, close);
+
   const renderPicklist = () =>
-    item().skinOrder.map((skin) => (
+    getMatchingSkins(props.equipmentId, search()).map((skin) => (
       <div class="margin-left">{renderPickItem(skin)}</div>
     ));
 
@@ -72,34 +85,33 @@ export default function EquipmentMenuItem(props: IProps) {
     return (
       <div
         class={cn("sdv-list-item", "flex-horizontal", {
-          selected:
-            props.selectedItem !== undefined &&
-            props.selectedItem.type === "equipment" &&
-            props.selectedItem.id === props.equipmentId &&
-            props.selectedItem.skin === skinKey,
+          selected: isSelected() && props.selectedItem?.skin === skinKey,
         })}
         data-testid={`equipment-${props.equipmentId}--${skinKey}`}
         onClick={() => {
+          close();
           setPickedSkin(skinKey);
           props.selectEquipment(props.equipmentId, skinKey);
         }}
       >
         <div class="sdv-list-item-icon">{renderIcon(skin)}</div>
-        <div class="flex margin-right">
+        <div class="EquipmentMenuItem--name flex">
           <BigText>{skin.name}</BigText>
         </div>
 
-        {isTrigger === true && item().skinOrder.length > 1 && (
+        {isTrigger === true && hasSkins() && (
           <>
             <button
-              class={cn("margin-right", {
-                "sdv-button-down": !isOpen(),
-                "sdv-button-up": isOpen(),
+              aria-expanded={props.isOpen}
+              aria-label={`Skins for ${skin.name}`}
+              class={cn("EquipmentMenuItem--toggle", {
+                "sdv-button-down": !props.isOpen,
+                "sdv-button-up": props.isOpen,
               })}
               data-testid="equipment-dropdown--trigger"
               onClick={(event) => {
                 event.stopPropagation();
-                toggle();
+                props.setIsOpen(!props.isOpen);
               }}
             />
           </>
@@ -109,9 +121,9 @@ export default function EquipmentMenuItem(props: IProps) {
   };
 
   return (
-    <div>
-      {renderPickItem(currentSkin(), true)}
-      {isOpen() && renderPicklist()}
+    <div classList={{ hidden: props.isHidden === true }} ref={rootRef}>
+      {renderPickItem(shownSkin(), true)}
+      {props.isOpen && renderPicklist()}
     </div>
   );
 }

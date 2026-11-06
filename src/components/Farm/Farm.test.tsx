@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@solidjs/testing-library";
+import { createSignal } from "solid-js";
 
 import mockImages from "../../__helpers__/images";
 import {
@@ -8,8 +9,10 @@ import {
 } from "../../__mocks__/testFarmMap";
 import { items } from "../../data/game/items.json";
 import { atlasUrls } from "../../helpers/atlas";
+import { defaultFarmLooks } from "../../helpers/defaultBuildings";
 import { loadFarmScene, type TFarmId } from "../../helpers/farmMapLoader";
 import { crops, equipment, setCrops, setEquipment } from "../../state/farm";
+import UpgradesMenu from "../Header/UpgradesMenu/UpgradesMenu";
 import Farm from "./Farm";
 
 // With the scene loaded before the tests, the farm draws on its first render,
@@ -154,12 +157,26 @@ function getDrawnEquipmentSprites() {
     .map(([, ...rects]) => rects);
 }
 
+function getDrawnBuildingRects(length = 4) {
+  return drawImage.mock.calls
+    .filter(
+      ([image]) =>
+        image instanceof HTMLImageElement &&
+        image.src.includes(atlasUrls.buildings),
+    )
+    .map(([, ...rects]) => rects.slice(0, length));
+}
+
 function tallSpriteOnTile(x: number, y: number) {
   return [x * 16, (y - 1) * 16, 16, 32];
 }
 
 function isPanCursorShown() {
   return document.documentElement.classList.contains("farm-panning");
+}
+
+function isUpgradesMenuOpen() {
+  return screen.queryByTestId("upgrades-menu--list") !== null;
 }
 
 beforeEach(() => {
@@ -937,6 +954,70 @@ describe("panning the farm", () => {
   });
 });
 
+describe("using the farm while the Upgrades menu is open", () => {
+  const scrollStart = 200;
+
+  function renderFarmAndOpenUpgrades() {
+    render(() => (
+      <>
+        <UpgradesMenu changeLooks={vi.fn()} looks={defaultFarmLooks} />
+        <Farm
+          currentFarm="standard"
+          date={date}
+          images={mockImages}
+          selectedItem={{ id: "parsnip", type: "crop" }}
+          zoom={1}
+        />
+      </>
+    ));
+
+    const scrollView = getScrollView();
+    scrollView.scrollLeft = scrollStart;
+    scrollView.scrollTop = scrollStart;
+
+    fireEvent.click(screen.getByTestId("header--upgrades"));
+
+    return { canvas: screen.getByTestId("farm-canvas"), scrollView };
+  }
+
+  it("pans the farm with a middle-button drag, and the menu stays open", () => {
+    const { canvas, scrollView } = renderFarmAndOpenUpgrades();
+    const start = { button: middleButton, clientX: 100, clientY: 100 };
+    const end = { clientX: 70, clientY: 60 };
+
+    fireEvent.mouseDown(canvas, start);
+    fireEvent.mouseMove(canvas, { buttons: 4, ...end });
+
+    expect(scrollView.scrollLeft).toBe(scrollStart + 30);
+    expect(scrollView.scrollTop).toBe(scrollStart + 40);
+    expect(isUpgradesMenuOpen()).toBe(true);
+
+    fireEvent.mouseUp(canvas, { ...start, ...end });
+
+    expect(isUpgradesMenuOpen()).toBe(true);
+  });
+
+  it("puts items with a drag, and the menu stays open", () => {
+    renderFarmAndOpenUpgrades();
+
+    dragAcrossTiles([0, 0], [1, 1]);
+
+    expect(crops()).toEqual(
+      byTile(regionTiles.map(([x, y]) => parsnip(x, y, { datePlanted: date }))),
+    );
+    expect(isUpgradesMenuOpen()).toBe(true);
+  });
+
+  it("closes the menu with a click on the farm", () => {
+    const { canvas } = renderFarmAndOpenUpgrades();
+
+    fireEvent.mouseDown(canvas, { button: middleButton, ...pointOnTile(2, 2) });
+    fireEvent.mouseUp(canvas, { button: middleButton, ...pointOnTile(2, 2) });
+
+    expect(isUpgradesMenuOpen()).toBe(false);
+  });
+});
+
 function renderFarmWithCropSelected() {
   render(() => (
     <Farm
@@ -1079,28 +1160,64 @@ describe("drawing the farm", () => {
     ]);
   });
 
-  it("draws the farmhouse and the greenhouse with the looks of the farm", () => {
+  it("draws the farmhouse, the greenhouse and the pet bowl with the looks of the farm", () => {
     render(() => (
       <Farm
         currentFarm="standard"
         date={date}
         images={mockImages}
-        looks={{ greenhouse: "repaired", house: 1 }}
+        looks={{ greenhouse: "repaired", house: 1, petBowl: "hay_pet_bowl" }}
         zoom={1}
       />
     ));
 
-    const buildingRects = drawImage.mock.calls
-      .filter(
-        ([image]) =>
-          image instanceof HTMLImageElement &&
-          image.src.includes(atlasUrls.buildings),
-      )
-      .map(([, ...rects]) => rects.slice(0, 4));
+    const buildingRects = getDrawnBuildingRects();
 
     expect(buildingRects).toContainEqual([0, 1504, 112, 160]);
     expect(buildingRects).toContainEqual([178, 1168, 178, 144]);
+    expect(buildingRects).toContainEqual([256, 1984, 32, 32]);
     expect(buildingRects).not.toContainEqual([112, 1504, 112, 160]);
+    expect(buildingRects).not.toContainEqual([0, 1984, 32, 32]);
+  });
+
+  it("draws the new sprite at once when a look is picked in the Upgrades menu, at the same spot", () => {
+    const [looks, setLooks] = createSignal(defaultFarmLooks);
+    render(() => (
+      <>
+        <UpgradesMenu changeLooks={setLooks} looks={looks()} />
+        <Farm
+          currentFarm="standard"
+          date={date}
+          images={mockImages}
+          looks={looks()}
+          zoom={1}
+        />
+      </>
+    ));
+    fireEvent.click(screen.getByTestId("header--upgrades"));
+    drawImage.mockClear();
+
+    fireEvent.click(
+      screen.getByTestId("upgrades-menu--pet-bowl-stone_pet_bowl"),
+    );
+
+    expect(getDrawnBuildingRects(8)).toContainEqual([
+      128,
+      1984,
+      32,
+      32,
+      53 * 16,
+      7 * 16,
+      32,
+      32,
+    ]);
+    expect(getDrawnBuildingRects()).not.toContainEqual([0, 1984, 32, 32]);
+
+    drawImage.mockClear();
+    fireEvent.click(screen.getByTestId("upgrades-menu--house-2"));
+
+    expect(getDrawnBuildingRects()).toContainEqual([356, 1168, 178, 144]);
+    expect(getDrawnBuildingRects()).not.toContainEqual([0, 1168, 178, 144]);
   });
 
   it("does not plant crops on or beside the greenhouse, where the game takes the tilling away", () => {

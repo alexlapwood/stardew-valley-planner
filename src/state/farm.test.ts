@@ -1,122 +1,153 @@
-const storageKey = "stardewValleySeasonalPlannerV2";
-const storageKeyV1 = "stardewValleySeasonalPlannerV1";
+import { newFarmData } from "./plan";
 
-const cropV1 = {
-  cropId: "cranberry",
-  datePlanted: 56,
-  type: "crop",
-  x: 0,
-  y: 0,
-};
+const saveAs = vi.hoisted(() => vi.fn<(data: Blob, name: string) => void>());
+const loadFarmScene = vi.hoisted(() =>
+  vi.fn<(farm: string, season: string) => Promise<void>>(),
+);
 
-const sprinklerV1 = {
-  dateInstalled: 0,
-  equipmentId: "sprinkler",
-  skinIndex: 1,
-  type: "equipment",
-  x: 2,
-  y: 1,
-};
+vi.mock("file-saver", () => ({ default: saveAs }));
 
-const saveV1 = {
-  crops: { 0: { 0: [cropV1] } },
-  date: 3,
-  equipment: {
-    1: {
-      2: [sprinklerV1],
-      3: [{ ...sprinklerV1, equipmentId: "not_an_item", x: 3 }],
-    },
-  },
-};
-
-const crops = { 0: { 0: [{ ...cropV1, cropId: "cranberries" }] } };
-
-const equipment = {
-  1: {
-    2: [
-      {
-        dateInstalled: 0,
-        equipmentId: "sprinkler",
-        skin: "quality_sprinkler",
-        type: "equipment",
-        x: 2,
-        y: 1,
-      },
-    ],
-    3: [],
-  },
-};
+vi.mock("../helpers/farmMapLoader", async (importOriginal) => ({
+  ...(await importOriginal<object>()),
+  loadFarmScene,
+}));
 
 async function loadFarmState() {
   vi.resetModules();
+  // vi.resetModules loads Solid again, and Solid warns when it finds the flag
+  // that its first copy set.
+  Reflect.deleteProperty(globalThis, "Solid$$");
 
-  return import("./farm");
+  const state = await import("./farm");
+  await state.planStore.start();
+
+  return state;
 }
 
 describe("Farm state", () => {
   beforeEach(() => {
     localStorage.clear();
-    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    saveAs.mockClear();
+    loadFarmScene.mockReset();
+    loadFarmScene.mockResolvedValue(undefined);
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it("starts a new farm when nothing is saved", async () => {
+  it("opens no plan and makes none when nothing is saved", async () => {
     const state = await loadFarmState();
 
-    expect(state.farmStore()).toEqual({ crops: {}, date: 0, equipment: {} });
+    expect(state.planStore.plans()).toEqual([]);
+    expect(state.planStore.planInfo()).toBeUndefined();
   });
 
-  it("loads a V1 save, saves it as V2 and keeps the V1 data", async () => {
-    const savedV1 = JSON.stringify(saveV1);
-    localStorage.setItem(storageKeyV1, savedV1);
-
+  it("loads the farm map of a plan before the plan shows", async () => {
     const state = await loadFarmState();
+    loadFarmScene.mockClear();
 
-    expect(state.farmStore()).toEqual({ crops, date: 3, equipment });
-    expect(JSON.parse(localStorage.getItem(storageKey) ?? "")).toEqual({
-      crops,
-      date: 3,
-      equipment,
-      version: 2,
+    await state.planStore.addPlan(
+      { ...newFarmData("hilltop"), date: 30 },
+      "Hills",
+    );
+
+    expect(loadFarmScene).toHaveBeenCalledWith("hilltop", "summer");
+  });
+
+  it("opens the last plan used after a reload", async () => {
+    const first = await loadFarmState();
+    const plan = await first.planStore.addPlan(newFarmData("forest"), "Woods");
+    first.setDate(9);
+
+    const second = await loadFarmState();
+
+    expect(second.planStore.planInfo()).toEqual({
+      farm: "forest",
+      id: plan.id,
+      looks: { greenhouse: "broken", house: 0, petBowl: "pet_bowl" },
+      name: "Woods",
     });
-    expect(localStorage.getItem(storageKeyV1)).toBe(savedV1);
-    expect(localStorage.getItem(`${storageKeyV1}Backup`)).toBe(savedV1);
-    expect(console.warn).toHaveBeenCalledWith(
-      "Removed 1 bad items from the saved farm.",
-      [
-        {
-          path: "equipment[1][3][0]",
-          value: { ...sprinklerV1, equipmentId: "not_an_item", x: 3 },
-        },
-      ],
-    );
+    expect(second.date()).toBe(9);
+    expect(second.planStore.plans()).toHaveLength(1);
   });
 
-  it("loads the V2 save when there is one", async () => {
-    localStorage.setItem(storageKeyV1, JSON.stringify(saveV1));
-    localStorage.setItem(
-      storageKey,
-      JSON.stringify({ crops: {}, date: 7, equipment, version: 2 }),
+  it("saves the open plan as <plan name>.layout.json with its farm type and the looks picked last", async () => {
+    const state = await loadFarmState();
+    await state.planStore.addPlan(newFarmData("beach"), "My beach");
+    state.planStore.setLooks({
+      greenhouse: "repaired",
+      house: 2,
+      petBowl: "stone_pet_bowl",
+    });
+
+    state.savePlanFile();
+
+    expect(saveAs).toHaveBeenCalledWith(
+      expect.any(Blob),
+      "My beach.layout.json",
     );
-
-    const state = await loadFarmState();
-
-    expect(state.farmStore()).toEqual({ crops: {}, date: 7, equipment });
-  });
-
-  it("saves a change with the V2 key", async () => {
-    const state = await loadFarmState();
-
-    state.setDate(9);
-
-    expect(JSON.parse(localStorage.getItem(storageKey) ?? "")).toEqual({
+    expect(JSON.parse(await saveAs.mock.calls[0][0].text())).toEqual({
       crops: {},
-      date: 9,
+      date: 0,
       equipment: {},
-      version: 2,
+      farm: "beach",
+      looks: { greenhouse: "repaired", house: 2, petBowl: "stone_pet_bowl" },
+      version: 3,
     });
+  });
+
+  it("keeps the looks of a saved file when the file is opened again", async () => {
+    const looks: IFarmLooks = {
+      greenhouse: "repaired",
+      house: 1,
+      petBowl: "hay_pet_bowl",
+    };
+    const state = await loadFarmState();
+    await state.planStore.addPlan(newFarmData("forest", looks), "Woods");
+    state.savePlanFile();
+    const saved = saveAs.mock.calls[0][0];
+
+    const plan = await state.planStore.addPlanFromFile(
+      new File([await saved.text()], "Woods.layout.json"),
+    );
+
+    expect(plan?.looks).toEqual(looks);
+    expect(state.planStore.planInfo()).toMatchObject({ id: plan?.id, looks });
+  });
+
+  it("opens the picked file as a new plan", async () => {
+    const state = await loadFarmState();
+    const { id: firstPlanId } = await state.planStore.addPlan(
+      newFarmData("standard"),
+      "Home",
+    );
+    const click = vi
+      .spyOn(HTMLInputElement.prototype, "click")
+      .mockImplementation(() => undefined);
+    const file = new File(
+      [JSON.stringify({ ...newFarmData("meadowlands"), version: 3 })],
+      "Cows.layout.json",
+    );
+
+    state.openPlanFile();
+
+    const input = click.mock.contexts[0];
+
+    if (!(input instanceof HTMLInputElement)) {
+      throw new TypeError("The file picker did not open");
+    }
+
+    Object.defineProperty(input, "files", { value: [file] });
+    input.dispatchEvent(new Event("change"));
+
+    await vi.waitFor(() => {
+      expect(state.planStore.plans()).toHaveLength(2);
+    });
+    expect(state.planStore.planInfo()).toMatchObject({
+      farm: "meadowlands",
+      name: "Cows",
+    });
+    expect(state.planStore.planInfo()?.id).not.toBe(firstPlanId);
   });
 });

@@ -1,12 +1,20 @@
 import { crops as cropDetails } from "../data/game/crops.json";
+import {
+  defaultFarmLooks,
+  farmhouseLooks,
+  greenhouseLooks,
+  petBowlLooks,
+} from "../helpers/defaultBuildings";
+import { isFarmId, type TFarmId } from "../helpers/farmMapLoader";
 import { isFloorVariant } from "../helpers/floorVariant";
 import { hasSkin, isItem } from "../helpers/items";
-import { migrateCropCellV1, migrateEquipmentCellV1 } from "./farmMigration";
 
 export interface IFarmData {
   crops: IFarmCrops;
   date: number;
   equipment: IFarmEquipment;
+  farm: TFarmId;
+  looks: IFarmLooks;
 }
 
 export interface IBadItem {
@@ -18,14 +26,15 @@ interface IFarmShape {
   crops: Record<string, unknown>;
   date: number;
   equipment: Record<string, unknown>;
-  version?: unknown;
+  farm: TFarmId;
+  looks: Record<string, unknown>;
 }
 
 type Cell = Record<string, unknown>;
 
-export const farmDataVersion = 2;
+export const farmDataVersion = 3;
 
-function isRecord(value: unknown): value is Record<string, unknown> {
+export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
@@ -70,11 +79,15 @@ function isEquipmentCell(cell: Cell): cell is Cell & IInstalledEquipment {
   );
 }
 
+function keepCell(cell: Cell) {
+  return cell;
+}
+
 function keepGoodCells<T extends Cell>(
   name: string,
   items: Record<string, unknown>,
   isCell: (cell: Cell) => cell is T,
-  migrate: (cell: Cell) => Cell | undefined,
+  clean: (cell: Cell) => Cell = keepCell,
 ) {
   const badItems: IBadItem[] = [];
   const goodRows: [string, Record<string, T[]>][] = [];
@@ -96,7 +109,7 @@ function keepGoodCells<T extends Cell>(
       const goodCells: T[] = [];
 
       cells.forEach((value: unknown, index) => {
-        const cell = isRecord(value) ? migrate(value) : undefined;
+        const cell = isRecord(value) ? clean(value) : undefined;
 
         if (cell !== undefined && isCellAt(cell, x, y) && isCell(cell)) {
           goodCells.push(cell);
@@ -117,14 +130,14 @@ function keepGoodCells<T extends Cell>(
 function isFarmShape(value: unknown): value is IFarmShape {
   return (
     isRecord(value) &&
+    value.version === farmDataVersion &&
+    typeof value.farm === "string" &&
+    isFarmId(value.farm) &&
+    isRecord(value.looks) &&
     isRecord(value.crops) &&
     typeof value.date === "number" &&
     isRecord(value.equipment)
   );
-}
-
-function keepCell(cell: Cell) {
-  return cell;
 }
 
 // A bad variant is dropped, not the cell, because the draw code has a
@@ -139,44 +152,63 @@ function withoutBadVariant(cell: Cell) {
   return rest;
 }
 
-// V1 data has no version field.
-export function readFarmData(value: unknown) {
-  if (
-    !isFarmShape(value) ||
-    (value.version !== undefined && value.version !== farmDataVersion)
+function readLooks(looks: Record<string, unknown>) {
+  const badItems: IBadItem[] = [];
+
+  function readLook<K extends keyof IFarmLooks>(
+    name: K,
+    knownLooks: readonly IFarmLooks[K][],
   ) {
+    const look = knownLooks.find((known) => known === looks[name]);
+
+    if (look === undefined) {
+      badItems.push({ path: `looks.${name}`, value: looks[name] });
+    }
+
+    return look ?? defaultFarmLooks[name];
+  }
+
+  return {
+    badItems,
+    looks: {
+      greenhouse: readLook("greenhouse", greenhouseLooks),
+      house: readLook("house", farmhouseLooks),
+      petBowl: readLook("petBowl", petBowlLooks),
+    },
+  };
+}
+
+export function readFarmData(value: unknown) {
+  if (!isFarmShape(value)) {
     return undefined;
   }
 
-  const isV1 = value.version === undefined;
-  const migrateEquipmentCell = isV1 ? migrateEquipmentCellV1 : keepCell;
-  const crops = keepGoodCells(
-    "crops",
-    value.crops,
-    isCropCell,
-    isV1 ? migrateCropCellV1 : keepCell,
-  );
+  const crops = keepGoodCells("crops", value.crops, isCropCell);
   const equipment = keepGoodCells(
     "equipment",
     value.equipment,
     isEquipmentCell,
-    (cell) => {
-      const migratedCell = migrateEquipmentCell(cell);
-
-      return migratedCell === undefined
-        ? undefined
-        : withoutBadVariant(migratedCell);
-    },
+    withoutBadVariant,
   );
-  const farm: IFarmData = {
+  const looks = readLooks(value.looks);
+  const data: IFarmData = {
     crops: crops.goodItems,
     date: value.date,
     equipment: equipment.goodItems,
+    farm: value.farm,
+    looks: looks.looks,
   };
 
-  return { badItems: [...crops.badItems, ...equipment.badItems], farm };
+  return {
+    badItems: [...looks.badItems, ...crops.badItems, ...equipment.badItems],
+    data,
+  };
 }
 
-export function toSavedFarmData(farm: IFarmData) {
-  return JSON.stringify({ ...farm, version: farmDataVersion });
+export function toFarmFile({ crops, date, equipment, farm, looks }: IFarmData) {
+  return { crops, date, equipment, farm, looks, version: farmDataVersion };
+}
+
+export function toSavedFarmData(data: IFarmData) {
+  return JSON.stringify(toFarmFile(data));
 }

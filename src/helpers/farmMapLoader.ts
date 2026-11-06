@@ -133,6 +133,23 @@ export function peekFarmScene(id: string, season: string) {
   return findScene(loadedFarmScenes.get(id), season);
 }
 
+// For a picture of the farm that never changes season, so the tilesheets of
+// the other seasons do not load.
+export async function loadOneSeasonScene(
+  id: string,
+  season: string,
+): Promise<IFarmScene> {
+  const loaded = peekFarmScene(id, season);
+
+  if (loaded !== undefined) {
+    return loaded;
+  }
+
+  const map = await loadFarmMap(id);
+
+  return { map, season, sheets: await loadTilesheetImages(map, season) };
+}
+
 export async function loadFarmScene(id: string, season: string) {
   const scene = findScene(
     await loadOnce(farmScenes, id, () => fetchFarmScenes(id)),

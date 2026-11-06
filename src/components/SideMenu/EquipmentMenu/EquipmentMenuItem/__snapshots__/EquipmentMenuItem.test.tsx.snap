@@ -20,7 +20,7 @@ exports[`<EquipmentMenuItem /> > renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="flex margin-right"
+        class="EquipmentMenuItem--name flex"
       >
         <div
           class="BigText"
@@ -68,7 +68,9 @@ exports[`<EquipmentMenuItem /> > renders correctly 1`] = `
         </div>
       </div>
       <button
-        class="margin-right sdv-button-down"
+        aria-expanded="false"
+        aria-label="Skins for Scarecrow"
+        class="EquipmentMenuItem--toggle sdv-button-down"
         data-testid="equipment-dropdown--trigger"
       />
     </div>

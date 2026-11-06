@@ -11,6 +11,20 @@
   }
 }
 
+/* A button at the top of the page grows down, and a button at a side of the
+   page grows away from that side, so the page edges do not cut it off. */
+.sdv-grow-from-top {
+  transform-origin: center top;
+}
+
+.sdv-grow-from-top-left {
+  transform-origin: left top;
+}
+
+.sdv-grow-from-top-right {
+  transform-origin: right top;
+}
+
 .sdv-panel-big,
 .sdv-button-big {
   background: #ffd883;
