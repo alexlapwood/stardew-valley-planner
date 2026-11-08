@@ -16,6 +16,7 @@
     "preview": "vite build && vite preview --host"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "clsx": "^2.1.1",
     "file-saver": "^2.0.5",
     "immutable": "^5.1.9",

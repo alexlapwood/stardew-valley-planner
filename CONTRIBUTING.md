@@ -87,6 +87,10 @@ git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 - Vercel
 
+**Analytics**
+
+- Vercel Web Analytics, through `inject()` in `src/index.tsx`
+
 **CI/CD**
 
 - There is no CI. Run `npm run check` before you push.
