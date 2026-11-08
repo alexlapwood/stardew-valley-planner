@@ -200,6 +200,7 @@ function orderFixedUpgrade(
   }
 
   setHouseUpgrades(change.houseUpgrades);
+  setHouseColorPaints(change.houseColorPaints);
 
   return getHouseBuild(before, change.houseUpgrades, date);
 }

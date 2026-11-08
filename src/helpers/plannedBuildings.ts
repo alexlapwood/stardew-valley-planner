@@ -1,5 +1,5 @@
 import { buildings } from "../data/game/buildings.json";
-import { getColorsOn } from "./buildingColors";
+import { getColorsOn, keepShownColorPaints } from "./buildingColors";
 import { getLookKeyOn } from "./buildingSkins";
 import {
   getTierOn,
@@ -270,7 +270,11 @@ export function getBuildingClick(
 
   return upgraded === undefined
     ? { target, type: "upgrade" }
-    : { target, type: "upgrade", upgraded };
+    : {
+        target,
+        type: "upgrade",
+        upgraded: keepShownColorPaints(upgraded, date),
+      };
 }
 
 export function replaceBuilding(

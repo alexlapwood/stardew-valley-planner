@@ -2521,26 +2521,49 @@ describe("colour paint", () => {
     expect(houseColorPaints()).toEqual([]);
   });
 
+  const roofPaint: IPlannedColorPaint = {
+    colors: { Roof: { hue: 120, lightness: -12, saturation: 60 } },
+    datePainted: 15,
+  };
+
+  // A Coop from day 0, a Deluxe Coop from day 10, and paint on day 15.
+  const paintedDeluxeCoop = withUpgrades(
+    { buildingId: "big_coop", datePlaced: 10 },
+    { buildingId: "deluxe_coop", datePlaced: 10 },
+  );
+
   it("takes the paint out of the plan with the Deluxe Coop that it needs, so that a later Deluxe Coop does not show it", () => {
-    const deluxeCoop = plannedCoop(1, 1, {
-      colorPaints: [
-        {
-          colors: { Roof: { hue: 120, lightness: -12, saturation: 60 } },
-          datePainted: 15,
-        },
-      ],
-      datePlaced: 0,
-      upgrades: [
-        { buildingId: "big_coop", datePlaced: 10 },
-        { buildingId: "deluxe_coop", datePlaced: 10 },
-      ],
-    });
-    setBuildings([deluxeCoop]);
+    setBuildings([{ ...paintedDeluxeCoop, colorPaints: [roofPaint] }]);
     renderFarmOn(10, pickAxeTool);
 
     dragAcrossTiles([2, 2], [2, 2], rightButton);
 
-    expect(buildings()).toEqual([plannedCoop(1, 1, { datePlaced: 0 })]);
+    expect(buildings()).toEqual([readyCoop]);
+  });
+
+  it("takes the paint out of the plan with the Deluxe Coop that an earlier Big Coop takes the place of", () => {
+    setBuildings([{ ...paintedDeluxeCoop, colorPaints: [roofPaint] }]);
+    renderFarmOn(3, bigCoop);
+
+    dragAcrossTiles([2, 2], [2, 2]);
+
+    expect(buildings()).toEqual([
+      withUpgrades({ buildingId: "big_coop", datePlaced: 3 }),
+    ]);
+  });
+
+  it("takes the paint out of the plan with the Nursery that an earlier Kitchen takes the place of", () => {
+    setHouseUpgrades([
+      { datePlaced: 10, level: 1 },
+      { datePlaced: 10, level: 2 },
+    ]);
+    setHouseColorPaints([roofPaint]);
+    renderFarmOn(5, kitchen);
+
+    dragAcrossTiles(onHouse, onHouse);
+
+    expect(houseUpgrades()).toEqual([{ datePlaced: 5, level: 1 }]);
+    expect(houseColorPaints()).toEqual([]);
   });
 
   it("refuses a cabin and a building with no paint data, with the reason", () => {

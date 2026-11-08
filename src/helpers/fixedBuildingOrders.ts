@@ -3,7 +3,7 @@ import type { TBuildingRefusal } from "./buildingRules";
 import { isInSpot } from "./defaultBuildings";
 import type { IDragRegion } from "./dragPlacement";
 import { orderRepair } from "./greenhouseRepair";
-import { orderHouseUpgrade } from "./houseUpgrades";
+import { keepShownHouseColorPaints, orderHouseUpgrade } from "./houseUpgrades";
 import type { ICurrentItems } from "./itemPlacement";
 import { getFootprintTiles } from "./plannedBuildings";
 
@@ -23,7 +23,11 @@ export interface IFixedOrderRequest {
 
 export type TFixedChange =
   | { greenhouseRepair: IPlannedRepair; type: "greenhouseRepair" }
-  | { houseUpgrades: IPlannedHouseUpgrade[]; type: "houseUpgrade" };
+  | {
+      houseColorPaints: readonly IPlannedColorPaint[];
+      houseUpgrades: IPlannedHouseUpgrade[];
+      type: "houseUpgrade";
+    };
 
 // change is undefined when the order is refused.
 export interface IFixedOrder {
@@ -85,15 +89,25 @@ function spotCheck(
 type TChange = Pick<IFixedOrder, "change" | "refusal">;
 
 function planHouseOrder(
-  { currentHouseUpgrades = [] }: ICurrentItems,
+  { currentHouseColorPaints = [], currentHouseUpgrades = [] }: ICurrentItems,
   level: number,
   date: number,
 ): TChange {
-  const order = orderHouseUpgrade(currentHouseUpgrades, level, date);
+  const { upgraded } = orderHouseUpgrade(currentHouseUpgrades, level, date);
 
-  return order.upgraded === undefined
+  return upgraded === undefined
     ? { refusal: { level, type: "houseBuilt" } }
-    : { change: { houseUpgrades: order.upgraded, type: "houseUpgrade" } };
+    : {
+        change: {
+          houseColorPaints: keepShownHouseColorPaints(
+            currentHouseColorPaints,
+            upgraded,
+            date,
+          ),
+          houseUpgrades: upgraded,
+          type: "houseUpgrade",
+        },
+      };
 }
 
 function planRepair(

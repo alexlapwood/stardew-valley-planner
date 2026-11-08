@@ -70,6 +70,7 @@ describe("house upgrade orders", () => {
     const order = checkFixedOrder(houseRequest(1, spring + 2));
 
     expect(order?.change).toEqual({
+      houseColorPaints: [],
       houseUpgrades: [{ datePlaced: spring + 2, level: 1 }],
       type: "houseUpgrade",
     });
@@ -117,12 +118,52 @@ describe("house upgrade orders", () => {
 
   it("chains each level up to the selected one on the date", () => {
     expect(checkFixedOrder(houseRequest(3, spring + 4))?.change).toEqual({
+      houseColorPaints: [],
       houseUpgrades: [
         { datePlaced: spring + 4, level: 1 },
         { datePlaced: spring + 4, level: 2 },
         { datePlaced: spring + 4, level: 3 },
       ],
       type: "houseUpgrade",
+    });
+  });
+
+  describe("the paint of the house", () => {
+    // A Nursery from day 10, and paint on day 15.
+    const withNursery = {
+      currentHouseColorPaints: [
+        {
+          colors: { Roof: { hue: 120, lightness: -12, saturation: 60 } },
+          datePainted: spring + 15,
+        },
+      ],
+      currentHouseUpgrades: [
+        { datePlaced: spring + 10, level: 1 },
+        { datePlaced: spring + 10, level: 2 },
+      ],
+    };
+
+    it("takes out the paint that only the levels it takes the place of could show", () => {
+      expect(
+        checkFixedOrder(houseRequest(1, spring + 5, withNursery))?.change,
+      ).toEqual({
+        houseColorPaints: [],
+        houseUpgrades: [{ datePlaced: spring + 5, level: 1 }],
+        type: "houseUpgrade",
+      });
+    });
+
+    it("keeps the paint that the new levels can show", () => {
+      expect(
+        checkFixedOrder(houseRequest(2, spring + 5, withNursery))?.change,
+      ).toEqual({
+        houseColorPaints: withNursery.currentHouseColorPaints,
+        houseUpgrades: [
+          { datePlaced: spring + 5, level: 1 },
+          { datePlaced: spring + 5, level: 2 },
+        ],
+        type: "houseUpgrade",
+      });
     });
   });
 

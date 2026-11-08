@@ -332,6 +332,49 @@ describe("getBuildingClick", () => {
     );
   });
 
+  it("takes out the colour paints that only the upgrades it takes the place of could show, and keeps the ones that the new tiers show", () => {
+    // A Coop from day 0, a Deluxe Coop from day 10, and paint on day 15.
+    const coop: IPlannedBuilding = {
+      buildingId: "coop",
+      colorPaints: [
+        {
+          colors: { Roof: { hue: 120, lightness: -12, saturation: 60 } },
+          datePainted: 15,
+        },
+      ],
+      datePlaced: 0,
+      upgrades: [
+        { buildingId: "big_coop", datePlaced: 10 },
+        { buildingId: "deluxe_coop", datePlaced: 10 },
+      ],
+      x: 10,
+      y: 20,
+    };
+    const { colorPaints: _colorPaints, ...unpainted } = coop;
+
+    expect(getBuildingClick([coop], "big_coop", cursorOn(10, 20), 3)).toEqual({
+      target: coop,
+      type: "upgrade",
+      upgraded: {
+        ...unpainted,
+        upgrades: [{ buildingId: "big_coop", datePlaced: 3 }],
+      },
+    });
+    expect(
+      getBuildingClick([coop], "deluxe_coop", cursorOn(10, 20), 3),
+    ).toEqual({
+      target: coop,
+      type: "upgrade",
+      upgraded: {
+        ...coop,
+        upgrades: [
+          { buildingId: "big_coop", datePlaced: 3 },
+          { buildingId: "deluxe_coop", datePlaced: 3 },
+        ],
+      },
+    });
+  });
+
   it("gives no upgraded building when the building under the cursor cannot take the tier", () => {
     expect(getBuildingClick([barn()], "big_coop", cursorOn(10, 20), 6)).toEqual(
       { target: barn(), type: "upgrade" },
