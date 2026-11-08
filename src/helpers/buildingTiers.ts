@@ -1,5 +1,4 @@
 import { buildings } from "../data/game/buildings.json";
-import { keepPaintsBefore } from "./buildingSkins";
 import { type IDaySpan, isOverlapping } from "./daySpan";
 
 export interface IBuildingTier {
@@ -106,7 +105,7 @@ export function orderChain(
     : { ...first, upgrades: chainUpgrades(path, date) };
 }
 
-function withUpgrades(
+export function withUpgrades(
   plannedBuilding: IPlannedBuilding,
   upgrades: IPlannedUpgrade[],
 ): IPlannedBuilding {
@@ -151,31 +150,4 @@ export function orderUpgrade(
         ),
         ...chainUpgrades(path, date),
       ]);
-}
-
-// An erase on the date of the building takes it out of the plan, and an erase
-// on the date of an upgrade takes back that upgrade and the later ones. An
-// erase on another day demolishes the building from that day. Undefined: the
-// whole building goes.
-export function eraseBuildingOn(
-  plannedBuilding: IPlannedBuilding,
-  date: number,
-): IPlannedBuilding | undefined {
-  if (date === plannedBuilding.datePlaced) {
-    return undefined;
-  }
-
-  const upgrades = plannedBuilding.upgrades ?? [];
-  const earlierUpgrades = upgrades.filter(
-    ({ datePlaced }) => datePlaced < date,
-  );
-
-  if (upgrades.some(({ datePlaced }) => datePlaced === date)) {
-    return withUpgrades(plannedBuilding, earlierUpgrades);
-  }
-
-  return withUpgrades(
-    keepPaintsBefore({ ...plannedBuilding, dateDestroyed: date }, date),
-    earlierUpgrades,
-  );
 }

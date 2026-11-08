@@ -7,10 +7,14 @@ import {
   crops,
   cutBushes,
   equipment,
+  houseColorPaints,
+  houseUpgrades,
   setBuildings,
   setCrops,
   setCutBushes,
   setEquipment,
+  setHouseColorPaints,
+  setHouseUpgrades,
 } from "../../state/farm";
 import { pickAxe } from "./Farm.drag";
 import { eraseRegion } from "./Farm.erase";
@@ -39,6 +43,8 @@ function currentItems(): ICurrentItems {
     currentCrops: crops(),
     currentCutBushes: cutBushes(),
     currentEquipment: equipment(),
+    currentHouseColorPaints: houseColorPaints(),
+    currentHouseUpgrades: houseUpgrades(),
   };
 }
 
@@ -58,6 +64,38 @@ beforeEach(() => {
   setCrops({});
   setCutBushes([]);
   setEquipment({});
+  setHouseColorPaints([]);
+  setHouseUpgrades([]);
+});
+
+describe("eraseRegion on the farmhouse", () => {
+  // The farmhouse of the test farm covers x 59-67 and y 12-16.
+  const onHouse = region(62, 62, 14, 14);
+  const kitchen = { datePlaced: 0, level: 1 };
+  const housePaint: IPlannedColorPaint = {
+    colors: { Roof: { hue: 120, lightness: -12, saturation: 60 } },
+    datePainted: 8,
+  };
+
+  it("takes the paint out of the plan with the Nursery that it needs, so that a later Nursery does not show it", () => {
+    setHouseUpgrades([kitchen, { datePlaced: 5, level: 2 }]);
+    setHouseColorPaints([housePaint]);
+
+    erase(onHouse, 5);
+
+    expect(houseUpgrades()).toEqual([kitchen]);
+    expect(houseColorPaints()).toEqual([]);
+  });
+
+  it("keeps the paint when the erase takes back no level", () => {
+    const paints = [housePaint];
+    setHouseUpgrades([kitchen, { datePlaced: 5, level: 2 }]);
+    setHouseColorPaints(paints);
+
+    erase(onHouse, 9);
+
+    expect(houseColorPaints()).toBe(paints);
+  });
 });
 
 describe("eraseRegion with the bushes of the farm map", () => {

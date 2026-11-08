@@ -10,6 +10,7 @@ import {
 } from "../helpers/plannedBuildings";
 import { readCutBushes } from "./bushCutsData";
 import { readHouseColorPaints } from "./colorPaintData";
+import { readEndedFloors } from "./endedFloorsData";
 import { readGreenhouseRepair, readHouseUpgrades } from "./fixedBuildingsData";
 import { readBuildingLooks, readPetBowlPaints } from "./paintData";
 
@@ -185,8 +186,9 @@ function keepGoodBuildings(buildings: readonly unknown[]) {
     const path = `buildings[${index}]`;
     const read = readUpgrades(value, path);
     const looks = readBuildingLooks(read.plannedBuilding, path);
-    goodBuildings.push(looks.plannedBuilding);
-    badItems.push(...read.badItems, ...looks.badItems);
+    const floors = readEndedFloors(looks.plannedBuilding, path);
+    goodBuildings.push(floors.plannedBuilding);
+    badItems.push(...read.badItems, ...looks.badItems, ...floors.badItems);
   });
 
   return { badItems, goodBuildings };

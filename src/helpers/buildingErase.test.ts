@@ -1,9 +1,11 @@
 import {
+  eraseBuildingOn,
   eraseEachBuilding,
   findBuildingsToErase,
   getRemovedBuildings,
   touchesRegion,
 } from "./buildingErase";
+import { orderChain } from "./buildingTiers";
 
 const spring = 0;
 
@@ -62,6 +64,21 @@ describe("an erase on the date of an upgrade", () => {
     ]);
     expect(getRemovedBuildings([coop], spring + 4)).toEqual([]);
   });
+
+  it("takes out the colour paints that only the tiers it takes back could show, so that a later upgrade does not show them", () => {
+    const deluxeColors: IPlannedColorPaint = {
+      colors: { Roof: { hue: 120, lightness: -12, saturation: 60 } },
+      datePainted: spring + 10,
+    };
+    const painted = { ...coop, colorPaints: [deluxeColors] };
+
+    expect(erase(spring + 8, [painted])).toEqual([
+      { ...coop, upgrades: coop.upgrades?.slice(0, 1) },
+    ]);
+    expect(erase(spring + 4, [painted])).toEqual([
+      building("coop", spring, 10, { paints: coop.paints, skin: "coop" }),
+    ]);
+  });
 });
 
 describe("an erase on another later date", () => {
@@ -101,6 +118,108 @@ describe("an erase on another later date", () => {
     expect(erase(spring + 1, [starterCoop])).toEqual([
       { ...starterCoop, dateDestroyed: spring + 1 },
     ]);
+  });
+});
+
+describe("eraseBuildingOn", () => {
+  const barn = (overrides: Partial<IPlannedBuilding> = {}) =>
+    building("barn", spring, 10, overrides);
+
+  // Barn from Spring 1, Big Barn from Spring 4, Deluxe Barn from Spring 6.
+  const deluxeChain = barn({
+    upgrades: [
+      { buildingId: "big_barn", datePlaced: spring + 3 },
+      { buildingId: "deluxe_barn", datePlaced: spring + 5 },
+    ],
+  });
+
+  it("takes the whole building out of the plan on its date, with its upgrades and paints", () => {
+    const sameDay = barn({
+      ...orderChain("deluxe_barn", spring),
+      paints: [{ datePainted: spring + 9, skin: "log_cabin" }],
+    });
+
+    expect(eraseBuildingOn(deluxeChain, spring)).toBeUndefined();
+    expect(eraseBuildingOn(sameDay, spring)).toBeUndefined();
+  });
+
+  it("takes back the upgrade on its date and the later ones, and keeps the lower tier", () => {
+    expect(eraseBuildingOn(deluxeChain, spring + 3)).toEqual(barn());
+    expect(eraseBuildingOn(deluxeChain, spring + 5)).toEqual(
+      barn({ upgrades: [{ buildingId: "big_barn", datePlaced: spring + 3 }] }),
+    );
+  });
+
+  it.each([1, 4, 6, 50])(
+    "demolishes the building from day %i, a day with no upgrade",
+    (date) => {
+      expect(eraseBuildingOn(barn(), date)).toEqual(
+        barn({ dateDestroyed: date }),
+      );
+    },
+  );
+
+  it("drops the upgrades planned from the date of a demolish", () => {
+    expect(eraseBuildingOn(deluxeChain, spring + 4)).toEqual(
+      barn({
+        dateDestroyed: spring + 4,
+        upgrades: [{ buildingId: "big_barn", datePlaced: spring + 3 }],
+      }),
+    );
+    expect(eraseBuildingOn(deluxeChain, spring + 7)).toEqual({
+      ...deluxeChain,
+      dateDestroyed: spring + 7,
+    });
+  });
+
+  it("drops the paints from the date of a demolish, and keeps the earlier ones", () => {
+    const cabin = building("cabin", spring, 10, {
+      paints: [
+        { datePainted: spring + 4, skin: "log_cabin" },
+        { datePainted: spring + 10, skin: "plank_cabin" },
+      ],
+      skin: "rustic_cabin",
+    });
+
+    expect(eraseBuildingOn(cabin, spring + 10)).toEqual({
+      ...cabin,
+      dateDestroyed: spring + 10,
+      paints: [{ datePainted: spring + 4, skin: "log_cabin" }],
+    });
+  });
+
+  it("keeps the paints of a building when it takes back only an upgrade", () => {
+    const painted = {
+      ...deluxeChain,
+      paints: [{ datePainted: spring + 9, skin: "log_cabin" }],
+    };
+
+    expect(eraseBuildingOn(painted, spring + 5)).toEqual(
+      barn({
+        paints: [{ datePainted: spring + 9, skin: "log_cabin" }],
+        upgrades: [{ buildingId: "big_barn", datePlaced: spring + 3 }],
+      }),
+    );
+  });
+
+  it("takes out the colour paints from the date of an upgrade that it takes back, and keeps the earlier ones", () => {
+    const colors = { Roof: { hue: 120, lightness: -12, saturation: 60 } };
+    const painted = barn({
+      ...deluxeChain,
+      colorPaints: [
+        { colors, datePainted: spring + 5 },
+        { colors: {}, datePainted: spring + 7 },
+      ],
+    });
+
+    expect(eraseBuildingOn(painted, spring + 5)).toEqual(
+      barn({ upgrades: [{ buildingId: "big_barn", datePlaced: spring + 3 }] }),
+    );
+    expect(eraseBuildingOn(painted, spring + 7)).toEqual({
+      ...painted,
+      colorPaints: [{ colors, datePainted: spring + 5 }],
+      dateDestroyed: spring + 7,
+    });
   });
 });
 

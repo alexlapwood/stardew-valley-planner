@@ -41,16 +41,27 @@ interface IBrushColor {
 
 type TBrushColors = Partial<Record<string, IBrushColor>>;
 
+// A floor that a building ended on its order day, found by its tile and
+// dateInstalled. dateDestroyed is the end day that the floor had before.
+interface IEndedFloor {
+  dateDestroyed?: number;
+  dateInstalled: number;
+  x: number;
+  y: number;
+}
+
 // buildingId is the lowest tier. Each upgrade is the next tier, in order.
 // skin is the look picked for the order, and each paint is a later change of
 // look, in date order. Each colour paint is a later change of colours, in
 // date order. A starter building is on the farm when the game starts, so the
-// player does not pay for it (SV › Farm.onNewGame).
+// player does not pay for it (SV › Farm.onNewGame). endedFloors are the
+// floors that the building took off its tiles.
 interface IPlannedBuilding {
   buildingId: string;
   colorPaints?: IPlannedColorPaint[];
   dateDestroyed?: number;
   datePlaced: number;
+  endedFloors?: IEndedFloor[];
   paints?: IPlannedPaint[];
   skin?: string;
   starter?: true;

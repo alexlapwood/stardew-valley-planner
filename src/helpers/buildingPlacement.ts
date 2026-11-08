@@ -203,53 +203,73 @@ function reopenFloor(
   return dateDestroyed === undefined ? rest : { ...rest, dateDestroyed };
 }
 
+function toEndedFloor({
+  dateDestroyed,
+  dateInstalled,
+  x,
+  y,
+}: IInstalledEquipment): IEndedFloor {
+  return dateDestroyed === undefined
+    ? { dateInstalled, x, y }
+    : { dateDestroyed, dateInstalled, x, y };
+}
+
+// The plan ends the floors on the order day, so the building keeps the end
+// day that each floor had, for an erase that gives them back (restoreFloors).
+export function withEndedFloors(
+  plannedBuilding: IPlannedBuilding,
+  removedFloors: readonly IInstalledEquipment[],
+): IPlannedBuilding {
+  return removedFloors.length === 0
+    ? plannedBuilding
+    : { ...plannedBuilding, endedFloors: removedFloors.map(toEndedFloor) };
+}
+
 // A building that the erase takes out of the plan never went down, so the
-// floors that it took off come back. A floor that comes back ends when the
-// next thing on its tile starts, as a new floor does. A demolish does not give
-// them back, because the game took them off.
+// floors that it ended come back with the end days that they had. A floor
+// that comes back also ends when the next thing on its tile starts, as a new
+// floor does. A demolish does not give them back, because the game took them
+// off.
 export function restoreFloors(
   currentItems: ICurrentItems,
   removedBuildings: readonly IPlannedBuilding[],
 ): IFarmEquipment {
   const newEquipment: IFarmEquipment = { ...currentItems.currentEquipment };
 
-  removedBuildings.forEach((plannedBuilding) => {
-    const building = getBuildingData(plannedBuilding);
-    const { datePlaced } = plannedBuilding;
-    const wasRemoved = (farmItem: TFarmItem) =>
-      isFloor(farmItem) && farmItem.dateDestroyed === datePlaced;
-
-    getFootprintTiles(plannedBuilding).forEach((tile) => {
+  removedBuildings.forEach(({ datePlaced, endedFloors = [] }) => {
+    endedFloors.forEach((endedFloor) => {
+      const { x, y } = endedFloor;
+      const isEnded = (farmItem: TFarmItem) =>
+        isFloor(farmItem) &&
+        farmItem.dateInstalled === endedFloor.dateInstalled &&
+        farmItem.dateDestroyed === datePlaced;
       const farmItems = getFarmItemsAt(
         { ...currentItems, currentEquipment: newEquipment },
-        tile,
+        endedFloor,
       );
 
-      if (
-        keepsFloorAt(
-          building,
-          tile.x - plannedBuilding.x,
-          tile.y - plannedBuilding.y,
-        ) ||
-        !farmItems.some(wasRemoved)
-      ) {
+      if (!farmItems.some(isEnded)) {
         return;
       }
 
-      const laterStarts = farmItems
-        .filter((farmItem) => !wasRemoved(farmItem))
-        .map(getStartDay)
-        .filter((startDay) => startDay >= datePlaced);
-      const nextStart =
-        laterStarts.length === 0 ? undefined : Math.min(...laterStarts);
+      const endDays = [
+        ...(endedFloor.dateDestroyed === undefined
+          ? []
+          : [endedFloor.dateDestroyed]),
+        ...farmItems
+          .filter((farmItem) => !isEnded(farmItem))
+          .map(getStartDay)
+          .filter((startDay) => startDay >= datePlaced),
+      ];
+      const dateDestroyed =
+        endDays.length === 0 ? undefined : Math.min(...endDays);
 
-      newEquipment[tile.y] = {
-        ...newEquipment[tile.y],
-        [tile.x]: getEquipmentAtLocation(newEquipment, tile.x, tile.y).map(
-          (installed) =>
-            wasRemoved(installed)
-              ? reopenFloor(installed, nextStart)
-              : installed,
+      newEquipment[y] = {
+        ...newEquipment[y],
+        [x]: getEquipmentAtLocation(newEquipment, x, y).map((installed) =>
+          isEnded(installed)
+            ? reopenFloor(installed, dateDestroyed)
+            : installed,
         ),
       };
     });

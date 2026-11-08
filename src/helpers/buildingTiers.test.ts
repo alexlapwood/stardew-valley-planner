@@ -1,6 +1,5 @@
 import {
   chainUpgrades,
-  eraseBuildingOn,
   findBadUpgrade,
   getBaseBuildingId,
   getTierOn,
@@ -195,81 +194,6 @@ describe("orderUpgrade", () => {
     expect(
       orderUpgrade(deluxeChain, "deluxe_barn", spring + 5),
     ).toBeUndefined();
-  });
-});
-
-describe("eraseBuildingOn", () => {
-  it("takes the whole building out of the plan on its date, with its upgrades and paints", () => {
-    const sameDay = barn({
-      ...orderChain("deluxe_barn", spring),
-      paints: [{ datePainted: spring + 9, skin: "log_cabin" }],
-    });
-
-    expect(eraseBuildingOn(deluxeChain, spring)).toBeUndefined();
-    expect(eraseBuildingOn(sameDay, spring)).toBeUndefined();
-  });
-
-  it("takes back the upgrade on its date and the later ones, and keeps the lower tier", () => {
-    expect(eraseBuildingOn(deluxeChain, spring + 3)).toEqual(barn());
-    expect(eraseBuildingOn(deluxeChain, spring + 5)).toEqual(
-      barn({ upgrades: [{ buildingId: "big_barn", datePlaced: spring + 3 }] }),
-    );
-  });
-
-  it.each([1, 4, 6, 50])(
-    "demolishes the building from day %i, a day with no upgrade",
-    (date) => {
-      expect(eraseBuildingOn(barn(), date)).toEqual(
-        barn({ dateDestroyed: date }),
-      );
-    },
-  );
-
-  it("drops the upgrades planned from the date of a demolish", () => {
-    expect(eraseBuildingOn(deluxeChain, spring + 4)).toEqual(
-      barn({
-        dateDestroyed: spring + 4,
-        upgrades: [{ buildingId: "big_barn", datePlaced: spring + 3 }],
-      }),
-    );
-    expect(eraseBuildingOn(deluxeChain, spring + 7)).toEqual({
-      ...deluxeChain,
-      dateDestroyed: spring + 7,
-    });
-  });
-
-  it("drops the paints from the date of a demolish, and keeps the earlier ones", () => {
-    const cabin: IPlannedBuilding = {
-      buildingId: "cabin",
-      datePlaced: spring,
-      paints: [
-        { datePainted: spring + 4, skin: "log_cabin" },
-        { datePainted: spring + 10, skin: "plank_cabin" },
-      ],
-      skin: "rustic_cabin",
-      x: 10,
-      y: 20,
-    };
-
-    expect(eraseBuildingOn(cabin, spring + 10)).toEqual({
-      ...cabin,
-      dateDestroyed: spring + 10,
-      paints: [{ datePainted: spring + 4, skin: "log_cabin" }],
-    });
-  });
-
-  it("keeps the paints of a building when it takes back only an upgrade", () => {
-    const painted = {
-      ...deluxeChain,
-      paints: [{ datePainted: spring + 9, skin: "log_cabin" }],
-    };
-
-    expect(eraseBuildingOn(painted, spring + 5)).toEqual(
-      barn({
-        paints: [{ datePainted: spring + 9, skin: "log_cabin" }],
-        upgrades: [{ buildingId: "big_barn", datePlaced: spring + 3 }],
-      }),
-    );
   });
 });
 

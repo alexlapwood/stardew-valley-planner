@@ -684,6 +684,58 @@ describe("Farm data", () => {
         ]);
       });
 
+      describe("the floors that a building ended", () => {
+        const well = { buildingId: "well", datePlaced: 3, x: 10, y: 12 };
+        const floor = { dateInstalled: 1, x: 11, y: 13 };
+        const path = { dateDestroyed: 9, dateInstalled: 3, x: 12, y: 14 };
+
+        it("keeps each floor with its tile, its start day and the end day it had", () => {
+          const buildings = [{ ...well, endedFloors: [floor, path] }];
+          const result = readFarmData(farmFile({ buildings }));
+
+          expect(result?.data.buildings).toEqual(buildings);
+          expect(result?.badItems).toEqual([]);
+        });
+
+        it("drops only the bad floors, keeps the building and reports each one", () => {
+          const theories = [
+            "floor",
+            { ...floor, x: -1 },
+            { ...floor, y: "13" },
+            withoutField(floor, "dateInstalled"),
+            { ...floor, dateInstalled: 4 },
+            { ...path, dateDestroyed: 3 },
+            { ...path, dateDestroyed: "9" },
+          ];
+          const result = readFarmData(
+            farmFile({
+              buildings: [{ ...well, endedFloors: [floor, ...theories] }],
+            }),
+          );
+
+          expect(result?.data.buildings).toEqual([
+            { ...well, endedFloors: [floor] },
+          ]);
+          expect(result?.badItems).toEqual(
+            theories.map((value, index) => ({
+              path: `buildings[0].endedFloors[${index + 1}]`,
+              value,
+            })),
+          );
+        });
+
+        it("keeps the building with no floors and reports floors that are not a list", () => {
+          const result = readFarmData(
+            farmFile({ buildings: [{ ...well, endedFloors: floor }] }),
+          );
+
+          expect(result?.data.buildings).toStrictEqual([well]);
+          expect(result?.badItems).toEqual([
+            { path: "buildings[0].endedFloors", value: floor },
+          ]);
+        });
+      });
+
       describe("skins and paints", () => {
         const cabin = { buildingId: "cabin", datePlaced: 3, x: 10, y: 12 };
         const plank = { datePainted: 4, skin: "plank_cabin" };

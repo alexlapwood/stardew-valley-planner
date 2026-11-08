@@ -1,13 +1,18 @@
 import { findBuildingsToErase, touchesRegion } from "./buildingErase";
 import type { IDragRegion } from "./dragPlacement";
 import { eraseRepairOn } from "./greenhouseRepair";
-import { eraseHouseUpgradeOn, farmhouseId } from "./houseUpgrades";
+import {
+  eraseHouseUpgradeOn,
+  farmhouseId,
+  keepShownHouseColorPaints,
+} from "./houseUpgrades";
 import type { ICurrentItems } from "./itemPlacement";
 import { getFootprintTiles } from "./plannedBuildings";
 
 // tiles are the footprints of the fixed buildings that the erase changes.
 export interface IFixedErase {
   greenhouseRepair?: IPlannedRepair;
+  houseColorPaints: readonly IPlannedColorPaint[];
   houseUpgrades: readonly IPlannedHouseUpgrade[];
   tiles: IFarmTile[];
 }
@@ -23,9 +28,14 @@ function getSpotTiles(buildingId: string, { x, y }: IFarmSpot) {
 }
 
 // The game cannot demolish the farmhouse or the greenhouse, so an erase only
-// takes back a house upgrade on its date, or the greenhouse repair.
+// takes back a house upgrade on its date, with the paint that only the levels
+// that it takes back could show, or the greenhouse repair.
 export function planFixedErase(
-  { currentGreenhouseRepair, currentHouseUpgrades = [] }: ICurrentItems,
+  {
+    currentGreenhouseRepair,
+    currentHouseColorPaints = [],
+    currentHouseUpgrades = [],
+  }: ICurrentItems,
   { spots }: IFarmMap,
   region: IDragRegion,
   date: number,
@@ -39,6 +49,14 @@ export function planFixedErase(
 
   return {
     greenhouseRepair,
+    houseColorPaints:
+      houseUpgrades === currentHouseUpgrades
+        ? currentHouseColorPaints
+        : keepShownHouseColorPaints(
+            currentHouseColorPaints,
+            houseUpgrades,
+            date,
+          ),
     houseUpgrades,
     tiles: [
       ...(houseUpgrades === currentHouseUpgrades

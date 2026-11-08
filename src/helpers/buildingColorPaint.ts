@@ -1,6 +1,8 @@
 import {
+  cabinLevel,
   getColorsOn,
   getPaintable,
+  getPaintableOn,
   hasColors,
   isSameColors,
   paintBuildingColors,
@@ -10,7 +12,6 @@ import {
 import { footprintCheck } from "./buildingOrders";
 import type { IBuildingCheck } from "./buildingPlacement";
 import type { TBuildingRefusal } from "./buildingRules";
-import { getLookKeyOn } from "./buildingSkins";
 import { getTierOn } from "./buildingTiers";
 import { findDefaultBuildingAt } from "./defaultBuildings";
 import type { IDragRegion } from "./dragPlacement";
@@ -55,9 +56,6 @@ interface IColorTarget {
   paintable: TPaintable;
 }
 
-// The plan has no cabin levels, so a cabin stays at its first level.
-const cabinLevel = 0;
-
 function findPlannedTarget(
   { currentItems, date }: IColorPaintRequest,
   plannedBuilding: IPlannedBuilding,
@@ -77,11 +75,7 @@ function findPlannedTarget(
       ),
       type: "building",
     }),
-    paintable: getPaintable({
-      buildingId,
-      houseLevel: cabinLevel,
-      lookKey: getLookKeyOn(plannedBuilding, date),
-    }),
+    paintable: getPaintableOn(plannedBuilding, date),
   };
 }
 

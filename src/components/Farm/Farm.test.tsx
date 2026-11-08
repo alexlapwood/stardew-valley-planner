@@ -1668,7 +1668,13 @@ describe("placing buildings", () => {
     dragAcrossTiles([1, 1], [1, 1]);
 
     expect(buildings()).toEqual([
-      { buildingId: "well", datePlaced: date, x: 1, y: 1 },
+      {
+        buildingId: "well",
+        datePlaced: date,
+        endedFloors: [{ dateInstalled: 0, x: 2, y: 2 }],
+        x: 1,
+        y: 1,
+      },
     ]);
     expect(equipment()).toEqual(byTile([{ ...floor, dateDestroyed: date }]));
   });
@@ -1754,6 +1760,20 @@ describe("placing buildings", () => {
 
     expect(buildings()).toEqual([]);
     expect(equipment()).toEqual(byTile([floor]));
+  });
+
+  it("gives back only the floors that the Well ended, each with its own end day, when the erase is on its date", () => {
+    const flooring = { equipmentId: "flooring", skin: "wood_floor" };
+    const path = scarecrow(2, 2, { ...flooring, dateDestroyed: date + 18 });
+    const erasedFloor = scarecrow(3, 3, { ...flooring, dateDestroyed: date });
+    setEquipment(byTile([path, erasedFloor]));
+    renderFarmCanvas("standard", { id: "well", type: "building" });
+
+    dragAcrossTiles([1, 1], [1, 1]);
+    dragAcrossTiles([2, 2], [2, 2], rightButton);
+
+    expect(buildings()).toEqual([]);
+    expect(equipment()).toEqual(byTile([path, erasedFloor]));
   });
 
   it("does not give back the floors when the erase demolishes a Well on a later day", () => {
@@ -2499,6 +2519,28 @@ describe("colour paint", () => {
     dragAcrossTiles(onHouse, onHouse);
 
     expect(houseColorPaints()).toEqual([]);
+  });
+
+  it("takes the paint out of the plan with the Deluxe Coop that it needs, so that a later Deluxe Coop does not show it", () => {
+    const deluxeCoop = plannedCoop(1, 1, {
+      colorPaints: [
+        {
+          colors: { Roof: { hue: 120, lightness: -12, saturation: 60 } },
+          datePainted: 15,
+        },
+      ],
+      datePlaced: 0,
+      upgrades: [
+        { buildingId: "big_coop", datePlaced: 10 },
+        { buildingId: "deluxe_coop", datePlaced: 10 },
+      ],
+    });
+    setBuildings([deluxeCoop]);
+    renderFarmOn(10, pickAxeTool);
+
+    dragAcrossTiles([2, 2], [2, 2], rightButton);
+
+    expect(buildings()).toEqual([plannedCoop(1, 1, { datePlaced: 0 })]);
   });
 
   it("refuses a cabin and a building with no paint data, with the reason", () => {

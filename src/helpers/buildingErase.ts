@@ -1,6 +1,38 @@
-import { eraseBuildingOn } from "./buildingTiers";
+import { keepShownColorPaints } from "./buildingColors";
+import { keepPaintsBefore } from "./buildingSkins";
+import { withUpgrades } from "./buildingTiers";
 import type { IDragRegion } from "./dragPlacement";
 import { getFootprint, isBuildingHereToday } from "./plannedBuildings";
+
+// An erase on the date of the building takes it out of the plan, and an erase
+// on the date of an upgrade takes back that upgrade and the later ones, with
+// the colour paints that only they could show. An erase on another day
+// demolishes the building from that day. Undefined: the whole building goes.
+export function eraseBuildingOn(
+  plannedBuilding: IPlannedBuilding,
+  date: number,
+): IPlannedBuilding | undefined {
+  if (date === plannedBuilding.datePlaced) {
+    return undefined;
+  }
+
+  const upgrades = plannedBuilding.upgrades ?? [];
+  const earlierUpgrades = upgrades.filter(
+    ({ datePlaced }) => datePlaced < date,
+  );
+
+  if (upgrades.some(({ datePlaced }) => datePlaced === date)) {
+    return keepShownColorPaints(
+      withUpgrades(plannedBuilding, earlierUpgrades),
+      date,
+    );
+  }
+
+  return withUpgrades(
+    keepPaintsBefore({ ...plannedBuilding, dateDestroyed: date }, date),
+    earlierUpgrades,
+  );
+}
 
 export function touchesRegion(
   { height, width, x, y }: IFarmSpot,

@@ -1,5 +1,6 @@
 import { buildings } from "../data/game/buildings.json";
-import { getUpgradePath } from "./buildingTiers";
+import { getLookKeyOn } from "./buildingSkins";
+import { getTierOn, getUpgradePath } from "./buildingTiers";
 import type { IMaskPaint, IPaintJob } from "./paintedSprites";
 
 // level: the house or the cabin needs that level first. upgradeId: a higher
@@ -87,6 +88,20 @@ export function getPaintable({
   }
 
   return { paint };
+}
+
+// The plan has no cabin levels, so a cabin stays at its first level.
+export const cabinLevel = 0;
+
+export function getPaintableOn(
+  plannedBuilding: IPlannedBuilding,
+  date: number,
+) {
+  return getPaintable({
+    buildingId: getTierOn(plannedBuilding, date).buildingId,
+    houseLevel: cabinLevel,
+    lookKey: getLookKeyOn(plannedBuilding, date),
+  });
 }
 
 function isSameColor(a: IPaintColor | undefined, b: IPaintColor | undefined) {
@@ -195,6 +210,24 @@ export function paintBuildingColors(
       date,
       colors,
       plannedBuilding.paints,
+    ),
+  );
+}
+
+// A colour paint stays hidden on the days that the building cannot take paint
+// (getPaintJob), and it shows again when a later upgrade can take paint, so
+// a change of tiers from the date must take out the colour paints from the
+// date that the building can no longer show.
+export function keepShownColorPaints(
+  plannedBuilding: IPlannedBuilding,
+  date: number,
+) {
+  return withColorPaints(
+    plannedBuilding,
+    (plannedBuilding.colorPaints ?? []).filter(
+      ({ datePainted }) =>
+        datePainted < date ||
+        getPaintableOn(plannedBuilding, datePainted).block === undefined,
     ),
   );
 }

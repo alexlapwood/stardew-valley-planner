@@ -24,6 +24,11 @@ function items(fields: Partial<ICurrentItems> = {}): ICurrentItems {
   };
 }
 
+const paintOn = (datePainted: number): IPlannedColorPaint => ({
+  colors: { Roof: { hue: 120, lightness: -12, saturation: 60 } },
+  datePainted,
+});
+
 const eraseOn = (
   region: typeof onHouse,
   date: number,
@@ -42,6 +47,36 @@ describe("planFixedErase on the farmhouse", () => {
 
   it("takes back all the levels on the date of the first level", () => {
     expect(eraseOn(onHouse, spring + 2).houseUpgrades).toEqual([]);
+  });
+
+  describe("the paint of the house", () => {
+    const cellar = { datePlaced: spring + 9, level: 3 };
+    const currentHouseColorPaints = [paintOn(spring + 6), paintOn(spring + 10)];
+    const withCellar = {
+      currentHouseColorPaints,
+      currentHouseUpgrades: [kitchen, nursery, cellar],
+    };
+
+    it("takes out the paint from the date that only the levels it takes back could show", () => {
+      expect(eraseOn(onHouse, spring + 5, withCellar).houseColorPaints).toEqual(
+        [],
+      );
+    });
+
+    it("keeps the paint that the level that stays can show", () => {
+      expect(eraseOn(onHouse, spring + 9, withCellar).houseColorPaints).toEqual(
+        currentHouseColorPaints,
+      );
+    });
+
+    it("keeps the paint as it is when the erase takes back no level", () => {
+      expect(eraseOn(onHouse, spring + 3, withCellar).houseColorPaints).toBe(
+        currentHouseColorPaints,
+      );
+      expect(
+        eraseOn(awayFromBoth, spring + 5, withCellar).houseColorPaints,
+      ).toBe(currentHouseColorPaints);
+    });
   });
 
   it.each([

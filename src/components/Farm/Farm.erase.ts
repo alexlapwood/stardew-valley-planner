@@ -3,12 +3,14 @@ import type { ICurrentItems } from "../../helpers/itemPlacement";
 import { planRegionErase } from "../../helpers/regionErase";
 import {
   greenhouseRepair,
+  houseColorPaints,
   houseUpgrades,
   setBuildings,
   setCrops,
   setCutBushes,
   setEquipment,
   setGreenhouseRepair,
+  setHouseColorPaints,
   setHouseUpgrades,
 } from "../../state/farm";
 import type { IRegion } from "./Farm.region";
@@ -20,10 +22,15 @@ interface IEraseState {
 
 function eraseFixedBuildings({
   greenhouseRepair: repair,
+  houseColorPaints: colorPaints,
   houseUpgrades: upgrades,
 }: IFixedErase) {
   if (upgrades !== houseUpgrades()) {
     setHouseUpgrades(upgrades);
+  }
+
+  if (colorPaints !== houseColorPaints()) {
+    setHouseColorPaints(colorPaints);
   }
 
   if (repair !== greenhouseRepair()) {

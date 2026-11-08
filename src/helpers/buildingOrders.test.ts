@@ -186,6 +186,38 @@ describe("the reasons", () => {
   });
 });
 
+const floor = (x: number, y: number, dateDestroyed?: number) =>
+  scarecrow(x, y, {
+    equipmentId: "flooring",
+    skin: "wood_floor",
+    ...(dateDestroyed === undefined ? {} : { dateDestroyed }),
+  });
+
+describe("a Well on floors", () => {
+  it("keeps the floors that it takes off, with the end day that each had", () => {
+    const order = check("well", spring + 2, {
+      equipment: [floor(41, 31, spring + 20), floor(42, 32)],
+    });
+    const well = building("well", spring + 2, 40, {
+      endedFloors: [
+        { dateDestroyed: spring + 20, dateInstalled: 0, x: 41, y: 31 },
+        { dateInstalled: 0, x: 42, y: 32 },
+      ],
+    });
+
+    expect(order.refusal).toBeUndefined();
+    expect(order.after).toEqual([well]);
+    expect(order.click).toEqual({ plannedBuilding: well, type: "new" });
+  });
+
+  it("keeps no floors for a floor that is gone on the order day", () => {
+    expect(
+      check("well", spring + 2, { equipment: [floor(41, 31, spring + 2)] })
+        .after,
+    ).toStrictEqual([building("well", spring + 2, 40)]);
+  });
+});
+
 describe("findNextOrderDate", () => {
   it("finds the day after a thing on the tiles is gone", () => {
     expect(

@@ -1,4 +1,8 @@
-import { checkBuildingToPlace, type IBuildingCheck } from "./buildingPlacement";
+import {
+  checkBuildingToPlace,
+  type IBuildingCheck,
+  withEndedFloors,
+} from "./buildingPlacement";
 import {
   findLimitRefusal,
   findNextGoodDate,
@@ -127,13 +131,24 @@ export function checkBuildingOrder(request: IOrderRequest): IBuildingOrder {
 
   const refusal = findLimitRefusal(before, after);
 
+  if (refusal !== undefined) {
+    return {
+      ...change,
+      check: footprintCheck(click.plannedBuilding, false),
+      refusal,
+    };
+  }
+
+  const plannedBuilding = withEndedFloors(
+    click.plannedBuilding,
+    check.removedFloors,
+  );
+
   return {
-    ...change,
-    check:
-      refusal === undefined
-        ? check
-        : footprintCheck(click.plannedBuilding, false),
-    refusal,
+    after: [...before, plannedBuilding],
+    before,
+    check,
+    click: { ...click, plannedBuilding },
   };
 }
 

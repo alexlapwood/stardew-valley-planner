@@ -3,6 +3,7 @@ import {
   checkBuildingToPlace,
   removeFloors,
   restoreFloors,
+  withEndedFloors,
 } from "./buildingPlacement";
 import { decodeFarmMap } from "./farmMap";
 
@@ -551,9 +552,34 @@ describe("removeFloors", () => {
   });
 });
 
+describe("withEndedFloors", () => {
+  const well = building("well", 10, 30);
+
+  it("keeps the tile, the start day and the end day that each floor had before the building", () => {
+    expect(
+      withEndedFloors(well, [
+        woodFloor(11, 31),
+        woodFloor(12, 32, { dateDestroyed: 20, dateInstalled: 4 }),
+      ]),
+    ).toEqual({
+      ...well,
+      endedFloors: [
+        { dateInstalled: 0, x: 11, y: 31 },
+        { dateDestroyed: 20, dateInstalled: 4, x: 12, y: 32 },
+      ],
+    });
+  });
+
+  it("keeps the building as it is when it takes off no floors", () => {
+    expect(withEndedFloors(well, [])).toBe(well);
+  });
+});
+
 describe("restoreFloors", () => {
   // The Well is ordered on day 10 at 10, 30, so it covers x 10-12, y 30-32.
-  const well = building("well", 10, 30);
+  const well = building("well", 10, 30, {
+    endedFloors: [{ dateInstalled: 0, x: 11, y: 31 }],
+  });
   const removedFloor = woodFloor(11, 31, { dateDestroyed: 10 });
 
   function restore(
@@ -571,6 +597,31 @@ describe("restoreFloors", () => {
     expect(restore([removedFloor])).toEqual(byTile([woodFloor(11, 31)]));
   });
 
+  it("gives back each floor with the end day that it had before the Well", () => {
+    const path = woodFloor(12, 32, { dateDestroyed: 10, dateInstalled: 4 });
+    const wellOnPaths = building("well", 10, 30, {
+      endedFloors: [
+        { dateInstalled: 0, x: 11, y: 31 },
+        { dateDestroyed: 20, dateInstalled: 4, x: 12, y: 32 },
+      ],
+    });
+
+    expect(restore([removedFloor, path], [], [wellOnPaths])).toEqual(
+      byTile([
+        woodFloor(11, 31),
+        woodFloor(12, 32, { dateDestroyed: 20, dateInstalled: 4 }),
+      ]),
+    );
+  });
+
+  it("keeps a floor that the plan ended on the order day before the Well went down", () => {
+    const erasedFloor = woodFloor(12, 31, { dateDestroyed: 10 });
+
+    expect(restore([removedFloor, erasedFloor])).toEqual(
+      byTile([woodFloor(11, 31), erasedFloor]),
+    );
+  });
+
   it("keeps the floors that ended on another day or are out of the footprint", () => {
     const endedBefore = woodFloor(11, 31, { dateDestroyed: 5 });
     const outside = woodFloor(13, 31, { dateDestroyed: 10 });
@@ -582,6 +633,9 @@ describe("restoreFloors", () => {
 
   it("ends a floor that comes back on the day the next thing on its tile starts", () => {
     const laterFloor = woodFloor(11, 31, { dateInstalled: 40 });
+    const wellOnPath = building("well", 10, 30, {
+      endedFloors: [{ dateDestroyed: 30, dateInstalled: 0, x: 11, y: 31 }],
+    });
 
     expect(restore([removedFloor, laterFloor])).toEqual(
       byTile([woodFloor(11, 31, { dateDestroyed: 40 }), laterFloor]),
@@ -589,13 +643,26 @@ describe("restoreFloors", () => {
     expect(
       restore([removedFloor], [parsnip(11, 31, { datePlanted: 25 })]),
     ).toEqual(byTile([woodFloor(11, 31, { dateDestroyed: 25 })]));
+    expect(
+      restore(
+        [removedFloor],
+        [parsnip(11, 31, { datePlanted: 25 })],
+        [wellOnPath],
+      ),
+    ).toEqual(byTile([woodFloor(11, 31, { dateDestroyed: 25 })]));
+    expect(restore([removedFloor, laterFloor], [], [wellOnPath])).toEqual(
+      byTile([woodFloor(11, 31, { dateDestroyed: 30 }), laterFloor]),
+    );
   });
 
-  it("gives back no floors for a building that keeps them, or with no cancelled order", () => {
+  it("gives back no floors for a building that took none, or with no cancelled order", () => {
     const barnFloor = woodFloor(11, 31, { dateDestroyed: 10 });
 
     expect(restore([barnFloor], [], [building("barn", 10, 30)])).toEqual(
       byTile([barnFloor]),
+    );
+    expect(restore([removedFloor], [], [building("well", 10, 30)])).toEqual(
+      byTile([removedFloor]),
     );
     expect(restore([removedFloor], [], [])).toEqual(byTile([removedFloor]));
   });

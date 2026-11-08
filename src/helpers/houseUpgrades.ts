@@ -113,3 +113,19 @@ export function eraseHouseUpgradeOn(
 
   return index === -1 ? upgrades : upgrades.slice(0, index);
 }
+
+// A paint of the house stays hidden while the house has no Nursery, and it
+// shows again from a later Nursery, so a change of levels from the date must
+// take out the paints from the date that the house can no longer show.
+export function keepShownHouseColorPaints(
+  colorPaints: readonly IPlannedColorPaint[],
+  upgrades: readonly IPlannedHouseUpgrade[],
+  date: number,
+) {
+  return colorPaints.filter(
+    ({ datePainted }) =>
+      datePainted < date ||
+      getHousePaintable(getHouseLevelOn(upgrades, datePainted)).block ===
+        undefined,
+  );
+}
