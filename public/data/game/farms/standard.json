@@ -123,6 +123,38 @@
         "interval": 450
       }
     ],
+    "bushes": [
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 47,
+        "y": 6
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 49,
+        "y": 6
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 74,
+        "y": 10
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 75,
+        "y": 10
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 77,
+        "y": 11
+      }
+    ],
     "greenhousePath": [
       {
         "gid": 877,
@@ -913,6 +945,10 @@
         "x": 71,
         "y": 14
       }
+    },
+    "start": {
+      "buildings": [],
+      "items": []
     },
     "tilesheets": [
       {

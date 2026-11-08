@@ -1,10 +1,13 @@
 export const atlasUrls = {
   buildings: "images/game/buildings.png",
+  bushes: "images/game/bushes.png",
   crops: "images/game/crops.png",
   fences: "images/game/fences.png",
   flooring: "images/game/flooring.png",
   flooringWinter: "images/game/flooring_winter.png",
   items: "images/game/items.png",
+  materials: "images/game/materials.png",
+  robin: "images/game/robin.png",
   trees: "images/game/trees.png",
 } as const;
 

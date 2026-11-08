@@ -3,10 +3,11 @@ import { For, Show } from "solid-js";
 
 import { trees } from "../../../data/game/trees.json";
 import { atlasSprite } from "../../../helpers/atlas";
-import { formatIncomeTooltip } from "../../../helpers/income";
+import { getIncomeTooltip } from "../../../helpers/income";
 import { getSaplingCost, getTreeIncome } from "../../../helpers/treeIncome";
 import BigText from "../../BigText/BigText";
 import Sprite from "../../Sprite/Sprite";
+import Tooltip from "../../Tooltip/Tooltip";
 
 interface IProps {
   date: number;
@@ -17,7 +18,7 @@ interface IProps {
 
 export default function TreeMenu(props: IProps) {
   const getTooltip = (tree: ITree) =>
-    formatIncomeTooltip({
+    getIncomeTooltip({
       cost: getSaplingCost(tree),
       income: getTreeIncome(tree, props.date),
       sell: tree.sell,
@@ -39,29 +40,39 @@ export default function TreeMenu(props: IProps) {
           <BigText>Trees</BigText>
         </div>
         <For each={props.treeIds}>
-          {(treeId) => (
-            <div
-              class={cn("sdv-list-item", {
-                selected:
-                  props.selectedItem?.type === "tree" &&
-                  props.selectedItem.id === treeId,
-              })}
-              data-testid={`tree--${treeId}`}
-              onClick={() => {
-                props.selectTree(treeId);
-              }}
-              title={getTooltip(trees[treeId])}
-            >
-              <div class="sdv-list-item-icon">
-                <Sprite
-                  {...atlasSprite("trees", trees[treeId].sprites.sapling)}
+          {(treeId) => {
+            let rowRef: HTMLDivElement | undefined;
+
+            return (
+              <>
+                <div
+                  class={cn("sdv-list-item", {
+                    selected:
+                      props.selectedItem?.type === "tree" &&
+                      props.selectedItem.id === treeId,
+                  })}
+                  data-testid={`tree--${treeId}`}
+                  onClick={() => {
+                    props.selectTree(treeId);
+                  }}
+                  ref={rowRef}
+                >
+                  <div class="sdv-list-item-icon">
+                    <Sprite
+                      {...atlasSprite("trees", trees[treeId].sprites.sapling)}
+                    />
+                  </div>
+                  <div>
+                    <BigText>{trees[treeId].name}</BigText>
+                  </div>
+                </div>
+                <Tooltip
+                  anchor={() => rowRef}
+                  lines={getTooltip(trees[treeId])}
                 />
-              </div>
-              <div>
-                <BigText>{trees[treeId].name}</BigText>
-              </div>
-            </div>
-          )}
+              </>
+            );
+          }}
         </For>
       </div>
     </Show>

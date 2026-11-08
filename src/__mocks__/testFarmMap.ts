@@ -30,6 +30,7 @@ export function makeTestFarmMapFile(width = 80, height = 65): IFarmMapFile {
   return {
     farm: {
       animations: [],
+      bushes: [],
       greenhousePath: [],
       height,
       layers: [],
@@ -45,6 +46,7 @@ export function makeTestFarmMapFile(width = 80, height = 65): IFarmMapFile {
         saplingAllowed.repeat(width),
       ),
       spots: structuredClone(testSpots),
+      start: { buildings: [], items: [] },
       tilesheets: [],
       tillable: width * height,
       water: { tints: structuredClone(testWaterTints) },

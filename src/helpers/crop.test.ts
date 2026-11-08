@@ -374,10 +374,13 @@ describe("Crop helper", () => {
         getSeedCost({
           ...crop,
           seedPrices: {
-            Raccoon: { price: 0, trade: { count: 5, item: "Moss" } },
+            Raccoon: {
+              price: 0,
+              trade: { count: 5, item: "Moss", itemId: "(O)Moss" },
+            },
           },
         }),
-      ).toEqual({ cost: 0, label: "Moss ×5" });
+      ).toEqual({ cost: 0, itemId: "(O)Moss", label: "Moss ×5" });
     });
 
     it("has no cost when no shop sells it", () => {

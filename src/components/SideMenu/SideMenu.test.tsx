@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, within } from "@solidjs/testing-library";
 import { createSignal } from "solid-js";
 
+import { readTooltip } from "../../__helpers__/tooltip";
 import { crops } from "../../data/game/crops.json";
 import { items } from "../../data/game/items.json";
 import SideMenu from "./SideMenu";
@@ -14,8 +15,10 @@ function renderSideMenu(date = spring) {
   return render(() => (
     <SideMenu
       date={date}
+      selectBuilding={vitest.fn()}
       selectCrop={vitest.fn()}
       selectEquipment={vitest.fn()}
+      selectItem={vitest.fn()}
       selectTree={vitest.fn()}
     />
   ));
@@ -91,8 +94,44 @@ function search(text: string) {
   fireEvent.input(searchBox(), { target: { value: text } });
 }
 
+function buildingRows() {
+  return Array.from(
+    list("buildings").querySelectorAll<HTMLElement>(
+      "[data-testid^='building--']",
+    ),
+  );
+}
+
+function visibleBuildingIds() {
+  return buildingRows()
+    .filter((row) => row.parentElement?.classList.contains("hidden") !== true)
+    .map((row) => row.dataset.testid?.replace("building--", ""));
+}
+
+function allBuildingMenuRows() {
+  return Array.from(
+    list("buildings").querySelectorAll<HTMLElement>(
+      ".BuildingMenu > div > .sdv-list-item",
+    ),
+  );
+}
+
+function visibleRowKeys() {
+  return allBuildingMenuRows()
+    .filter((row) => row.parentElement?.classList.contains("hidden") !== true)
+    .map((row) => row.dataset.testid);
+}
+
+function indentedRowKeys() {
+  return allBuildingMenuRows()
+    .filter(
+      (row) => row.parentElement?.classList.contains("margin-left") === true,
+    )
+    .map((row) => row.dataset.testid);
+}
+
 function fadedTabIds() {
-  return ["crops", "items", "decorations"].filter((tabId) =>
+  return ["crops", "items", "decorations", "buildings"].filter((tabId) =>
     screen.getByTestId(`${tabId}-tab`).classList.contains("no-matches"),
   );
 }
@@ -136,6 +175,33 @@ function clickAt(element: Element) {
   fireEvent.click(element);
 }
 
+function renderWithBuildingSelect() {
+  const selectBuilding = vitest.fn();
+
+  render(() => (
+    <SideMenu
+      date={spring}
+      selectBuilding={selectBuilding}
+      selectCrop={vitest.fn()}
+      selectEquipment={vitest.fn()}
+      selectItem={vitest.fn()}
+      selectTree={vitest.fn()}
+    />
+  ));
+
+  return selectBuilding;
+}
+
+function shownSkin(buildingId: string) {
+  return screen.getByTestId(`building--${buildingId}`).dataset.skin;
+}
+
+function stepSkin(buildingId: string, direction: "next" | "previous") {
+  fireEvent.click(
+    screen.getByTestId(`building-skin--${buildingId}--${direction}`),
+  );
+}
+
 function pickSkin(itemId: string, skinKey: string) {
   openDropdown(itemId);
 
@@ -169,18 +235,25 @@ describe("<SideMenu />", () => {
     ["crops", "Crops"],
     ["items", "Items"],
     ["decorations", "Decorations"],
+    ["buildings", "Buildings"],
   ])("shows the %s tab, with its name as the tooltip", (tabId, name) => {
     renderSideMenu();
 
     fireEvent.click(screen.getByTestId(`${tabId}-tab`));
 
     expect(screen.getByTestId(`${tabId}-tab`).classList).toContain("selected");
-    expect(screen.getByTestId(`${tabId}-tab`).getAttribute("title")).toBe(name);
+    expect(readTooltip(screen.getByTestId(`${tabId}-tab`))).toBe(name);
     expect(
       screen
         .getAllByRole("tabpanel", { hidden: true })
         .filter((panel) => !panel.classList.contains("hidden")),
     ).toEqual([list(tabId)]);
+  });
+
+  it("has no title on any tab or row, so that the browser shows no second tooltip", () => {
+    const { container } = renderSideMenu();
+
+    expect(container.querySelectorAll("[title]")).toHaveLength(0);
   });
 
   it("highlights only the open tab", () => {
@@ -258,8 +331,10 @@ describe("<SideMenu />", () => {
     render(() => (
       <SideMenu
         date={spring}
+        selectBuilding={vitest.fn()}
         selectCrop={vitest.fn()}
         selectEquipment={vitest.fn()}
+        selectItem={vitest.fn()}
         selectTree={selectTree}
         selectedItem={selectedItem()}
       />
@@ -322,8 +397,10 @@ describe("<SideMenu />", () => {
     render(() => (
       <SideMenu
         date={date()}
+        selectBuilding={vitest.fn()}
         selectCrop={vitest.fn()}
         selectEquipment={vitest.fn()}
+        selectItem={vitest.fn()}
         selectTree={vitest.fn()}
       />
     ));
@@ -334,6 +411,356 @@ describe("<SideMenu />", () => {
 
     expect(shownCropIds()).not.toContain("parsnip");
     expect(shownCropIds()).toContain("melon");
+  });
+
+  describe("buildings tab", () => {
+    it("shows the 23 buildings that the game can build A-Z, with each upgrade under the building that it upgrades", () => {
+      renderSideMenu();
+
+      expect(visibleBuildingIds()).toEqual([
+        "barn",
+        "big_barn",
+        "deluxe_barn",
+        "cabin",
+        "coop",
+        "big_coop",
+        "deluxe_coop",
+        "desert_obelisk",
+        "earth_obelisk",
+        "fish_pond",
+        "gold_clock",
+        "island_obelisk",
+        "junimo_hut",
+        "mill",
+        "pet_bowl",
+        "shed",
+        "big_shed",
+        "shipping_bin",
+        "silo",
+        "slime_hutch",
+        "stable",
+        "water_obelisk",
+        "well",
+      ]);
+    });
+
+    it("indents only the upgrades, and has no headings", () => {
+      renderSideMenu();
+
+      expect(
+        buildingRows()
+          .filter(
+            (row) =>
+              row.parentElement?.classList.contains("margin-left") === true,
+          )
+          .map((row) => row.dataset.testid),
+      ).toEqual([
+        "building--big_barn",
+        "building--deluxe_barn",
+        "building--big_coop",
+        "building--deluxe_coop",
+        "building--big_shed",
+      ]);
+      expect(headings(list("buildings"))).toEqual([]);
+    });
+
+    it("selects a building, and marks the selected building", () => {
+      const selectBuilding = vitest.fn();
+      const [selectedItem, setSelectedItem] = createSignal<ISelectedItem>();
+
+      render(() => (
+        <SideMenu
+          date={spring}
+          selectBuilding={selectBuilding}
+          selectCrop={vitest.fn()}
+          selectEquipment={vitest.fn()}
+          selectItem={vitest.fn()}
+          selectTree={vitest.fn()}
+          selectedItem={selectedItem()}
+        />
+      ));
+
+      fireEvent.click(screen.getByTestId("building--big_coop"));
+
+      expect(selectBuilding).toHaveBeenCalledExactlyOnceWith("big_coop");
+
+      setSelectedItem({ id: "big_coop", type: "building" });
+
+      expect(
+        Array.from(
+          list("buildings").querySelectorAll<HTMLElement>(".selected"),
+          (row) => row.dataset.testid,
+        ),
+      ).toEqual(["building--big_coop"]);
+    });
+
+    it("finds the buildings by name, and fades the tab when none matches", () => {
+      renderSideMenu();
+
+      search("BARN");
+
+      expect(visibleBuildingIds()).toEqual(["barn", "big_barn", "deluxe_barn"]);
+
+      search("obelisk");
+
+      expect(visibleBuildingIds()).toEqual([
+        "desert_obelisk",
+        "earth_obelisk",
+        "island_obelisk",
+        "water_obelisk",
+      ]);
+      expect(fadedTabIds()).not.toContain("buildings");
+
+      search("parsnip");
+
+      expect(visibleBuildingIds()).toEqual([]);
+      expect(fadedTabIds()).toContain("buildings");
+    });
+
+    it("puts the Farmhouse with its levels and the Greenhouse with its repair in A-Z order, with the levels and the repair indented", () => {
+      renderSideMenu();
+
+      const rows = visibleRowKeys();
+
+      expect(
+        rows.slice(
+          rows.indexOf("building--earth_obelisk") + 1,
+          rows.indexOf("building--fish_pond"),
+        ),
+      ).toEqual([
+        "fixed-building--farmhouse",
+        "house-upgrade--1",
+        "house-upgrade--2",
+        "house-upgrade--3",
+      ]);
+      expect(
+        rows.slice(
+          rows.indexOf("building--gold_clock") + 1,
+          rows.indexOf("building--island_obelisk"),
+        ),
+      ).toEqual(["fixed-building--greenhouse", "greenhouse-repair"]);
+      expect(indentedRowKeys()).toEqual(
+        expect.arrayContaining([
+          "house-upgrade--1",
+          "house-upgrade--2",
+          "house-upgrade--3",
+          "greenhouse-repair",
+        ]),
+      );
+      expect(indentedRowKeys()).not.toContain("fixed-building--farmhouse");
+      expect(indentedRowKeys()).not.toContain("fixed-building--greenhouse");
+    });
+
+    it("selects a house level or the repair, and not the Farmhouse or the Greenhouse rows", () => {
+      const selectItem = vitest.fn();
+      const selectBuilding = vitest.fn();
+      const [selectedItem, setSelectedItem] = createSignal<ISelectedItem>();
+
+      render(() => (
+        <SideMenu
+          date={spring}
+          selectBuilding={selectBuilding}
+          selectCrop={vitest.fn()}
+          selectEquipment={vitest.fn()}
+          selectItem={selectItem}
+          selectTree={vitest.fn()}
+          selectedItem={selectedItem()}
+        />
+      ));
+
+      fireEvent.click(screen.getByTestId("fixed-building--farmhouse"));
+      fireEvent.click(screen.getByTestId("fixed-building--greenhouse"));
+
+      expect(selectItem).not.toHaveBeenCalled();
+
+      fireEvent.click(screen.getByTestId("house-upgrade--2"));
+      fireEvent.click(screen.getByTestId("greenhouse-repair"));
+
+      expect(selectItem.mock.calls).toEqual([
+        [{ id: "2", type: "houseUpgrade" }],
+        [{ id: "greenhouse", type: "greenhouseRepair" }],
+      ]);
+      expect(selectBuilding).not.toHaveBeenCalled();
+
+      setSelectedItem({ id: "2", type: "houseUpgrade" });
+
+      expect(
+        Array.from(
+          list("buildings").querySelectorAll<HTMLElement>(".selected"),
+          (row) => row.dataset.testid,
+        ),
+      ).toEqual(["house-upgrade--2"]);
+    });
+
+    it("shows the Farmhouse above a level that the search finds, and all the levels when the search finds the Farmhouse", () => {
+      renderSideMenu();
+
+      search("nursery");
+
+      expect(visibleRowKeys()).toEqual([
+        "fixed-building--farmhouse",
+        "house-upgrade--2",
+      ]);
+
+      search("farmhouse");
+
+      expect(visibleRowKeys()).toEqual([
+        "fixed-building--farmhouse",
+        "house-upgrade--1",
+        "house-upgrade--2",
+        "house-upgrade--3",
+      ]);
+
+      search("repair");
+
+      expect(visibleRowKeys()).toEqual([
+        "fixed-building--greenhouse",
+        "greenhouse-repair",
+      ]);
+    });
+
+    it("has the Paint row first, which the search finds by its name, and which selects the paint item", () => {
+      const selectItem = vitest.fn();
+
+      render(() => (
+        <SideMenu
+          date={spring}
+          selectBuilding={vitest.fn()}
+          selectCrop={vitest.fn()}
+          selectEquipment={vitest.fn()}
+          selectItem={selectItem}
+          selectTree={vitest.fn()}
+        />
+      ));
+
+      expect(visibleRowKeys()[0]).toBe("paint");
+
+      search("PAINT");
+
+      expect(visibleRowKeys()).toEqual(["paint"]);
+      expect(fadedTabIds()).not.toContain("buildings");
+
+      search("barn");
+
+      expect(visibleRowKeys()).not.toContain("paint");
+
+      fireEvent.click(screen.getByTestId("paint"));
+
+      expect(selectItem).toHaveBeenCalledExactlyOnceWith({
+        colors: {},
+        id: "paint",
+        type: "paint",
+      });
+    });
+
+    it("shows the base building above an upgrade that the search finds", () => {
+      renderSideMenu();
+
+      search("deluxe");
+
+      expect(visibleBuildingIds()).toEqual([
+        "barn",
+        "deluxe_barn",
+        "coop",
+        "deluxe_coop",
+      ]);
+
+      search("big shed");
+
+      expect(visibleBuildingIds()).toEqual(["shed", "big_shed"]);
+    });
+
+    describe("skin picker", () => {
+      it("has the arrows only on the rows of the buildings that have skins, with the look with no skin first", () => {
+        renderSideMenu();
+
+        expect(
+          Array.from(
+            list("buildings").querySelectorAll<HTMLElement>(
+              "[data-testid^='building-skin--']",
+            ),
+            (button) => [button.dataset.testid, button.ariaLabel],
+          ),
+        ).toEqual([
+          ["building-skin--cabin--previous", "Previous look"],
+          ["building-skin--cabin--next", "Next look"],
+          ["building-skin--pet_bowl--previous", "Previous look"],
+          ["building-skin--pet_bowl--next", "Next look"],
+        ]);
+        expect([shownSkin("cabin"), shownSkin("pet_bowl")]).toEqual([
+          "cabin",
+          "pet_bowl",
+        ]);
+        expect(shownSkin("barn")).toBeUndefined();
+      });
+
+      it("goes round the skins with the arrows, and selects the building with each skin", () => {
+        const selectBuilding = renderWithBuildingSelect();
+
+        stepSkin("pet_bowl", "next");
+
+        expect(shownSkin("pet_bowl")).toBe("hay_pet_bowl");
+
+        stepSkin("pet_bowl", "next");
+        stepSkin("pet_bowl", "next");
+
+        expect(shownSkin("pet_bowl")).toBe("pet_bowl");
+
+        stepSkin("pet_bowl", "previous");
+
+        expect(shownSkin("pet_bowl")).toBe("stone_pet_bowl");
+        expect(selectBuilding.mock.calls).toEqual([
+          ["pet_bowl", "hay_pet_bowl"],
+          ["pet_bowl", "stone_pet_bowl"],
+          ["pet_bowl", "pet_bowl"],
+          ["pet_bowl", "stone_pet_bowl"],
+        ]);
+      });
+
+      it("selects the row with the skin that it shows", () => {
+        const selectBuilding = renderWithBuildingSelect();
+
+        fireEvent.click(screen.getByTestId("building--cabin"));
+        stepSkin("cabin", "previous");
+        fireEvent.click(screen.getByTestId("building--pet_bowl"));
+        fireEvent.click(screen.getByTestId("building--cabin"));
+
+        expect(selectBuilding.mock.calls).toEqual([
+          ["cabin", "cabin"],
+          ["cabin", "trailer_cabin"],
+          ["pet_bowl", "pet_bowl"],
+          ["cabin", "trailer_cabin"],
+        ]);
+      });
+
+      it("keeps the picked skin of a building when the tab changes", () => {
+        renderSideMenu();
+
+        stepSkin("cabin", "next");
+        fireEvent.click(screen.getByTestId("crops-tab"));
+        fireEvent.click(screen.getByTestId("buildings-tab"));
+
+        expect(shownSkin("cabin")).toBe("beach_cabin");
+      });
+
+      it("finds a building by the name of a skin, and shows that skin until the text is cleared", () => {
+        renderSideMenu();
+
+        search("log cabin");
+
+        expect(visibleBuildingIds()).toEqual(["cabin"]);
+        expect(shownSkin("cabin")).toBe("log_cabin");
+
+        search("hay");
+
+        expect(visibleBuildingIds()).toEqual(["pet_bowl"]);
+        expect(shownSkin("pet_bowl")).toBe("hay_pet_bowl");
+
+        search("");
+
+        expect(shownSkin("cabin")).toBe("cabin");
+      });
+    });
   });
 
   it("keeps the picked skin of an item when the tab changes", () => {
@@ -524,8 +951,10 @@ describe("<SideMenu />", () => {
       render(() => (
         <SideMenu
           date={spring}
+          selectBuilding={vitest.fn()}
           selectCrop={vitest.fn()}
           selectEquipment={selectEquipment}
+          selectItem={vitest.fn()}
           selectTree={vitest.fn()}
         />
       ));
@@ -550,8 +979,10 @@ describe("<SideMenu />", () => {
       render(() => (
         <SideMenu
           date={spring}
+          selectBuilding={vitest.fn()}
           selectCrop={vitest.fn()}
           selectEquipment={selectEquipment}
+          selectItem={vitest.fn()}
           selectTree={vitest.fn()}
         />
       ));
@@ -571,11 +1002,11 @@ describe("<SideMenu />", () => {
 
       search("parsnip");
 
-      expect(fadedTabIds()).toEqual(["items", "decorations"]);
+      expect(fadedTabIds()).toEqual(["items", "decorations", "buildings"]);
 
       search("keg");
 
-      expect(fadedTabIds()).toEqual(["crops", "decorations"]);
+      expect(fadedTabIds()).toEqual(["crops", "decorations", "buildings"]);
 
       search("");
 
@@ -597,8 +1028,10 @@ describe("<SideMenu />", () => {
       render(() => (
         <SideMenu
           date={spring}
+          selectBuilding={vitest.fn()}
           selectCrop={selectCrop}
           selectEquipment={vitest.fn()}
+          selectItem={vitest.fn()}
           selectTree={vitest.fn()}
         />
       ));

@@ -127,14 +127,16 @@ export function fadeTallSprites(
   }
 
   return draws.map((sortedDraw) => {
-    const { draw, tall } = sortedDraw;
+    const { draw, fadedDraw, tall } = sortedDraw;
 
     return tall !== undefined && isTallSpriteFaded(tall, region)
       ? {
           ...sortedDraw,
-          draw: () => {
-            drawFaded(context, draw);
-          },
+          draw:
+            fadedDraw ??
+            (() => {
+              drawFaded(context, draw);
+            }),
         }
       : sortedDraw;
   });

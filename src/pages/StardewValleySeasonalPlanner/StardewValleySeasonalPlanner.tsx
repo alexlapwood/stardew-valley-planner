@@ -28,7 +28,7 @@ import {
   savePlanFile,
   setDate,
 } from "../../state/farm";
-import { defaultPlanName, newFarmData } from "../../state/plan";
+import { defaultPlanName } from "../../state/plan";
 
 interface Props extends JSX.HTMLAttributes<HTMLDivElement> {}
 
@@ -57,10 +57,7 @@ async function addDevFarmPlan() {
 
   const farm = parseDevFarmSwitch(window.location.search);
 
-  await planStore.addPlan(
-    newFarmData(farm),
-    defaultPlanName(farm, planStore.plans()),
-  );
+  await planStore.addNewPlan(farm, defaultPlanName(farm, planStore.plans()));
   // A reload must not add the plan again.
   window.history.replaceState(null, "", window.location.pathname);
 }
@@ -160,16 +157,12 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
           {(plan, openNewPlan) => (
             <div class="flex-vertical" style={{ height: "100%" }}>
               <Header
-                changeLooks={(looks) => {
-                  planStore.setLooks(looks);
-                }}
                 changePlan={(id) => {
                   void planStore.openPlan(id);
                 }}
                 deletePlan={(id) => {
                   void planStore.deletePlan(id);
                 }}
-                looks={plan().looks}
                 newPlan={openNewPlan}
                 openFile={openPlanFile}
                 plan={plan()}
@@ -189,7 +182,6 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
                         setToolbarsDisabled(disabled);
                       }}
                       images={images()}
-                      looks={plan().looks}
                       selectedItem={selectedItem()}
                       zoom={1}
                     />
@@ -211,11 +203,21 @@ export const StardewValleySeasonalPlanner: Component<Props> = ({
                 <div style={{ width: "200px" }}>
                   <SideMenu
                     date={date()}
+                    selectBuilding={(buildingId: string, skin?: string) => {
+                      setSelectedItem({
+                        id: buildingId,
+                        skin,
+                        type: "building",
+                      });
+                    }}
                     selectCrop={(cropId: string) => {
                       setSelectedItem({ id: cropId, type: "crop" });
                     }}
                     selectEquipment={(id: string, skin: string) => {
                       setSelectedItem({ id, skin, type: "equipment" });
+                    }}
+                    selectItem={(item: ISelectedItem) => {
+                      setSelectedItem(item);
                     }}
                     selectTree={(treeId: string) => {
                       setSelectedItem({ id: treeId, type: "tree" });

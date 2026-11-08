@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@solidjs/testing-library";
 
+import { readTooltip } from "../../../__helpers__/tooltip";
 import { getCropIdsInSeason } from "../sideMenuItems";
 import SeedMenu from "./SeedMenu";
 
@@ -10,7 +11,7 @@ function tooltip(cropId: string, date: number) {
     <SeedMenu cropIds={[cropId]} date={date} selectCrop={vitest.fn()} />
   ));
 
-  return screen.getByTestId(`seed--${cropId}`).getAttribute("title");
+  return readTooltip(screen.getByTestId(`seed--${cropId}`));
 }
 
 describe("<SeedMenu />", () => {
@@ -75,7 +76,7 @@ describe("<SeedMenu />", () => {
         <SeedMenu cropIds={cropIds} date={0} selectCrop={vitest.fn()} />
       ));
 
-      const tooltip = screen.getByTestId("seed--parsnip").getAttribute("title");
+      const tooltip = readTooltip(screen.getByTestId("seed--parsnip"));
 
       expect(tooltip).toMatchSnapshot();
     });
@@ -85,7 +86,7 @@ describe("<SeedMenu />", () => {
         <SeedMenu cropIds={cropIds} date={28 * 4} selectCrop={vitest.fn()} />
       ));
 
-      const tooltip = screen.getByTestId("seed--parsnip").getAttribute("title");
+      const tooltip = readTooltip(screen.getByTestId("seed--parsnip"));
 
       expect(tooltip).toMatchSnapshot();
     });
@@ -95,7 +96,7 @@ describe("<SeedMenu />", () => {
         <SeedMenu cropIds={cropIds} date={23} selectCrop={vitest.fn()} />
       ));
 
-      const tooltip = screen.getByTestId("seed--parsnip").getAttribute("title");
+      const tooltip = readTooltip(screen.getByTestId("seed--parsnip"));
 
       expect(tooltip).toMatchSnapshot();
     });
@@ -105,7 +106,7 @@ describe("<SeedMenu />", () => {
         <SeedMenu cropIds={cropIds} date={24} selectCrop={vitest.fn()} />
       ));
 
-      const tooltip = screen.getByTestId("seed--parsnip").getAttribute("title");
+      const tooltip = readTooltip(screen.getByTestId("seed--parsnip"));
 
       expect(tooltip).toMatchSnapshot();
     });
@@ -117,9 +118,7 @@ describe("<SeedMenu />", () => {
         <SeedMenu cropIds={cropIds} date={0} selectCrop={vitest.fn()} />
       ));
 
-      const tooltip = screen
-        .getByTestId("seed--green_bean")
-        .getAttribute("title");
+      const tooltip = readTooltip(screen.getByTestId("seed--green_bean"));
 
       expect(tooltip).toMatchSnapshot();
     });
@@ -129,9 +128,7 @@ describe("<SeedMenu />", () => {
         <SeedMenu cropIds={cropIds} date={23} selectCrop={vitest.fn()} />
       ));
 
-      const tooltip = screen
-        .getByTestId("seed--green_bean")
-        .getAttribute("title");
+      const tooltip = readTooltip(screen.getByTestId("seed--green_bean"));
       expect(tooltip).toMatchSnapshot();
     });
 
@@ -140,9 +137,7 @@ describe("<SeedMenu />", () => {
         <SeedMenu cropIds={cropIds} date={24} selectCrop={vitest.fn()} />
       ));
 
-      const tooltip = screen
-        .getByTestId("seed--green_bean")
-        .getAttribute("title");
+      const tooltip = readTooltip(screen.getByTestId("seed--green_bean"));
 
       expect(tooltip).toMatchSnapshot();
     });

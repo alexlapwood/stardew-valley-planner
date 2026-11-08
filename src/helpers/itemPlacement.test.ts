@@ -81,6 +81,67 @@ describe("items on a tree tile", () => {
   });
 });
 
+function melonOn(datePlanted: number): IPlantedCrop {
+  return { ...parsnipOn(datePlanted), cropId: "melon" };
+}
+
+function woodFloorOn(dateInstalled: number): IInstalledEquipment {
+  return {
+    ...scarecrowOn(dateInstalled),
+    equipmentId: "flooring",
+    skin: "wood_floor",
+  };
+}
+
+describe("items on a planned building tile", () => {
+  const currentBuildings: IPlannedBuilding[] = [
+    { buildingId: "barn", dateDestroyed: 30, datePlaced: 10, x: 0, y: 0 },
+  ];
+
+  it("does not plant a crop that is still there on any day of the building", () => {
+    const { plantableCrops, unplantableCrops } = checkCropsToPlant(
+      [parsnipOn(0), parsnipOn(7), parsnipOn(12), melonOn(29), melonOn(30)],
+      { currentBuildings, currentCrops: {}, currentEquipment: {} },
+      testFarmMap,
+    );
+
+    expect(plantableCrops).toEqual([parsnipOn(0), melonOn(30)]);
+    expect(unplantableCrops).toEqual([
+      parsnipOn(7),
+      parsnipOn(12),
+      melonOn(29),
+    ]);
+  });
+
+  it("does not install a thing that stays into the building days, but puts a floor under the building", () => {
+    const { installableEquipment, notInstallableEquipment } =
+      checkEquipmentToInstall(
+        [scarecrowOn(0), scarecrowOn(12), scarecrowOn(30), woodFloorOn(0)],
+        { currentBuildings, currentCrops: {}, currentEquipment: {} },
+        testFarmMap,
+      );
+
+    expect(installableEquipment).toEqual([scarecrowOn(30), woodFloorOn(0)]);
+    expect(notInstallableEquipment).toEqual([scarecrowOn(0), scarecrowOn(12)]);
+  });
+
+  it("installs a thing that a later crop takes away before the building comes", () => {
+    const { installableEquipment } = checkEquipmentToInstall(
+      [scarecrowOn(0)],
+      {
+        currentBuildings,
+        currentCrops: { 0: { 0: [parsnipOn(3)] } },
+        currentEquipment: {},
+      },
+      testFarmMap,
+    );
+
+    expect(installableEquipment).toEqual([
+      { ...scarecrowOn(0), dateDestroyed: 3 },
+    ]);
+  });
+});
+
 describe("checkCropsToPlant", () => {
   it("can detect overlapping crops", () => {
     const cropsToPlant: IPlantedCrop[] = [

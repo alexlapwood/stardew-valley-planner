@@ -39,14 +39,117 @@
      overlap inside the list, so the first and the last outline show. */
   .SeedMenu,
   .TreeMenu,
-  .EquipmentMenu {
+  .EquipmentMenu,
+  .BuildingMenu {
     padding: 1px 0;
   }
 
   .SeedMenu .sdv-list-item,
   .TreeMenu .sdv-list-item,
-  .EquipmentMenu .sdv-list-item {
+  .EquipmentMenu .sdv-list-item,
+  .BuildingMenu .sdv-list-item {
     margin: -1px 0;
+  }
+
+  /* A row with no item to select stays the same on hover. */
+  .BuildingMenu .BuildingMenu--label:hover {
+    background: #ffd284;
+    border-image: url("../../images/list-item-border.png") 5 stretch;
+    cursor: default;
+  }
+
+  /* The arrows are 7x8 px, so each has a taller and wider hit area that
+     covers the row frame, and the row does not grow. */
+  .BuildingMenu--skin-button {
+    align-self: stretch;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+    height: auto;
+    margin: -5px 0;
+    width: 13px;
+
+    &:last-child {
+      margin-right: -4px;
+    }
+  }
+
+  .BuildingMenu--paint-icon {
+    align-items: center;
+    display: flex;
+    font-size: 12px;
+    height: 16px;
+    justify-content: center;
+    line-height: 12px;
+    width: 16px;
+  }
+
+  .PaintMenu {
+    background: #ffd284;
+    border-image: url("../../images/list-item-border.png") 5 stretch;
+    border-style: solid;
+    border-width: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: -1px 0;
+    padding: 2px;
+  }
+
+  .PaintMenu--region {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .PaintMenu--heading,
+  .PaintMenu--no-paint,
+  .PaintMenu--slider-row {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+  }
+
+  .PaintMenu--no-paint {
+    cursor: pointer;
+  }
+
+  .PaintMenu--swatch {
+    background-clip: padding-box;
+    border-image: url("../../images/list-item-icon-border.png") 1 stretch;
+    border-style: solid;
+    border-width: 1px;
+    flex-shrink: 0;
+    height: 12px;
+    width: 12px;
+  }
+
+  .PaintMenu--letter {
+    flex-shrink: 0;
+    width: 8px;
+  }
+
+  /* The game draws each track in the colours that the slider gives, so the
+     track is taller than the plain slider to show them. */
+  .PaintMenu--slider {
+    flex: 1;
+    min-width: 0;
+
+    &::-webkit-slider-runnable-track {
+      background: var(--track);
+      background-clip: padding-box;
+      height: 8px;
+    }
+
+    &::-moz-range-track {
+      background: var(--track);
+      background-clip: padding-box;
+      height: 8px;
+    }
+
+    &::-webkit-slider-thumb {
+      margin: -1px 0;
+    }
   }
 
   .TreeMenu--heading {

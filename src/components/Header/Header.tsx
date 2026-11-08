@@ -5,13 +5,10 @@ import type { IPlanSummary } from "../../state/plan";
 import HeaderButton from "./HeaderButton/HeaderButton";
 import OpenButton from "./OpenButton/OpenButton";
 import PlanSwitcher from "./PlanSwitcher/PlanSwitcher";
-import UpgradesMenu from "./UpgradesMenu/UpgradesMenu";
 
 interface IProps {
-  changeLooks: (looks: IFarmLooks) => void;
   changePlan: (id: string) => void;
   deletePlan: (id: string) => void;
-  looks: IFarmLooks;
   newPlan: () => void;
   openFile: () => void;
   plan: IPlanSummary;
@@ -44,12 +41,6 @@ export default function Header(props: IProps) {
         }}
       />
       <div class="Header--buttons">
-        <UpgradesMenu
-          changeLooks={(looks) => {
-            props.changeLooks(looks);
-          }}
-          looks={props.looks}
-        />
         <OpenButton
           growFrom="top"
           openFile={() => {

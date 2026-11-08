@@ -18,16 +18,21 @@ const validEquipment = {
   y: 3,
 };
 
-const looks = { greenhouse: "repaired", house: 2, petBowl: "hay_pet_bowl" };
+const petBowlPaints: IPlannedPaint[] = [
+  { datePainted: 4, skin: "hay_pet_bowl" },
+];
 
 function farmFile(fields: Record<string, unknown> = {}) {
   return {
+    buildings: [],
     crops: {},
+    cutBushes: [],
     date: 0,
     equipment: {},
     farm: "beach",
-    looks,
-    version: 3,
+    houseUpgrades: [],
+    petBowlPaints,
+    version: 4,
     ...fields,
   };
 }
@@ -89,11 +94,14 @@ describe("Farm data", () => {
       expect(readFarmData(farm)).toEqual({
         badItems: [],
         data: {
+          buildings: [],
           crops: farm.crops,
+          cutBushes: [],
           date: 12,
           equipment: farm.equipment,
           farm: "beach",
-          looks,
+          houseUpgrades: [],
+          petBowlPaints,
         },
       });
     });
@@ -103,7 +111,7 @@ describe("Farm data", () => {
     });
 
     it("does not read a farm with an unknown version", () => {
-      const theories = [2, 4, undefined, "3"];
+      const theories = [3, 5, undefined, "4"];
 
       theories.forEach((theory) => {
         expect(readFarmData(farmFile({ version: theory }))).toBeUndefined();
@@ -118,14 +126,6 @@ describe("Farm data", () => {
       });
     });
 
-    it("does not read a farm with no looks", () => {
-      const theories = [undefined, null, [], "repaired"];
-
-      theories.forEach((theory) => {
-        expect(readFarmData(farmFile({ looks: theory }))).toBeUndefined();
-      });
-    });
-
     it("does not read a value that is not a farm", () => {
       const theories = [null, [], farmFile({ date: "0" })];
 
@@ -134,49 +134,164 @@ describe("Farm data", () => {
       });
     });
 
-    it("uses the start look for a look it does not know, and reports it", () => {
-      const result = readFarmData(
-        farmFile({
-          looks: { greenhouse: "fixed", house: 3, petBowl: "gold_pet_bowl" },
-        }),
-      );
+    describe("pet bowl paints", () => {
+      const hay = { datePainted: 0, skin: "hay_pet_bowl" };
+      const stone = { datePainted: 9, skin: "stone_pet_bowl" };
+      const noSkin = { datePainted: 20, skin: "pet_bowl" };
 
-      expect(result?.data.looks).toEqual({
-        greenhouse: "broken",
-        house: 0,
-        petBowl: "pet_bowl",
-      });
-      expect(result?.badItems).toEqual([
-        { path: "looks.greenhouse", value: "fixed" },
-        { path: "looks.house", value: 3 },
-        { path: "looks.petBowl", value: "gold_pet_bowl" },
-      ]);
-    });
+      it("keeps the paints of the fixed pet bowl in date order, from the first day", () => {
+        const result = readFarmData(
+          farmFile({ petBowlPaints: [hay, stone, noSkin] }),
+        );
 
-    it("uses the pet bowl with no skin when the looks have no pet bowl, and reports it", () => {
-      const result = readFarmData(
-        farmFile({ looks: { greenhouse: "repaired", house: 2 } }),
-      );
-
-      expect(result?.data.looks).toEqual({
-        greenhouse: "repaired",
-        house: 2,
-        petBowl: "pet_bowl",
-      });
-      expect(result?.badItems).toEqual([
-        { path: "looks.petBowl", value: undefined },
-      ]);
-    });
-
-    it.each(["pet_bowl", "hay_pet_bowl", "stone_pet_bowl"])(
-      "reads the %s pet bowl look",
-      (petBowl) => {
-        const result = readFarmData(farmFile({ looks: { ...looks, petBowl } }));
-
-        expect(result?.data.looks.petBowl).toBe(petBowl);
+        expect(result?.data.petBowlPaints).toEqual([hay, stone, noSkin]);
         expect(result?.badItems).toEqual([]);
-      },
-    );
+      });
+
+      it("has no paints when the file has none, and does not read old looks", () => {
+        const result = readFarmData(
+          farmFile({
+            looks: { petBowl: "stone_pet_bowl" },
+            petBowlPaints: undefined,
+          }),
+        );
+
+        expect(result?.data.petBowlPaints).toEqual([]);
+        expect(result?.data).not.toHaveProperty("looks");
+        expect(result?.badItems).toEqual([]);
+      });
+
+      it.each([
+        ["a skin of another building", { ...stone, skin: "log_cabin" }],
+        ["a skin that is not known", { ...stone, skin: "gold_pet_bowl" }],
+        ["a day before the paint before it", { ...stone, datePainted: 0 }],
+        ["a day before the first day", { ...hay, datePainted: -1 }],
+        ["a day that is not whole", { ...stone, datePainted: 9.5 }],
+        ["a date that is not a number", { ...stone, datePainted: "9" }],
+        ["no skin", { datePainted: 9 }],
+        ["not a record", "stone_pet_bowl"],
+      ])("drops %s, keeps the other paints, and reports it", (_, bad) => {
+        const result = readFarmData(
+          farmFile({ petBowlPaints: [hay, bad, noSkin] }),
+        );
+
+        expect(result?.data.petBowlPaints).toEqual([hay, noSkin]);
+        expect(result?.badItems).toEqual([
+          { path: "petBowlPaints[1]", value: bad },
+        ]);
+      });
+
+      it("drops paints that are not a list, and reports them", () => {
+        const result = readFarmData(farmFile({ petBowlPaints: hay }));
+
+        expect(result?.data.petBowlPaints).toEqual([]);
+        expect(result?.badItems).toEqual([
+          { path: "petBowlPaints", value: hay },
+        ]);
+      });
+    });
+
+    describe("house upgrades", () => {
+      const kitchen = { datePlaced: 3, level: 1 };
+      const nursery = { datePlaced: 6, level: 2 };
+
+      it("has no house upgrades when the file has none", () => {
+        expect(
+          readFarmData(farmFile({ houseUpgrades: undefined }))?.data
+            .houseUpgrades,
+        ).toEqual([]);
+      });
+
+      it("keeps each level in order, on or after the date of the level before it", () => {
+        const sameDay = { ...nursery, datePlaced: 3 };
+        const result = readFarmData(
+          farmFile({ houseUpgrades: [kitchen, nursery] }),
+        );
+
+        expect(result?.data.houseUpgrades).toEqual([kitchen, nursery]);
+        expect(result?.badItems).toEqual([]);
+        expect(
+          readFarmData(farmFile({ houseUpgrades: [kitchen, sameDay] }))?.data
+            .houseUpgrades,
+        ).toEqual([kitchen, sameDay]);
+      });
+
+      it.each([
+        ["a level that skips one", [{ ...nursery, datePlaced: 3 }]],
+        [
+          "a level before the level below it",
+          [kitchen, { ...nursery, datePlaced: 2 }],
+        ],
+        [
+          "a level the game does not have",
+          [
+            kitchen,
+            nursery,
+            { datePlaced: 9, level: 3 },
+            { datePlaced: 12, level: 4 },
+          ],
+        ],
+        [
+          "a date that is not a number",
+          [kitchen, { ...nursery, datePlaced: "6" }],
+        ],
+        ["no level", [kitchen, { datePlaced: 6 }]],
+      ])(
+        "drops %s and the levels after it, and reports them",
+        (_, houseUpgrades) => {
+          const result = readFarmData(farmFile({ houseUpgrades }));
+          const goodCount = result?.data.houseUpgrades.length ?? 0;
+
+          expect(result?.data.houseUpgrades).toEqual(
+            houseUpgrades.slice(0, goodCount),
+          );
+          expect(result?.badItems.map(({ path }) => path)).toEqual(
+            houseUpgrades
+              .slice(goodCount)
+              .map((__, index) => `houseUpgrades[${goodCount + index}]`),
+          );
+          expect(goodCount).toBeLessThan(houseUpgrades.length);
+        },
+      );
+
+      it("drops house upgrades that are not a list, and reports them", () => {
+        const result = readFarmData(farmFile({ houseUpgrades: kitchen }));
+
+        expect(result?.data.houseUpgrades).toEqual([]);
+        expect(result?.badItems).toEqual([
+          { path: "houseUpgrades", value: kitchen },
+        ]);
+      });
+    });
+
+    describe("greenhouse repair", () => {
+      it("keeps the repair day", () => {
+        const result = readFarmData(
+          farmFile({ greenhouseRepair: { datePlaced: 20 } }),
+        );
+
+        expect(result?.data.greenhouseRepair).toEqual({ datePlaced: 20 });
+        expect(result?.badItems).toEqual([]);
+      });
+
+      it("has no repair when the file has none", () => {
+        expect(readFarmData(farmFile())?.data).not.toHaveProperty(
+          "greenhouseRepair",
+        );
+      });
+
+      it.each([[20], [{ datePlaced: "20" }], [null]])(
+        "drops a bad repair %j, and reports it",
+        (greenhouseRepair) => {
+          const result = readFarmData(farmFile({ greenhouseRepair }));
+
+          expect(result?.data).not.toHaveProperty("greenhouseRepair");
+          expect(result?.badItems).toEqual([
+            { path: "greenhouseRepair", value: greenhouseRepair },
+          ]);
+        },
+      );
+    });
 
     it("drops only the bad cells and keeps the good ones", () => {
       const farm = farmFile({
@@ -304,11 +419,14 @@ describe("Farm data", () => {
         expect(readFarmData(farm)).toEqual({
           badItems: [],
           data: {
+            buildings: [],
             crops: { 3: { 5: [validCrop, validTree] } },
+            cutBushes: [],
             date: 0,
             equipment: {},
             farm: "beach",
-            looks,
+            houseUpgrades: [],
+            petBowlPaints,
           },
         });
       });
@@ -361,6 +479,317 @@ describe("Farm data", () => {
 
         theories.forEach((theory) => {
           expect(isGoodFarm(farmWithCrop(theory))).toBe(false);
+        });
+      });
+    });
+
+    describe("buildings", () => {
+      const barn = { buildingId: "barn", datePlaced: 3, x: 10, y: 12 };
+
+      it("keeps the buildings in plan order, with or without a destroyed date", () => {
+        const buildings = [
+          barn,
+          { ...barn, buildingId: "coop", dateDestroyed: 40, x: 20 },
+          { ...barn, buildingId: "shipping_bin", y: 0 },
+        ];
+
+        expect(readFarmData(farmFile({ buildings }))).toEqual({
+          badItems: [],
+          data: {
+            buildings,
+            crops: {},
+            cutBushes: [],
+            date: 0,
+            equipment: {},
+            farm: "beach",
+            houseUpgrades: [],
+            petBowlPaints,
+          },
+        });
+      });
+
+      it("keeps each building that the game can build from the ground", () => {
+        const theories = [
+          "shed",
+          "cabin",
+          "gold_clock",
+          "island_obelisk",
+          "junimo_hut",
+          "pet_bowl",
+          "stable",
+          "well",
+        ];
+
+        theories.forEach((theory) => {
+          expect(
+            isGoodFarm(
+              farmFile({ buildings: [{ ...barn, buildingId: theory }] }),
+            ),
+          ).toBe(true);
+        });
+      });
+
+      it("keeps a starter building on day 0, with its upgrades from day 0", () => {
+        const starterCoop = {
+          buildingId: "coop",
+          datePlaced: 0,
+          starter: true,
+          upgrades: [{ buildingId: "big_coop", datePlaced: 0 }],
+          x: 54,
+          y: 9,
+        };
+
+        expect(
+          readFarmData(farmFile({ buildings: [starterCoop] }))?.data.buildings,
+        ).toEqual([starterCoop]);
+        expect(isGoodFarm(farmFile({ buildings: [starterCoop] }))).toBe(true);
+      });
+
+      it("does not read a farm with no list of buildings", () => {
+        const theories = [undefined, null, {}, "barn"];
+
+        theories.forEach((theory) => {
+          expect(readFarmData(farmFile({ buildings: theory }))).toBeUndefined();
+        });
+      });
+
+      it("drops only the bad buildings and reports them", () => {
+        const theories = [
+          null,
+          "barn",
+          [barn],
+          { ...barn, buildingId: "farmhouse" },
+          { ...barn, buildingId: "greenhouse" },
+          { ...barn, buildingId: "not_a_building" },
+          { ...barn, buildingId: "toString" },
+          { ...barn, buildingId: "big_barn" },
+          { ...barn, buildingId: 1 },
+          withoutField(barn, "buildingId"),
+          withoutField(barn, "datePlaced"),
+          withoutField(barn, "x"),
+          { ...barn, datePlaced: "3" },
+          { ...barn, dateDestroyed: "40" },
+          { ...barn, x: -1 },
+          { ...barn, y: 2.5 },
+          { ...barn, datePlaced: 0, starter: false },
+          { ...barn, datePlaced: 0, starter: "true" },
+          { ...barn, starter: true },
+        ];
+
+        const result = readFarmData(
+          farmFile({ buildings: [barn, ...theories] }),
+        );
+
+        expect(result?.data.buildings).toEqual([barn]);
+        expect(result?.badItems).toEqual(
+          theories.map((value, index) => ({
+            path: `buildings[${index + 1}]`,
+            value,
+          })),
+        );
+      });
+
+      const bigBarn = { buildingId: "big_barn", datePlaced: 6 };
+      const deluxeBarn = { buildingId: "deluxe_barn", datePlaced: 8 };
+
+      it("keeps the upgrades of a building in order, also on the same date, and a demolish after the last one", () => {
+        const buildings = [
+          { ...barn, upgrades: [bigBarn, deluxeBarn] },
+          {
+            ...barn,
+            dateDestroyed: 9,
+            upgrades: [bigBarn, deluxeBarn],
+            x: 20,
+          },
+          {
+            ...barn,
+            upgrades: [
+              { ...bigBarn, datePlaced: 3 },
+              { ...deluxeBarn, datePlaced: 3 },
+            ],
+            x: 30,
+          },
+        ];
+
+        const result = readFarmData(farmFile({ buildings }));
+
+        expect(result?.data.buildings).toEqual(buildings);
+        expect(result?.badItems).toEqual([]);
+      });
+
+      it("drops a bad upgrade and the upgrades after it, keeps the building and reports each one", () => {
+        const theories: [string, unknown[], unknown[]][] = [
+          ["not a record", [bigBarn, "deluxe_barn"], [bigBarn]],
+          ["with no date", [{ buildingId: "big_barn" }, deluxeBarn], []],
+          [
+            "of a building that is not known",
+            [{ ...bigBarn, buildingId: "nope" }],
+            [],
+          ],
+          ["that skips a tier", [{ ...deluxeBarn, datePlaced: 6 }], []],
+          ["of another building", [{ ...bigBarn, buildingId: "big_coop" }], []],
+          [
+            "before the building",
+            [{ ...bigBarn, datePlaced: 2 }, deluxeBarn],
+            [],
+          ],
+          [
+            "before the upgrade below it",
+            [bigBarn, { ...deluxeBarn, datePlaced: 5 }],
+            [bigBarn],
+          ],
+        ];
+
+        theories.forEach(([, upgrades, kept]) => {
+          const result = readFarmData(
+            farmFile({ buildings: [{ ...barn, upgrades }] }),
+          );
+          const badItems = upgrades.slice(kept.length).map((value, index) => ({
+            path: `buildings[0].upgrades[${index + kept.length}]`,
+            value,
+          }));
+
+          expect(result?.data.buildings).toEqual([
+            kept.length === 0 ? barn : { ...barn, upgrades: kept },
+          ]);
+          expect(result?.badItems).toEqual(badItems);
+        });
+      });
+
+      it("drops an upgrade on or after the day the building is demolished", () => {
+        const result = readFarmData(
+          farmFile({
+            buildings: [
+              { ...barn, dateDestroyed: 8, upgrades: [bigBarn, deluxeBarn] },
+            ],
+          }),
+        );
+
+        expect(result?.data.buildings).toEqual([
+          { ...barn, dateDestroyed: 8, upgrades: [bigBarn] },
+        ]);
+        expect(result?.badItems).toEqual([
+          { path: "buildings[0].upgrades[1]", value: deluxeBarn },
+        ]);
+      });
+
+      it("keeps the building and reports upgrades that are not a list", () => {
+        const result = readFarmData(
+          farmFile({ buildings: [{ ...barn, upgrades: "big_barn" }] }),
+        );
+
+        expect(result?.data.buildings).toEqual([barn]);
+        expect(result?.badItems).toEqual([
+          { path: "buildings[0].upgrades", value: "big_barn" },
+        ]);
+      });
+
+      describe("skins and paints", () => {
+        const cabin = { buildingId: "cabin", datePlaced: 3, x: 10, y: 12 };
+        const plank = { datePainted: 4, skin: "plank_cabin" };
+        const noSkin = { datePainted: 9, skin: "cabin" };
+
+        it("keeps the skin of the order and the paints after the order day, in date order", () => {
+          const buildings = [
+            { ...cabin, paints: [plank, noSkin], skin: "log_cabin" },
+            { ...cabin, dateDestroyed: 10, paints: [plank, noSkin], x: 20 },
+          ];
+
+          const result = readFarmData(farmFile({ buildings }));
+
+          expect(result?.data.buildings).toEqual(buildings);
+          expect(result?.badItems).toEqual([]);
+        });
+
+        it("keeps no skin for the look with no skin", () => {
+          const result = readFarmData(
+            farmFile({ buildings: [{ ...cabin, skin: "cabin" }] }),
+          );
+
+          expect(result?.data.buildings).toStrictEqual([cabin]);
+          expect(result?.badItems).toEqual([]);
+        });
+
+        it.each([
+          ["a skin of another building", "hay_pet_bowl"],
+          ["a skin that is not known", "gold_cabin"],
+          ["a skin that is not a string", 2],
+        ])(
+          "drops %s, keeps the building with no skin, and reports it",
+          (_, skin) => {
+            const result = readFarmData(
+              farmFile({ buildings: [{ ...cabin, skin }] }),
+            );
+
+            expect(result?.data.buildings).toStrictEqual([cabin]);
+            expect(result?.badItems).toEqual([
+              { path: "buildings[0].skin", value: skin },
+            ]);
+          },
+        );
+
+        it("drops the skin and the paints of a building that has no skins", () => {
+          const result = readFarmData(
+            farmFile({
+              buildings: [{ ...barn, paints: [plank], skin: "plank_cabin" }],
+            }),
+          );
+
+          expect(result?.data.buildings).toStrictEqual([barn]);
+          expect(result?.badItems).toEqual([
+            { path: "buildings[0].skin", value: "plank_cabin" },
+            { path: "buildings[0].paints[0]", value: plank },
+          ]);
+        });
+
+        it.each([
+          ["a paint on the order day", { ...plank, datePainted: 3 }],
+          ["a paint before the order day", { ...plank, datePainted: 2 }],
+          ["a paint before the paint before it", { ...noSkin, datePainted: 4 }],
+          [
+            "a paint with a skin of another building",
+            { ...noSkin, skin: "hay_pet_bowl" },
+          ],
+          ["a paint with no date", { skin: "cabin" }],
+        ])("drops %s, keeps the other paints, and reports it", (_, bad) => {
+          const result = readFarmData(
+            farmFile({ buildings: [{ ...cabin, paints: [plank, bad] }] }),
+          );
+
+          expect(result?.data.buildings).toEqual([
+            { ...cabin, paints: [plank] },
+          ]);
+          expect(result?.badItems).toEqual([
+            { path: "buildings[0].paints[1]", value: bad },
+          ]);
+        });
+
+        it("drops a paint on or after the demolish day", () => {
+          const result = readFarmData(
+            farmFile({
+              buildings: [
+                { ...cabin, dateDestroyed: 9, paints: [plank, noSkin] },
+              ],
+            }),
+          );
+
+          expect(result?.data.buildings).toEqual([
+            { ...cabin, dateDestroyed: 9, paints: [plank] },
+          ]);
+          expect(result?.badItems).toEqual([
+            { path: "buildings[0].paints[1]", value: noSkin },
+          ]);
+        });
+
+        it("keeps the building and reports paints that are not a list", () => {
+          const result = readFarmData(
+            farmFile({ buildings: [{ ...cabin, paints: plank }] }),
+          );
+
+          expect(result?.data.buildings).toStrictEqual([cabin]);
+          expect(result?.badItems).toEqual([
+            { path: "buildings[0].paints", value: plank },
+          ]);
         });
       });
     });
@@ -470,11 +899,14 @@ describe("Farm data", () => {
           ).toEqual({
             badItems: [],
             data: {
+              buildings: [],
               crops: {},
+              cutBushes: [],
               date: 0,
               equipment: { 3: { 7: [steppingStone] } },
               farm: "beach",
-              looks,
+              houseUpgrades: [],
+              petBowlPaints,
             },
           });
         });
@@ -491,15 +923,18 @@ describe("Farm data", () => {
   });
 
   describe("toSavedFarmData", () => {
-    it("saves the farm type, the looks and the items with version 3, and reads them back", () => {
+    it("saves the farm type, the pet bowl paints and the items with version 4, and reads them back", () => {
       const farm = farmWithEquipment(validEquipment);
       const saved: unknown = JSON.parse(
         toSavedFarmData({
+          buildings: [],
           crops: {},
+          cutBushes: [],
           date: 0,
           equipment: { 3: { 7: [validEquipment] } },
           farm: "beach",
-          looks: { greenhouse: "repaired", house: 2, petBowl: "hay_pet_bowl" },
+          houseUpgrades: [],
+          petBowlPaints,
         } as Parameters<typeof toSavedFarmData>[0]),
       );
 
@@ -507,7 +942,7 @@ describe("Farm data", () => {
       expect(isGoodFarm(saved)).toBe(true);
     });
 
-    it("saves a tree with the crops with version 3, and reads it back", () => {
+    it("saves a tree with the crops with version 4, and reads it back", () => {
       const apple: IPlantedTree = {
         datePlanted: 2,
         treeId: "apple",
@@ -517,28 +952,88 @@ describe("Farm data", () => {
       };
       const saved: unknown = JSON.parse(
         toSavedFarmData({
+          buildings: [],
           crops: { 3: { 5: [apple] } },
+          cutBushes: [],
           date: 0,
           equipment: {},
           farm: "beach",
-          looks,
-        } as Parameters<typeof toSavedFarmData>[0]),
+          houseUpgrades: [],
+          petBowlPaints,
+        }),
       );
 
       expect(saved).toEqual(farmWithCrop(apple));
       expect(readFarmData(saved)?.data.crops).toEqual({ 3: { 5: [apple] } });
     });
 
+    it("saves the house upgrades and the greenhouse repair with version 4, and reads them back", () => {
+      const houseUpgrades = [{ datePlaced: 3, level: 1 }];
+      const greenhouseRepair = { datePlaced: 20 };
+      const saved: unknown = JSON.parse(
+        toSavedFarmData({
+          buildings: [],
+          crops: {},
+          cutBushes: [],
+          date: 0,
+          equipment: {},
+          farm: "beach",
+          greenhouseRepair,
+          houseUpgrades,
+          petBowlPaints,
+        }),
+      );
+
+      expect(saved).toEqual(farmFile({ greenhouseRepair, houseUpgrades }));
+      expect(readFarmData(saved)?.data).toMatchObject({
+        greenhouseRepair,
+        houseUpgrades,
+      });
+    });
+
+    it("saves the buildings with their skins and paints with version 4, and reads them back", () => {
+      const buildings: IPlannedBuilding[] = [
+        { buildingId: "barn", dateDestroyed: 30, datePlaced: 3, x: 10, y: 12 },
+        { buildingId: "silo", datePlaced: 5, x: 18, y: 12 },
+        {
+          buildingId: "cabin",
+          datePlaced: 5,
+          paints: [{ datePainted: 8, skin: "trailer_cabin" }],
+          skin: "beach_cabin",
+          x: 30,
+          y: 12,
+        },
+      ];
+      const saved: unknown = JSON.parse(
+        toSavedFarmData({
+          buildings,
+          crops: {},
+          cutBushes: [],
+          date: 0,
+          equipment: {},
+          farm: "beach",
+          houseUpgrades: [],
+          petBowlPaints,
+        }),
+      );
+
+      expect(saved).toEqual(farmFile({ buildings }));
+      expect(readFarmData(saved)?.data.buildings).toEqual(buildings);
+    });
+
     it("does not save the plan ID or the plan name", () => {
       const saved: unknown = JSON.parse(
         toSavedFarmData({
+          buildings: [],
           crops: {},
+          cutBushes: [],
           date: 0,
           equipment: {},
           farm: "standard",
+          houseUpgrades: [],
           id: "abc",
-          looks: { greenhouse: "broken", house: 0, petBowl: "pet_bowl" },
           name: "My farm",
+          petBowlPaints: [],
         } as Parameters<typeof toSavedFarmData>[0]),
       );
 

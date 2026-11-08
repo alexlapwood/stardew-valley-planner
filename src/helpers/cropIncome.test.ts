@@ -77,7 +77,12 @@ describe("Crop income helper", () => {
       ["no shop sells the seed", {}],
       [
         "the seed is only a trade",
-        { Raccoon: { price: 0, trade: { count: 5, item: "Moss" } } },
+        {
+          Raccoon: {
+            price: 0,
+            trade: { count: 5, item: "Moss", itemId: "(O)Moss" },
+          },
+        },
       ],
       ["the seed is only a random offer", { Traveler: { random: true } }],
     ])("has no profit when %s", (_, seedPrices) => {

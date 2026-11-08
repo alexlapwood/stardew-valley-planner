@@ -85,6 +85,70 @@
           "sprite": [144, 0, 16, 16]
         }
       ],
+      "site": {
+        "frame": [
+          {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "sortY": 15.75,
+            "sprite": [160, 0, 112, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "sortY": 16,
+            "sprite": [272, 0, 112, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 32
+            },
+            "sortY": 32,
+            "sprite": [384, 0, 112, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 48
+            },
+            "sortY": 48,
+            "sprite": [496, 0, 112, 16]
+          },
+          {
+            "offset": {
+              "x": 48,
+              "y": 48
+            },
+            "sortY": 63.75,
+            "sprite": [608, 0, 16, 16]
+          }
+        ],
+        "lastDayFloor": {
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "sprite": [624, 0, 112, 64]
+        },
+        "prop": {
+          "lastDaySprite": [745, 0, 29, 43],
+          "offset": {
+            "x": 44,
+            "y": -4
+          },
+          "sortY": 40,
+          "sprite": [736, 0, 9, 43]
+        },
+        "robin": {
+          "x": 60,
+          "y": 32
+        }
+      },
       "size": {
         "height": 4,
         "width": 7
@@ -107,6 +171,14 @@
         },
         "radius": 0,
         "rows": ["aaaaaaa", "aaaaaaa", "aaaaaaa", "aaaaaaa"]
+      },
+      "upgradeSign": {
+        "offset": {
+          "x": 48,
+          "y": 17
+        },
+        "sortY": 64.5,
+        "sprite": [774, 0, 16, 15]
       }
     },
     "big_barn": {
@@ -216,7 +288,15 @@
         "radius": 0,
         "rows": ["aaaaaaa", "aaaaaaa", "aaaaaaa", "aaaaaaa"]
       },
-      "upgradeFrom": "barn"
+      "upgradeFrom": "barn",
+      "upgradeSign": {
+        "offset": {
+          "x": 48,
+          "y": 17
+        },
+        "sortY": 64.5,
+        "sprite": [774, 0, 16, 15]
+      }
     },
     "big_coop": {
       "animalDoor": {
@@ -318,7 +398,15 @@
         "radius": 0,
         "rows": ["aaaaaa", "aaaaaa", "aaaaaa"]
       },
-      "upgradeFrom": "coop"
+      "upgradeFrom": "coop",
+      "upgradeSign": {
+        "offset": {
+          "x": 32,
+          "y": 14
+        },
+        "sortY": 48.5,
+        "sprite": [774, 0, 16, 15]
+      }
     },
     "big_shed": {
       "buildCost": 20000,
@@ -345,6 +433,46 @@
       },
       "magical": false,
       "name": "Big Shed",
+      "paint": {
+        "hue": {
+          "max": 360,
+          "min": 0
+        },
+        "key": "Big Shed",
+        "regions": [
+          {
+            "id": "Building",
+            "lightness": {
+              "max": -10,
+              "min": -45
+            },
+            "maskColor": [255, 0, 0],
+            "name": "Building"
+          },
+          {
+            "id": "Roof",
+            "lightness": {
+              "max": 5,
+              "min": -20
+            },
+            "maskColor": [0, 255, 0],
+            "name": "Roof"
+          },
+          {
+            "id": "Trim",
+            "lightness": {
+              "max": 0,
+              "min": -25
+            },
+            "maskColor": [0, 0, 255],
+            "name": "Trim"
+          }
+        ],
+        "saturation": {
+          "max": 75,
+          "min": 0
+        }
+      },
       "placementTiles": [],
       "shadow": true,
       "shadowPieces": [
@@ -407,6 +535,13 @@
           "x": 0,
           "y": -80
         },
+        "paintMask": {
+          "offset": {
+            "x": 0,
+            "y": -80
+          },
+          "sprite": [0, 2727, 112, 128]
+        },
         "sprite": [0, 336, 112, 128]
       },
       "tileRules": {
@@ -438,6 +573,47 @@
       },
       "magical": false,
       "name": "Cabin",
+      "paint": {
+        "hue": {
+          "max": 360,
+          "min": 0
+        },
+        "key": "Stone Cabin",
+        "minHouseLevel": 2,
+        "regions": [
+          {
+            "id": "Building",
+            "lightness": {
+              "max": 25,
+              "min": -15
+            },
+            "maskColor": [255, 0, 0],
+            "name": "Building"
+          },
+          {
+            "id": "Roof",
+            "lightness": {
+              "max": 5,
+              "min": -15
+            },
+            "maskColor": [0, 255, 0],
+            "name": "Roof"
+          },
+          {
+            "id": "Trim",
+            "lightness": {
+              "max": 5,
+              "min": -5
+            },
+            "maskColor": [0, 0, 255],
+            "name": "Trim"
+          }
+        ],
+        "saturation": {
+          "max": 75,
+          "min": 0
+        }
+      },
       "placementTiles": [],
       "shadow": true,
       "shadowPieces": [
@@ -484,6 +660,47 @@
       "skins": {
         "beach_cabin": {
           "name": "Beach Cabin",
+          "paint": {
+            "hue": {
+              "max": 360,
+              "min": 0
+            },
+            "key": "Beach Cabin",
+            "minHouseLevel": 2,
+            "regions": [
+              {
+                "id": "Building",
+                "lightness": {
+                  "max": 0,
+                  "min": -10
+                },
+                "maskColor": [255, 0, 0],
+                "name": "Building"
+              },
+              {
+                "id": "Roof",
+                "lightness": {
+                  "max": 5,
+                  "min": 0
+                },
+                "maskColor": [0, 255, 0],
+                "name": "Roof"
+              },
+              {
+                "id": "Trim",
+                "lightness": {
+                  "max": 5,
+                  "min": -5
+                },
+                "maskColor": [0, 0, 255],
+                "name": "Trim"
+              }
+            ],
+            "saturation": {
+              "max": 75,
+              "min": 0
+            }
+          },
           "sprite": {
             "offset": {
               "x": 0,
@@ -494,6 +711,47 @@
         },
         "log_cabin": {
           "name": "Log Cabin",
+          "paint": {
+            "hue": {
+              "max": 360,
+              "min": 0
+            },
+            "key": "Log Cabin",
+            "minHouseLevel": 2,
+            "regions": [
+              {
+                "id": "Building",
+                "lightness": {
+                  "max": 20,
+                  "min": -20
+                },
+                "maskColor": [255, 0, 0],
+                "name": "Building"
+              },
+              {
+                "id": "Roof",
+                "lightness": {
+                  "max": 5,
+                  "min": -15
+                },
+                "maskColor": [0, 255, 0],
+                "name": "Roof"
+              },
+              {
+                "id": "Trim",
+                "lightness": {
+                  "max": 5,
+                  "min": -10
+                },
+                "maskColor": [0, 0, 255],
+                "name": "Trim"
+              }
+            ],
+            "saturation": {
+              "max": 75,
+              "min": 0
+            }
+          },
           "sprite": {
             "offset": {
               "x": 0,
@@ -504,6 +762,47 @@
         },
         "neighbor_cabin": {
           "name": "Neighbor Cabin",
+          "paint": {
+            "hue": {
+              "max": 360,
+              "min": 0
+            },
+            "key": "Neighbor Cabin",
+            "minHouseLevel": 2,
+            "regions": [
+              {
+                "id": "Building",
+                "lightness": {
+                  "max": 0,
+                  "min": -10
+                },
+                "maskColor": [255, 0, 0],
+                "name": "Building"
+              },
+              {
+                "id": "Roof",
+                "lightness": {
+                  "max": 10,
+                  "min": -15
+                },
+                "maskColor": [0, 255, 0],
+                "name": "Roof"
+              },
+              {
+                "id": "Trim",
+                "lightness": {
+                  "max": 5,
+                  "min": -10
+                },
+                "maskColor": [0, 0, 255],
+                "name": "Trim"
+              }
+            ],
+            "saturation": {
+              "max": 75,
+              "min": 0
+            }
+          },
           "sprite": {
             "offset": {
               "x": 0,
@@ -514,6 +813,47 @@
         },
         "plank_cabin": {
           "name": "Plank Cabin",
+          "paint": {
+            "hue": {
+              "max": 360,
+              "min": 0
+            },
+            "key": "Plank Cabin",
+            "minHouseLevel": 2,
+            "regions": [
+              {
+                "id": "Building",
+                "lightness": {
+                  "max": -20,
+                  "min": -55
+                },
+                "maskColor": [255, 0, 0],
+                "name": "Building"
+              },
+              {
+                "id": "Roof",
+                "lightness": {
+                  "max": 5,
+                  "min": -10
+                },
+                "maskColor": [0, 255, 0],
+                "name": "Roof"
+              },
+              {
+                "id": "Trim",
+                "lightness": {
+                  "max": -30,
+                  "min": -55
+                },
+                "maskColor": [0, 0, 255],
+                "name": "Trim"
+              }
+            ],
+            "saturation": {
+              "max": 75,
+              "min": 0
+            }
+          },
           "sprite": {
             "offset": {
               "x": 0,
@@ -524,6 +864,47 @@
         },
         "rustic_cabin": {
           "name": "Rustic Cabin",
+          "paint": {
+            "hue": {
+              "max": 360,
+              "min": 0
+            },
+            "key": "Rustic Cabin",
+            "minHouseLevel": 2,
+            "regions": [
+              {
+                "id": "Building",
+                "lightness": {
+                  "max": 5,
+                  "min": -20
+                },
+                "maskColor": [255, 0, 0],
+                "name": "Building"
+              },
+              {
+                "id": "Roof",
+                "lightness": {
+                  "max": 5,
+                  "min": -5
+                },
+                "maskColor": [0, 255, 0],
+                "name": "Roof"
+              },
+              {
+                "id": "Trim",
+                "lightness": {
+                  "max": 0,
+                  "min": -5
+                },
+                "maskColor": [0, 0, 255],
+                "name": "Trim"
+              }
+            ],
+            "saturation": {
+              "max": 75,
+              "min": 0
+            }
+          },
           "sprite": {
             "offset": {
               "x": 0,
@@ -534,6 +915,47 @@
         },
         "trailer_cabin": {
           "name": "Trailer Cabin",
+          "paint": {
+            "hue": {
+              "max": 360,
+              "min": 0
+            },
+            "key": "Trailer Cabin",
+            "minHouseLevel": 2,
+            "regions": [
+              {
+                "id": "Building",
+                "lightness": {
+                  "max": 0,
+                  "min": -5
+                },
+                "maskColor": [255, 0, 0],
+                "name": "Building"
+              },
+              {
+                "id": "Roof",
+                "lightness": {
+                  "max": 5,
+                  "min": -5
+                },
+                "maskColor": [0, 255, 0],
+                "name": "Roof"
+              },
+              {
+                "id": "Trim",
+                "lightness": {
+                  "max": 0,
+                  "min": -5
+                },
+                "maskColor": [0, 0, 255],
+                "name": "Trim"
+              }
+            ],
+            "saturation": {
+              "max": 75,
+              "min": 0
+            }
+          },
           "sprite": {
             "offset": {
               "x": 0,
@@ -645,6 +1067,62 @@
           "sprite": [144, 0, 16, 16]
         }
       ],
+      "site": {
+        "frame": [
+          {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "sortY": 15.75,
+            "sprite": [96, 576, 96, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "sortY": 16,
+            "sprite": [192, 576, 96, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 32
+            },
+            "sortY": 32,
+            "sprite": [288, 576, 96, 16]
+          },
+          {
+            "offset": {
+              "x": 48,
+              "y": 32
+            },
+            "sortY": 47.75,
+            "sprite": [608, 0, 16, 16]
+          }
+        ],
+        "lastDayFloor": {
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "sprite": [384, 576, 96, 48]
+        },
+        "prop": {
+          "lastDaySprite": [745, 0, 29, 43],
+          "offset": {
+            "x": 44,
+            "y": -20
+          },
+          "sortY": 24,
+          "sprite": [736, 0, 9, 43]
+        },
+        "robin": {
+          "x": 60,
+          "y": 16
+        }
+      },
       "size": {
         "height": 3,
         "width": 6
@@ -667,6 +1145,14 @@
         },
         "radius": 0,
         "rows": ["aaaaaa", "aaaaaa", "aaaaaa"]
+      },
+      "upgradeSign": {
+        "offset": {
+          "x": 32,
+          "y": 14
+        },
+        "sortY": 48.5,
+        "sprite": [774, 0, 16, 15]
       }
     },
     "deluxe_barn": {
@@ -700,6 +1186,46 @@
       },
       "magical": false,
       "name": "Deluxe Barn",
+      "paint": {
+        "hue": {
+          "max": 360,
+          "min": 0
+        },
+        "key": "Deluxe Barn",
+        "regions": [
+          {
+            "id": "Building",
+            "lightness": {
+              "max": 0,
+              "min": -15
+            },
+            "maskColor": [255, 0, 0],
+            "name": "Building"
+          },
+          {
+            "id": "Roof",
+            "lightness": {
+              "max": 5,
+              "min": -10
+            },
+            "maskColor": [0, 255, 0],
+            "name": "Roof"
+          },
+          {
+            "id": "Trim",
+            "lightness": {
+              "max": 5,
+              "min": -10
+            },
+            "maskColor": [0, 0, 255],
+            "name": "Trim"
+          }
+        ],
+        "saturation": {
+          "max": 75,
+          "min": 0
+        }
+      },
       "placementTiles": [],
       "shadow": true,
       "shadowPieces": [
@@ -762,6 +1288,13 @@
           "x": 0,
           "y": -48
         },
+        "paintMask": {
+          "offset": {
+            "x": 0,
+            "y": -48
+          },
+          "sprite": [0, 2855, 112, 112]
+        },
         "sprite": [0, 688, 112, 112]
       },
       "tileRules": {
@@ -809,6 +1342,46 @@
       },
       "magical": false,
       "name": "Deluxe Coop",
+      "paint": {
+        "hue": {
+          "max": 360,
+          "min": 0
+        },
+        "key": "Deluxe Coop",
+        "regions": [
+          {
+            "id": "Building",
+            "lightness": {
+              "max": 0,
+              "min": -25
+            },
+            "maskColor": [255, 0, 0],
+            "name": "Building"
+          },
+          {
+            "id": "Roof",
+            "lightness": {
+              "max": 5,
+              "min": -15
+            },
+            "maskColor": [0, 255, 0],
+            "name": "Roof"
+          },
+          {
+            "id": "Trim",
+            "lightness": {
+              "max": 0,
+              "min": -25
+            },
+            "maskColor": [0, 0, 255],
+            "name": "Trim"
+          }
+        ],
+        "saturation": {
+          "max": 75,
+          "min": 0
+        }
+      },
       "placementTiles": [],
       "shadow": true,
       "shadowPieces": [
@@ -863,6 +1436,13 @@
         "offset": {
           "x": 0,
           "y": -64
+        },
+        "paintMask": {
+          "offset": {
+            "x": 0,
+            "y": -64
+          },
+          "sprite": [0, 2967, 96, 112]
         },
         "sprite": [0, 800, 96, 112]
       },
@@ -1039,6 +1619,44 @@
         "XXXXOOOXX"
       ],
       "default": true,
+      "houseUpgrades": {
+        "1": {
+          "buildCost": 10000,
+          "buildDays": 3,
+          "buildMaterials": [
+            {
+              "count": 450,
+              "itemId": "(O)388",
+              "name": "Wood"
+            }
+          ],
+          "look": "upgrade_1",
+          "name": "Kitchen",
+          "offer": "I can increase the size of your house and add a kitchen. It will cost 10,000g and you'll also need to provide me with 450 pieces of wood. Are you interested?"
+        },
+        "2": {
+          "buildCost": 65000,
+          "buildDays": 3,
+          "buildMaterials": [
+            {
+              "count": 100,
+              "itemId": "(O)709",
+              "name": "Hardwood"
+            }
+          ],
+          "look": "upgrade_2",
+          "name": "Nursery",
+          "offer": "I can increase the size of your house and add a nursery. It will cost 65,000g and you'll also need to provide me with 100 pieces of hardwood. Are you interested?"
+        },
+        "3": {
+          "buildCost": 100000,
+          "buildDays": 3,
+          "buildMaterials": [],
+          "look": "upgrade_2",
+          "name": "Cellar",
+          "offer": "I can add a cellar to your house. The cellar can be used to age certain products, like wine and cheese. It will cost 100,000g. Are you interested?"
+        }
+      },
       "humanDoor": {
         "x": 5,
         "y": 2
@@ -1071,12 +1689,60 @@
               "x": -16,
               "y": -62
             },
+            "paintMask": {
+              "offset": {
+                "x": -16,
+                "y": -62
+              },
+              "sprite": [0, 3079, 178, 144]
+            },
             "sprite": [356, 1168, 178, 144]
           }
         }
       },
       "magical": false,
       "name": "Farmhouse",
+      "paint": {
+        "hue": {
+          "max": 360,
+          "min": 0
+        },
+        "key": "House",
+        "minHouseLevel": 2,
+        "regions": [
+          {
+            "id": "Building",
+            "lightness": {
+              "max": -10,
+              "min": -50
+            },
+            "maskColor": [255, 0, 0],
+            "name": "Building"
+          },
+          {
+            "id": "Roof",
+            "lightness": {
+              "max": 0,
+              "min": -25
+            },
+            "maskColor": [0, 255, 0],
+            "name": "Roof"
+          },
+          {
+            "id": "Trim",
+            "lightness": {
+              "max": -8,
+              "min": -25
+            },
+            "maskColor": [0, 0, 255],
+            "name": "Trim"
+          }
+        ],
+        "saturation": {
+          "max": 75,
+          "min": 0
+        }
+      },
       "placementTiles": [
         {
           "height": 1,
@@ -1203,6 +1869,10 @@
           ".aaaaaaaaac",
           "......d...."
         ]
+      },
+      "upgradeRobin": {
+        "x": 152,
+        "y": 40
       }
     },
     "fish_pond": {
@@ -1229,6 +1899,63 @@
       "buildingId": "Fish Pond",
       "collision": ["XXXXX", "XXXXX", "XXXXX", "XXXXX", "XXXXX"],
       "default": false,
+      "fishPond": {
+        "edge": {
+          "animation": {
+            "frameDuration": 1250,
+            "frames": [
+              [0, 3223, 80, 80],
+              [80, 3223, 80, 80]
+            ]
+          },
+          "offset": {
+            "x": 0,
+            "y": 0
+          },
+          "sprite": [0, 3223, 80, 80]
+        },
+        "floor": {
+          "offset": {
+            "x": 0,
+            "y": 0
+          },
+          "sprite": [160, 3223, 80, 80]
+        },
+        "nettingTileStep": 3,
+        "nettings": [
+          {
+            "offset": {
+              "x": 0,
+              "y": -32
+            },
+            "sprite": [240, 3223, 80, 48]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": -32
+            },
+            "sprite": [320, 3223, 80, 48]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": -32
+            },
+            "sprite": [400, 3223, 80, 48]
+          }
+        ],
+        "sortY": 8,
+        "water": {
+          "columns": 4,
+          "lastRowHeight": 6.75,
+          "offset": {
+            "x": 8,
+            "y": 8
+          },
+          "rows": 5
+        }
+      },
       "magical": false,
       "name": "Fish Pond",
       "placementTiles": [],
@@ -1270,6 +1997,78 @@
           "sprite": [144, 0, 16, 16]
         }
       ],
+      "site": {
+        "frame": [
+          {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "sortY": 15.75,
+            "sprite": [80, 1312, 80, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "sortY": 16,
+            "sprite": [160, 1312, 80, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 32
+            },
+            "sortY": 32,
+            "sprite": [240, 1312, 80, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 48
+            },
+            "sortY": 48,
+            "sprite": [320, 1312, 80, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 64
+            },
+            "sortY": 64,
+            "sprite": [400, 1312, 80, 16]
+          },
+          {
+            "offset": {
+              "x": 32,
+              "y": 64
+            },
+            "sortY": 79.75,
+            "sprite": [608, 0, 16, 16]
+          }
+        ],
+        "lastDayFloor": {
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "sprite": [480, 1312, 80, 80]
+        },
+        "prop": {
+          "lastDaySprite": [745, 0, 29, 43],
+          "offset": {
+            "x": 28,
+            "y": -4
+          },
+          "sortY": 40,
+          "sprite": [736, 0, 9, 43]
+        },
+        "robin": {
+          "x": 44,
+          "y": 32
+        }
+      },
       "size": {
         "height": 5,
         "width": 5
@@ -1405,6 +2204,12 @@
           "y": 6
         }
       ],
+      "repair": {
+        "communityCenterArea": "Pantry",
+        "days": 1,
+        "jojaCost": 35000,
+        "jojaMembershipCost": 5000
+      },
       "shadow": false,
       "shadowPieces": [
         {
@@ -1682,11 +2487,74 @@
           "sprite": [144, 0, 16, 16]
         }
       ],
+      "site": {
+        "frame": [
+          {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "sortY": 15.75,
+            "sprite": [64, 1856, 64, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "sortY": 16,
+            "sprite": [128, 1856, 64, 16]
+          },
+          {
+            "offset": {
+              "x": 32,
+              "y": 16
+            },
+            "sortY": 31.75,
+            "sprite": [608, 0, 16, 16]
+          }
+        ],
+        "lastDayFloor": {
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "sprite": [192, 1856, 64, 32]
+        },
+        "prop": {
+          "lastDaySprite": [745, 0, 29, 43],
+          "offset": {
+            "x": 28,
+            "y": -20
+          },
+          "sortY": 24,
+          "sprite": [736, 0, 9, 43]
+        },
+        "robin": {
+          "x": 44,
+          "y": 16
+        }
+      },
       "size": {
         "height": 2,
         "width": 4
       },
       "sprite": {
+        "animation": {
+          "frameDuration": 90,
+          "frames": [
+            [0, 1856, 64, 128],
+            [0, 3303, 64, 128],
+            [64, 3303, 64, 128],
+            [128, 3303, 64, 128],
+            [192, 3303, 64, 128],
+            [256, 3303, 64, 128],
+            [320, 3303, 64, 128],
+            [384, 3303, 64, 128],
+            [448, 3303, 64, 128],
+            [512, 3303, 64, 128]
+          ]
+        },
         "offset": {
           "x": 0,
           "y": -96
@@ -1861,6 +2729,62 @@
           "sprite": [144, 0, 16, 16]
         }
       ],
+      "site": {
+        "frame": [
+          {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "sortY": 15.75,
+            "sprite": [112, 2016, 112, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "sortY": 16,
+            "sprite": [224, 2016, 112, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 32
+            },
+            "sortY": 32,
+            "sprite": [336, 2016, 112, 16]
+          },
+          {
+            "offset": {
+              "x": 48,
+              "y": 32
+            },
+            "sortY": 47.75,
+            "sprite": [608, 0, 16, 16]
+          }
+        ],
+        "lastDayFloor": {
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "sprite": [448, 2016, 112, 48]
+        },
+        "prop": {
+          "lastDaySprite": [745, 0, 29, 43],
+          "offset": {
+            "x": 44,
+            "y": -20
+          },
+          "sortY": 24,
+          "sprite": [736, 0, 9, 43]
+        },
+        "robin": {
+          "x": 60,
+          "y": 16
+        }
+      },
       "size": {
         "height": 3,
         "width": 7
@@ -1883,6 +2807,14 @@
         },
         "radius": 0,
         "rows": ["aaaaaaa", "aaaaaaa", "aaaaaaa"]
+      },
+      "upgradeSign": {
+        "offset": {
+          "x": 77,
+          "y": 12
+        },
+        "sortY": 48.5,
+        "sprite": [774, 0, 16, 15]
       }
     },
     "shipping_bin": {
@@ -1994,6 +2926,62 @@
           "sprite": [144, 0, 16, 16]
         }
       ],
+      "site": {
+        "frame": [
+          {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "sortY": 15.75,
+            "sprite": [48, 2183, 48, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "sortY": 16,
+            "sprite": [96, 2183, 48, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 32
+            },
+            "sortY": 32,
+            "sprite": [144, 2183, 48, 16]
+          },
+          {
+            "offset": {
+              "x": 16,
+              "y": 32
+            },
+            "sortY": 47.75,
+            "sprite": [608, 0, 16, 16]
+          }
+        ],
+        "lastDayFloor": {
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "sprite": [192, 2183, 48, 48]
+        },
+        "prop": {
+          "lastDaySprite": [745, 0, 29, 43],
+          "offset": {
+            "x": 12,
+            "y": -20
+          },
+          "sortY": 24,
+          "sprite": [736, 0, 9, 43]
+        },
+        "robin": {
+          "x": 28,
+          "y": 16
+        }
+      },
       "size": {
         "height": 3,
         "width": 3
@@ -2101,6 +3089,70 @@
           "sprite": [144, 0, 16, 16]
         }
       ],
+      "site": {
+        "frame": [
+          {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "sortY": 15.75,
+            "sprite": [160, 0, 112, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "sortY": 16,
+            "sprite": [272, 0, 112, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 32
+            },
+            "sortY": 32,
+            "sprite": [384, 0, 112, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 48
+            },
+            "sortY": 48,
+            "sprite": [496, 0, 112, 16]
+          },
+          {
+            "offset": {
+              "x": 48,
+              "y": 48
+            },
+            "sortY": 63.75,
+            "sprite": [608, 0, 16, 16]
+          }
+        ],
+        "lastDayFloor": {
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "sprite": [624, 0, 112, 64]
+        },
+        "prop": {
+          "lastDaySprite": [745, 0, 29, 43],
+          "offset": {
+            "x": 44,
+            "y": -4
+          },
+          "sortY": 40,
+          "sprite": [736, 0, 9, 43]
+        },
+        "robin": {
+          "x": 60,
+          "y": 32
+        }
+      },
       "size": {
         "height": 4,
         "width": 7
@@ -2147,6 +3199,46 @@
       "default": false,
       "magical": false,
       "name": "Stable",
+      "paint": {
+        "hue": {
+          "max": 360,
+          "min": 0
+        },
+        "key": "Stable",
+        "regions": [
+          {
+            "id": "Building",
+            "lightness": {
+              "max": 5,
+              "min": -20
+            },
+            "maskColor": [255, 0, 0],
+            "name": "Building"
+          },
+          {
+            "id": "Roof",
+            "lightness": {
+              "max": 0,
+              "min": -25
+            },
+            "maskColor": [0, 255, 0],
+            "name": "Roof"
+          },
+          {
+            "id": "Trim",
+            "lightness": {
+              "max": 0,
+              "min": -15
+            },
+            "maskColor": [0, 0, 255],
+            "name": "Trim"
+          }
+        ],
+        "saturation": {
+          "max": 75,
+          "min": 0
+        }
+      },
       "placementTiles": [],
       "shadow": true,
       "shadowPieces": [
@@ -2179,6 +3271,54 @@
           "sprite": [144, 0, 16, 16]
         }
       ],
+      "site": {
+        "frame": [
+          {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "sortY": 15.75,
+            "sprite": [64, 1856, 64, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "sortY": 16,
+            "sprite": [128, 1856, 64, 16]
+          },
+          {
+            "offset": {
+              "x": 32,
+              "y": 16
+            },
+            "sortY": 31.75,
+            "sprite": [608, 0, 16, 16]
+          }
+        ],
+        "lastDayFloor": {
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "sprite": [192, 1856, 64, 32]
+        },
+        "prop": {
+          "lastDaySprite": [745, 0, 29, 43],
+          "offset": {
+            "x": 28,
+            "y": -20
+          },
+          "sortY": 24,
+          "sprite": [736, 0, 9, 43]
+        },
+        "robin": {
+          "x": 44,
+          "y": 16
+        }
+      },
       "size": {
         "height": 2,
         "width": 4
@@ -2187,6 +3327,13 @@
         "offset": {
           "x": 0,
           "y": -64
+        },
+        "paintMask": {
+          "offset": {
+            "x": 0,
+            "y": -64
+          },
+          "sprite": [0, 3431, 64, 96]
         },
         "sprite": [0, 2423, 64, 96]
       },
@@ -2324,6 +3471,62 @@
           "sprite": [144, 0, 16, 16]
         }
       ],
+      "site": {
+        "frame": [
+          {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "sortY": 15.75,
+            "sprite": [48, 2183, 48, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "sortY": 16,
+            "sprite": [96, 2183, 48, 16]
+          },
+          {
+            "offset": {
+              "x": 0,
+              "y": 32
+            },
+            "sortY": 32,
+            "sprite": [144, 2183, 48, 16]
+          },
+          {
+            "offset": {
+              "x": 16,
+              "y": 32
+            },
+            "sortY": 47.75,
+            "sprite": [608, 0, 16, 16]
+          }
+        ],
+        "lastDayFloor": {
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "sprite": [192, 2183, 48, 48]
+        },
+        "prop": {
+          "lastDaySprite": [745, 0, 29, 43],
+          "offset": {
+            "x": 12,
+            "y": -20
+          },
+          "sortY": 24,
+          "sprite": [736, 0, 9, 43]
+        },
+        "robin": {
+          "x": 28,
+          "y": 16
+        }
+      },
       "size": {
         "height": 3,
         "width": 3

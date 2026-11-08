@@ -32,16 +32,12 @@ function renderPlanView(
       {(plan, openNewPlan) => (
         <div data-testid="editor">
           <Header
-            changeLooks={(looks) => {
-              store.setLooks(looks);
-            }}
             changePlan={(id) => {
               void store.openPlan(id);
             }}
             deletePlan={(id) => {
               void store.deletePlan(id);
             }}
-            looks={plan().looks}
             newPlan={openNewPlan}
             openFile={() => undefined}
             plan={plan()}
@@ -55,21 +51,6 @@ function renderPlanView(
       )}
     </PlanView>
   ));
-}
-
-function pickLook(testId: string) {
-  fireEvent.click(screen.getByTestId("header--upgrades"));
-  fireEvent.click(screen.getByTestId(testId));
-  fireEvent.keyDown(document, { key: "Escape" });
-}
-
-function isLookPicked(testId: string) {
-  fireEvent.click(screen.getByTestId("header--upgrades"));
-  const isPicked =
-    screen.getByTestId(testId).getAttribute("aria-checked") === "true";
-  fireEvent.keyDown(document, { key: "Escape" });
-
-  return isPicked;
 }
 
 function isNewPlanPageShown() {
@@ -89,7 +70,7 @@ function openCowsFile(store: TPlanStore) {
   return () => {
     void store.addPlanFromFile(
       new File(
-        [JSON.stringify({ ...newFarmData("meadowlands"), version: 3 })],
+        [JSON.stringify({ ...newFarmData("meadowlands"), version: 4 })],
         "Cows.layout.json",
       ),
     );
@@ -172,6 +153,30 @@ describe("<PlanView />", () => {
     });
     expect(await storage.listPlans()).toEqual(store.plans());
     expect(await storage.getLastPlanId()).toBe(store.planInfo()?.id);
+  });
+
+  it("makes a plan with the start of the selected farm", async () => {
+    const start: IFarmStart = {
+      buildings: [{ building: "coop", x: 54, y: 9 }],
+      items: [{ item: "fence", skin: "gate", x: 62, y: 13 }],
+    };
+    const loadStart = vi.fn((_farm: string) => Promise.resolve(start));
+    const store = createPlanStore(storage, undefined, loadStart);
+    await store.start();
+    renderPlanView(store);
+
+    fireEvent.click(screen.getByTestId("new-plan--farm-meadowlands"));
+    fireEvent.click(screen.getByTestId("new-plan--create"));
+
+    await vi.waitFor(() => {
+      expect(isNewPlanPageShown()).toBe(false);
+    });
+    expect(loadStart).toHaveBeenCalledExactlyOnceWith("meadowlands");
+    expect(store.currentPlan()).toEqual({
+      ...newFarmData("meadowlands", start),
+      id: store.planInfo()?.id,
+      name: "Meadowlands Farm",
+    });
   });
 
   it("opens a plan from a file on the first visit, and shows it in the editor", async () => {
@@ -266,55 +271,6 @@ describe("<PlanView />", () => {
     expect(await storage.listPlans()).toEqual([
       { farm: "standard", id: "s", name: "Parsnip field" },
     ]);
-  });
-
-  it("saves a look picked in the Upgrades menu to the open plan", async () => {
-    await storage.putPlan(makePlan("s", { name: "Home" }));
-    const store = await startStore();
-    renderPlanView(store);
-
-    pickLook("upgrades-menu--greenhouse-repaired");
-    pickLook("upgrades-menu--pet-bowl-stone_pet_bowl");
-
-    const looks = {
-      ...newFarmData("standard").looks,
-      greenhouse: "repaired",
-      petBowl: "stone_pet_bowl",
-    };
-
-    expect(store.planInfo()?.looks).toEqual(looks);
-    expect(await storage.getPlan("s")).toMatchObject({ looks });
-    expect(isLookPicked("upgrades-menu--pet-bowl-stone_pet_bowl")).toBe(true);
-  });
-
-  it("shows the own looks of each plan in the Upgrades menu when the plan changes", async () => {
-    await storage.putPlan(makePlan("s", { name: "Home" }));
-    await storage.putPlan(makePlan("t", { name: "Barn" }));
-    await storage.setLastPlanId("s");
-    const store = await startStore();
-    renderPlanView(store);
-
-    pickLook("upgrades-menu--house-2");
-    fireEvent.click(screen.getByTestId("plan-switcher"));
-    fireEvent.click(screen.getByTestId("plan-switcher--plan-t"));
-
-    await vi.waitFor(() => {
-      expect(planSwitcherLabel()).toBe("Standard Farm > Barn");
-    });
-    expect(isLookPicked("upgrades-menu--house-0")).toBe(true);
-
-    pickLook("upgrades-menu--pet-bowl-hay_pet_bowl");
-    fireEvent.click(screen.getByTestId("plan-switcher"));
-    fireEvent.click(screen.getByTestId("plan-switcher--plan-s"));
-
-    await vi.waitFor(() => {
-      expect(planSwitcherLabel()).toBe("Standard Farm > Home");
-    });
-    expect(isLookPicked("upgrades-menu--house-2")).toBe(true);
-    expect(isLookPicked("upgrades-menu--pet-bowl-pet_bowl")).toBe(true);
-    expect(await storage.getPlan("t")).toMatchObject({
-      looks: { house: 0, petBowl: "hay_pet_bowl" },
-    });
   });
 
   it("opens the last plan used when the open plan is deleted", async () => {

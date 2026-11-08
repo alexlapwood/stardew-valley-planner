@@ -1,4 +1,5 @@
 import { trees } from "../data/game/trees.json";
+import { isOverlapping } from "./daySpan";
 import {
   getDragTiles,
   type IDragRegion,
@@ -10,15 +11,11 @@ import {
   forEachTileInRegion,
   getCropsAtLocation,
   getEquipmentAtLocation,
-  getPlantedLastDay,
+  getFarmItemDays,
 } from "./farm";
+import type { ICurrentItems } from "./itemPlacement";
 import { canPlantSaplingAt } from "./placementRules";
 import { getGrowthBlockersOn } from "./treeGrowth";
-
-interface ICurrentItems {
-  currentCrops: IFarmCrops;
-  currentEquipment: IFarmEquipment;
-}
 
 interface ITreeCheck {
   currentItems: ICurrentItems;
@@ -30,48 +27,28 @@ interface ITreeCheck {
 
 type TTreeRule = (check: ITreeCheck) => boolean;
 
-interface IDaysOnTile {
-  firstDay: number;
-  lastDay?: number;
-}
-
-function getPlantedDays(plantedItem: TPlantedItem): IDaysOnTile {
-  return {
-    firstDay: plantedItem.datePlanted,
-    lastDay: getPlantedLastDay(plantedItem),
-  };
-}
-
-function getEquipmentDays({
-  dateDestroyed,
-  dateInstalled,
-}: IInstalledEquipment): IDaysOnTile {
-  return {
-    firstDay: dateInstalled,
-    lastDay: dateDestroyed === undefined ? undefined : dateDestroyed - 1,
-  };
-}
-
 // A tree stays until it is destroyed, so a thing on the tile on the planting
-// day or on any later day is in its way. A thing destroyed on the day it was
-// put down was never on the tile.
-function isOnTileFrom(date: number, { firstDay, lastDay }: IDaysOnTile) {
-  return lastDay === undefined || lastDay >= Math.max(firstDay, date);
+// day or on any later day is in its way.
+function isOnTileFrom(date: number, farmItem: TFarmItem) {
+  return isOverlapping({ firstDay: date }, getFarmItemDays(farmItem));
 }
 
 function isTileFree({ currentItems, treeToPlant }: ITreeCheck) {
   const { currentCrops, currentEquipment } = currentItems;
   const { datePlanted, x, y } = treeToPlant;
-  const daysOnTile = [
-    ...getCropsAtLocation(currentCrops, x, y).map(getPlantedDays),
-    ...getEquipmentAtLocation(currentEquipment, x, y).map(getEquipmentDays),
-  ];
 
-  return !daysOnTile.some((days) => isOnTileFrom(datePlanted, days));
+  return ![
+    ...getCropsAtLocation(currentCrops, x, y),
+    ...getEquipmentAtLocation(currentEquipment, x, y),
+  ].some((farmItem) => isOnTileFrom(datePlanted, farmItem));
 }
 
-function canPlantTreeAt({ farmMap, treeToPlant }: ITreeCheck) {
-  return canPlantSaplingAt(farmMap, treeToPlant.x, treeToPlant.y);
+function canPlantTreeAt({ currentItems, farmMap, treeToPlant }: ITreeCheck) {
+  return canPlantSaplingAt(farmMap, treeToPlant.x, treeToPlant.y, {
+    buildings: currentItems.currentBuildings ?? [],
+    cutBushes: currentItems.currentCutBushes,
+    firstDay: treeToPlant.datePlanted,
+  });
 }
 
 function hasTreeSpacing({
@@ -103,7 +80,7 @@ function hasTreeSpacing({
     (plantedItem) =>
       plantedItem.type === "tree" &&
       spacingKinds.includes(trees[plantedItem.treeId].type) &&
-      isOnTileFrom(treeToPlant.datePlanted, getPlantedDays(plantedItem)),
+      isOnTileFrom(treeToPlant.datePlanted, plantedItem),
   );
 }
 

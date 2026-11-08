@@ -139,6 +139,36 @@ describe("getTreeSchedule", () => {
     expect(scheduleOf(besideGreenhouse).matureDate).toBeUndefined();
   });
 
+  it("is blocked by a planned building beside it only while the building is there", () => {
+    const shippingBin: IPlannedBuilding = {
+      buildingId: "shipping_bin",
+      dateDestroyed: 10,
+      datePlaced: 3,
+      x: 11,
+      y: 11,
+    };
+    const plan = { ...planWith([apple]), currentBuildings: [shippingBin] };
+
+    expect(getTreeSchedule(plan, apple).matureDate).toBe(28 + 7);
+    expect(getGrowthBlockersOn(plan, apple, 3)).toEqual([{ x: 11, y: 11 }]);
+    expect(getGrowthBlockersOn(plan, apple, 10)).toEqual([]);
+  });
+
+  it("is blocked for good by a planned building that stays", () => {
+    const silo: IPlannedBuilding = {
+      buildingId: "silo",
+      datePlaced: 14,
+      x: 7,
+      y: 9,
+    };
+    const plan = { ...planWith([apple]), currentBuildings: [silo] };
+
+    expect(getTreeSchedule(plan, apple)).toEqual({
+      matureDate: undefined,
+      stageDates: [0, 7, 14, undefined],
+    });
+  });
+
   it("grows a fruit tree in winter", () => {
     const winterApple = tree("apple", 10, 10, { datePlanted: winter });
 
@@ -168,6 +198,18 @@ describe("getTreeSchedule", () => {
 
     expect(getTreeSchedule(changedPlan, apple)).not.toBe(schedule);
     expect(getTreeSchedule(changedPlan, apple).matureDate).toBeUndefined();
+  });
+
+  it("gives a new schedule when the buildings change", () => {
+    const plan = { ...planWith([apple]), currentBuildings: [] };
+    const schedule = getTreeSchedule(plan, apple);
+    const withSilo = {
+      ...plan,
+      currentBuildings: [{ buildingId: "silo", datePlaced: 0, x: 7, y: 9 }],
+    };
+
+    expect(getTreeSchedule(withSilo, apple)).not.toBe(schedule);
+    expect(getTreeSchedule(withSilo, apple).matureDate).toBeUndefined();
   });
 });
 

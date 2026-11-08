@@ -353,7 +353,8 @@
           "price": 0,
           "trade": {
             "count": 5,
-            "item": "Dragon Tooth"
+            "item": "Dragon Tooth",
+            "itemId": "(O)852"
           }
         }
       },
@@ -656,7 +657,8 @@
           "price": 0,
           "trade": {
             "count": 75,
-            "item": "Mussel"
+            "item": "Mussel",
+            "itemId": "(O)719"
           }
         }
       },

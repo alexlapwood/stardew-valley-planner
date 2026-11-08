@@ -1,5 +1,6 @@
-import { render, screen } from "@solidjs/testing-library";
+import { fireEvent, render, screen } from "@solidjs/testing-library";
 
+import { readTooltip } from "../../../__helpers__/tooltip";
 import { trees } from "../../../data/game/trees.json";
 import TreeMenu from "./TreeMenu";
 
@@ -15,7 +16,7 @@ function tooltip(treeId: string, date: number) {
     />
   ));
 
-  return screen.getByTestId(`tree--${treeId}`).getAttribute("title");
+  return readTooltip(screen.getByTestId(`tree--${treeId}`));
 }
 
 describe("<TreeMenu />", () => {
@@ -43,6 +44,23 @@ describe("<TreeMenu />", () => {
     );
   });
 
+  it("draws the game icon of the trade item on the cost line", () => {
+    render(() => (
+      <TreeMenu date={spring} selectTree={vitest.fn()} treeIds={["banana"]} />
+    ));
+
+    fireEvent.focusIn(screen.getByTestId("tree--banana"));
+
+    const [costLine] = screen.getByRole("tooltip").children;
+    const style =
+      costLine.querySelector<HTMLElement>(".FitSprite .sprite")?.style;
+
+    expect([style?.backgroundImage, style?.backgroundPosition]).toEqual([
+      'url("images/game/materials.png")',
+      "-304px 0px",
+    ]);
+  });
+
   it("never shows profit", () => {
     render(() => (
       <TreeMenu
@@ -55,10 +73,9 @@ describe("<TreeMenu />", () => {
     expect(
       Object.keys(trees).filter(
         (treeId) =>
-          screen
-            .getByTestId(`tree--${treeId}`)
-            .getAttribute("title")
-            ?.includes("Profit") === true,
+          readTooltip(screen.getByTestId(`tree--${treeId}`))?.includes(
+            "Profit",
+          ) === true,
       ),
     ).toEqual([]);
   });

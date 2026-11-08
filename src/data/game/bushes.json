@@ -1,0 +1,126 @@
+{
+  "gameVersion": "1.6.15",
+  "bushes": {
+    "large": {
+      "gameSize": 2,
+      "minAxeLevel": 1,
+      "name": "Large Bush",
+      "shadow": {
+        "offset": {
+          "x": 3,
+          "y": -4
+        },
+        "sprite": [144, 0, 41, 30]
+      },
+      "sortY": 20,
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -32
+        },
+        "seasons": {
+          "fall": [48, 0, 48, 48],
+          "spring": [0, 0, 48, 48],
+          "summer": [0, 0, 48, 48],
+          "winter": [96, 0, 48, 48]
+        },
+        "sprite": [0, 0, 48, 48]
+      },
+      "width": 3
+    },
+    "medium": {
+      "gameSize": 1,
+      "minAxeLevel": 1,
+      "name": "Medium Bush",
+      "ready": {
+        "offset": {
+          "x": 0,
+          "y": -32
+        },
+        "seasons": {
+          "fall": [192, 48, 32, 48],
+          "spring": [128, 48, 32, 48],
+          "summer": [160, 48, 32, 48]
+        },
+        "sprite": [128, 48, 32, 48]
+      },
+      "shadow": {
+        "offset": {
+          "x": -5,
+          "y": -4
+        },
+        "sprite": [144, 0, 41, 30]
+      },
+      "sortY": 20,
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -32
+        },
+        "seasons": {
+          "fall": [64, 48, 32, 48],
+          "spring": [0, 48, 32, 48],
+          "summer": [32, 48, 32, 48],
+          "winter": [96, 48, 32, 48]
+        },
+        "sprite": [0, 48, 32, 48]
+      },
+      "width": 2
+    },
+    "small": {
+      "gameSize": 0,
+      "minAxeLevel": 1,
+      "name": "Small Bush",
+      "shadow": {
+        "offset": {
+          "x": 2,
+          "y": 12
+        },
+        "sprite": [64, 96, 12, 7]
+      },
+      "sortY": 20,
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -16
+        },
+        "seasons": {
+          "fall": [32, 96, 16, 32],
+          "spring": [0, 96, 16, 32],
+          "summer": [16, 96, 16, 32],
+          "winter": [48, 96, 16, 32]
+        },
+        "sprite": [0, 96, 16, 32]
+      },
+      "width": 1
+    },
+    "walnut": {
+      "gameSize": 4,
+      "name": "Walnut Bush",
+      "ready": {
+        "offset": {
+          "x": 0,
+          "y": -16
+        },
+        "sprite": [32, 128, 32, 32]
+      },
+      "shadow": {
+        "offset": {
+          "x": -5,
+          "y": -4
+        },
+        "sprite": [144, 0, 41, 30]
+      },
+      "sortY": 20,
+      "sprite": {
+        "offset": {
+          "x": 0,
+          "y": -16
+        },
+        "sprite": [0, 128, 32, 32]
+      },
+      "startsReady": true,
+      "width": 2
+    }
+  }
+}

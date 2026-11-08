@@ -8,7 +8,7 @@ import {
 } from "solid-js";
 
 import type { TFarmId } from "../../helpers/farmMapLoader";
-import { newFarmData, type TPlanInfo } from "../../state/plan";
+import type { TPlanInfo } from "../../state/plan";
 import type { TPlanStore } from "../../state/planStore";
 import NewPlanPage from "../NewPlanPage/NewPlanPage";
 
@@ -16,7 +16,7 @@ interface IProps {
   children: (plan: Accessor<TPlanInfo>, openNewPlan: () => void) => JSXElement;
   images: HTMLImageElement[];
   openFile: () => void;
-  store: Pick<TPlanStore, "addPlan" | "planInfo" | "plans">;
+  store: Pick<TPlanStore, "addNewPlan" | "planInfo" | "plans">;
 }
 
 export default function PlanView(props: IProps) {
@@ -37,7 +37,7 @@ export default function PlanView(props: IProps) {
   );
 
   const createPlan = (farm: TFarmId, name: string) =>
-    props.store.addPlan(newFarmData(farm), name);
+    props.store.addNewPlan(farm, name);
 
   return (
     <Show

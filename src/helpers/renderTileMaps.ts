@@ -1,4 +1,4 @@
-import { getScarecrowMap, getSoilMap, getWateredSoilMap } from "./farm";
+import { getSoilMap, getWateredSoilMap } from "./farm";
 
 interface INeighbours {
   e: boolean;
@@ -51,8 +51,10 @@ export function renderSoilToContext(
   farmItems: IFarmItems<TFarmItem[]>,
   farmMap: IFarmMap,
   date: number,
+  buildings: readonly IPlannedBuilding[],
+  cutBushes?: readonly ICutBush[],
 ) {
-  const soilMap = getSoilMap(farmItems, date, farmMap);
+  const soilMap = getSoilMap(farmItems, date, farmMap, buildings, cutBushes);
 
   forEachTileInMap(soilMap, (tileValue, neighbours, x, y) => {
     const tile = getSoilTile(neighbours);
@@ -77,8 +79,16 @@ export function renderWateredSoilToContext(
   farmItems: IFarmItems<TFarmItem[]>,
   farmMap: IFarmMap,
   date: number,
+  buildings: readonly IPlannedBuilding[],
+  cutBushes?: readonly ICutBush[],
 ) {
-  const wateredSoilMap = getWateredSoilMap(farmItems, date, farmMap);
+  const wateredSoilMap = getWateredSoilMap(
+    farmItems,
+    date,
+    farmMap,
+    buildings,
+    cutBushes,
+  );
 
   const tileOffset = 4 * 16;
 
@@ -99,20 +109,45 @@ export function renderWateredSoilToContext(
   });
 }
 
-export function renderScarecrowProtectionToContext(
-  context: CanvasRenderingContext2D,
-  tileset: CanvasImageSource,
-  farmEquipment: IFarmEquipment,
-  farmMap: IFarmMap,
-  date: number,
-) {
-  const scarecrowProtectedSoilMap = getScarecrowMap(
-    farmEquipment,
-    date,
-    farmMap,
-  );
+export interface ICropAreaImages {
+  green: CanvasImageSource;
+  lime: CanvasImageSource;
+  yellow: CanvasImageSource;
+}
 
-  forEachTileInMap(scarecrowProtectedSoilMap, (tileValue, neighbours, x, y) => {
-    context.drawImage(tileset, 0, 0, 16, 16, x * 16, y * 16, 16, 16);
+export interface ICropAreaMaps {
+  junimo: (number | undefined)[][];
+  scarecrow: (number | undefined)[][];
+}
+
+function drawAreaTile(
+  context: CanvasRenderingContext2D,
+  image: CanvasImageSource,
+  x: number,
+  y: number,
+) {
+  context.drawImage(image, 0, 0, 16, 16, x * 16, y * 16, 16, 16);
+}
+
+// A tile in both areas gets 1 tile of the mixed colour. 2 tiles on top of each
+// other would be darker than the tiles around them.
+export function renderCropAreasToContext(
+  context: CanvasRenderingContext2D,
+  images: ICropAreaImages,
+  { junimo, scarecrow }: ICropAreaMaps,
+) {
+  forEachTileInMap(scarecrow, (tileValue, neighbours, x, y) => {
+    drawAreaTile(
+      context,
+      junimo[x]?.[y] === undefined ? images.yellow : images.lime,
+      x,
+      y,
+    );
+  });
+
+  forEachTileInMap(junimo, (tileValue, neighbours, x, y) => {
+    if (scarecrow[x]?.[y] === undefined) {
+      drawAreaTile(context, images.green, x, y);
+    }
   });
 }

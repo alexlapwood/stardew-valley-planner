@@ -5,9 +5,11 @@ import {
   getCropIdsInSeason,
   getItemName,
   getMatchingSkins,
+  getShownBuildingSkin,
   getShownSkin,
   getTabItemIds,
   matchesSearch,
+  searchBuildingRows,
   searchCropIds,
   searchItemIds,
 } from "./sideMenuItems";
@@ -138,6 +140,31 @@ describe("getShownSkin", () => {
 
   it("is the picked skin when no skin matches", () => {
     expect(getShownSkin("fence", "gate", "keg")).toBe("gate");
+  });
+});
+
+describe("getShownBuildingSkin", () => {
+  it("is the picked skin when there is no search or its name matches", () => {
+    expect(getShownBuildingSkin("cabin", "log_cabin", "")).toBe("log_cabin");
+    expect(getShownBuildingSkin("cabin", "log_cabin", "cabin")).toBe(
+      "log_cabin",
+    );
+  });
+
+  it("is the first skin that matches when the picked skin does not match, with the look with no skin first", () => {
+    expect(getShownBuildingSkin("cabin", "log_cabin", "trailer")).toBe(
+      "trailer_cabin",
+    );
+    expect(getShownBuildingSkin("pet_bowl", "hay_pet_bowl", "stone")).toBe(
+      "stone_pet_bowl",
+    );
+  });
+});
+
+describe("searchBuildingRows", () => {
+  it("finds a building row by the name of any of its skins", () => {
+    expect(searchBuildingRows("rustic")).toEqual(["building--cabin"]);
+    expect(searchBuildingRows("stone pet")).toEqual(["building--pet_bowl"]);
   });
 });
 

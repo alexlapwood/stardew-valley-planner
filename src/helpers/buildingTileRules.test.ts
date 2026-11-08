@@ -1,6 +1,11 @@
 import { makeTestFarmMapFile } from "../__mocks__/testFarmMap";
 import { buildings } from "../data/game/buildings.json";
-import { applyBuildingTileRules, getPlacementFlags } from "./buildingTileRules";
+import {
+  applyBuildingTileRules,
+  getPlacementFlags,
+  getPlacementFlagsOn,
+  getTileFlagsOverDays,
+} from "./buildingTileRules";
 import { decodeFarmMap } from "./farmMap";
 
 const tillable = 1;
@@ -180,4 +185,111 @@ describe("getPlacementFlags", () => {
       movedFlags[10 * map.width + 40],
     ]).toEqual([openTile, greenhouseWall]);
   });
+});
+
+describe("getPlacementFlagsOn", () => {
+  const map = decodeFarmMap("farm", makeTestFarmMapFile());
+  const openTile = tillable | buildable | floorable;
+  const barnTile = blocked | floorable;
+  const cellOf = (x: number, y: number) => y * map.width + x;
+  const barn: IPlannedBuilding = {
+    buildingId: "barn",
+    dateDestroyed: 20,
+    datePlaced: 5,
+    x: 10,
+    y: 30,
+  };
+
+  it("applies the rules of a planned building from its order day to the day before it is destroyed", () => {
+    expect(
+      [4, 5, 19, 20].map(
+        (date) => getPlacementFlagsOn(map, [barn], date)[cellOf(12, 31)],
+      ),
+    ).toEqual([openTile, barnTile, barnTile, openTile]);
+  });
+
+  // The tiers of a game building share their tile rules, so this test gives
+  // the Big Barn its own rules for a while.
+  it("applies the rules of the tier that stands on each date", () => {
+    const bigBarn = buildings.big_barn;
+    const { changes } = bigBarn.tileRules;
+    buildings.big_barn = {
+      ...bigBarn,
+      tileRules: {
+        ...bigBarn.tileRules,
+        changes: { a: { ...changes.a, floorable: false } },
+      },
+    };
+
+    try {
+      const upgraded: IPlannedBuilding = {
+        ...barn,
+        upgrades: [{ buildingId: "big_barn", datePlaced: 10 }],
+      };
+
+      expect(
+        [5, 9, 10, 19].map(
+          (date) => getPlacementFlagsOn(map, [upgraded], date)[cellOf(12, 31)],
+        ),
+      ).toEqual([barnTile, barnTile, blocked, blocked]);
+    } finally {
+      buildings.big_barn = bigBarn;
+    }
+  });
+
+  it("keeps the rules of the fixed buildings", () => {
+    expect(getPlacementFlagsOn(map, [barn], 5)[10 * map.width + 25]).toBe(
+      blocked | floorable,
+    );
+  });
+
+  it("gives the flags of the fixed buildings when the plan has no buildings", () => {
+    expect(getPlacementFlagsOn(map, [], 5)).toBe(getPlacementFlags(map));
+  });
+
+  it("works the flags out one time for each set of days with the same buildings", () => {
+    const buildings = [barn];
+
+    expect(getPlacementFlagsOn(map, buildings, 6)).toBe(
+      getPlacementFlagsOn(map, buildings, 19),
+    );
+    expect(getPlacementFlagsOn(map, buildings, 6)).not.toBe(
+      getPlacementFlagsOn(map, buildings, 20),
+    );
+    expect(getPlacementFlagsOn(map, buildings, 4)).toBe(getPlacementFlags(map));
+    expect(getPlacementFlagsOn(map, buildings, 30)).toBe(
+      getPlacementFlags(map),
+    );
+  });
+});
+
+describe("getTileFlagsOverDays", () => {
+  const map = decodeFarmMap("farm", makeTestFarmMapFile());
+  const openTile = tillable | buildable | floorable;
+  const barn: IPlannedBuilding = {
+    buildingId: "barn",
+    dateDestroyed: 20,
+    datePlaced: 5,
+    x: 10,
+    y: 30,
+  };
+
+  it.each([
+    ["before the building", { firstDay: 0, lastDay: 4 }, openTile, openTile],
+    [
+      "into the building days",
+      { firstDay: 0, lastDay: 5 },
+      floorable,
+      openTile | blocked,
+    ],
+    ["with no end", { firstDay: 0 }, floorable, openTile | blocked],
+    ["after the building", { firstDay: 20 }, openTile, openTile],
+  ])(
+    "gives the flags on every day and on some day %s",
+    (_, days, onEveryDay, onSomeDay) => {
+      expect(getTileFlagsOverDays(map, [barn], { x: 12, y: 31 }, days)).toEqual(
+        { onEveryDay, onSomeDay },
+      );
+    },
+  );
 });

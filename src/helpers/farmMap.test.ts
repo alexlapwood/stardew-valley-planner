@@ -1,14 +1,19 @@
 import { makeTestFarmMapFile, testRuleFlags } from "../__mocks__/testFarmMap";
+import { getBushTiles } from "./bushes";
+import { isOnDefaultBuilding } from "./defaultBuildings";
 import {
   decodeFarmMap,
   decodeLayerTiles,
   decodeRuleRows,
   flagsAt,
   isFarmMapFile,
+  isOnMap,
   parseFarmMap,
   ruleAlphabet,
 } from "./farmMap";
 import { farmIds } from "./farmMapLoader";
+import { hasSkin } from "./items";
+import { isGroundBuilding } from "./plannedBuildings";
 import { getTileSource } from "./renderFarmMap";
 
 const exportedFarms = import.meta.glob<unknown>(
@@ -136,6 +141,71 @@ describe("parseFarmMap", () => {
         };
       },
     ],
+    [
+      "no start",
+      (farm) => {
+        delete farm.start;
+      },
+    ],
+    [
+      "a start with no list of items",
+      (farm) => {
+        farm.start = { buildings: [] };
+      },
+    ],
+    [
+      "a start building with no building id",
+      (farm) => {
+        farm.start = { buildings: [{ x: 54, y: 9 }], items: [] };
+      },
+    ],
+    [
+      "a start building that is not on a whole tile",
+      (farm) => {
+        farm.start = {
+          buildings: [{ building: "coop", x: 54.5, y: 9 }],
+          items: [],
+        };
+      },
+    ],
+    [
+      "a start item with no skin",
+      (farm) => {
+        farm.start = { buildings: [], items: [{ item: "fence", x: 1, y: 2 }] };
+      },
+    ],
+    [
+      "no bushes",
+      (farm) => {
+        delete farm.bushes;
+      },
+    ],
+    [
+      "a bush of a size that the planner does not know",
+      (farm) => {
+        farm.bushes = [{ destroyable: true, size: "huge", x: 0, y: 0 }];
+      },
+    ],
+    [
+      "a bush with no destroyable flag",
+      (farm) => {
+        farm.bushes = [{ size: "small", x: 0, y: 0 }];
+      },
+    ],
+    [
+      "a bush that is not on a whole tile",
+      (farm) => {
+        farm.bushes = [{ destroyable: true, size: "small", x: 0.5, y: 0 }];
+      },
+    ],
+    [
+      "a bush with a noShadow flag that is not true",
+      (farm) => {
+        farm.bushes = [
+          { destroyable: true, noShadow: false, size: "small", x: 0, y: 0 },
+        ];
+      },
+    ],
   ])("is not a farm map with %s", (_, breakFarm) => {
     const file = makeTestFarmMapFile(1, 1);
     const farm: Record<string, unknown> = { ...file.farm };
@@ -143,6 +213,32 @@ describe("parseFarmMap", () => {
 
     expect(isFarmMapFile(file)).toBe(true);
     expect(isFarmMapFile({ ...file, farm })).toBe(false);
+  });
+
+  it("is a farm map with a start, and the map keeps the start", () => {
+    const file = makeTestFarmMapFile(1, 1);
+    const start: IFarmStart = {
+      buildings: [{ building: "coop", x: 0, y: 0 }],
+      items: [{ item: "fence", skin: "gate", x: 0, y: 0 }],
+    };
+    const data = { ...file, farm: { ...file.farm, start } };
+
+    expect(isFarmMapFile(data)).toBe(true);
+    expect(parseFarmMap("start", data).start).toEqual(start);
+  });
+
+  it("is a farm map with bushes of each size, and the map keeps them", () => {
+    const file = makeTestFarmMapFile(1, 1);
+    const bushes: IFarmBush[] = [
+      { destroyable: true, size: "large", x: 0, y: 0 },
+      { destroyable: false, noShadow: true, size: "medium", x: 3, y: 0 },
+      { destroyable: false, size: "small", x: 5, y: 0 },
+      { destroyable: false, size: "walnut", x: 6, y: 0 },
+    ];
+    const data = { ...file, farm: { ...file.farm, bushes } };
+
+    expect(isFarmMapFile(data)).toBe(true);
+    expect(parseFarmMap("bushes", data).bushes).toEqual(bushes);
   });
 
   it("throws when a layer has no group", () => {
@@ -184,6 +280,10 @@ describe("parseFarmMap", () => {
 
 function farmIdOf(path: string) {
   return /([^/]+)\.json$/u.exec(path)?.[1] ?? path;
+}
+
+function tilesFrom(first: number, last: number) {
+  return Array.from({ length: last - first + 1 }, (_, index) => first + index);
 }
 
 describe("the exported farms", () => {
@@ -236,6 +336,88 @@ describe("the exported farms", () => {
       });
 
       expect([...unknownGids]).toEqual([]);
+    },
+  );
+
+  it("starts Meadowlands with the finished Coop and the Wood Fence with its gate of Farm.onNewGame", () => {
+    const [path, data] =
+      farms.find(([farmPath]) => farmIdOf(farmPath) === "meadowlands") ?? [];
+    const fenceTiles = [
+      ...tilesFrom(47, 62).map((x) => ({ x, y: 20 })),
+      ...tilesFrom(16, 19).map((y) => ({ x: 47, y })),
+      ...tilesFrom(7, 19).map((y) => ({ x: 62, y })),
+    ];
+
+    expect(parseFarmMap(path ?? "meadowlands", data).start).toEqual({
+      buildings: [{ building: "coop", x: 54, y: 9 }],
+      items: fenceTiles.map(({ x, y }) => ({
+        item: "fence",
+        skin: x === 62 && y === 13 ? "gate" : "wood_fence",
+        x,
+        y,
+      })),
+    });
+  });
+
+  it.each(farms.filter(([path]) => farmIdOf(path) !== "meadowlands"))(
+    "starts %s with nothing more than the fixed buildings",
+    (path, data) => {
+      expect(parseFarmMap(path, data).start).toEqual({
+        buildings: [],
+        items: [],
+      });
+    },
+  );
+
+  it.each(farms)(
+    "%s starts with only buildings that Robin builds and items that the planner has",
+    (path, data) => {
+      const { buildings, items } = parseFarmMap(path, data).start;
+
+      expect(
+        buildings.filter(({ building }) => !isGroundBuilding(building)),
+      ).toEqual([]);
+      expect(items.filter(({ item, skin }) => !hasSkin(item, skin))).toEqual(
+        [],
+      );
+    },
+  );
+
+  it.each([
+    ["standard", 5, 0],
+    ["riverland", 14, 7],
+    ["forest", 49, 19],
+    ["hilltop", 54, 3],
+    ["wilderness", 15, 0],
+    ["four_corners", 20, 0],
+    ["beach", 52, 16],
+    ["meadowlands", 48, 0],
+  ])(
+    "has %i bushes on the %s farm, %i of them destroyable",
+    (id, count, destroyable) => {
+      const [path, data] =
+        farms.find(([farmPath]) => farmIdOf(farmPath) === id) ?? [];
+      const { bushes } = parseFarmMap(path ?? id, data);
+
+      expect(bushes).toHaveLength(count);
+      expect(bushes.filter((bush) => bush.destroyable)).toHaveLength(
+        destroyable,
+      );
+    },
+  );
+
+  it.each(farms)(
+    "%s has its bushes on the map, on no fixed building and on no other bush",
+    (path, data) => {
+      const map = parseFarmMap(path, data);
+      const tiles = map.bushes.flatMap(getBushTiles);
+      const keys = tiles.map(({ x, y }) => `${x},${y}`);
+
+      expect(tiles.filter(({ x, y }) => !isOnMap(map, x, y))).toEqual([]);
+      expect(
+        tiles.filter(({ x, y }) => isOnDefaultBuilding(map, x, y)),
+      ).toEqual([]);
+      expect(new Set(keys).size).toBe(keys.length);
     },
   );
 

@@ -148,6 +148,98 @@
         "interval": 1000
       }
     ],
+    "bushes": [
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 47,
+        "y": 6
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 49,
+        "y": 6
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 74,
+        "y": 10
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 75,
+        "y": 10
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 77,
+        "y": 11
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 72,
+        "y": 40
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 71,
+        "y": 41
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 68,
+        "y": 54
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 62,
+        "y": 55
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 61,
+        "y": 56
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 56,
+        "y": 57
+      },
+      {
+        "destroyable": false,
+        "size": "large",
+        "x": 33,
+        "y": 58
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 31,
+        "y": 60
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 45,
+        "y": 61
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 49,
+        "y": 61
+      }
+    ],
     "greenhousePath": [
       {
         "gid": 877,
@@ -1000,6 +1092,10 @@
         "x": 71,
         "y": 14
       }
+    },
+    "start": {
+      "buildings": [],
+      "items": []
     },
     "tilesheets": [
       {

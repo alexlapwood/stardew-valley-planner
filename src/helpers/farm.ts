@@ -1,15 +1,24 @@
 import { crops } from "../data/game/crops.json";
 import { getCropsLastDay } from "./crop";
+import type { IDaySpan } from "./daySpan";
 import {
   getItemSkin,
   getRangeOffsets,
   isFenceItem,
   isFloorItem,
 } from "./items";
-import { canPlantAt, canWaterAt } from "./placementRules";
+import { canPlantAt, canWaterAt, type IPlacementDays } from "./placementRules";
 import { getTreesLastDay, isTreeHereToday } from "./tree";
 
-type TTileTest = (farmMap: IFarmMap, x: number, y: number) => boolean;
+type TTileTest = (x: number, y: number) => boolean;
+
+function onlyOn(
+  buildings: readonly IPlannedBuilding[],
+  date: number,
+  cutBushes: readonly ICutBush[],
+): IPlacementDays {
+  return { buildings, cutBushes, firstDay: date, lastDay: date };
+}
 
 export function forEachTileInRegion(
   highlightedRegion: { x1: number; x2: number; y1: number; y2: number },
@@ -69,6 +78,23 @@ export function getPlantedLastDay(plantedItem: TPlantedItem) {
     : getCropsLastDay(plantedItem, crops[plantedItem.cropId]);
 }
 
+export function getFarmItemDays(farmItem: TFarmItem): IDaySpan {
+  if (farmItem.type === "equipment") {
+    return {
+      firstDay: farmItem.dateInstalled,
+      lastDay:
+        farmItem.dateDestroyed === undefined
+          ? undefined
+          : farmItem.dateDestroyed - 1,
+    };
+  }
+
+  return {
+    firstDay: farmItem.datePlanted,
+    lastDay: getPlantedLastDay(farmItem),
+  };
+}
+
 export function isEquipmentHereToday(
   installedEquipment: IInstalledEquipment,
   date: number,
@@ -116,11 +142,10 @@ function markRangeOnSoil(
   range: IItemRange,
   x: number,
   y: number,
-  farmMap: IFarmMap,
   isInRange: TTileTest,
 ) {
   getRangeOffsets(range).forEach(([dx, dy]) => {
-    if (!isInRange(farmMap, x + dx, y + dy)) {
+    if (!isInRange(x + dx, y + dy)) {
       return;
     }
 
@@ -138,7 +163,7 @@ function markWateredRange(
   soilMap: TSoilMap,
   farmItem: TFarmItem,
   date: number,
-  farmMap: IFarmMap,
+  canWaterTile: TTileTest,
 ) {
   if (farmItem.type !== "equipment" || !isEquipmentHereToday(farmItem, date)) {
     return;
@@ -150,15 +175,19 @@ function markWateredRange(
   )?.waterRange;
 
   if (waterRange !== undefined) {
-    markRangeOnSoil(
-      soilMap,
-      waterRange,
-      farmItem.x,
-      farmItem.y,
-      farmMap,
-      canWaterAt,
-    );
+    markRangeOnSoil(soilMap, waterRange, farmItem.x, farmItem.y, canWaterTile);
   }
+}
+
+function canWaterOn(
+  farmMap: IFarmMap,
+  buildings: readonly IPlannedBuilding[],
+  date: number,
+  cutBushes: readonly ICutBush[],
+): TTileTest {
+  const days = onlyOn(buildings, date, cutBushes);
+
+  return (x, y) => canWaterAt(farmMap, x, y, days);
 }
 
 function isStandingOnTile(farmItem: TFarmItem, date: number) {
@@ -187,8 +216,11 @@ export function getSoilMap(
   farmItems: IFarmItems<TFarmItem[]>,
   date: number,
   farmMap: IFarmMap,
+  buildings: readonly IPlannedBuilding[] = [],
+  cutBushes: readonly ICutBush[] = [],
 ) {
   const soilMap: TSoilMap = [];
+  const canWaterTile = canWaterOn(farmMap, buildings, date, cutBushes);
 
   forEachFarmItem<TFarmItem>(farmItems, (farmItem) => {
     const { x, y } = farmItem;
@@ -201,7 +233,7 @@ export function getSoilMap(
       soilMap[x][y] = 0;
     }
 
-    markWateredRange(soilMap, farmItem, date, farmMap);
+    markWateredRange(soilMap, farmItem, date, canWaterTile);
   });
 
   clearSoilUnderItems(soilMap, farmItems, date);
@@ -213,11 +245,14 @@ export function getWateredSoilMap(
   farmItems: IFarmItems<TFarmItem[]>,
   date: number,
   farmMap: IFarmMap,
+  buildings: readonly IPlannedBuilding[] = [],
+  cutBushes: readonly ICutBush[] = [],
 ) {
   const soilMap: TSoilMap = [];
+  const canWaterTile = canWaterOn(farmMap, buildings, date, cutBushes);
 
   forEachFarmItem<TFarmItem>(farmItems, (farmItem) => {
-    markWateredRange(soilMap, farmItem, date, farmMap);
+    markWateredRange(soilMap, farmItem, date, canWaterTile);
   });
 
   clearSoilUnderItems(soilMap, farmItems, date);
@@ -271,8 +306,13 @@ export function getScarecrowMap(
   currentEquipment: IFarmItems<TFarmItem[]>,
   date: number,
   farmMap: IFarmMap,
+  buildings: readonly IPlannedBuilding[] = [],
+  cutBushes: readonly ICutBush[] = [],
 ) {
   const scarecrowMap: number[][] = [];
+  const days = onlyOn(buildings, date, cutBushes);
+  const canPlantTile = (x: number, y: number) =>
+    canPlantAt(farmMap, x, y, days);
 
   forEachFarmItem<TFarmItem>(currentEquipment, (installedEquipment) => {
     if (installedEquipment.type !== "equipment") {
@@ -292,7 +332,7 @@ export function getScarecrowMap(
       return;
     }
 
-    markRangeOnSoil(scarecrowMap, crowRange, x, y, farmMap, canPlantAt);
+    markRangeOnSoil(scarecrowMap, crowRange, x, y, canPlantTile);
 
     if (scarecrowMap[x] === undefined) {
       scarecrowMap[x] = [];

@@ -21,6 +21,7 @@ exports[`doing things with a selected region > won't do anything if we're not ac
         width="1280"
       />
     </div>
+    
   </div>
 </div>
 `;
@@ -46,6 +47,7 @@ exports[`renders the app without crashing 1`] = `
         width="1280"
       />
     </div>
+    
   </div>
 </div>
 `;

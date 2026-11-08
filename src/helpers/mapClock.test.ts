@@ -25,13 +25,24 @@ function watch(accessor: Accessor<number>) {
   return values;
 }
 
-function startClock(nextChange: TNextChange) {
+function startClock(
+  nextChange: TNextChange,
+  alwaysNextChange: TNextChange = noChange,
+) {
   return createRoot((dispose) => {
     disposers.push(dispose);
 
-    const time = createMapClock(() => nextChange);
+    const clock = createMapClock(
+      () => nextChange,
+      () => alwaysNextChange,
+    );
 
-    return { dispose, time, times: watch(time) };
+    return {
+      clock,
+      dispose,
+      time: clock.motionTime,
+      times: watch(clock.motionTime),
+    };
   });
 }
 
@@ -174,7 +185,45 @@ describe("createMapClock", () => {
     setReducedMotion(false);
     vi.advanceTimersByTime(500);
 
-    expect(times).toEqual([0, 500, 0, 500, 1000]);
+    expect(times).toEqual([0, 500, 0, 500, 6000]);
+  });
+
+  it("plays the frames that play always, also when the device asks for reduced motion", () => {
+    stubReducedMotion(true);
+    const { clock, time } = startClock(every(100), every(500));
+    const times = createRoot((dispose) => {
+      disposers.push(dispose);
+
+      return watch(clock.time);
+    });
+
+    vi.advanceTimersByTime(1000);
+
+    expect(times).toEqual([0, 500, 1000]);
+    expect(time()).toBe(0);
+  });
+
+  it("wakes for the frames that play always, with the other frames", () => {
+    const { clock, times } = startClock(every(500), every(300));
+
+    vi.advanceTimersByTime(1000);
+
+    expect(times).toEqual([0, 300, 500, 600, 900, 1000]);
+    expect(clock.time()).toBe(1000);
+  });
+
+  it("gives the time between 2 ticks, and keeps it while the page is hidden", () => {
+    const { clock } = startClock(noChange);
+
+    vi.advanceTimersByTime(1234);
+
+    expect(clock.now()).toBe(1234);
+    expect(clock.time()).toBe(0);
+
+    setHidden(true);
+    vi.advanceTimersByTime(5000);
+
+    expect(clock.now()).toBe(1234);
   });
 });
 
@@ -183,11 +232,11 @@ describe("createFrameTime", () => {
     const frameTimes = createRoot((dispose) => {
       disposers.push(dispose);
 
-      const time = createMapClock(() =>
+      const { motionTime } = createMapClock(() =>
         earliestChange([every(300), every(500)]),
       );
 
-      return watch(createFrameTime(time, () => every(500)));
+      return watch(createFrameTime(motionTime, () => every(500)));
     });
 
     vi.advanceTimersByTime(1000);

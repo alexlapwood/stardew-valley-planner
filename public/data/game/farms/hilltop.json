@@ -198,6 +198,342 @@
         "interval": 1000
       }
     ],
+    "bushes": [
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 19,
+        "y": 1
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 20,
+        "y": 2
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 47,
+        "y": 6
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 49,
+        "y": 6
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 46,
+        "y": 7
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 5,
+        "y": 8
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 11,
+        "y": 8
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 68,
+        "y": 8
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 73,
+        "y": 8
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 46,
+        "y": 9
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 55,
+        "y": 9
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 66,
+        "y": 9
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 67,
+        "y": 9
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 73,
+        "y": 9
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 74,
+        "y": 10
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 75,
+        "y": 10
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 77,
+        "y": 11
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 6,
+        "y": 12
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 11,
+        "y": 12
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 44,
+        "y": 12
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 3,
+        "y": 14
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 3,
+        "y": 16
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 3,
+        "y": 19
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 29,
+        "y": 21
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 34,
+        "y": 21
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 60,
+        "y": 21
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 66,
+        "y": 21
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 67,
+        "y": 21
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 34,
+        "y": 22
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 61,
+        "y": 22
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 7,
+        "y": 33
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "medium",
+        "x": 6,
+        "y": 35
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "large",
+        "x": 9,
+        "y": 35
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "large",
+        "x": 14,
+        "y": 35
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "medium",
+        "x": 17,
+        "y": 35
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "large",
+        "x": 19,
+        "y": 35
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "large",
+        "x": 24,
+        "y": 35
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 27,
+        "y": 37
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "medium",
+        "x": 58,
+        "y": 37
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "large",
+        "x": 67,
+        "y": 37
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "small",
+        "x": 71,
+        "y": 37
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "small",
+        "x": 74,
+        "y": 37
+      },
+      {
+        "destroyable": false,
+        "size": "large",
+        "x": 28,
+        "y": 38
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 29,
+        "y": 39
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 58,
+        "y": 44
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 59,
+        "y": 44
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 66,
+        "y": 44
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 13,
+        "y": 45
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 19,
+        "y": 45
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 66,
+        "y": 45
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 20,
+        "y": 46
+      },
+      {
+        "destroyable": true,
+        "size": "small",
+        "x": 32,
+        "y": 58
+      },
+      {
+        "destroyable": true,
+        "size": "medium",
+        "x": 27,
+        "y": 60
+      },
+      {
+        "destroyable": true,
+        "size": "small",
+        "x": 31,
+        "y": 60
+      }
+    ],
     "greenhousePath": [
       {
         "gid": 877,
@@ -1082,6 +1418,10 @@
         "x": 71,
         "y": 14
       }
+    },
+    "start": {
+      "buildings": [],
+      "items": []
     },
     "tilesheets": [
       {

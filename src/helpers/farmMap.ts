@@ -1,3 +1,4 @@
+import { bushes } from "../data/game/bushes.json";
 import { seasonNames } from "./date";
 
 export const ruleAlphabet =
@@ -104,6 +105,40 @@ function isPathTile(value: unknown) {
   return isRecord(value) && isTile(value) && isSize(value.gid);
 }
 
+function isStartBuilding(value: unknown) {
+  return isRecord(value) && isTile(value) && typeof value.building === "string";
+}
+
+function isStartItem(value: unknown) {
+  return (
+    isRecord(value) &&
+    isTile(value) &&
+    typeof value.item === "string" &&
+    typeof value.skin === "string"
+  );
+}
+
+function isStart(value: unknown) {
+  return (
+    isRecord(value) &&
+    Array.isArray(value.buildings) &&
+    value.buildings.every(isStartBuilding) &&
+    Array.isArray(value.items) &&
+    value.items.every(isStartItem)
+  );
+}
+
+function isBush(value: unknown) {
+  return (
+    isRecord(value) &&
+    isTile(value) &&
+    typeof value.size === "string" &&
+    Object.hasOwn(bushes, value.size) &&
+    typeof value.destroyable === "boolean" &&
+    (value.noShadow === undefined || value.noShadow === true)
+  );
+}
+
 function isByte(value: unknown) {
   return (
     typeof value === "number" &&
@@ -146,7 +181,10 @@ function isFarmMapData(farm: unknown): farm is IFarmMapData {
     Array.isArray(farm.saplingRows) &&
     Array.isArray(farm.greenhousePath) &&
     farm.greenhousePath.every(isPathTile) &&
-    isWater(farm.water)
+    isWater(farm.water) &&
+    isStart(farm.start) &&
+    Array.isArray(farm.bushes) &&
+    farm.bushes.every(isBush)
   );
 }
 
@@ -251,6 +289,7 @@ export function decodeFarmMap(id: string, { farm }: IFarmMapFile): IFarmMap {
     animations: new Map<number, IFarmAnimation>(
       farm.animations.map((animation) => [animation.gid, animation]),
     ),
+    bushes: farm.bushes,
     flags: decodeRuleRows(farm.rules.rows, width, height),
     greenhousePath: farm.greenhousePath,
     height,
@@ -260,6 +299,7 @@ export function decodeFarmMap(id: string, { farm }: IFarmMapFile): IFarmMap {
     ruleFlags: farm.rules.flags,
     saplings: decodeRuleRows(farm.saplingRows, width, height),
     spots: farm.spots,
+    start: farm.start,
     tilesheets: farm.tilesheets.toSorted((a, b) => a.firstGid - b.firstGid),
     water: farm.water,
     width,

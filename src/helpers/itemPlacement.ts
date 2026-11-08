@@ -10,14 +10,24 @@ import {
 import { isFloorItem } from "./items";
 import { canInstallAt, canPlantAt } from "./placementRules";
 
+export interface ICurrentItems {
+  currentBuildings?: readonly IPlannedBuilding[];
+  currentCrops: IFarmCrops;
+  currentCutBushes?: readonly ICutBush[];
+  currentEquipment: IFarmEquipment;
+  currentGreenhouseRepair?: IPlannedRepair;
+  currentHouseColorPaints?: readonly IPlannedColorPaint[];
+  currentHouseUpgrades?: readonly IPlannedHouseUpgrade[];
+  currentPetBowlPaints?: readonly IPlannedPaint[];
+}
+
 export function checkCropsToPlant(
   cropsToPlant: IPlantedCrop[],
-  currentItems: {
-    currentCrops: IFarmCrops;
-    currentEquipment: IFarmEquipment;
-  },
+  currentItems: ICurrentItems,
   farmMap: IFarmMap,
 ) {
+  const buildings = currentItems.currentBuildings ?? [];
+
   return cropsToPlant.reduce(
     (
       acc: {
@@ -98,7 +108,12 @@ export function checkCropsToPlant(
       if (
         plantedCropConflict === undefined &&
         installedEquipmentConflict === undefined &&
-        canPlantAt(farmMap, cropToPlant.x, cropToPlant.y)
+        canPlantAt(farmMap, cropToPlant.x, cropToPlant.y, {
+          buildings,
+          cutBushes: currentItems.currentCutBushes,
+          firstDay: cropToPlant.datePlanted,
+          lastDay: getCropsLastDay(cropToPlant, crops[cropToPlant.cropId]),
+        })
       ) {
         return mergeDeep(acc, {
           plantableCrops: [cropToPlant],
@@ -115,9 +130,11 @@ export function checkCropsToPlant(
 
 export function checkEquipmentToInstall(
   equipmentToInstallList: IInstalledEquipment[],
-  currentItems: { currentCrops: IFarmCrops; currentEquipment: IFarmEquipment },
+  currentItems: ICurrentItems,
   farmMap: IFarmMap,
 ) {
+  const buildings = currentItems.currentBuildings ?? [];
+
   return equipmentToInstallList.reduce(
     (
       acc: {
@@ -224,6 +241,13 @@ export function checkEquipmentToInstall(
           equipmentToInstall,
           equipmentToInstall.x,
           equipmentToInstall.y,
+          {
+            buildings,
+            cutBushes: currentItems.currentCutBushes,
+            firstDay: equipmentToInstall.dateInstalled,
+            lastDay:
+              dateDestroyed === undefined ? undefined : dateDestroyed - 1,
+          },
         )
       ) {
         return mergeDeep(acc, {

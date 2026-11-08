@@ -1,0 +1,117 @@
+{
+  "gameVersion": "1.6.15",
+  "materials": {
+    "(O)152": {
+      "icon": [0, 0, 16, 16],
+      "name": "Seaweed"
+    },
+    "(O)153": {
+      "icon": [16, 0, 16, 16],
+      "name": "Green Algae"
+    },
+    "(O)268": {
+      "icon": [32, 0, 16, 16],
+      "name": "Starfruit"
+    },
+    "(O)310": {
+      "icon": [48, 0, 16, 16],
+      "name": "Maple Seed"
+    },
+    "(O)311": {
+      "icon": [64, 0, 16, 16],
+      "name": "Pine Cone"
+    },
+    "(O)330": {
+      "icon": [80, 0, 16, 16],
+      "name": "Clay"
+    },
+    "(O)334": {
+      "icon": [96, 0, 16, 16],
+      "name": "Copper Bar"
+    },
+    "(O)335": {
+      "icon": [112, 0, 16, 16],
+      "name": "Iron Bar"
+    },
+    "(O)337": {
+      "icon": [128, 0, 16, 16],
+      "name": "Iridium Bar"
+    },
+    "(O)338": {
+      "icon": [144, 0, 16, 16],
+      "name": "Refined Quartz"
+    },
+    "(O)372": {
+      "icon": [160, 0, 16, 16],
+      "name": "Clam"
+    },
+    "(O)388": {
+      "icon": [176, 0, 16, 16],
+      "name": "Wood"
+    },
+    "(O)390": {
+      "icon": [192, 0, 16, 16],
+      "name": "Stone"
+    },
+    "(O)393": {
+      "icon": [208, 0, 16, 16],
+      "name": "Coral"
+    },
+    "(O)428": {
+      "icon": [224, 0, 16, 16],
+      "name": "Cloth"
+    },
+    "(O)709": {
+      "icon": [240, 0, 16, 16],
+      "name": "Hardwood"
+    },
+    "(O)719": {
+      "icon": [256, 0, 16, 16],
+      "name": "Mussel"
+    },
+    "(O)771": {
+      "icon": [272, 0, 16, 16],
+      "name": "Fiber"
+    },
+    "(O)851": {
+      "icon": [288, 0, 16, 16],
+      "name": "Magma Cap"
+    },
+    "(O)852": {
+      "icon": [304, 0, 16, 16],
+      "name": "Dragon Tooth"
+    },
+    "(O)858": {
+      "icon": [320, 0, 16, 16],
+      "name": "Qi Gem"
+    },
+    "(O)86": {
+      "icon": [336, 0, 16, 16],
+      "name": "Earth Crystal"
+    },
+    "(O)88": {
+      "icon": [352, 0, 16, 16],
+      "name": "Coconut"
+    },
+    "(O)881": {
+      "icon": [368, 0, 16, 16],
+      "name": "Bone Fragment"
+    },
+    "(O)90": {
+      "icon": [384, 0, 16, 16],
+      "name": "Cactus Fruit"
+    },
+    "(O)91": {
+      "icon": [400, 0, 16, 16],
+      "name": "Banana"
+    },
+    "(O)92": {
+      "icon": [416, 0, 16, 16],
+      "name": "Sap"
+    },
+    "(O)Moss": {
+      "icon": [432, 0, 16, 16],
+      "name": "Moss"
+    }
+  }
+}

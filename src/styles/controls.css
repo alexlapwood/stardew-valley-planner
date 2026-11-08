@@ -48,6 +48,28 @@ input[type="range"] {
   }
 }
 
+/* A box in the colours of the slider: the track when it is clear, and the
+   thumb when it is checked. */
+input[type="checkbox"] {
+  appearance: none;
+  background: #bdac8f;
+  background-clip: padding-box;
+  border-image: url("../images/slider-border.png") 2 stretch;
+  border-style: solid;
+  border-width: 2px;
+  box-sizing: border-box;
+  cursor: pointer;
+  flex-shrink: 0;
+  height: 10px;
+  margin: 0;
+  width: 10px;
+
+  &:checked {
+    background: #de7b00;
+    background-clip: padding-box;
+  }
+}
+
 ::-webkit-scrollbar {
   height: 6px;
   width: 6px;

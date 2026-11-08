@@ -32,7 +32,7 @@ const [farmhouse, greenhouse, petBowl, shippingBin] = getDefaultBuildingDraws(
   document.createElement("canvas"),
   testFarmMap,
   "spring",
-  { greenhouse: "broken", house: 0, petBowl: "pet_bowl" },
+  { greenhouse: "broken", house: "upgrade_0", petBowl: "pet_bowl" },
 );
 
 function isBuildingFaded(draw: ISortedDraw, x: number, y: number) {
@@ -187,6 +187,26 @@ describe("fadeTallSprites", () => {
     const draws = [draw("tree", fruitTree)];
 
     expect(fadeTallSprites(context, draws, undefined)).toBe(draws);
+  });
+
+  it("uses the sprite's own faded draw when it has one, and the plain draw when it is not faded", () => {
+    const { context, draw } = recordAlpha();
+    const calls: string[] = [];
+    const ownFade = {
+      ...draw("tree", fruitTree),
+      draw: () => {
+        calls.push("draw");
+      },
+      fadedDraw: () => {
+        calls.push("fadedDraw");
+      },
+    };
+
+    fadeTallSprites(context, [ownFade], cursorOn(10, 8))[0].draw();
+    fadeTallSprites(context, [ownFade], cursorOn(30, 30))[0].draw();
+
+    expect(calls).toEqual(["fadedDraw", "draw"]);
+    expect(context.globalAlpha).toBe(1);
   });
 
   it("keeps the sort place of a faded sprite", () => {

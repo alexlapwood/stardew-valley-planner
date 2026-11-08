@@ -1,18 +1,39 @@
 import saveAs from "file-saver";
 
 import { getSeasonName } from "../helpers/date";
-import { loadFarmScene } from "../helpers/farmMapLoader";
+import { loadFarmMap, loadFarmScene } from "../helpers/farmMapLoader";
 import { toSavedFarmData } from "./farmData";
 import { planFileName } from "./plan";
 import { createLocalPlanStorage } from "./planStorage";
 import { createPlanStore } from "./planStore";
 
-export const planStore = createPlanStore(createLocalPlanStorage(), (plan) =>
-  loadFarmScene(plan.farm, getSeasonName(plan.date)),
+export const planStore = createPlanStore(
+  createLocalPlanStorage(),
+  (plan) => loadFarmScene(plan.farm, getSeasonName(plan.date)),
+  async (farm) => (await loadFarmMap(farm)).start,
+  async (farm) => (await loadFarmMap(farm)).bushes,
 );
 
-export const { crops, date, equipment, setCrops, setDate, setEquipment } =
-  planStore;
+export const {
+  buildings,
+  crops,
+  cutBushes,
+  date,
+  equipment,
+  greenhouseRepair,
+  houseColorPaints,
+  houseUpgrades,
+  petBowlPaints,
+  setBuildings,
+  setCrops,
+  setCutBushes,
+  setDate,
+  setEquipment,
+  setGreenhouseRepair,
+  setHouseColorPaints,
+  setHouseUpgrades,
+  setPetBowlPaints,
+} = planStore;
 
 export function openPlanFile() {
   const input = document.createElement("input");

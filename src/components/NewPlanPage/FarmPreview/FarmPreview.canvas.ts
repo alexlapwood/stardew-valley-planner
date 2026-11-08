@@ -1,4 +1,3 @@
-import { defaultFarmLooks } from "../../../helpers/defaultBuildings";
 import { hashFloorVariant } from "../../../helpers/floorVariant";
 import { getMapSlots } from "../../../helpers/mapSlots";
 import { drawMap, drawPlan } from "../../Farm/Farm.canvas";
@@ -42,11 +41,11 @@ export function drawFarmPreview(
   drawMap(fullSize, scene, 0, getMapSlots(scene, images));
   copyToPreview();
   drawPlan(fullSize, {
+    buildings: [],
     crops: {},
     date: 0,
     equipment: {},
     images,
-    looks: defaultFarmLooks,
     pickFloorVariant: hashFloorVariant,
     scene,
     time: 0,

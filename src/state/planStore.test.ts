@@ -23,11 +23,20 @@ const scarecrow: IInstalledEquipment = {
   y: 1,
 };
 
-const repairedLooks: IFarmLooks = {
-  greenhouse: "repaired",
-  house: 2,
-  petBowl: "hay_pet_bowl",
+const barn: IPlannedBuilding = {
+  buildingId: "barn",
+  datePlaced: 3,
+  x: 10,
+  y: 12,
 };
+
+const petBowlPaints: IPlannedPaint[] = [
+  { datePainted: 5, skin: "hay_pet_bowl" },
+];
+
+const houseUpgrades: IPlannedHouseUpgrade[] = [{ datePlaced: 4, level: 1 }];
+
+const greenhouseRepair: IPlannedRepair = { datePlaced: 9 };
 
 function makePlan(id: string, fields: Partial<IPlan> = {}): IPlan {
   return { ...newFarmData("standard"), id, name: `Plan ${id}`, ...fields };
@@ -105,9 +114,13 @@ describe("Plan store", () => {
   describe("openPlan", () => {
     it("changes to the plan, with its farm and its own items", async () => {
       const beach = makePlan("beach", {
-        ...newFarmData("beach", repairedLooks),
+        ...newFarmData("beach"),
+        buildings: [barn],
         date: 50,
         equipment: { 1: { 1: [scarecrow] } },
+        greenhouseRepair,
+        houseUpgrades,
+        petBowlPaints,
       });
       await storage.putPlan(makePlan("a", { crops: { 3: { 5: [parsnip] } } }));
       await storage.putPlan(beach);
@@ -118,11 +131,14 @@ describe("Plan store", () => {
 
       expect(isOpen).toBe(true);
       expect(store.currentPlan()).toEqual(beach);
+      expect(store.buildings()).toEqual([barn]);
       expect(store.crops()).toEqual({});
+      expect(store.houseUpgrades()).toEqual(houseUpgrades);
+      expect(store.greenhouseRepair()).toEqual(greenhouseRepair);
+      expect(store.petBowlPaints()).toEqual(petBowlPaints);
       expect(store.planInfo()).toEqual({
         farm: "beach",
         id: "beach",
-        looks: repairedLooks,
         name: "Plan beach",
       });
       expect(await storage.getLastPlanId()).toBe("beach");
@@ -145,15 +161,18 @@ describe("Plan store", () => {
 
       const store = createPlanStore(storage);
       await store.start();
+      store.setBuildings([barn]);
       store.setCrops({ 3: { 5: [parsnip] } });
       store.setDate(7);
       store.setEquipment({ 1: { 1: [scarecrow] } });
       await store.openPlan("b");
 
+      expect(store.buildings()).toEqual([]);
       expect(store.crops()).toEqual({});
       expect(await storage.getPlan("a")).toEqual(
         toStoredPlan(
           makePlan("a", {
+            buildings: [barn],
             crops: { 3: { 5: [parsnip] } },
             date: 7,
             equipment: { 1: { 1: [scarecrow] } },
@@ -216,6 +235,82 @@ describe("Plan store", () => {
       await store.start();
 
       expect(store.planInfo()?.id).toBe("a");
+    });
+  });
+
+  describe("addNewPlan", () => {
+    const meadowlandsStart: IFarmStart = {
+      buildings: [{ building: "coop", x: 54, y: 9 }],
+      items: [{ item: "fence", skin: "gate", x: 62, y: 13 }],
+    };
+
+    function loadStart(farm: string) {
+      return Promise.resolve(
+        farm === "meadowlands"
+          ? meadowlandsStart
+          : { buildings: [], items: [] },
+      );
+    }
+
+    it("makes a new plan with the start of its farm, saves it and opens it", async () => {
+      const store = createPlanStore(storage, undefined, loadStart);
+      await store.start();
+
+      const plan = await store.addNewPlan("meadowlands", "Cows");
+
+      expect(plan).toEqual({
+        ...newFarmData("meadowlands", meadowlandsStart),
+        id: plan?.id,
+        name: "Cows",
+      });
+      expect(store.buildings()).toEqual([
+        { buildingId: "coop", datePlaced: 0, starter: true, x: 54, y: 9 },
+      ]);
+      expect(store.equipment()).toEqual({
+        13: {
+          62: [
+            {
+              dateInstalled: 0,
+              equipmentId: "fence",
+              skin: "gate",
+              type: "equipment",
+              x: 62,
+              y: 13,
+            },
+          ],
+        },
+      });
+      expect(await storage.getPlan(plan?.id ?? "")).toEqual(
+        toStoredPlan(store.currentPlan() ?? makePlan("none")),
+      );
+    });
+
+    it("makes an empty new plan on a farm with nothing in its start", async () => {
+      const store = createPlanStore(storage, undefined, loadStart);
+      await store.start();
+
+      await store.addNewPlan("standard", "Home");
+
+      expect(store.buildings()).toEqual([]);
+      expect(store.equipment()).toEqual({});
+    });
+
+    it("makes no plan when the start of the farm does not load", async () => {
+      const error = vi
+        .spyOn(console, "error")
+        .mockImplementation(() => undefined);
+      const store = createPlanStore(storage, undefined, () =>
+        Promise.reject(new Error("No map")),
+      );
+      await store.start();
+
+      expect(await store.addNewPlan("meadowlands", "Cows")).toBeUndefined();
+      expect(store.plans()).toEqual([]);
+      expect(store.planInfo()).toBeUndefined();
+      expect(error).toHaveBeenCalledWith(
+        "Could not load the start of the meadowlands farm.",
+        new Error("No map"),
+      );
     });
   });
 
@@ -344,61 +439,192 @@ describe("Plan store", () => {
     });
   });
 
-  describe("setLooks", () => {
-    it("changes the looks of the open plan and saves them, with its items", async () => {
+  describe("setPetBowlPaints", () => {
+    const stonePaints = [{ datePainted: 8, skin: "stone_pet_bowl" }];
+
+    it("changes the pet bowl paints of the open plan and saves them, with its items", async () => {
       await storage.putPlan(makePlan("a", { crops: { 3: { 5: [parsnip] } } }));
 
       const store = createPlanStore(storage);
       await store.start();
-      store.setLooks(repairedLooks);
+      store.setPetBowlPaints(petBowlPaints);
 
-      expect(store.planInfo()?.looks).toEqual(repairedLooks);
+      expect(store.petBowlPaints()).toEqual(petBowlPaints);
       expect(await storage.getPlan("a")).toEqual(
         toStoredPlan(
-          makePlan("a", {
-            crops: { 3: { 5: [parsnip] } },
-            looks: repairedLooks,
-          }),
+          makePlan("a", { crops: { 3: { 5: [parsnip] } }, petBowlPaints }),
         ),
       );
     });
 
-    it("keeps the looks of each plan when the plan changes", async () => {
+    it("keeps the pet bowl paints of each plan when the plan changes", async () => {
       await storage.putPlan(makePlan("a"));
       await storage.putPlan(makePlan("b"));
 
       const store = createPlanStore(storage);
       await store.start();
-      store.setLooks(repairedLooks);
+      store.setPetBowlPaints(petBowlPaints);
       await store.openPlan("b");
 
-      expect(store.planInfo()?.looks).toEqual(newFarmData("standard").looks);
+      expect(store.petBowlPaints()).toEqual([]);
 
-      store.setLooks({ ...repairedLooks, petBowl: "stone_pet_bowl" });
+      store.setPetBowlPaints(stonePaints);
       await store.openPlan("a");
 
-      expect(store.planInfo()?.looks).toEqual(repairedLooks);
+      expect(store.petBowlPaints()).toEqual(petBowlPaints);
       expect(await storage.getPlan("b")).toMatchObject({
-        looks: { ...repairedLooks, petBowl: "stone_pet_bowl" },
+        petBowlPaints: stonePaints,
       });
     });
+  });
 
-    it("does nothing when no plan is open", async () => {
+  describe("setHouseColorPaints", () => {
+    const houseColorPaints: IPlannedColorPaint[] = [
+      {
+        colors: { Roof: { hue: 200, lightness: -12, saturation: 50 } },
+        datePainted: 9,
+      },
+    ];
+
+    it("changes the house paint of the open plan and saves it, and each plan keeps its own", async () => {
+      await storage.putPlan(makePlan("a"));
+      await storage.putPlan(makePlan("b"));
+
       const store = createPlanStore(storage);
       await store.start();
+      store.setHouseColorPaints(houseColorPaints);
 
-      store.setLooks(repairedLooks);
+      expect(store.houseColorPaints()).toEqual(houseColorPaints);
+      expect(await storage.getPlan("a")).toEqual(
+        toStoredPlan(makePlan("a", { houseColorPaints })),
+      );
 
-      expect(store.planInfo()).toBeUndefined();
-      expect(await storage.listPlans()).toEqual([]);
+      await store.openPlan("b");
+
+      expect(store.houseColorPaints()).toEqual([]);
+
+      await store.openPlan("a");
+
+      expect(store.houseColorPaints()).toEqual(houseColorPaints);
+    });
+  });
+
+  describe("cutBushes", () => {
+    const destroyable: IFarmBush = {
+      destroyable: true,
+      size: "large",
+      x: 4,
+      y: 6,
+    };
+    const fixedBush: IFarmBush = {
+      destroyable: false,
+      size: "small",
+      x: 9,
+      y: 6,
+    };
+    const goodCut: ICutBush = { dateCut: 7, x: 4, y: 6 };
+    const fixedCut: ICutBush = { dateCut: 7, x: 9, y: 6 };
+
+    it("changes the cuts of the open plan and saves them, and each plan keeps its own", async () => {
+      await storage.putPlan(makePlan("a"));
+      await storage.putPlan(makePlan("b"));
+
+      const store = createPlanStore(storage);
+      await store.start();
+      store.setCutBushes([goodCut]);
+
+      expect(store.cutBushes()).toEqual([goodCut]);
+      expect(await storage.getPlan("a")).toEqual(
+        toStoredPlan(makePlan("a", { cutBushes: [goodCut] })),
+      );
+
+      await store.openPlan("b");
+
+      expect(store.cutBushes()).toEqual([]);
+    });
+
+    it("opens a saved plan with only the cuts of the destroyable bushes of its farm, and reports the others", async () => {
+      const warn = vi
+        .spyOn(console, "warn")
+        .mockImplementation(() => undefined);
+      const loadBushes = vi.fn(() => Promise.resolve([destroyable, fixedBush]));
+      await storage.putPlan(makePlan("a", { cutBushes: [goodCut, fixedCut] }));
+
+      const store = createPlanStore(storage, undefined, undefined, loadBushes);
+      await store.start();
+
+      expect(loadBushes).toHaveBeenCalledWith("standard");
+      expect(store.cutBushes()).toEqual([goodCut]);
+      expect(warn).toHaveBeenCalledWith(
+        "Removed 1 bad items from the saved plan.",
+        [{ path: "cutBushes[1]", value: fixedCut }],
+      );
+    });
+
+    it("keeps the cuts of a saved plan when the bushes of its farm do not load", async () => {
+      const error = vi
+        .spyOn(console, "error")
+        .mockImplementation(() => undefined);
+      await storage.putPlan(makePlan("a", { cutBushes: [fixedCut] }));
+
+      const store = createPlanStore(storage, undefined, undefined, () =>
+        Promise.reject(new Error("offline")),
+      );
+      await store.start();
+
+      expect(store.cutBushes()).toEqual([fixedCut]);
+      expect(error).toHaveBeenCalledWith(
+        "Could not load the bushes of the standard farm.",
+        expect.any(Error),
+      );
+    });
+  });
+
+  describe("setHouseUpgrades and setGreenhouseRepair", () => {
+    it("change the dated upgrades of the open plan and save them", async () => {
+      await storage.putPlan(makePlan("a"));
+
+      const store = createPlanStore(storage);
+      await store.start();
+      store.setHouseUpgrades(houseUpgrades);
+      store.setGreenhouseRepair(greenhouseRepair);
+
+      expect(await storage.getPlan("a")).toEqual(
+        toStoredPlan(makePlan("a", { greenhouseRepair, houseUpgrades })),
+      );
+
+      store.setGreenhouseRepair(undefined);
+
+      expect(await storage.getPlan("a")).not.toHaveProperty("greenhouseRepair");
+    });
+
+    it("keep the dated upgrades of each plan when the plan changes", async () => {
+      await storage.putPlan(makePlan("a", { greenhouseRepair, houseUpgrades }));
+      await storage.putPlan(makePlan("b"));
+      await storage.setLastPlanId("a");
+
+      const store = createPlanStore(storage);
+      await store.start();
+      await store.openPlan("b");
+
+      expect(store.houseUpgrades()).toEqual([]);
+      expect(store.greenhouseRepair()).toBeUndefined();
+
+      await store.openPlan("a");
+
+      expect(store.houseUpgrades()).toEqual(houseUpgrades);
+      expect(store.greenhouseRepair()).toEqual(greenhouseRepair);
     });
   });
 
   describe("addPlanFromFile", () => {
     const fileData = {
-      ...newFarmData("beach", { ...repairedLooks, house: 1 }),
+      ...newFarmData("beach"),
       crops: { 3: { 5: [parsnip] } },
       date: 12,
+      greenhouseRepair,
+      houseUpgrades,
+      petBowlPaints,
     };
 
     it("adds the file as a new plan and opens it", async () => {

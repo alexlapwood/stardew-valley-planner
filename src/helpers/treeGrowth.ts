@@ -1,25 +1,24 @@
 import { trees } from "../data/game/trees.json";
-import { isOnDefaultBuilding } from "./defaultBuildings";
+import { findBushAt, getBushDays } from "./bushes";
+import { type IDaySpan, isOnDay } from "./daySpan";
+import { isInSpot, isOnDefaultBuilding } from "./defaultBuildings";
 import { squareAround } from "./dragPlacement";
 import {
   forEachTileInRegion,
   getCropsAtLocation,
   getEquipmentAtLocation,
-  getPlantedLastDay,
+  getFarmItemDays,
 } from "./farm";
 import { isFloorItem } from "./items";
+import { getBuildingDays, getFootprint } from "./plannedBuildings";
 import type { ITreeSchedule } from "./tree";
 
 export interface IGrowthPlan {
+  currentBuildings?: readonly IPlannedBuilding[];
   currentCrops: IFarmCrops;
+  currentCutBushes?: readonly ICutBush[];
   currentEquipment: IFarmEquipment;
   farmMap: IFarmMap;
-}
-
-// No lastDay: the thing stays.
-interface IDaySpan {
-  firstDay: number;
-  lastDay?: number;
 }
 
 interface IBlockerSpan extends IDaySpan, IFarmTile {}
@@ -40,31 +39,32 @@ function getBlockerKind(farmItem: TFarmItem): TTreeGrowthBlocker {
   return isFloorItem(farmItem.equipmentId) ? "floor" : "object";
 }
 
-function getDaySpan(farmItem: TFarmItem): IDaySpan {
-  if (farmItem.type === "equipment") {
-    return {
-      firstDay: farmItem.dateInstalled,
-      lastDay:
-        farmItem.dateDestroyed === undefined
-          ? undefined
-          : farmItem.dateDestroyed - 1,
-    };
-  }
+function getBuildingSpans(
+  { currentBuildings = [], farmMap }: IGrowthPlan,
+  x: number,
+  y: number,
+): IDaySpan[] {
+  const plannedSpans = currentBuildings
+    .filter((plannedBuilding) => isInSpot(getFootprint(plannedBuilding), x, y))
+    .map(getBuildingDays);
 
-  return {
-    firstDay: farmItem.datePlanted,
-    lastDay: getPlantedLastDay(farmItem),
-  };
+  return isOnDefaultBuilding(farmMap, x, y)
+    ? [alwaysThere, ...plannedSpans]
+    : plannedSpans;
 }
 
-function isOnDay({ firstDay, lastDay }: IDaySpan, date: number) {
-  return date >= firstDay && (lastDay === undefined || date <= lastDay);
+function getBushSpans(
+  { currentCutBushes, farmMap }: IGrowthPlan,
+  x: number,
+  y: number,
+): IDaySpan[] {
+  const bush = findBushAt(farmMap, x, y);
+
+  return bush === undefined ? [] : [getBushDays(bush, currentCutBushes)];
 }
 
-function getGrowthBlockerSpans(
-  { currentCrops, currentEquipment, farmMap }: IGrowthPlan,
-  plantedTree: IPlantedTree,
-) {
+function getGrowthBlockerSpans(plan: IGrowthPlan, plantedTree: IPlantedTree) {
+  const { currentCrops, currentEquipment } = plan;
   const { growthBlockers, growthClearance } =
     trees[plantedTree.treeId].placement;
   const spans: IBlockerSpan[] = [];
@@ -80,8 +80,16 @@ function getGrowthBlockerSpans(
       return;
     }
 
-    if (blockers.has("building") && isOnDefaultBuilding(farmMap, x, y)) {
-      spans.push({ x, y, ...alwaysThere });
+    if (blockers.has("building")) {
+      getBuildingSpans(plan, x, y).forEach((span) => {
+        spans.push({ x, y, ...span });
+      });
+    }
+
+    if (blockers.has("bush")) {
+      getBushSpans(plan, x, y).forEach((span) => {
+        spans.push({ x, y, ...span });
+      });
     }
 
     [
@@ -90,7 +98,7 @@ function getGrowthBlockerSpans(
     ]
       .filter((farmItem) => blockers.has(getBlockerKind(farmItem)))
       .forEach((farmItem) => {
-        spans.push({ x, y, ...getDaySpan(farmItem) });
+        spans.push({ x, y, ...getFarmItemDays(farmItem) });
       });
   });
 
@@ -197,14 +205,17 @@ let cachedSchedules = new Map<string, ITreeSchedule>();
 function isSamePlan(a: IGrowthPlan | undefined, b: IGrowthPlan) {
   return (
     a !== undefined &&
+    a.currentBuildings === b.currentBuildings &&
     a.currentCrops === b.currentCrops &&
+    a.currentCutBushes === b.currentCutBushes &&
     a.currentEquipment === b.currentEquipment &&
     a.farmMap === b.farmMap
   );
 }
 
-// A plan change sets new crops or equipment objects and never changes the old
-// ones, so the schedules stay good until one of the objects is new.
+// A plan change sets new buildings, crops, cuts or equipment objects and never
+// changes the old ones, so the schedules stay good until one of the objects is
+// new.
 function getPlanSchedules(plan: IGrowthPlan) {
   if (!isSamePlan(cachedPlan, plan)) {
     cachedPlan = plan;

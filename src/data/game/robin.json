@@ -1,0 +1,117 @@
+{
+  "gameVersion": "1.6.15",
+  "robin": {
+    "frameOffset": {
+      "x": -8,
+      "y": -28
+    },
+    "frames": {
+      "23": {
+        "seasons": {
+          "fall": [0, 0, 16, 32],
+          "spring": [0, 0, 16, 32],
+          "summer": [0, 0, 16, 32],
+          "winter": [16, 0, 16, 32]
+        },
+        "sprite": [0, 0, 16, 32]
+      },
+      "24": {
+        "seasons": {
+          "fall": [32, 0, 16, 32],
+          "spring": [32, 0, 16, 32],
+          "summer": [32, 0, 16, 32],
+          "winter": [48, 0, 16, 32]
+        },
+        "sprite": [32, 0, 16, 32]
+      },
+      "25": {
+        "seasons": {
+          "fall": [64, 0, 16, 32],
+          "spring": [64, 0, 16, 32],
+          "summer": [64, 0, 16, 32],
+          "winter": [80, 0, 16, 32]
+        },
+        "sprite": [64, 0, 16, 32]
+      },
+      "26": {
+        "seasons": {
+          "fall": [96, 0, 16, 32],
+          "spring": [96, 0, 16, 32],
+          "summer": [96, 0, 16, 32],
+          "winter": [112, 0, 16, 32]
+        },
+        "sprite": [96, 0, 16, 32]
+      },
+      "27": {
+        "seasons": {
+          "fall": [128, 0, 16, 32],
+          "spring": [128, 0, 16, 32],
+          "summer": [128, 0, 16, 32],
+          "winter": [144, 0, 16, 32]
+        },
+        "sprite": [128, 0, 16, 32]
+      }
+    },
+    "hammer": [
+      {
+        "choices": [
+          {
+            "chance": 1,
+            "frame": 24,
+            "maxMs": 75,
+            "minMs": 75
+          }
+        ]
+      },
+      {
+        "choices": [
+          {
+            "chance": 1,
+            "frame": 25,
+            "maxMs": 75,
+            "minMs": 75
+          }
+        ]
+      },
+      {
+        "choices": [
+          {
+            "chance": 1,
+            "frame": 26,
+            "maxMs": 300,
+            "minMs": 300
+          }
+        ]
+      },
+      {
+        "choices": [
+          {
+            "chance": 0.4,
+            "frame": 27,
+            "maxMs": 300,
+            "minMs": 300
+          },
+          {
+            "chance": 0.15,
+            "frame": 23,
+            "maxMs": 3999,
+            "minMs": 500
+          },
+          {
+            "chance": 0.45,
+            "frame": 27,
+            "maxMs": 3999,
+            "minMs": 1000
+          }
+        ]
+      }
+    ],
+    "shadow": {
+      "offset": {
+        "x": -6,
+        "y": 0
+      },
+      "sprite": [160, 0, 12, 7]
+    }
+  }
+}

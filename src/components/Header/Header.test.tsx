@@ -9,15 +9,8 @@ const plans: IPlanSummary[] = [
   { farm: "beach", id: "b2", name: "Beach Farm" },
 ];
 
-const looks: IFarmLooks = {
-  greenhouse: "broken",
-  house: 1,
-  petBowl: "pet_bowl",
-};
-
 function renderHeader(plan = plans[1]) {
   const props = {
-    changeLooks: vi.fn<(looks: IFarmLooks) => void>(),
     changePlan: vi.fn<(id: string) => void>(),
     deletePlan: vi.fn<(id: string) => void>(),
     newPlan: vi.fn<() => void>(),
@@ -26,28 +19,9 @@ function renderHeader(plan = plans[1]) {
     saveFile: vi.fn<() => void>(),
   };
 
-  const result = render(() => (
-    <Header {...props} looks={looks} plan={plan} plans={plans} />
-  ));
+  const result = render(() => <Header {...props} plan={plan} plans={plans} />);
 
   return { ...props, ...result };
-}
-
-function openUpgrades() {
-  fireEvent.click(screen.getByTestId("header--upgrades"));
-}
-
-function isUpgradesMenuOpen() {
-  return screen.queryByTestId("upgrades-menu--list") !== null;
-}
-
-function checkedLooks() {
-  return Array.from(
-    screen
-      .getByTestId("upgrades-menu--list")
-      .querySelectorAll<HTMLElement>("[aria-checked='true']"),
-    (option) => option.dataset.testid,
-  );
 }
 
 function openList() {
@@ -123,18 +97,19 @@ describe("<Header />", () => {
     renderHeader();
 
     expect(
-      growClasses([
-        "plan-switcher",
-        "header--upgrades",
-        "header--open",
-        "header--save",
-      ]),
+      growClasses(["plan-switcher", "header--open", "header--save"]),
     ).toEqual([
       ["plan-switcher", ["sdv-grow-from-top-left"]],
-      ["header--upgrades", ["sdv-grow-from-top"]],
       ["header--open", ["sdv-grow-from-top"]],
       ["header--save", ["sdv-grow-from-top-right"]],
     ]);
+  });
+
+  it("has no Upgrades button, because the Buildings tab has the house, greenhouse and pet bowl rows", () => {
+    renderHeader();
+
+    expect(screen.queryByTestId("header--upgrades")).toBeNull();
+    expect(screen.queryByLabelText("Upgrades")).toBeNull();
   });
 
   it("shows the farm type and the plan name on the plan switcher", () => {
@@ -194,7 +169,6 @@ describe("<Header />", () => {
   });
 
   describe.each([
-    ["Upgrades menu", openUpgrades, isUpgradesMenuOpen, "upgrades-menu--list"],
     ["plan switcher list", openList, isListOpen, "plan-switcher--list"],
   ])("closing the %s", (_, open, isOpen, listTestId) => {
     it("closes with a click away, also when the mouse shakes a little", () => {
@@ -446,94 +420,5 @@ describe("<Header />", () => {
 
     expect(openFile).toHaveBeenCalledTimes(1);
     expect(saveFile).toHaveBeenCalledTimes(1);
-  });
-
-  describe("Upgrades menu", () => {
-    it("opens under the Upgrades button with a switch for the farmhouse, the greenhouse and the pet bowl", () => {
-      renderHeader();
-
-      expect(isUpgradesMenuOpen()).toBe(false);
-
-      openUpgrades();
-
-      const switches = Array.from(
-        screen
-          .getByTestId("upgrades-menu--list")
-          .querySelectorAll<HTMLElement>("[role='radiogroup']"),
-        (group) => [
-          group.getAttribute("aria-label"),
-          Array.from(group.querySelectorAll("[role='radio']"), (option) =>
-            option.getAttribute("aria-label"),
-          ),
-        ],
-      );
-
-      expect(switches).toEqual([
-        ["Farmhouse", ["Start", "Upgrade 1", "Upgrades 2 and 3"]],
-        ["Greenhouse", ["Broken", "Repaired"]],
-        ["Pet bowl", ["Pet Bowl", "Hay Pet Bowl", "Stone Pet Bowl"]],
-      ]);
-      expect(
-        screen.getByTestId("header--upgrades").getAttribute("aria-expanded"),
-      ).toBe("true");
-    });
-
-    it("shows the looks of the plan as picked", () => {
-      renderHeader();
-
-      openUpgrades();
-
-      expect(checkedLooks()).toEqual([
-        "upgrades-menu--house-1",
-        "upgrades-menu--greenhouse-broken",
-        "upgrades-menu--pet-bowl-pet_bowl",
-      ]);
-    });
-
-    it.each([
-      ["upgrades-menu--house-2", { ...looks, house: 2 }],
-      [
-        "upgrades-menu--greenhouse-repaired",
-        { ...looks, greenhouse: "repaired" },
-      ],
-      [
-        "upgrades-menu--pet-bowl-hay_pet_bowl",
-        { ...looks, petBowl: "hay_pet_bowl" },
-      ],
-    ])(
-      "changes only one look when %s is picked, and stays open",
-      (testId, newLooks) => {
-        const { changeLooks } = renderHeader();
-
-        openUpgrades();
-        fireEvent.click(screen.getByTestId(testId));
-
-        expect(changeLooks).toHaveBeenCalledExactlyOnceWith(newLooks);
-        expect(isUpgradesMenuOpen()).toBe(true);
-      },
-    );
-
-    it("closes with a click away, with Esc, or with the Upgrades button", () => {
-      const { changeLooks } = renderHeader();
-
-      openUpgrades();
-      clickAway();
-
-      expect(isUpgradesMenuOpen()).toBe(false);
-
-      openUpgrades();
-      fireEvent.keyDown(document, { key: "Escape" });
-
-      expect(isUpgradesMenuOpen()).toBe(false);
-
-      openUpgrades();
-      openUpgrades();
-
-      expect(isUpgradesMenuOpen()).toBe(false);
-      expect(
-        screen.getByTestId("header--upgrades").getAttribute("aria-expanded"),
-      ).toBe("false");
-      expect(changeLooks).not.toHaveBeenCalled();
-    });
   });
 });

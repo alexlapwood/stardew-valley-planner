@@ -359,7 +359,8 @@
           "price": 0,
           "trade": {
             "count": 5,
-            "item": "Moss"
+            "item": "Moss",
+            "itemId": "(O)Moss"
           }
         }
       },
@@ -455,7 +456,8 @@
           "price": 0,
           "trade": {
             "count": 1,
-            "item": "Maple Seed"
+            "item": "Maple Seed",
+            "itemId": "(O)310"
           }
         }
       },
@@ -1279,7 +1281,8 @@
           "price": 0,
           "trade": {
             "count": 1,
-            "item": "Magma Cap"
+            "item": "Magma Cap",
+            "itemId": "(O)851"
           }
         }
       },
@@ -1429,7 +1432,8 @@
           "price": 0,
           "trade": {
             "count": 2,
-            "item": "Pine Cone"
+            "item": "Pine Cone",
+            "itemId": "(O)311"
           }
         }
       },
@@ -1815,7 +1819,8 @@
           "price": 0,
           "trade": {
             "count": 15,
-            "item": "Sap"
+            "item": "Sap",
+            "itemId": "(O)92"
           }
         }
       },
@@ -1958,7 +1963,8 @@
           "price": 0,
           "trade": {
             "count": 2,
-            "item": "Bone Fragment"
+            "item": "Bone Fragment",
+            "itemId": "(O)881"
           }
         }
       },

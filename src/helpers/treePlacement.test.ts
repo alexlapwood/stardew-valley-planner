@@ -441,3 +441,47 @@ describe("checkTreesToPlant", () => {
     expect(canPlantTree(tree(5), [], [floor])).toBe(false);
   });
 });
+
+function canPlantWith(
+  treeToPlant: IPlantedTree,
+  currentBuildings: IPlannedBuilding[],
+) {
+  return (
+    checkTreesToPlant(
+      [treeToPlant],
+      { currentBuildings, currentCrops: {}, currentEquipment: {} },
+      testFarmMap,
+    ).plantableTrees.length === 1
+  );
+}
+
+describe("trees on a planned building tile", () => {
+  const barn: IPlannedBuilding = {
+    buildingId: "barn",
+    dateDestroyed: 30,
+    datePlaced: 10,
+    x: 0,
+    y: 0,
+  };
+
+  it("does not plant a tree on the footprint before or while the building is there", () => {
+    expect(canPlantWith(tree(0), [barn])).toBe(false);
+    expect(canPlantWith(tree(12), [barn])).toBe(false);
+  });
+
+  it("plants a tree on the footprint after the building is demolished", () => {
+    expect(canPlantWith(tree(30), [barn])).toBe(true);
+  });
+
+  it("does not plant a tree on a building tile that the player can walk on", () => {
+    const stable: IPlannedBuilding = {
+      buildingId: "stable",
+      datePlaced: 10,
+      x: 9,
+      y: 9,
+    };
+
+    expect(canPlantWith(tree(20, { x: 10, y: 10 }), [stable])).toBe(false);
+    expect(canPlantWith(tree(20, { x: 13, y: 10 }), [stable])).toBe(true);
+  });
+});

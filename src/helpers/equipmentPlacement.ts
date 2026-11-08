@@ -2,7 +2,7 @@ import { mergeDeep } from "immutable";
 
 import { forEachTileInRegion } from "./farm";
 import { isRandomFloor, type TPickFloorVariant } from "./floorVariant";
-import { checkEquipmentToInstall } from "./itemPlacement";
+import { checkEquipmentToInstall, type ICurrentItems } from "./itemPlacement";
 import { getDefaultSkin } from "./items";
 
 export function equipmentForRegion(
@@ -39,7 +39,7 @@ export function equipmentForRegion(
 
 export function installableEquipmentByTile(
   equipmentToInstallList: IInstalledEquipment[],
-  currentItems: { currentCrops: IFarmCrops; currentEquipment: IFarmEquipment },
+  currentItems: ICurrentItems,
   farmMap: IFarmMap,
 ) {
   const { installableEquipment } = checkEquipmentToInstall(

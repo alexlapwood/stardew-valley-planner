@@ -67,8 +67,33 @@ interface IFarmWater {
   tints: Partial<Record<string, TRgba>>;
 }
 
+interface IFarmStartBuilding extends IFarmTile {
+  building: string;
+}
+
+interface IFarmStartItem extends IFarmTile {
+  item: string;
+  skin: string;
+}
+
+// The things that a new game puts on this farm, more than the fixed buildings
+// in spots (SV › Farm.onNewGame).
+interface IFarmStart {
+  buildings: IFarmStartBuilding[];
+  items: IFarmStartItem[];
+}
+
+// x and y are the first tile of the footprint. The game draws no shadow for a
+// bush that starts under a Front tile (SV › Bush).
+interface IFarmBush extends IFarmTile {
+  destroyable: boolean;
+  noShadow?: true;
+  size: TBushSize;
+}
+
 interface IFarmMapData {
   animations: IFarmAnimation[];
+  bushes: IFarmBush[];
   greenhousePath: IFarmPathTile[];
   height: number;
   layers: IFarmLayerData[];
@@ -77,6 +102,7 @@ interface IFarmMapData {
   rules: IFarmRulesData;
   saplingRows: string[];
   spots: IFarmSpots;
+  start: IFarmStart;
   tilesheets: IFarmTilesheet[];
   tillable: number;
   water: IFarmWater;
@@ -96,6 +122,7 @@ interface IFarmLayer {
 
 interface IFarmMap {
   animations: Map<number, IFarmAnimation>;
+  bushes: IFarmBush[];
   flags: Uint8Array;
   greenhousePath: IFarmPathTile[];
   height: number;
@@ -105,6 +132,7 @@ interface IFarmMap {
   ruleFlags: IFarmRuleFlags;
   saplings: Uint8Array;
   spots: IFarmSpots;
+  start: IFarmStart;
   tilesheets: IFarmTilesheet[];
   water: IFarmWater;
   width: number;
@@ -116,14 +144,14 @@ interface IFarmScene {
   sheets: CanvasImageSource[];
 }
 
-type TFarmhouseLook = 0 | 1 | 2;
-
 type TGreenhouseLook = "broken" | "repaired";
 
-type TPetBowlLook = "hay_pet_bowl" | "pet_bowl" | "stone_pet_bowl";
-
+// house is a key of the farmhouse looks in buildings.json, and petBowl is a
+// skin of the pet bowl, as in IPlannedPaint. houseColors are the paint of the
+// house.
 interface IFarmLooks {
   greenhouse: TGreenhouseLook;
-  house: TFarmhouseLook;
-  petBowl: TPetBowlLook;
+  house: string;
+  houseColors?: TPaintColors;
+  petBowl: string;
 }

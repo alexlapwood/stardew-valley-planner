@@ -26,7 +26,7 @@ describe("parseDevFarmSwitch", () => {
     expect(parseDevFarmSwitch(`?farm=${farm}`)).toBe(farm);
   });
 
-  it("reads only the farm, because the Upgrades menu sets the looks", () => {
+  it("reads only the farm, because the plan dates the looks", () => {
     expect(
       parseDevFarmSwitch("?farm=four_corners&house=2&greenhouse=repaired"),
     ).toBe("four_corners");

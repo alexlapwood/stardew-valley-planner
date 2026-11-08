@@ -36,12 +36,9 @@ describe.each(storages)("%s plan storage", (_, createStorage) => {
   it("gives back a saved plan by its ID", async () => {
     const storage = createStorage();
     const plan = makePlan("a", {
-      ...newFarmData("beach", {
-        greenhouse: "repaired",
-        house: 2,
-        petBowl: "hay_pet_bowl",
-      }),
+      ...newFarmData("beach"),
       date: 40,
+      petBowlPaints: [{ datePainted: 3, skin: "hay_pet_bowl" }],
     });
 
     await storage.putPlan(plan);

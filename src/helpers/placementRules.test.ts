@@ -5,7 +5,7 @@ import {
 } from "../__mocks__/testFarmMap";
 import { getScarecrowMap, getSoilMap } from "./farm";
 import { decodeFarmMap } from "./farmMap";
-import { canInstallAt, canPlantAt } from "./placementRules";
+import { canInstallAt, canPlantAt, canWalkAt } from "./placementRules";
 
 type TKind = "crop" | "fence" | "floor" | "scarecrow" | "sprinkler";
 
@@ -186,5 +186,152 @@ describe("ranges", () => {
     expect([...soilMap.keys()].filter((x) => soilMap[x]?.[0] === 0)).toEqual([
       0, 3,
     ]);
+  });
+
+  it("waters and protects no tile under a planned building while it is there", () => {
+    const sprinkler: IInstalledEquipment = {
+      dateInstalled: 0,
+      equipmentId: "sprinkler",
+      skin: "sprinkler",
+      type: "equipment",
+      x: 10,
+      y: 10,
+    };
+    const scarecrow: IInstalledEquipment = {
+      ...sprinkler,
+      equipmentId: "scarecrow",
+      skin: "scarecrow",
+    };
+    const shippingBin: IPlannedBuilding = {
+      buildingId: "shipping_bin",
+      dateDestroyed: 9,
+      datePlaced: 5,
+      x: 11,
+      y: 10,
+    };
+    const wateredOn = (date: number) => {
+      const soilMap = getSoilMap(
+        { 10: { 10: [sprinkler] } },
+        date,
+        testFarmMap,
+        [shippingBin],
+      );
+
+      return soilMap[11]?.[10];
+    };
+    const protectedOn = (date: number) =>
+      getScarecrowMap({ 10: { 10: [scarecrow] } }, date, testFarmMap, [
+        shippingBin,
+      ])[11]?.[10];
+
+    expect([4, 5, 9].map(wateredOn)).toEqual([0, undefined, 0]);
+    expect([4, 5, 9].map(protectedOn)).toEqual([0, undefined, 0]);
+  });
+});
+
+describe("placement on planned buildings", () => {
+  const barn: IPlannedBuilding = {
+    buildingId: "barn",
+    dateDestroyed: 30,
+    datePlaced: 10,
+    x: 10,
+    y: 30,
+  };
+  const days = (firstDay: number, lastDay?: number) => ({
+    buildings: [barn],
+    firstDay,
+    lastDay,
+  });
+
+  it("allows only floors on a footprint tile while the building is there", () => {
+    expect(
+      kinds.filter((kind) =>
+        kind === "crop"
+          ? canPlantAt(testFarmMap, 12, 31, days(10, 10))
+          : canInstallAt(
+              testFarmMap,
+              equipmentByKind[kind],
+              12,
+              31,
+              days(10, 10),
+            ),
+      ),
+    ).toEqual(["floor"]);
+  });
+
+  it("allows a thing whose days end before the building comes, or start after it goes", () => {
+    expect(canPlantAt(testFarmMap, 12, 31, days(0, 9))).toBe(true);
+    expect(canPlantAt(testFarmMap, 12, 31, days(0, 10))).toBe(false);
+    expect(
+      canInstallAt(testFarmMap, equipmentByKind.scarecrow, 12, 31, days(0)),
+    ).toBe(false);
+    expect(
+      canInstallAt(testFarmMap, equipmentByKind.scarecrow, 12, 31, days(30)),
+    ).toBe(true);
+  });
+
+  it("does not allow a floor under a planned Well", () => {
+    const well: IPlannedBuilding = {
+      buildingId: "well",
+      datePlaced: 10,
+      x: 10,
+      y: 30,
+    };
+
+    expect(
+      canInstallAt(testFarmMap, equipmentByKind.floor, 11, 31, {
+        buildings: [well],
+        firstDay: 0,
+      }),
+    ).toBe(false);
+  });
+});
+
+describe("canWalkAt", () => {
+  const noBuildings = { buildings: [], firstDay: 0 };
+
+  it.each([
+    ["no flags", 0, false],
+    ["tillable, buildable and floorable", 1, true],
+    ["tillable, blocked and floorable (a NoFurniture tile)", 2, true],
+    ["blocked", 3, false],
+    ["floorable", 4, true],
+    ["tillable", 5, false],
+  ] as const)("on a tile with %s, is %j", (_, x, isWalkable) => {
+    expect(canWalkAt(mapWithRow("0zNgw1F"), x, 0, noBuildings)).toBe(
+      isWalkable,
+    );
+  });
+
+  it("is false off the map", () => {
+    expect(canWalkAt(testFarmMap, -1, 0, noBuildings)).toBe(false);
+  });
+
+  it("is false on the solid tiles of a fixed building, but not on its open tiles", () => {
+    const { farmhouse } = testFarmMap.spots;
+
+    expect(
+      [farmhouse.y, farmhouse.y + 3].map((y) =>
+        canWalkAt(testFarmMap, farmhouse.x + 1, y, noBuildings),
+      ),
+    ).toEqual([false, true]);
+  });
+
+  it("is false on the solid tiles of a planned building only while it is there", () => {
+    const cabin: IPlannedBuilding = {
+      buildingId: "cabin",
+      dateDestroyed: 30,
+      datePlaced: 10,
+      x: 10,
+      y: 30,
+    };
+    const walkableOn = (x: number, y: number, firstDay: number) =>
+      canWalkAt(testFarmMap, x, y, { buildings: [cabin], firstDay });
+
+    expect([walkableOn(10, 31, 0), walkableOn(10, 31, 30)]).toEqual([
+      false,
+      true,
+    ]);
+    expect(walkableOn(10, 32, 0)).toBe(true);
   });
 });

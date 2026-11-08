@@ -1,21 +1,29 @@
 import { crops as cropDetails } from "../data/game/crops.json";
 import { trees as treeDetails } from "../data/game/trees.json";
-import {
-  defaultFarmLooks,
-  farmhouseLooks,
-  greenhouseLooks,
-  petBowlLooks,
-} from "../helpers/defaultBuildings";
+import { findBadUpgrade } from "../helpers/buildingTiers";
 import { isFarmId, type TFarmId } from "../helpers/farmMapLoader";
 import { isFloorVariant } from "../helpers/floorVariant";
 import { hasSkin, isItem } from "../helpers/items";
+import {
+  isGroundBuilding,
+  isPlannableBuilding,
+} from "../helpers/plannedBuildings";
+import { readCutBushes } from "./bushCutsData";
+import { readHouseColorPaints } from "./colorPaintData";
+import { readGreenhouseRepair, readHouseUpgrades } from "./fixedBuildingsData";
+import { readBuildingLooks, readPetBowlPaints } from "./paintData";
 
 export interface IFarmData {
+  buildings: readonly IPlannedBuilding[];
   crops: IFarmCrops;
+  cutBushes: readonly ICutBush[];
   date: number;
   equipment: IFarmEquipment;
   farm: TFarmId;
-  looks: IFarmLooks;
+  greenhouseRepair?: IPlannedRepair;
+  houseColorPaints?: readonly IPlannedColorPaint[];
+  houseUpgrades: readonly IPlannedHouseUpgrade[];
+  petBowlPaints: readonly IPlannedPaint[];
 }
 
 export interface IBadItem {
@@ -24,16 +32,21 @@ export interface IBadItem {
 }
 
 interface IFarmShape {
+  buildings: unknown[];
   crops: Record<string, unknown>;
+  cutBushes?: unknown;
   date: number;
   equipment: Record<string, unknown>;
   farm: TFarmId;
-  looks: Record<string, unknown>;
+  greenhouseRepair?: unknown;
+  houseColorPaints?: unknown;
+  houseUpgrades?: unknown;
+  petBowlPaints?: unknown;
 }
 
 type Cell = Record<string, unknown>;
 
-export const farmDataVersion = 3;
+export const farmDataVersion = 4;
 
 export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -94,6 +107,91 @@ function isEquipmentCell(cell: Cell): cell is Cell & IInstalledEquipment {
   );
 }
 
+// The game puts the starter buildings on the farm before the first day.
+function isGoodStarter({ datePlaced, starter }: Cell) {
+  return starter === undefined || (starter === true && datePlaced === 0);
+}
+
+function isPlannedBuilding(value: unknown): value is Cell & IPlannedBuilding {
+  return (
+    isRecord(value) &&
+    typeof value.buildingId === "string" &&
+    isGroundBuilding(value.buildingId) &&
+    isOptionalNumber(value.dateDestroyed) &&
+    typeof value.datePlaced === "number" &&
+    isGoodStarter(value) &&
+    isIndex(value.x) &&
+    isIndex(value.y)
+  );
+}
+
+function isPlannedUpgrade(value: unknown): value is IPlannedUpgrade {
+  return (
+    isRecord(value) &&
+    typeof value.buildingId === "string" &&
+    isPlannableBuilding(value.buildingId) &&
+    typeof value.datePlaced === "number"
+  );
+}
+
+// Each upgrade needs the tier before it, so a bad upgrade drops the later
+// ones too, and the building keeps the tiers before it.
+function readUpgrades(plannedBuilding: Cell & IPlannedBuilding, path: string) {
+  const { upgrades: _upgrades, ...withoutUpgrades } = plannedBuilding;
+  const upgrades: unknown = plannedBuilding.upgrades;
+  const badItems: IBadItem[] = [];
+  const goodUpgrades: IPlannedUpgrade[] = [];
+
+  if (upgrades !== undefined && !Array.isArray(upgrades)) {
+    badItems.push({ path: `${path}.upgrades`, value: upgrades });
+  }
+
+  const entries: readonly unknown[] = Array.isArray(upgrades) ? upgrades : [];
+
+  entries.forEach((value, index) => {
+    if (
+      badItems.length === 0 &&
+      isPlannedUpgrade(value) &&
+      findBadUpgrade({
+        ...withoutUpgrades,
+        upgrades: [...goodUpgrades, value],
+      }) === -1
+    ) {
+      goodUpgrades.push(value);
+    } else {
+      badItems.push({ path: `${path}.upgrades[${index}]`, value });
+    }
+  });
+
+  return {
+    badItems,
+    plannedBuilding:
+      goodUpgrades.length === 0
+        ? withoutUpgrades
+        : { ...withoutUpgrades, upgrades: goodUpgrades },
+  };
+}
+
+function keepGoodBuildings(buildings: readonly unknown[]) {
+  const badItems: IBadItem[] = [];
+  const goodBuildings: IPlannedBuilding[] = [];
+
+  buildings.forEach((value, index) => {
+    if (!isPlannedBuilding(value)) {
+      badItems.push({ path: `buildings[${index}]`, value });
+      return;
+    }
+
+    const path = `buildings[${index}]`;
+    const read = readUpgrades(value, path);
+    const looks = readBuildingLooks(read.plannedBuilding, path);
+    goodBuildings.push(looks.plannedBuilding);
+    badItems.push(...read.badItems, ...looks.badItems);
+  });
+
+  return { badItems, goodBuildings };
+}
+
 function keepCell(cell: Cell) {
   return cell;
 }
@@ -148,7 +246,7 @@ function isFarmShape(value: unknown): value is IFarmShape {
     value.version === farmDataVersion &&
     typeof value.farm === "string" &&
     isFarmId(value.farm) &&
-    isRecord(value.looks) &&
+    Array.isArray(value.buildings) &&
     isRecord(value.crops) &&
     typeof value.date === "number" &&
     isRecord(value.equipment)
@@ -167,32 +265,6 @@ function withoutBadVariant(cell: Cell) {
   return rest;
 }
 
-function readLooks(looks: Record<string, unknown>) {
-  const badItems: IBadItem[] = [];
-
-  function readLook<K extends keyof IFarmLooks>(
-    name: K,
-    knownLooks: readonly IFarmLooks[K][],
-  ) {
-    const look = knownLooks.find((known) => known === looks[name]);
-
-    if (look === undefined) {
-      badItems.push({ path: `looks.${name}`, value: looks[name] });
-    }
-
-    return look ?? defaultFarmLooks[name];
-  }
-
-  return {
-    badItems,
-    looks: {
-      greenhouse: readLook("greenhouse", greenhouseLooks),
-      house: readLook("house", farmhouseLooks),
-      petBowl: readLook("petBowl", petBowlLooks),
-    },
-  };
-}
-
 export function readFarmData(value: unknown) {
   if (!isFarmShape(value)) {
     return undefined;
@@ -205,23 +277,69 @@ export function readFarmData(value: unknown) {
     isEquipmentCell,
     withoutBadVariant,
   );
-  const looks = readLooks(value.looks);
+  const buildings = keepGoodBuildings(value.buildings);
+  const house = readHouseUpgrades(value.houseUpgrades);
+  const { greenhouseRepair, ...repair } = readGreenhouseRepair(
+    value.greenhouseRepair,
+  );
+  const petBowl = readPetBowlPaints(value.petBowlPaints);
+  const houseColors = readHouseColorPaints(value.houseColorPaints);
+  const cuts = readCutBushes(value.cutBushes);
   const data: IFarmData = {
+    buildings: buildings.goodBuildings,
     crops: crops.goodItems,
+    cutBushes: cuts.cutBushes,
     date: value.date,
     equipment: equipment.goodItems,
     farm: value.farm,
-    looks: looks.looks,
+    ...(greenhouseRepair === undefined ? {} : { greenhouseRepair }),
+    ...(houseColors.colorPaints.length === 0
+      ? {}
+      : { houseColorPaints: houseColors.colorPaints }),
+    houseUpgrades: house.houseUpgrades,
+    petBowlPaints: petBowl.petBowlPaints,
   };
 
   return {
-    badItems: [...looks.badItems, ...crops.badItems, ...equipment.badItems],
+    badItems: [
+      ...buildings.badItems,
+      ...house.badItems,
+      ...houseColors.badItems,
+      ...repair.badItems,
+      ...petBowl.badItems,
+      ...cuts.badItems,
+      ...crops.badItems,
+      ...equipment.badItems,
+    ],
     data,
   };
 }
 
-export function toFarmFile({ crops, date, equipment, farm, looks }: IFarmData) {
-  return { crops, date, equipment, farm, looks, version: farmDataVersion };
+export function toFarmFile({
+  buildings,
+  crops,
+  cutBushes,
+  date,
+  equipment,
+  farm,
+  greenhouseRepair,
+  houseColorPaints = [],
+  houseUpgrades,
+  petBowlPaints,
+}: IFarmData) {
+  return {
+    buildings,
+    crops,
+    cutBushes,
+    date,
+    equipment,
+    farm,
+    ...(greenhouseRepair === undefined ? {} : { greenhouseRepair }),
+    ...(houseColorPaints.length === 0 ? {} : { houseColorPaints }),
+    houseUpgrades,
+    petBowlPaints,
+    version: farmDataVersion,
+  };
 }
 
 export function toSavedFarmData(data: IFarmData) {

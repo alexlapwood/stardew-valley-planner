@@ -123,6 +123,129 @@
         "interval": 1000
       }
     ],
+    "bushes": [
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 74,
+        "y": 10
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 75,
+        "y": 10
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 77,
+        "y": 11
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 29,
+        "y": 38
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 47,
+        "y": 38
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 49,
+        "y": 39
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 39,
+        "y": 50
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 42,
+        "y": 50
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 37,
+        "y": 51
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 43,
+        "y": 51
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 37,
+        "y": 53
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 43,
+        "y": 54
+      },
+      {
+        "destroyable": false,
+        "size": "large",
+        "x": 36,
+        "y": 58
+      },
+      {
+        "destroyable": false,
+        "size": "large",
+        "x": 42,
+        "y": 58
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 37,
+        "y": 59
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 42,
+        "y": 59
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 38,
+        "y": 60
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 43,
+        "y": 60
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 36,
+        "y": 61
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "medium",
+        "x": 42,
+        "y": 61
+      }
+    ],
     "greenhousePath": [
       {
         "gid": 877,
@@ -1233,6 +1356,10 @@
         "x": 71,
         "y": 14
       }
+    },
+    "start": {
+      "buildings": [],
+      "items": []
     },
     "tilesheets": [
       {

@@ -19,16 +19,27 @@ const parsnip: IPlantedCrop = {
 };
 
 const plan: IPlan = {
-  ...newFarmData("beach", {
-    greenhouse: "repaired",
-    house: 1,
-    petBowl: "stone_pet_bowl",
-  }),
+  ...newFarmData("beach"),
   crops: { 3: { 5: [parsnip] } },
+  cutBushes: [{ dateCut: 9, x: 40, y: 20 }],
   date: 30,
+  greenhouseRepair: { datePlaced: 12 },
+  houseUpgrades: [{ datePlaced: 4, level: 1 }],
   id: "plan-1",
   name: "My farm",
+  petBowlPaints: [{ datePainted: 6, skin: "stone_pet_bowl" }],
 };
+
+function fence(skin: string, x: number, y: number): IInstalledEquipment {
+  return {
+    dateInstalled: 0,
+    equipmentId: "fence",
+    skin,
+    type: "equipment",
+    x,
+    y,
+  };
+}
 
 describe("Plan", () => {
   describe("makePlanId", () => {
@@ -44,13 +55,63 @@ describe("Plan", () => {
   });
 
   describe("newFarmData", () => {
-    it("starts an empty plan on day 0 with the start looks", () => {
-      expect(newFarmData("hilltop")).toEqual({
+    it("starts an empty plan on day 0 with no buildings, no house upgrades, no greenhouse repair and no pet bowl paints", () => {
+      expect(newFarmData("hilltop")).toStrictEqual({
+        buildings: [],
         crops: {},
+        cutBushes: [],
         date: 0,
         equipment: {},
         farm: "hilltop",
-        looks: { greenhouse: "broken", house: 0, petBowl: "pet_bowl" },
+        houseUpgrades: [],
+        petBowlPaints: [],
+      });
+    });
+
+    it("puts the start of the farm on the plan from day 0: a finished starter building and the items", () => {
+      const start: IFarmStart = {
+        buildings: [{ building: "coop", x: 54, y: 9 }],
+        items: [
+          { item: "fence", skin: "wood_fence", x: 62, y: 12 },
+          { item: "fence", skin: "gate", x: 62, y: 13 },
+          { item: "fence", skin: "wood_fence", x: 61, y: 20 },
+        ],
+      };
+
+      expect(newFarmData("meadowlands", start)).toStrictEqual({
+        buildings: [
+          { buildingId: "coop", datePlaced: 0, starter: true, x: 54, y: 9 },
+        ],
+        crops: {},
+        cutBushes: [],
+        date: 0,
+        equipment: {
+          12: { 62: [fence("wood_fence", 62, 12)] },
+          13: { 62: [fence("gate", 62, 13)] },
+          20: { 61: [fence("wood_fence", 61, 20)] },
+        },
+        farm: "meadowlands",
+        houseUpgrades: [],
+        petBowlPaints: [],
+      });
+    });
+
+    it("reads back a plan with a starter building as it was saved", () => {
+      const starterPlan: IPlan = {
+        ...newFarmData("meadowlands", {
+          buildings: [{ building: "coop", x: 54, y: 9 }],
+          items: [{ item: "fence", skin: "gate", x: 62, y: 13 }],
+        }),
+        id: "plan-2",
+        name: "Cows",
+      };
+      const stored: unknown = JSON.parse(
+        JSON.stringify(toStoredPlan(starterPlan)),
+      );
+
+      expect(readStoredPlan(stored)).toEqual({
+        badItems: [],
+        plan: starterPlan,
       });
     });
   });
@@ -105,12 +166,14 @@ describe("Plan", () => {
       expect(readStoredPlan(stored)).toEqual({ badItems: [], plan });
     });
 
-    it("keeps the ID, the name, the farm type and the looks", () => {
+    it("keeps the ID, the name, the farm type, the dated upgrades and the pet bowl paints", () => {
       expect(toStoredPlan(plan)).toMatchObject({
         farm: "beach",
+        greenhouseRepair: { datePlaced: 12 },
+        houseUpgrades: [{ datePlaced: 4, level: 1 }],
         id: "plan-1",
-        looks: { greenhouse: "repaired", house: 1, petBowl: "stone_pet_bowl" },
         name: "My farm",
+        petBowlPaints: [{ datePainted: 6, skin: "stone_pet_bowl" }],
       });
     });
 

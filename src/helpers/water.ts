@@ -215,7 +215,7 @@ const tintedStrips = new WeakMap<
   Map<string, HTMLCanvasElement>
 >();
 
-function getTintedStrip(
+export function getTintedStrip(
   strip: IWaterStrip,
   image: CanvasImageSource,
   tint: TRgba,

@@ -1,10 +1,14 @@
 import { batch, createSignal } from "solid-js";
 
+import type { TFarmId } from "../helpers/farmMapLoader";
+import { checkCutsOnFarm, type TLoadBushes } from "./bushCutsData";
 import { type IBadItem, type IFarmData, readFarmData } from "./farmData";
 import {
   type IPlan,
   type IPlanSummary,
   makePlanId,
+  newFarmData,
+  noFarmStart,
   planNameFromFileName,
   readStoredPlan,
   toPlanSummary,
@@ -40,25 +44,67 @@ function prepareNothing() {
   return Promise.resolve();
 }
 
+function loadNoStart(): Promise<IFarmStart> {
+  return Promise.resolve(noFarmStart);
+}
+
+function loadNoBushes() {
+  return Promise.resolve(undefined);
+}
+
 // prepare runs before a plan shows, so that its farm map can load first and the
-// plan never shows on the map of the last farm.
+// plan never shows on the map of the last farm. loadStart gives the things that
+// a new game puts on the farm, and loadBushes the bushes of its map, to check
+// the cuts of a plan that loads.
 export function createPlanStore(
   storage: IPlanStorage,
   prepare: (plan: IPlan) => Promise<unknown> = prepareNothing,
+  loadStart: (farm: TFarmId) => Promise<IFarmStart> = loadNoStart,
+  loadBushes: TLoadBushes = loadNoBushes,
 ) {
   let lastShowRequest = 0;
   const [planInfo, setPlanInfo] = createSignal<TPlanInfo>();
   const [plans, setPlans] = createSignal<readonly IPlanSummary[]>([]);
+  const [buildings, setBuildingsSignal] = createSignal<
+    readonly IPlannedBuilding[]
+  >([]);
   const [crops, setCropsSignal] = createSignal<IFarmCrops>({});
+  const [cutBushes, setCutBushesSignal] = createSignal<readonly ICutBush[]>([]);
   const [date, setDateSignal] = createSignal(0);
   const [equipment, setEquipmentSignal] = createSignal<IFarmEquipment>({});
+  const [greenhouseRepair, setGreenhouseRepairSignal] =
+    createSignal<IPlannedRepair>();
+  const [houseColorPaints, setHouseColorPaintsSignal] = createSignal<
+    readonly IPlannedColorPaint[]
+  >([]);
+  const [houseUpgrades, setHouseUpgradesSignal] = createSignal<
+    readonly IPlannedHouseUpgrade[]
+  >([]);
+  const [petBowlPaints, setPetBowlPaintsSignal] = createSignal<
+    readonly IPlannedPaint[]
+  >([]);
 
   function currentPlan(): IPlan | undefined {
     const info = planInfo();
+    const repair = greenhouseRepair();
+    const houseColors = houseColorPaints();
 
     return info === undefined
       ? undefined
-      : { ...info, crops: crops(), date: date(), equipment: equipment() };
+      : {
+          ...info,
+          buildings: buildings(),
+          crops: crops(),
+          cutBushes: cutBushes(),
+          date: date(),
+          equipment: equipment(),
+          ...(repair === undefined ? {} : { greenhouseRepair: repair }),
+          ...(houseColors.length === 0
+            ? {}
+            : { houseColorPaints: houseColors }),
+          houseUpgrades: houseUpgrades(),
+          petBowlPaints: petBowlPaints(),
+        };
   }
 
   function isListed(id: string) {
@@ -75,8 +121,18 @@ export function createPlanStore(
     }
   }
 
+  function setBuildings(value: readonly IPlannedBuilding[]) {
+    setBuildingsSignal(value);
+    save();
+  }
+
   function setCrops(value: IFarmCrops) {
     setCropsSignal(value);
+    save();
+  }
+
+  function setCutBushes(value: readonly ICutBush[]) {
+    setCutBushesSignal(value);
     save();
   }
 
@@ -90,19 +146,31 @@ export function createPlanStore(
     save();
   }
 
-  function setLooks(looks: IFarmLooks) {
-    const info = planInfo();
+  function setGreenhouseRepair(value: IPlannedRepair | undefined) {
+    setGreenhouseRepairSignal(value);
+    save();
+  }
 
-    if (info === undefined) {
-      return;
-    }
+  function setHouseColorPaints(value: readonly IPlannedColorPaint[]) {
+    setHouseColorPaintsSignal(value);
+    save();
+  }
 
-    setPlanInfo({ ...info, looks });
+  function setHouseUpgrades(value: readonly IPlannedHouseUpgrade[]) {
+    setHouseUpgradesSignal(value);
+    save();
+  }
+
+  function setPetBowlPaints(value: readonly IPlannedPaint[]) {
+    setPetBowlPaintsSignal(value);
     save();
   }
 
   async function show(plan: IPlan) {
-    const { crops, date, equipment, farm, id, looks, name } = plan;
+    const { buildings, crops, cutBushes, date, equipment, farm, id, name } =
+      plan;
+    const { greenhouseRepair, houseUpgrades, petBowlPaints } = plan;
+    const { houseColorPaints = [] } = plan;
     lastShowRequest += 1;
     const request = lastShowRequest;
 
@@ -115,10 +183,16 @@ export function createPlanStore(
     }
 
     batch(() => {
-      setPlanInfo({ farm, id, looks, name });
+      setPlanInfo({ farm, id, name });
+      setBuildingsSignal(buildings);
       setCropsSignal(crops);
+      setCutBushesSignal(cutBushes);
       setDateSignal(date);
       setEquipmentSignal(equipment);
+      setGreenhouseRepairSignal(greenhouseRepair);
+      setHouseColorPaintsSignal(houseColorPaints);
+      setHouseUpgradesSignal(houseUpgrades);
+      setPetBowlPaintsSignal(petBowlPaints);
     });
     storage.setLastPlanId(id).catch(logSaveError);
   }
@@ -140,9 +214,10 @@ export function createPlanStore(
       return undefined;
     }
 
-    warnBadItems(result.badItems, "saved plan");
+    const checked = await checkCutsOnFarm(result.plan, loadBushes);
+    warnBadItems([...result.badItems, ...checked.badItems], "saved plan");
 
-    return result.plan;
+    return checked.data;
   }
 
   async function openPlan(id: string) {
@@ -167,21 +242,34 @@ export function createPlanStore(
     return plan;
   }
 
+  // A new plan with no start would not be the farm of a new game, so there is
+  // no plan when the start does not load.
+  async function addNewPlan(farm: TFarmId, name: string) {
+    const start = await loadStart(farm).catch((error: unknown) => {
+      console.error(`Could not load the start of the ${farm} farm.`, error);
+    });
+
+    return start === undefined
+      ? undefined
+      : addPlan(newFarmData(farm, start), name);
+  }
+
   async function addPlanFromFile(file: File) {
     const result = readFarmData(await readFile(file));
 
     if (result === undefined) {
       console.error(
-        "The plan file does not have a farm type, looks, crops, a date and equipment, or its version is not known.",
+        "The plan file does not have a farm type, buildings, crops, a date and equipment, or its version is not known.",
       );
       return undefined;
     }
 
-    warnBadItems(result.badItems, "opened plan");
+    const checked = await checkCutsOnFarm(result.data, loadBushes);
+    warnBadItems([...result.badItems, ...checked.badItems], "opened plan");
 
     return addPlan(
-      result.data,
-      planNameFromFileName(file.name, result.data.farm),
+      checked.data,
+      planNameFromFileName(file.name, checked.data.farm),
     );
   }
 
@@ -247,21 +335,33 @@ export function createPlanStore(
   }
 
   return {
+    addNewPlan,
     addPlan,
     addPlanFromFile,
+    buildings,
     crops,
     currentPlan,
+    cutBushes,
     date,
     deletePlan,
     equipment,
+    greenhouseRepair,
+    houseColorPaints,
+    houseUpgrades,
     openPlan,
+    petBowlPaints,
     planInfo,
     plans,
     renamePlan,
+    setBuildings,
     setCrops,
+    setCutBushes,
     setDate,
     setEquipment,
-    setLooks,
+    setGreenhouseRepair,
+    setHouseColorPaints,
+    setHouseUpgrades,
+    setPetBowlPaints,
     start,
   };
 }

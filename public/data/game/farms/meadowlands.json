@@ -488,6 +488,298 @@
         "interval": 100
       }
     ],
+    "bushes": [
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 40,
+        "y": 1
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 6,
+        "y": 2
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 24,
+        "y": 2
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 16,
+        "y": 3
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 98,
+        "y": 3
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 49,
+        "y": 4
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 86,
+        "y": 5
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 0,
+        "y": 6
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 33,
+        "y": 6
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 75,
+        "y": 6
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 60,
+        "y": 7
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 67,
+        "y": 8
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 11,
+        "y": 9
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 79,
+        "y": 9
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 86,
+        "y": 9
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 6,
+        "y": 10
+      },
+      {
+        "destroyable": false,
+        "size": "large",
+        "x": 51,
+        "y": 10
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 73,
+        "y": 10
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 84,
+        "y": 11
+      },
+      {
+        "destroyable": false,
+        "size": "large",
+        "x": 78,
+        "y": 12
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 81,
+        "y": 12
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 39,
+        "y": 13
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 74,
+        "y": 13
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 75,
+        "y": 13
+      },
+      {
+        "destroyable": false,
+        "size": "large",
+        "x": 68,
+        "y": 14
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 96,
+        "y": 16
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 5,
+        "y": 17
+      },
+      {
+        "destroyable": false,
+        "size": "large",
+        "x": 91,
+        "y": 17
+      },
+      {
+        "destroyable": false,
+        "size": "medium",
+        "x": 93,
+        "y": 18
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 1,
+        "y": 20
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 2,
+        "y": 31
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 97,
+        "y": 32
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "small",
+        "x": 1,
+        "y": 39
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 97,
+        "y": 49
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 7,
+        "y": 56
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 94,
+        "y": 60
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 1,
+        "y": 65
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 98,
+        "y": 67
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 8,
+        "y": 68
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 46,
+        "y": 70
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 72,
+        "y": 70
+      },
+      {
+        "destroyable": false,
+        "noShadow": true,
+        "size": "small",
+        "x": 91,
+        "y": 70
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 22,
+        "y": 71
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 12,
+        "y": 73
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 55,
+        "y": 73
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 83,
+        "y": 73
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 38,
+        "y": 74
+      },
+      {
+        "destroyable": false,
+        "size": "small",
+        "x": 71,
+        "y": 74
+      }
+    ],
     "greenhousePath": [
       {
         "gid": 4177,
@@ -1880,6 +2172,215 @@
         "x": 88,
         "y": 18
       }
+    },
+    "start": {
+      "buildings": [
+        {
+          "building": "coop",
+          "x": 54,
+          "y": 9
+        }
+      ],
+      "items": [
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 47,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 48,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 49,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 50,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 51,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 52,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 53,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 54,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 55,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 56,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 57,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 58,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 59,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 60,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 61,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 20
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 47,
+          "y": 16
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 47,
+          "y": 17
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 47,
+          "y": 18
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 47,
+          "y": 19
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 7
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 8
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 9
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 10
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 11
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 12
+        },
+        {
+          "item": "fence",
+          "skin": "gate",
+          "x": 62,
+          "y": 13
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 14
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 15
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 16
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 17
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 18
+        },
+        {
+          "item": "fence",
+          "skin": "wood_fence",
+          "x": 62,
+          "y": 19
+        }
+      ]
     },
     "tilesheets": [
       {

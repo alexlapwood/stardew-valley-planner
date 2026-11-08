@@ -115,41 +115,4 @@
     position: absolute;
     visibility: visible;
   }
-
-  .UpgradesMenu {
-    position: relative;
-  }
-
-  /* A hovered option grows past the padding, and the list is too short to
-     scroll. */
-  .UpgradesMenu--list {
-    align-items: center;
-    background-color: #ffd284;
-    display: grid;
-    gap: 4px 8px;
-    grid-template-columns: max-content max-content;
-    overflow: visible;
-    padding: 2px 4px;
-    position: absolute;
-    right: 0;
-    top: 100%;
-    z-index: 2;
-  }
-
-  .LookSwitch--label {
-    align-items: center;
-    display: flex;
-    gap: 4px;
-  }
-
-  .LookSwitch--options {
-    display: flex;
-  }
-
-  /* The orange row marks the picked look, so a look that is not picked only
-     grows on hover, like the buttons. */
-  .LookSwitch--option:not(.selected):hover {
-    background: #ffd284;
-    border-image-source: url("../../images/list-item-border.png");
-  }
 }

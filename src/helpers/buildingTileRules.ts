@@ -1,5 +1,11 @@
+import type { IDaySpan } from "./daySpan";
 import { getDefaultBuildings, type IPlacedBuilding } from "./defaultBuildings";
 import { isOnMap } from "./farmMap";
+import {
+  getBuildingChangeDays,
+  getBuildingsOn,
+  toPlacedBuildingOn,
+} from "./plannedBuildings";
 
 type TRuledBuilding = Pick<IPlacedBuilding, "building" | "spot">;
 
@@ -118,4 +124,117 @@ export function getPlacementFlags(map: IFarmMap) {
   placementFlagsByMap.set(map, { flags, spots: map.spots });
 
   return flags;
+}
+
+// The flags change only on the days when a planned building comes or goes, so
+// the days between 2 change days share 1 set of flags.
+interface IPlanFlags {
+  changeDays: number[];
+  flagsByPeriod: Map<number, Uint8Array>;
+}
+
+export interface ITileFlagsOverDays {
+  onEveryDay: number;
+  onSomeDay: number;
+}
+
+const planFlagsByMap = new WeakMap<
+  IFarmMap,
+  {
+    byBuildings: WeakMap<readonly IPlannedBuilding[], IPlanFlags>;
+    spots: IFarmSpots;
+  }
+>();
+
+function getPlanFlags(
+  map: IFarmMap,
+  plannedBuildings: readonly IPlannedBuilding[],
+) {
+  let cachedMap = planFlagsByMap.get(map);
+
+  if (cachedMap?.spots !== map.spots) {
+    cachedMap = { byBuildings: new WeakMap(), spots: map.spots };
+    planFlagsByMap.set(map, cachedMap);
+  }
+
+  let planFlags = cachedMap.byBuildings.get(plannedBuildings);
+
+  if (planFlags === undefined) {
+    planFlags = {
+      changeDays: getBuildingChangeDays(plannedBuildings),
+      flagsByPeriod: new Map(),
+    };
+    cachedMap.byBuildings.set(plannedBuildings, planFlags);
+  }
+
+  return planFlags;
+}
+
+function getPeriod(changeDays: readonly number[], date: number) {
+  const period = changeDays.findIndex((day) => day > date);
+
+  return period === -1 ? changeDays.length : period;
+}
+
+export function getPlacementFlagsOn(
+  map: IFarmMap,
+  plannedBuildings: readonly IPlannedBuilding[],
+  date: number,
+) {
+  if (plannedBuildings.length === 0) {
+    return getPlacementFlags(map);
+  }
+
+  const { changeDays, flagsByPeriod } = getPlanFlags(map, plannedBuildings);
+  const period = getPeriod(changeDays, date);
+  const cached = flagsByPeriod.get(period);
+
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  const standing = getBuildingsOn(plannedBuildings, date);
+  const flags =
+    standing.length === 0
+      ? getPlacementFlags(map)
+      : applyBuildingTileRules(map, [
+          ...getDefaultBuildings(map),
+          ...standing.map((plannedBuilding) =>
+            toPlacedBuildingOn(plannedBuilding, date),
+          ),
+        ]);
+  flagsByPeriod.set(period, flags);
+
+  return flags;
+}
+
+// A thing on a tile for some days needs the flags of each of those days, so
+// the rules can ask for a flag on every day, or for no flag on any day.
+export function getTileFlagsOverDays(
+  map: IFarmMap,
+  plannedBuildings: readonly IPlannedBuilding[],
+  { x, y }: IFarmTile,
+  { firstDay, lastDay }: IDaySpan,
+): ITileFlagsOverDays {
+  const cell = y * map.width + x;
+
+  if (plannedBuildings.length === 0) {
+    const flags = getPlacementFlags(map)[cell];
+
+    return { onEveryDay: flags, onSomeDay: flags };
+  }
+
+  const { changeDays } = getPlanFlags(map, plannedBuildings);
+  const laterChangeDays = changeDays.filter(
+    (day) => day > firstDay && (lastDay === undefined || day <= lastDay),
+  );
+
+  return [firstDay, ...laterChangeDays].reduce(
+    ({ onEveryDay, onSomeDay }, day) => {
+      const flags = getPlacementFlagsOn(map, plannedBuildings, day)[cell];
+
+      return { onEveryDay: onEveryDay & flags, onSomeDay: onSomeDay | flags };
+    },
+    { onEveryDay: 0xff, onSomeDay: 0 },
+  );
 }

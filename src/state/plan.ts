@@ -1,4 +1,3 @@
-import { defaultFarmLooks } from "../helpers/defaultBuildings";
 import { farmIds, type TFarmId } from "../helpers/farmMapLoader";
 import { farmTypes } from "../helpers/farmTypes";
 import {
@@ -20,7 +19,18 @@ export interface IPlanSummary {
   name: string;
 }
 
-export type TPlanInfo = Omit<IPlan, "crops" | "date" | "equipment">;
+export type TPlanInfo = Omit<
+  IPlan,
+  | "buildings"
+  | "crops"
+  | "cutBushes"
+  | "date"
+  | "equipment"
+  | "greenhouseRepair"
+  | "houseColorPaints"
+  | "houseUpgrades"
+  | "petBowlPaints"
+>;
 
 export const maxPlanNameLength = 48;
 
@@ -37,11 +47,46 @@ export function makePlanId() {
   ).join("");
 }
 
+export const noFarmStart: IFarmStart = { buildings: [], items: [] };
+
+function toStarterBuilding({
+  building,
+  x,
+  y,
+}: IFarmStartBuilding): IPlannedBuilding {
+  return { buildingId: building, datePlaced: 0, starter: true, x, y };
+}
+
+// The game keeps 1 object on a tile.
+function toStarterEquipment(items: readonly IFarmStartItem[]) {
+  const equipment: IFarmEquipment = {};
+
+  items.forEach(({ item, skin, x, y }) => {
+    equipment[y] = {
+      ...equipment[y],
+      [x]: [
+        { dateInstalled: 0, equipmentId: item, skin, type: "equipment", x, y },
+      ],
+    };
+  });
+
+  return equipment;
+}
+
 export function newFarmData(
   farm: TFarmId,
-  looks: IFarmLooks = defaultFarmLooks,
+  start: IFarmStart = noFarmStart,
 ): IFarmData {
-  return { crops: {}, date: 0, equipment: {}, farm, looks };
+  return {
+    buildings: start.buildings.map(toStarterBuilding),
+    crops: {},
+    cutBushes: [],
+    date: 0,
+    equipment: toStarterEquipment(start.items),
+    farm,
+    houseUpgrades: [],
+    petBowlPaints: [],
+  };
 }
 
 export function toPlanSummary({ farm, id, name }: IPlanSummary): IPlanSummary {

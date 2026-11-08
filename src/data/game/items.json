@@ -591,7 +591,8 @@
               "price": 0,
               "trade": {
                 "count": 20,
-                "item": "Qi Gem"
+                "item": "Qi Gem",
+                "itemId": "(O)858"
               }
             }
           },
@@ -1050,7 +1051,8 @@
           },
           "icon": [272, 32, 16, 16],
           "itemId": "(O)293",
-          "name": "Brick Floor"
+          "name": "Brick Floor",
+          "passable": true
         },
         "cobblestone_path": {
           "buy": {
@@ -1068,7 +1070,8 @@
           },
           "icon": [240, 32, 16, 16],
           "itemId": "(O)411",
-          "name": "Cobblestone Path"
+          "name": "Cobblestone Path",
+          "passable": true
         },
         "crystal_floor": {
           "buy": {
@@ -1104,7 +1107,8 @@
           },
           "icon": [160, 32, 16, 16],
           "itemId": "(O)333",
-          "name": "Crystal Floor"
+          "name": "Crystal Floor",
+          "passable": true
         },
         "crystal_path": {
           "buy": {
@@ -1122,7 +1126,8 @@
           },
           "icon": [224, 32, 16, 16],
           "itemId": "(O)409",
-          "name": "Crystal Path"
+          "name": "Crystal Path",
+          "passable": true
         },
         "gravel_path": {
           "buy": {
@@ -1140,7 +1145,8 @@
           },
           "icon": [192, 32, 16, 16],
           "itemId": "(O)407",
-          "name": "Gravel Path"
+          "name": "Gravel Path",
+          "passable": true
         },
         "rustic_plank_floor": {
           "floor": {
@@ -1153,7 +1159,8 @@
           },
           "icon": [288, 32, 16, 16],
           "itemId": "(O)840",
-          "name": "Rustic Plank Floor"
+          "name": "Rustic Plank Floor",
+          "passable": true
         },
         "stepping_stone_path": {
           "buy": {
@@ -1171,7 +1178,8 @@
           },
           "icon": [256, 32, 16, 16],
           "itemId": "(O)415",
-          "name": "Stepping Stone Path"
+          "name": "Stepping Stone Path",
+          "passable": true
         },
         "stone_floor": {
           "buy": {
@@ -1207,7 +1215,8 @@
           },
           "icon": [128, 32, 16, 16],
           "itemId": "(O)329",
-          "name": "Stone Floor"
+          "name": "Stone Floor",
+          "passable": true
         },
         "stone_walkway_floor": {
           "floor": {
@@ -1238,7 +1247,8 @@
           },
           "icon": [304, 32, 16, 16],
           "itemId": "(O)841",
-          "name": "Stone Walkway Floor"
+          "name": "Stone Walkway Floor",
+          "passable": true
         },
         "straw_floor": {
           "buy": {
@@ -1274,7 +1284,8 @@
           },
           "icon": [176, 32, 16, 16],
           "itemId": "(O)401",
-          "name": "Straw Floor"
+          "name": "Straw Floor",
+          "passable": true
         },
         "weathered_floor": {
           "buy": {
@@ -1310,7 +1321,8 @@
           },
           "icon": [144, 32, 16, 16],
           "itemId": "(O)331",
-          "name": "Weathered Floor"
+          "name": "Weathered Floor",
+          "passable": true
         },
         "wood_floor": {
           "buy": {
@@ -1346,7 +1358,8 @@
           },
           "icon": [112, 32, 16, 16],
           "itemId": "(O)328",
-          "name": "Wood Floor"
+          "name": "Wood Floor",
+          "passable": true
         },
         "wood_path": {
           "buy": {
@@ -1364,7 +1377,8 @@
           },
           "icon": [208, 32, 16, 16],
           "itemId": "(O)405",
-          "name": "Wood Path"
+          "name": "Wood Path",
+          "passable": true
         }
       }
     },
@@ -1537,7 +1551,8 @@
               "price": 0,
               "trade": {
                 "count": 10,
-                "item": "Qi Gem"
+                "item": "Qi Gem",
+                "itemId": "(O)858"
               }
             }
           },
@@ -1667,7 +1682,8 @@
               "price": 0,
               "trade": {
                 "count": 30,
-                "item": "Qi Gem"
+                "item": "Qi Gem",
+                "itemId": "(O)858"
               }
             }
           },
@@ -1854,7 +1870,8 @@
               "price": 0,
               "trade": {
                 "count": 60,
-                "item": "Qi Gem"
+                "item": "Qi Gem",
+                "itemId": "(O)858"
               }
             }
           },
@@ -2556,6 +2573,7 @@
           "icon": [1008, 64, 16, 16],
           "itemId": "(O)94",
           "name": "Spirit Torch",
+          "passable": true,
           "sprite": [1008, 64, 16, 16]
         }
       }
@@ -2941,6 +2959,7 @@
           "icon": [384, 96, 16, 16],
           "itemId": "(O)93",
           "name": "Torch",
+          "passable": true,
           "sprite": [384, 96, 16, 16]
         }
       }

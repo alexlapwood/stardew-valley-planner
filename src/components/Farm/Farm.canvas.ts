@@ -1,9 +1,9 @@
 import { mergeDeep } from "immutable";
 
-import { findAtlas, findImage } from "../../helpers/atlas";
+import type { IBuildAnimation } from "../../helpers/buildAnimation";
 import { getSeasonName } from "../../helpers/date";
 import {
-  drawDefaultBuildingShadows,
+  getBuildingDraws,
   getDefaultBuildingDraws,
 } from "../../helpers/defaultBuildings";
 import {
@@ -11,6 +11,7 @@ import {
   installableEquipmentByTile,
 } from "../../helpers/equipmentPlacement";
 import type { TPickFloorVariant } from "../../helpers/floorVariant";
+import type { ICurrentItems } from "../../helpers/itemPlacement";
 import { earliestChange } from "../../helpers/mapFrames";
 import {
   drawMapSlot,
@@ -18,42 +19,92 @@ import {
   type IMapSlots,
 } from "../../helpers/mapSlots";
 import {
+  getBuildingSiteDraws,
+  getBuildScene,
+  getHouseRobinDraws,
+  type IBuildScene,
+} from "../../helpers/renderBuildingSites";
+import { getBushDraws } from "../../helpers/renderBushes";
+import {
   getFrontRows,
   getPassCanvas,
   getPassesNextChange,
   renderFrontRowToContext,
 } from "../../helpers/renderFarmMap";
-import { renderFloorsToContext } from "../../helpers/renderFloors";
 import { getItemDraws } from "../../helpers/renderItems";
-import { renderSelectedRegion } from "../../helpers/renderSelection";
+import {
+  renderBuildingSelection,
+  renderSelectedRegion,
+} from "../../helpers/renderSelection";
 import {
   type ISortedDraw,
   renderSortedDraws,
 } from "../../helpers/renderSorted";
-import {
-  renderScarecrowProtectionToContext,
-  renderSoilToContext,
-  renderWateredSoilToContext,
-} from "../../helpers/renderTileMaps";
 import { fadeTallSprites } from "../../helpers/tallSprites";
 import { getTreeSchedule } from "../../helpers/treeGrowth";
+import { getFixedLooks, getShownBuildings } from "./Farm.buildings";
+import { drawGround } from "./Farm.ground";
+import { findPlanImages } from "./Farm.images";
+import { getBuildingPreview, type IBuildingPreview } from "./Farm.preview";
 import type { IRegion } from "./Farm.region";
 
+// The farm passes the building preview that it works out 1 time for each
+// change, so that the animation frames do not check the building again.
+// buildTime is the time of the build animations, which play also when the
+// device asks for reduced motion. With no time, the map does not animate.
 interface IFarmCanvasState {
+  buildAnimations?: readonly IBuildAnimation[];
+  buildingPreview?: IBuildingPreview;
+  buildings: readonly IPlannedBuilding[];
+  buildTime?: number;
   crops: IFarmCrops;
+  cutBushes?: readonly ICutBush[];
   date: number;
   equipment: IFarmEquipment;
+  greenhouseRepair?: IPlannedRepair;
   highlightedRegion?: IRegion;
+  houseColorPaints?: readonly IPlannedColorPaint[];
+  houseUpgrades?: readonly IPlannedHouseUpgrade[];
   images: HTMLImageElement[];
-  looks: IFarmLooks;
+  petBowlPaints?: readonly IPlannedPaint[];
   pickFloorVariant: TPickFloorVariant;
   scene: IFarmScene;
   selectedItem?: ISelectedItem;
   time?: number;
 }
 
+function getCurrentItems(state: IFarmCanvasState): ICurrentItems {
+  return {
+    currentBuildings: state.buildings,
+    currentCrops: state.crops,
+    currentCutBushes: state.cutBushes,
+    currentEquipment: state.equipment,
+    currentGreenhouseRepair: state.greenhouseRepair,
+    currentHouseColorPaints: state.houseColorPaints,
+    currentHouseUpgrades: state.houseUpgrades,
+    currentPetBowlPaints: state.petBowlPaints,
+  };
+}
+
+function getHouseRobinDrawsOn(
+  context: CanvasRenderingContext2D,
+  robinImage: CanvasImageSource,
+  { house }: IBuildScene,
+  { date, scene }: IFarmCanvasState,
+) {
+  return house === undefined
+    ? []
+    : getHouseRobinDraws(
+        context,
+        robinImage,
+        scene.map.spots.farmhouse,
+        getSeasonName(date),
+        house.robinFrame,
+      );
+}
+
 function getPotentialEquipment(state: IFarmCanvasState) {
-  const { crops, date, equipment, highlightedRegion, selectedItem } = state;
+  const { date, highlightedRegion, selectedItem } = state;
 
   if (
     highlightedRegion === undefined ||
@@ -70,7 +121,7 @@ function getPotentialEquipment(state: IFarmCanvasState) {
       date,
       state.pickFloorVariant,
     ),
-    { currentCrops: crops, currentEquipment: equipment },
+    getCurrentItems(state),
     state.scene.map,
   );
 }
@@ -94,10 +145,6 @@ export function getMapNextChange(map: IFarmMap, slots: IMapSlots) {
   ]);
 }
 
-export function getPlanNextChange(map: IFarmMap) {
-  return getPassesNextChange(map, ["front", "above"]);
-}
-
 export function drawMap(
   canvas: HTMLCanvasElement,
   scene: IFarmScene,
@@ -114,74 +161,54 @@ export function drawMap(
 }
 
 export function drawPlan(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
-  const { crops, date, equipment, highlightedRegion, scene, time } = state;
+  const { buildings, crops, date, equipment, highlightedRegion, scene, time } =
+    state;
   const { map } = scene;
   const context = getContext(canvas);
   const season = getSeasonName(date);
 
-  const images = {
-    buildings: findAtlas(state.images, "buildings"),
-    crops: findAtlas(state.images, "crops"),
-    fences: findAtlas(state.images, "fences"),
-    flooring: findAtlas(state.images, "flooring"),
-    flooringWinter: findAtlas(state.images, "flooringWinter"),
-    highlight: {
-      amber: findImage(state.images, "/images/highlight-amber.png"),
-      blockerOutline: findImage(state.images, "/images/blocker-outline.png"),
-      green: findImage(state.images, "/images/highlight-green.png"),
-      grey: findImage(state.images, "/images/highlight-grey.png"),
-      red: findImage(state.images, "/images/highlight-red.png"),
-    },
-    hoeDirt: findImage(state.images, "/images/hoeDirt.png"),
-    hoeDirtSnow: findImage(state.images, "/images/hoeDirtSnow.png"),
-    items: findAtlas(state.images, "items"),
-    trees: findAtlas(state.images, "trees"),
-  };
+  const images = findPlanImages(state.images);
+  const bushScene = { cutBushes: state.cutBushes, date, map };
 
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   const potentialEquipment = getPotentialEquipment(state) ?? {};
   const plannedItems = mergeDeep(crops, equipment, potentialEquipment);
-
-  renderFloorsToContext(
-    context,
-    images,
-    mergeDeep(equipment, potentialEquipment),
-    date,
-    { height: map.height, width: map.width },
+  const buildingPreview =
+    state.buildingPreview ??
+    getBuildingPreview({
+      currentItems: getCurrentItems(state),
+      date,
+      farmMap: map,
+      highlightedRegion,
+      selectedItem: state.selectedItem,
+    });
+  const buildScene = getBuildScene(
+    state.buildAnimations ?? [],
+    { buildings, date, houseUpgrades: state.houseUpgrades ?? [] },
+    state.buildTime ?? 0,
   );
+  const shownBuildings = getShownBuildings(state, buildingPreview, buildScene);
+  const motion = {
+    time,
+    water: { image: images.water, tint: map.water.tints[scene.season] },
+  };
 
-  renderSoilToContext(
-    context,
-    season === "winter" ? images.hoeDirtSnow : images.hoeDirt,
+  drawGround(context, images, {
+    buildings,
+    cutBushes: state.cutBushes,
+    date,
+    equipment: mergeDeep(equipment, potentialEquipment),
+    map,
     plannedItems,
-    map,
-    date,
-  );
-
-  renderWateredSoilToContext(
-    context,
-    season === "winter" ? images.hoeDirtSnow : images.hoeDirt,
-    plannedItems,
-    map,
-    date,
-  );
-
-  drawDefaultBuildingShadows(context, images.buildings, map, "overFloors");
-
-  renderScarecrowProtectionToContext(
-    context,
-    images.highlight.green,
-    mergeDeep(equipment, potentialEquipment),
-    map,
-    date,
-  );
+    shownBuildings,
+    sites: buildScene.sites,
+  });
 
   if (highlightedRegion !== undefined && state.selectedItem !== undefined) {
     renderSelectedRegion(
       context,
-      crops,
-      equipment,
+      getCurrentItems(state),
       map,
       date,
       highlightedRegion,
@@ -190,11 +217,7 @@ export function drawPlan(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
     );
   }
 
-  const growthPlan = {
-    currentCrops: crops,
-    currentEquipment: equipment,
-    farmMap: map,
-  };
+  const growthPlan = { ...getCurrentItems(state), farmMap: map };
 
   const front = getPassCanvas(scene, "front", time);
   const frontRowDraws = getFrontRows(map).map((row): ISortedDraw => ({
@@ -217,8 +240,19 @@ export function drawPlan(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
           images.buildings,
           map,
           season,
-          state.looks,
+          getFixedLooks(state, buildingPreview, buildScene),
+          motion,
         ),
+        ...getBuildingDraws(
+          context,
+          images.buildings,
+          shownBuildings,
+          season,
+          motion,
+        ),
+        ...getBuildingSiteDraws(context, images, buildScene.sites, season),
+        ...getHouseRobinDrawsOn(context, images.robin, buildScene, state),
+        ...getBushDraws(context, images.bushes, bushScene),
         ...frontRowDraws,
       ],
       highlightedRegion,
@@ -226,4 +260,17 @@ export function drawPlan(canvas: HTMLCanvasElement, state: IFarmCanvasState) {
   );
 
   context.drawImage(getPassCanvas(scene, "above", time), 0, 0);
+
+  if (highlightedRegion !== undefined && state.selectedItem !== undefined) {
+    renderBuildingSelection(
+      context,
+      getCurrentItems(state),
+      map,
+      date,
+      highlightedRegion,
+      images.highlight,
+      state.selectedItem,
+      buildingPreview?.check,
+    );
+  }
 }

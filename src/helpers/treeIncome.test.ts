@@ -19,6 +19,7 @@ describe("Tree income helper", () => {
     it("shows the trade when no shop sells the sapling for gold", () => {
       expect(getSaplingCost(trees.banana)).toEqual({
         cost: 0,
+        itemId: "(O)852",
         label: "Dragon Tooth ×5",
       });
     });

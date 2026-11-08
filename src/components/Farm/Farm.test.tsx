@@ -9,10 +9,24 @@ import {
 } from "../../__mocks__/testFarmMap";
 import { items } from "../../data/game/items.json";
 import { atlasUrls } from "../../helpers/atlas";
-import { defaultFarmLooks } from "../../helpers/defaultBuildings";
 import { loadFarmScene, type TFarmId } from "../../helpers/farmMapLoader";
-import { crops, equipment, setCrops, setEquipment } from "../../state/farm";
-import UpgradesMenu from "../Header/UpgradesMenu/UpgradesMenu";
+import {
+  buildings,
+  crops,
+  equipment,
+  greenhouseRepair,
+  houseColorPaints,
+  houseUpgrades,
+  petBowlPaints,
+  setBuildings,
+  setCrops,
+  setEquipment,
+  setGreenhouseRepair,
+  setHouseColorPaints,
+  setHouseUpgrades,
+  setPetBowlPaints,
+} from "../../state/farm";
+import PlanSwitcher from "../Header/PlanSwitcher/PlanSwitcher";
 import Farm from "./Farm";
 
 // With the scene loaded before the tests, the farm draws on its first render,
@@ -182,8 +196,8 @@ function isPanCursorShown() {
   return document.documentElement.classList.contains("farm-panning");
 }
 
-function isUpgradesMenuOpen() {
-  return screen.queryByTestId("upgrades-menu--list") !== null;
+function isPlanListOpen() {
+  return screen.queryByTestId("plan-switcher--list") !== null;
 }
 
 beforeEach(() => {
@@ -218,8 +232,13 @@ beforeEach(() => {
     return new DOMRect(0, 0, this.width, this.height);
   });
 
+  setBuildings([]);
   setCrops({});
   setEquipment({});
+  setGreenhouseRepair(undefined);
+  setHouseColorPaints([]);
+  setHouseUpgrades([]);
+  setPetBowlPaints([]);
   localStorage.clear();
 });
 
@@ -961,13 +980,21 @@ describe("panning the farm", () => {
   });
 });
 
-describe("using the farm while the Upgrades menu is open", () => {
+describe("using the farm while the plan list is open", () => {
   const scrollStart = 200;
+  const plan = { farm: "standard", id: "a", name: "Home" } as const;
 
-  function renderFarmAndOpenUpgrades() {
+  function renderFarmAndOpenPlanList() {
     render(() => (
       <>
-        <UpgradesMenu changeLooks={vi.fn()} looks={defaultFarmLooks} />
+        <PlanSwitcher
+          changePlan={vi.fn()}
+          deletePlan={vi.fn()}
+          newPlan={vi.fn()}
+          plan={plan}
+          plans={[plan]}
+          renamePlan={vi.fn()}
+        />
         <Farm
           currentFarm="standard"
           date={date}
@@ -982,13 +1009,13 @@ describe("using the farm while the Upgrades menu is open", () => {
     scrollView.scrollLeft = scrollStart;
     scrollView.scrollTop = scrollStart;
 
-    fireEvent.click(screen.getByTestId("header--upgrades"));
+    fireEvent.click(screen.getByTestId("plan-switcher"));
 
     return { canvas: screen.getByTestId("farm-canvas"), scrollView };
   }
 
-  it("pans the farm with a middle-button drag, and the menu stays open", () => {
-    const { canvas, scrollView } = renderFarmAndOpenUpgrades();
+  it("pans the farm with a middle-button drag, and the list stays open", () => {
+    const { canvas, scrollView } = renderFarmAndOpenPlanList();
     const start = { button: middleButton, clientX: 100, clientY: 100 };
     const end = { clientX: 70, clientY: 60 };
 
@@ -997,31 +1024,31 @@ describe("using the farm while the Upgrades menu is open", () => {
 
     expect(scrollView.scrollLeft).toBe(scrollStart + 30);
     expect(scrollView.scrollTop).toBe(scrollStart + 40);
-    expect(isUpgradesMenuOpen()).toBe(true);
+    expect(isPlanListOpen()).toBe(true);
 
     fireEvent.mouseUp(canvas, { ...start, ...end });
 
-    expect(isUpgradesMenuOpen()).toBe(true);
+    expect(isPlanListOpen()).toBe(true);
   });
 
-  it("puts items with a drag, and the menu stays open", () => {
-    renderFarmAndOpenUpgrades();
+  it("puts items with a drag, and the list stays open", () => {
+    renderFarmAndOpenPlanList();
 
     dragAcrossTiles([0, 0], [1, 1]);
 
     expect(crops()).toEqual(
       byTile(regionTiles.map(([x, y]) => parsnip(x, y, { datePlanted: date }))),
     );
-    expect(isUpgradesMenuOpen()).toBe(true);
+    expect(isPlanListOpen()).toBe(true);
   });
 
-  it("closes the menu with a click on the farm", () => {
-    const { canvas } = renderFarmAndOpenUpgrades();
+  it("closes the list with a click on the farm", () => {
+    const { canvas } = renderFarmAndOpenPlanList();
 
     fireEvent.mouseDown(canvas, { button: middleButton, ...pointOnTile(2, 2) });
     fireEvent.mouseUp(canvas, { button: middleButton, ...pointOnTile(2, 2) });
 
-    expect(isUpgradesMenuOpen()).toBe(false);
+    expect(isPlanListOpen()).toBe(false);
   });
 });
 
@@ -1167,13 +1194,15 @@ describe("drawing the farm", () => {
     ]);
   });
 
-  it("draws the farmhouse, the greenhouse and the pet bowl with the looks of the farm", () => {
+  it("draws the farmhouse, the greenhouse and the pet bowl with their looks on the date", () => {
+    setHouseUpgrades([{ datePlaced: 0, level: 1 }]);
+    setGreenhouseRepair({ datePlaced: 1 });
+    setPetBowlPaints([{ datePainted: date, skin: "hay_pet_bowl" }]);
     render(() => (
       <Farm
         currentFarm="standard"
-        date={date}
+        date={date + 1}
         images={mockImages}
-        looks={{ greenhouse: "repaired", house: 1, petBowl: "hay_pet_bowl" }}
         zoom={1}
       />
     ));
@@ -1187,27 +1216,28 @@ describe("drawing the farm", () => {
     expect(buildingRects).not.toContainEqual([0, 1984, 32, 32]);
   });
 
-  it("draws the new sprite at once when a look is picked in the Upgrades menu, at the same spot", () => {
-    const [looks, setLooks] = createSignal(defaultFarmLooks);
+  it("draws the new sprite at once when the pet bowl is painted, at the same spot", () => {
     render(() => (
-      <>
-        <UpgradesMenu changeLooks={setLooks} looks={looks()} />
-        <Farm
-          currentFarm="standard"
-          date={date}
-          images={mockImages}
-          looks={looks()}
-          zoom={1}
-        />
-      </>
+      <Farm
+        currentFarm="standard"
+        date={date}
+        images={mockImages}
+        selectedItem={{
+          id: "pet_bowl",
+          skin: "stone_pet_bowl",
+          type: "building",
+        }}
+        zoom={1}
+      />
     ));
-    fireEvent.click(screen.getByTestId("header--upgrades"));
+
+    dragAcrossTiles([53, 7], [53, 7]);
     drawImage.mockClear();
+    fireEvent.mouseOut(screen.getByTestId("farm-canvas"));
 
-    fireEvent.click(
-      screen.getByTestId("upgrades-menu--pet-bowl-stone_pet_bowl"),
-    );
-
+    expect(petBowlPaints()).toEqual([
+      { datePainted: date, skin: "stone_pet_bowl" },
+    ]);
     expect(getDrawnBuildingRects(8)).toContainEqual([
       128,
       1984,
@@ -1219,12 +1249,6 @@ describe("drawing the farm", () => {
       32,
     ]);
     expect(getDrawnBuildingRects()).not.toContainEqual([0, 1984, 32, 32]);
-
-    drawImage.mockClear();
-    fireEvent.click(screen.getByTestId("upgrades-menu--house-2"));
-
-    expect(getDrawnBuildingRects()).toContainEqual([356, 1168, 178, 144]);
-    expect(getDrawnBuildingRects()).not.toContainEqual([0, 1168, 178, 144]);
   });
 
   it("does not plant crops on or beside the greenhouse, where the game takes the tilling away", () => {
@@ -1582,5 +1606,915 @@ describe("planting trees", () => {
     dragAcrossTiles([3, 5], [3, 5]);
 
     expect(crops()).toEqual(byTile([appleTree(3, 5, { dateDestroyed: date })]));
+  });
+});
+
+const coop: ISelectedItem = { id: "coop", type: "building" };
+
+function plannedCoop(
+  x: number,
+  y: number,
+  overrides: Partial<IPlannedBuilding> = {},
+): IPlannedBuilding {
+  return { buildingId: "coop", datePlaced: date, x, y, ...overrides };
+}
+
+function coopFootprint(x: number, y: number) {
+  return [0, 1, 2].flatMap((dy) =>
+    [0, 1, 2, 3, 4, 5].map((dx) => [x + dx, y + dy]),
+  );
+}
+
+function byRowThenColumn(a: number[], b: number[]) {
+  return a[1] - b[1] || a[0] - b[0];
+}
+
+describe("placing buildings", () => {
+  it("orders the selected building on the date, with its top-left on the clicked tile", () => {
+    renderFarmCanvas("standard", coop);
+
+    dragAcrossTiles([1, 1], [1, 1]);
+
+    expect(buildings()).toEqual([plannedCoop(1, 1)]);
+  });
+
+  it("puts the building down where a drag ends", () => {
+    renderFarmCanvas("standard", coop);
+
+    dragAcrossTiles([0, 0], [3, 4]);
+
+    expect(buildings()).toEqual([plannedCoop(3, 4)]);
+  });
+
+  it("does not put a building down on a crop, or on another building", () => {
+    setCrops(byTile([parsnip(2, 2)]));
+    renderFarmCanvas("standard", coop);
+
+    dragAcrossTiles([1, 1], [1, 1]);
+    dragAcrossTiles([10, 1], [10, 1]);
+    dragAcrossTiles([12, 2], [12, 2]);
+
+    expect(buildings()).toEqual([plannedCoop(10, 1)]);
+  });
+
+  it("puts a Well down on a floor, and ends the floor on the order date", () => {
+    const floor = scarecrow(2, 2, {
+      equipmentId: "flooring",
+      skin: "wood_floor",
+    });
+    setEquipment(byTile([floor]));
+    renderFarmCanvas("standard", { id: "well", type: "building" });
+
+    dragAcrossTiles([1, 1], [1, 1]);
+
+    expect(buildings()).toEqual([
+      { buildingId: "well", datePlaced: date, x: 1, y: 1 },
+    ]);
+    expect(equipment()).toEqual(byTile([{ ...floor, dateDestroyed: date }]));
+  });
+
+  it("highlights the footprint green, and red on each tile that is taken", () => {
+    setCrops(byTile([parsnip(2, 2)]));
+    renderFarmCanvas("standard", coop);
+    const canvas = screen.getByTestId("farm-canvas");
+
+    fireEvent.mouseMove(canvas, pointOnTile(10, 1));
+
+    expect(getHighlightedTiles("green")).toEqual(coopFootprint(10, 1));
+    expect(getHighlightedTiles("red")).toEqual([]);
+
+    drawImage.mockClear();
+    fireEvent.mouseMove(canvas, pointOnTile(1, 1));
+
+    expect(getHighlightedTiles("red")).toEqual([[2, 2]]);
+    expect(getHighlightedTiles("green")).toHaveLength(6 * 3 - 1);
+  });
+
+  it("does not plant crops on a building, but plants them beside it", () => {
+    setBuildings([plannedCoop(1, 1, { datePlaced: 0 })]);
+    renderFarmCanvas("standard", { id: "parsnip", type: "crop" });
+
+    dragAcrossTiles([6, 1], [7, 1]);
+
+    expect(crops()).toEqual(byTile([parsnip(7, 1, { datePlanted: date })]));
+  });
+
+  it("demolishes a building from the date when the erase is on a later day and touches any of its tiles", () => {
+    const well = { buildingId: "well", datePlaced: 0, x: 1, y: 1 };
+    setBuildings([well]);
+    renderFarmCanvas("standard");
+
+    dragAcrossTiles([3, 3], [3, 3], rightButton);
+
+    expect(buildings()).toEqual([{ ...well, dateDestroyed: date }]);
+  });
+
+  it("puts many buildings down on the same day, each whole from that day", () => {
+    renderFarmCanvas("standard", coop);
+
+    dragAcrossTiles([1, 1], [1, 1]);
+    dragAcrossTiles([10, 1], [10, 1]);
+    dragAcrossTiles([20, 1], [20, 1]);
+
+    expect(buildings()).toEqual([
+      plannedCoop(1, 1),
+      plannedCoop(10, 1),
+      plannedCoop(20, 1),
+    ]);
+  });
+
+  it("does not plant a crop on a building on the day it goes down", () => {
+    setBuildings([plannedCoop(1, 1)]);
+    renderFarmCanvas("standard", { id: "parsnip", type: "crop" });
+
+    dragAcrossTiles([2, 2], [2, 2]);
+
+    expect(crops()).toEqual({});
+  });
+
+  it("takes a building out of the plan when the erase is on its date", () => {
+    setBuildings([plannedCoop(1, 1)]);
+    renderFarmCanvas("standard");
+
+    dragAcrossTiles([1, 1], [1, 1], rightButton);
+
+    expect(buildings()).toEqual([]);
+  });
+
+  it("gives back the floors that a Well took off when the erase is on its date", () => {
+    const floor = scarecrow(2, 2, {
+      equipmentId: "flooring",
+      skin: "wood_floor",
+    });
+    setEquipment(byTile([floor]));
+    renderFarmCanvas("standard", { id: "well", type: "building" });
+
+    dragAcrossTiles([1, 1], [1, 1]);
+    dragAcrossTiles([2, 2], [2, 2], rightButton);
+
+    expect(buildings()).toEqual([]);
+    expect(equipment()).toEqual(byTile([floor]));
+  });
+
+  it("does not give back the floors when the erase demolishes a Well on a later day", () => {
+    const floor = scarecrow(2, 2, {
+      dateDestroyed: 0,
+      equipmentId: "flooring",
+      skin: "wood_floor",
+    });
+    const well = { buildingId: "well", datePlaced: 0, x: 1, y: 1 };
+    setEquipment(byTile([floor]));
+    setBuildings([well]);
+    renderFarmCanvas("standard");
+
+    dragAcrossTiles([2, 2], [2, 2], rightButton);
+
+    expect(buildings()).toEqual([{ ...well, dateDestroyed: date }]);
+    expect(equipment()).toEqual(byTile([floor]));
+  });
+
+  it("shows all the tiles of a building red when the erase touches one of them", () => {
+    setBuildings([plannedCoop(1, 1)]);
+    renderFarmCanvas("standard", { id: "pick-axe", type: "tool" });
+
+    fireEvent.mouseMove(screen.getByTestId("farm-canvas"), pointOnTile(1, 1));
+
+    expect(getHighlightedTiles("red").toSorted(byRowThenColumn)).toEqual(
+      coopFootprint(1, 1),
+    );
+    expect(getHighlightedTiles("grey")).toEqual([]);
+  });
+});
+
+function renderFarmOn(onDate: number, selectedItem?: ISelectedItem) {
+  render(() => (
+    <Farm
+      currentFarm="standard"
+      date={onDate}
+      images={mockImages}
+      selectedItem={selectedItem}
+      zoom={1}
+    />
+  ));
+}
+
+const bigCoop: ISelectedItem = { id: "big_coop", type: "building" };
+
+// The coop at 1, 1 is there from day 0.
+const readyCoop = plannedCoop(1, 1, { datePlaced: 0 });
+
+function withUpgrades(...upgrades: IPlannedUpgrade[]): IPlannedBuilding {
+  return { ...readyCoop, upgrades };
+}
+
+describe("upgrading buildings", () => {
+  it("orders the upgrade on the date when a higher tier is clicked on a building of the tier below", () => {
+    setBuildings([readyCoop]);
+    renderFarmOn(10, bigCoop);
+
+    dragAcrossTiles([3, 2], [3, 2]);
+
+    expect(buildings()).toEqual([
+      withUpgrades({ buildingId: "big_coop", datePlaced: 10 }),
+    ]);
+  });
+
+  it("upgrades to each tier up to the selected one on the date, also on a Tuesday", () => {
+    setBuildings([readyCoop]);
+    renderFarmOn(1, { id: "deluxe_coop", type: "building" });
+
+    dragAcrossTiles([3, 2], [3, 2]);
+
+    expect(buildings()).toEqual([
+      withUpgrades(
+        { buildingId: "big_coop", datePlaced: 1 },
+        { buildingId: "deluxe_coop", datePlaced: 1 },
+      ),
+    ]);
+  });
+
+  it("upgrades a building on the date it goes down", () => {
+    setBuildings([readyCoop]);
+    renderFarmOn(0, bigCoop);
+
+    dragAcrossTiles([3, 2], [3, 2]);
+
+    expect(buildings()).toEqual([
+      withUpgrades({ buildingId: "big_coop", datePlaced: 0 }),
+    ]);
+  });
+
+  it.each<[string, IPlannedBuilding, number, string]>([
+    [
+      "has the tier already",
+      withUpgrades({ buildingId: "big_coop", datePlaced: 10 }),
+      11,
+      "big_coop",
+    ],
+    ["is of another type", readyCoop, 10, "big_barn"],
+  ])(
+    "refuses the upgrade with red tiles and no next good day when the building %s",
+    (_, building, onDate, upgradeId) => {
+      setBuildings([building]);
+      renderFarmOn(onDate, { id: upgradeId, type: "building" });
+
+      fireEvent.mouseMove(screen.getByTestId("farm-canvas"), pointOnTile(3, 2));
+
+      expect(getHighlightedTiles("red").toSorted(byRowThenColumn)).toEqual(
+        coopFootprint(1, 1),
+      );
+      expect(getHighlightedTiles("green")).toEqual([]);
+      expect(getNoticeLines()).toHaveLength(1);
+
+      dragAcrossTiles([3, 2], [3, 2]);
+
+      expect(buildings()).toEqual([building]);
+    },
+  );
+
+  it("puts the lowest tier and each upgrade down on the date on empty ground", () => {
+    renderFarmOn(0, { id: "deluxe_coop", type: "building" });
+
+    dragAcrossTiles([1, 1], [1, 1]);
+
+    expect(buildings()).toEqual([
+      withUpgrades(
+        { buildingId: "big_coop", datePlaced: 0 },
+        { buildingId: "deluxe_coop", datePlaced: 0 },
+      ),
+    ]);
+  });
+
+  it("takes back an upgrade and the later ones when the erase is on its date, and keeps the lower tier", () => {
+    setBuildings([
+      withUpgrades(
+        { buildingId: "big_coop", datePlaced: 10 },
+        { buildingId: "deluxe_coop", datePlaced: 13 },
+      ),
+    ]);
+    renderFarmOn(10);
+
+    dragAcrossTiles([3, 2], [3, 2], rightButton);
+
+    expect(buildings()).toEqual([readyCoop]);
+  });
+
+  it("takes the whole building with its upgrades out of the plan when the erase is on its date", () => {
+    setBuildings([withUpgrades({ buildingId: "big_coop", datePlaced: 0 })]);
+    renderFarmOn(0);
+
+    dragAcrossTiles([3, 2], [3, 2], rightButton);
+
+    expect(buildings()).toEqual([]);
+  });
+
+  it("demolishes a building from a later date with no upgrade, and drops the upgrades planned after it", () => {
+    setBuildings([withUpgrades({ buildingId: "big_coop", datePlaced: 20 })]);
+    renderFarmOn(10);
+
+    dragAcrossTiles([3, 2], [3, 2], rightButton);
+
+    expect(buildings()).toEqual([{ ...readyCoop, dateDestroyed: 10 }]);
+  });
+});
+
+function getNoticeLines() {
+  return (
+    screen
+      .queryByTestId("farm-notice")
+      ?.getAttribute("aria-label")
+      ?.split("\n") ?? []
+  );
+}
+
+const pickAxeTool: ISelectedItem = { id: "pick-axe", type: "tool" };
+
+function renderNoticeInView(scrollLeft: number, scrollTop: number) {
+  setCrops(byTile([parsnip(12, 6)]));
+  renderFarmOn(1, coop);
+  const canvas = screen.getByTestId("farm-canvas");
+  const view = getScrollView();
+
+  Object.defineProperty(view, "clientWidth", { value: 200 });
+  Object.defineProperty(view, "clientHeight", { value: 40 });
+  view.scrollLeft = scrollLeft;
+  view.scrollTop = scrollTop;
+  fireEvent.mouseMove(canvas, pointOnTile(10, 5));
+
+  const notice = screen.getByTestId("farm-notice");
+
+  Object.defineProperty(notice, "offsetWidth", { value: 100 });
+  Object.defineProperty(notice, "offsetHeight", { value: 30 });
+
+  return { canvas, notice };
+}
+
+// Spring 2 and Spring 9 are Tuesdays, when Robin is closed in the game.
+describe("any day, and the notice", () => {
+  it("puts a building down on a Tuesday, with green tiles and no notice", () => {
+    renderFarmOn(1, coop);
+
+    fireEvent.mouseMove(screen.getByTestId("farm-canvas"), pointOnTile(10, 5));
+
+    expect(getHighlightedTiles("green").toSorted(byRowThenColumn)).toEqual(
+      coopFootprint(10, 5),
+    );
+    expect(getHighlightedTiles("red")).toEqual([]);
+    expect(screen.queryByTestId("farm-notice")).toBeNull();
+
+    dragAcrossTiles([10, 5], [10, 5]);
+
+    expect(buildings()).toEqual([plannedCoop(10, 5, { datePlaced: 1 })]);
+  });
+
+  it("puts the notice above the tile under the cursor, and below it at the top of the view", () => {
+    setCrops(byTile([parsnip(12, 6)]));
+    renderFarmOn(1, coop);
+    const canvas = screen.getByTestId("farm-canvas");
+
+    fireEvent.mouseMove(canvas, pointOnTile(10, 5));
+
+    const notice = screen.getByTestId("farm-notice");
+
+    expect([notice.style.left, notice.style.top]).toEqual(["160px", "78px"]);
+
+    getScrollView().scrollTop = 16 * 6;
+    fireEvent.mouseMove(canvas, pointOnTile(10, 6));
+
+    expect([notice.style.left, notice.style.top]).toEqual(["160px", "114px"]);
+  });
+
+  it("shows the notice as the tooltip of the farm while the cursor is on the farm", () => {
+    setCrops(byTile([parsnip(12, 6)]));
+    renderFarmOn(1, coop);
+    const canvas = screen.getByTestId("farm-canvas");
+
+    fireEvent.mouseMove(canvas, pointOnTile(10, 5));
+
+    expect(canvas.getAttribute("aria-describedby")).toBe(
+      screen.getByRole("tooltip").id,
+    );
+
+    fireEvent.mouseOut(canvas);
+
+    expect(screen.queryByRole("tooltip")).toBeNull();
+    expect(canvas.hasAttribute("aria-describedby")).toBe(false);
+  });
+
+  describe("in a view of 200 × 40 pixels, with a notice of 100 × 30", () => {
+    it("keeps the notice in the view at the left and the bottom", () => {
+      const { canvas, notice } = renderNoticeInView(16 * 10 + 8, 16 * 5);
+
+      fireEvent.mouseMove(canvas, pointOnTile(10, 6));
+
+      expect([notice.style.left, notice.style.top]).toEqual(["168px", "90px"]);
+    });
+
+    it("keeps the notice in the view at the right", () => {
+      const { canvas, notice } = renderNoticeInView(0, 16 * 4);
+
+      fireEvent.mouseMove(canvas, pointOnTile(11, 4));
+
+      expect([notice.style.left, notice.style.top]).toEqual(["100px", "74px"]);
+    });
+  });
+
+  it("puts a second building down on the day after the first, with no wait for its build days", () => {
+    setBuildings([plannedCoop(1, 1)]);
+    renderFarmOn(3, coop);
+
+    fireEvent.mouseMove(screen.getByTestId("farm-canvas"), pointOnTile(10, 5));
+
+    expect(screen.queryByTestId("farm-notice")).toBeNull();
+
+    dragAcrossTiles([10, 5], [10, 5]);
+
+    expect(buildings()).toEqual([
+      plannedCoop(1, 1),
+      plannedCoop(10, 5, { datePlaced: 3 }),
+    ]);
+  });
+
+  it("gives the tile reason for a building that does not fit, and the day after the thing is gone", () => {
+    setCrops(byTile([parsnip(12, 6, { dateDestroyed: 9 })]));
+    renderFarmOn(date, coop);
+
+    fireEvent.mouseMove(screen.getByTestId("farm-canvas"), pointOnTile(10, 5));
+
+    expect(getNoticeLines()).toEqual([
+      "🌱 A crop is here",
+      "📅 Next good day: Sp 10",
+    ]);
+  });
+
+  it("gives the count limit, and no next good day while the cabins stay", () => {
+    setBuildings(
+      Array.from({ length: 7 }, (_, index) =>
+        plannedCabin({ x: index * 6, y: 40 }),
+      ),
+    );
+    renderFarmOn(date, { id: "cabin", type: "building" });
+
+    fireEvent.mouseMove(screen.getByTestId("farm-canvas"), pointOnTile(10, 5));
+
+    expect(getNoticeLines()).toEqual(["🏠 You can have only 7 cabins"]);
+  });
+
+  it("shows no notice where the building can go down", () => {
+    renderFarmOn(date, coop);
+
+    fireEvent.mouseMove(screen.getByTestId("farm-canvas"), pointOnTile(10, 5));
+
+    expect(screen.queryByTestId("farm-notice")).toBeNull();
+  });
+
+  it("demolishes a building on a Tuesday, with red tiles and no notice", () => {
+    setBuildings([readyCoop]);
+    renderFarmOn(8, pickAxeTool);
+
+    fireEvent.mouseMove(screen.getByTestId("farm-canvas"), pointOnTile(3, 2));
+
+    expect(getHighlightedTiles("red").toSorted(byRowThenColumn)).toEqual(
+      coopFootprint(1, 1),
+    );
+    expect(screen.queryByTestId("farm-notice")).toBeNull();
+
+    dragAcrossTiles([3, 2], [3, 2], rightButton);
+
+    expect(buildings()).toEqual([{ ...readyCoop, dateDestroyed: 8 }]);
+  });
+
+  it("takes a building out of the plan on its date, also on a Tuesday", () => {
+    setBuildings([plannedCoop(1, 1, { datePlaced: 1 })]);
+    renderFarmOn(1);
+
+    dragAcrossTiles([3, 2], [3, 2], rightButton);
+
+    expect(buildings()).toEqual([]);
+  });
+});
+
+const kitchen: ISelectedItem = { id: "1", type: "houseUpgrade" };
+const nursery: ISelectedItem = { id: "2", type: "houseUpgrade" };
+const repair: ISelectedItem = { id: "greenhouse", type: "greenhouseRepair" };
+
+// The farmhouse of the test farm covers x 59-67 and y 12-16, and the
+// greenhouse covers x 25-31 and y 10-15.
+const onHouse: [number, number] = [62, 14];
+const onGreenhouse: [number, number] = [27, 12];
+
+const houseFootprint = [0, 1, 2, 3, 4].flatMap((dy) =>
+  [0, 1, 2, 3, 4, 5, 6, 7, 8].map((dx) => [59 + dx, 12 + dy]),
+);
+
+function hoverOn([x, y]: [number, number]) {
+  fireEvent.mouseMove(screen.getByTestId("farm-canvas"), pointOnTile(x, y));
+}
+
+describe("upgrading the farmhouse", () => {
+  it("orders the selected level on the date when the farmhouse is clicked, with green tiles first", () => {
+    renderFarmOn(date, kitchen);
+
+    hoverOn(onHouse);
+
+    expect(getHighlightedTiles("green").toSorted(byRowThenColumn)).toEqual(
+      houseFootprint,
+    );
+    expect(screen.queryByTestId("farm-notice")).toBeNull();
+
+    dragAcrossTiles(onHouse, onHouse);
+
+    expect(houseUpgrades()).toEqual([{ datePlaced: date, level: 1 }]);
+  });
+
+  it("upgrades to each level up to the selected one on the date", () => {
+    renderFarmOn(5, nursery);
+
+    dragAcrossTiles(onHouse, onHouse);
+
+    expect(houseUpgrades()).toEqual([
+      { datePlaced: 5, level: 1 },
+      { datePlaced: 5, level: 2 },
+    ]);
+  });
+
+  it("does nothing off the farmhouse", () => {
+    renderFarmOn(date, kitchen);
+
+    hoverOn([10, 5]);
+
+    expect(getHighlightedTiles("green")).toEqual([]);
+    expect(getHighlightedTiles("red")).toEqual([]);
+
+    dragAcrossTiles([10, 5], [10, 5]);
+
+    expect(houseUpgrades()).toEqual([]);
+    expect(buildings()).toEqual([]);
+  });
+
+  it("upgrades the house on a Tuesday, with green tiles and no notice", () => {
+    renderFarmOn(1, kitchen);
+
+    hoverOn(onHouse);
+
+    expect(getHighlightedTiles("green").toSorted(byRowThenColumn)).toEqual(
+      houseFootprint,
+    );
+    expect(screen.queryByTestId("farm-notice")).toBeNull();
+
+    dragAcrossTiles(onHouse, onHouse);
+
+    expect(houseUpgrades()).toEqual([{ datePlaced: 1, level: 1 }]);
+  });
+
+  it("upgrades the house and puts a building down on the same day", () => {
+    const [selectedItem, setSelectedItem] = createSignal(kitchen);
+    render(() => (
+      <Farm
+        currentFarm="standard"
+        date={3}
+        images={mockImages}
+        selectedItem={selectedItem()}
+        zoom={1}
+      />
+    ));
+
+    dragAcrossTiles(onHouse, onHouse);
+    setSelectedItem(coop);
+    dragAcrossTiles([10, 5], [10, 5]);
+
+    expect(houseUpgrades()).toEqual([{ datePlaced: 3, level: 1 }]);
+    expect(buildings()).toEqual([plannedCoop(10, 5, { datePlaced: 3 })]);
+  });
+
+  it("refuses a level that the house has already, with no next good day", () => {
+    setHouseUpgrades([{ datePlaced: 0, level: 1 }]);
+    renderFarmOn(5, kitchen);
+
+    hoverOn(onHouse);
+
+    expect(getNoticeLines()).toEqual([
+      "❌ The Farmhouse has a Kitchen already",
+    ]);
+  });
+
+  it("takes back an upgrade and the later ones when the erase is on its date, with the house red first", () => {
+    setHouseUpgrades([
+      { datePlaced: 0, level: 1 },
+      { datePlaced: 3, level: 2 },
+    ]);
+    renderFarmOn(3, pickAxeTool);
+
+    hoverOn(onHouse);
+
+    expect(getHighlightedTiles("red").toSorted(byRowThenColumn)).toEqual(
+      houseFootprint,
+    );
+
+    dragAcrossTiles(onHouse, onHouse, rightButton);
+
+    expect(houseUpgrades()).toEqual([{ datePlaced: 0, level: 1 }]);
+  });
+
+  it("keeps a level when the erase is on a later day, because the game cannot take it back", () => {
+    setHouseUpgrades([{ datePlaced: 0, level: 1 }]);
+    renderFarmOn(5, pickAxeTool);
+
+    hoverOn(onHouse);
+
+    expect(getHighlightedTiles("red")).toEqual([]);
+    expect(screen.queryByTestId("farm-notice")).toBeNull();
+
+    dragAcrossTiles(onHouse, onHouse, rightButton);
+
+    expect(houseUpgrades()).toEqual([{ datePlaced: 0, level: 1 }]);
+  });
+});
+
+describe("repairing the greenhouse", () => {
+  it("repairs the greenhouse on the date when it is clicked", () => {
+    renderFarmOn(date, repair);
+
+    dragAcrossTiles(onGreenhouse, onGreenhouse);
+
+    expect(greenhouseRepair()).toEqual({ datePlaced: date });
+  });
+
+  it("repairs it on any day, also on a Tuesday", () => {
+    setBuildings([plannedCoop(1, 1, { datePlaced: 0 })]);
+    renderFarmOn(1, repair);
+
+    dragAcrossTiles(onGreenhouse, onGreenhouse);
+
+    expect(greenhouseRepair()).toEqual({ datePlaced: 1 });
+  });
+
+  it("refuses a second repair, and shows why", () => {
+    setGreenhouseRepair({ datePlaced: 0 });
+    renderFarmOn(date, repair);
+
+    hoverOn(onGreenhouse);
+
+    expect(getNoticeLines()).toEqual(["🌿 The Greenhouse is repaired already"]);
+  });
+
+  it("takes the repair out of the plan when the erase is on the repair day or later", () => {
+    setGreenhouseRepair({ datePlaced: 0 });
+    renderFarmOn(date);
+
+    dragAcrossTiles(onGreenhouse, onGreenhouse, rightButton);
+
+    expect(greenhouseRepair()).toBeUndefined();
+  });
+
+  it("keeps a repair that is planned after the date of the erase", () => {
+    setGreenhouseRepair({ datePlaced: 9 });
+    renderFarmOn(date);
+
+    dragAcrossTiles(onGreenhouse, onGreenhouse, rightButton);
+
+    expect(greenhouseRepair()).toEqual({ datePlaced: 9 });
+  });
+});
+
+function cabinWith(skin: string): ISelectedItem {
+  return { id: "cabin", skin, type: "building" };
+}
+
+// The cabin at 1, 1 covers x 1-5 and y 1-3.
+function plannedCabin(overrides: Partial<IPlannedBuilding> = {}) {
+  return { buildingId: "cabin", datePlaced: 0, x: 1, y: 1, ...overrides };
+}
+
+const cabinFootprint = [0, 1, 2].flatMap((dy) =>
+  [0, 1, 2, 3, 4].map((dx) => [1 + dx, 1 + dy]),
+);
+
+const onCabin: [number, number] = [3, 2];
+
+// The pet bowl of the test farm covers x 53-54 and y 7-8.
+const onPetBowl: [number, number] = [54, 8];
+
+describe("skins and paint", () => {
+  it("puts a building down with the skin that is picked on its row", () => {
+    renderFarmOn(date, cabinWith("log_cabin"));
+
+    dragAcrossTiles([1, 1], [1, 1]);
+
+    expect(buildings()).toEqual([
+      plannedCabin({ datePlaced: date, skin: "log_cabin" }),
+    ]);
+  });
+
+  it("paints a building of the same type from the date, with its footprint green first", () => {
+    setBuildings([plannedCabin()]);
+    renderFarmOn(10, cabinWith("log_cabin"));
+
+    hoverOn(onCabin);
+
+    expect(getHighlightedTiles("green").toSorted(byRowThenColumn)).toEqual(
+      cabinFootprint,
+    );
+    expect(screen.queryByTestId("farm-notice")).toBeNull();
+
+    dragAcrossTiles(onCabin, onCabin);
+
+    expect(buildings()).toEqual([
+      plannedCabin({ paints: [{ datePainted: 10, skin: "log_cabin" }] }),
+    ]);
+  });
+
+  it("paints on a Tuesday, because a paint is free and at once", () => {
+    setBuildings([plannedCabin(), plannedCoop(10, 1, { datePlaced: 7 })]);
+    renderFarmOn(8, cabinWith("plank_cabin"));
+
+    dragAcrossTiles(onCabin, onCabin);
+
+    expect(buildings()[0]).toEqual(
+      plannedCabin({ paints: [{ datePainted: 8, skin: "plank_cabin" }] }),
+    );
+  });
+
+  it("refuses the look that the building has on the date, with red tiles and the reason only", () => {
+    setBuildings([
+      plannedCabin({ paints: [{ datePainted: 4, skin: "log_cabin" }] }),
+    ]);
+    renderFarmOn(10, cabinWith("log_cabin"));
+
+    hoverOn(onCabin);
+
+    expect(getHighlightedTiles("red").toSorted(byRowThenColumn)).toEqual(
+      cabinFootprint,
+    );
+    expect(getNoticeLines()).toEqual(["🎨 The Cabin has this look already"]);
+
+    dragAcrossTiles(onCabin, onCabin);
+
+    expect(buildings()).toEqual([
+      plannedCabin({ paints: [{ datePainted: 4, skin: "log_cabin" }] }),
+    ]);
+  });
+
+  it("paints the pet bowl of the farm from the date, and keeps its look before that date", () => {
+    setPetBowlPaints([{ datePainted: 0, skin: "hay_pet_bowl" }]);
+    renderFarmOn(10, { id: "pet_bowl", skin: "pet_bowl", type: "building" });
+
+    dragAcrossTiles(onPetBowl, onPetBowl);
+
+    expect(petBowlPaints()).toEqual([
+      { datePainted: 0, skin: "hay_pet_bowl" },
+      { datePainted: 10, skin: "pet_bowl" },
+    ]);
+    expect(buildings()).toEqual([]);
+  });
+
+  it("refuses the look that the pet bowl of the farm has", () => {
+    renderFarmOn(10, { id: "pet_bowl", skin: "pet_bowl", type: "building" });
+
+    hoverOn(onPetBowl);
+
+    expect(getNoticeLines()).toEqual(["🎨 The Pet Bowl has this look already"]);
+  });
+
+  it("demolishes a painted building from the date of the erase, with the paints from that date", () => {
+    setBuildings([
+      plannedCabin({
+        paints: [
+          { datePainted: 4, skin: "log_cabin" },
+          { datePainted: 20, skin: "plank_cabin" },
+        ],
+      }),
+    ]);
+    renderFarmOn(10, pickAxeTool);
+
+    dragAcrossTiles(onCabin, onCabin, rightButton);
+
+    expect(buildings()).toEqual([
+      plannedCabin({
+        dateDestroyed: 10,
+        paints: [{ datePainted: 4, skin: "log_cabin" }],
+      }),
+    ]);
+  });
+
+  it("takes a painted building out of the plan, with its paints, when the erase is on its order day", () => {
+    setBuildings([
+      plannedCabin({
+        datePlaced: date,
+        paints: [{ datePainted: 4, skin: "log_cabin" }],
+      }),
+    ]);
+    renderFarmOn(date, pickAxeTool);
+
+    dragAcrossTiles(onCabin, onCabin, rightButton);
+
+    expect(buildings()).toEqual([]);
+  });
+
+  it("keeps the paints of the pet bowl of the farm when the erase touches it", () => {
+    setPetBowlPaints([{ datePainted: 0, skin: "hay_pet_bowl" }]);
+    renderFarmOn(10, pickAxeTool);
+
+    dragAcrossTiles(onPetBowl, onPetBowl, rightButton);
+
+    expect(petBowlPaints()).toEqual([{ datePainted: 0, skin: "hay_pet_bowl" }]);
+  });
+});
+
+const paintItem: ISelectedItem = {
+  colors: { Roof: { hue: 120, lightness: 50, saturation: 60 } },
+  id: "paint",
+  type: "paint",
+};
+
+// The stable at 1, 1 covers x 1-4 and y 1-2.
+const onStable: [number, number] = [2, 2];
+
+const stableFootprint = [0, 1].flatMap((dy) =>
+  [0, 1, 2, 3].map((dx) => [1 + dx, 1 + dy]),
+);
+
+describe("colour paint", () => {
+  const stable: IPlannedBuilding = {
+    buildingId: "stable",
+    datePlaced: 0,
+    x: 1,
+    y: 1,
+  };
+
+  it("paints the building under the cursor from the date, in the lightness range of its region, with its footprint green first", () => {
+    setBuildings([stable]);
+    renderFarmOn(10, paintItem);
+
+    hoverOn(onStable);
+
+    expect(getHighlightedTiles("green").toSorted(byRowThenColumn)).toEqual(
+      stableFootprint,
+    );
+    expect(screen.queryByTestId("farm-notice")).toBeNull();
+
+    dragAcrossTiles(onStable, onStable);
+
+    expect(buildings()).toEqual([
+      {
+        ...stable,
+        colorPaints: [
+          {
+            colors: { Roof: { hue: 120, lightness: -12, saturation: 60 } },
+            datePainted: 10,
+          },
+        ],
+      },
+    ]);
+  });
+
+  it("paints the farmhouse from the Nursery", () => {
+    setHouseUpgrades([
+      { datePlaced: 0, level: 1 },
+      { datePlaced: 0, level: 2 },
+    ]);
+    renderFarmOn(10, paintItem);
+
+    dragAcrossTiles(onHouse, onHouse);
+
+    expect(houseColorPaints()).toEqual([
+      {
+        colors: { Roof: { hue: 120, lightness: -12, saturation: 60 } },
+        datePainted: 10,
+      },
+    ]);
+  });
+
+  it("refuses the farmhouse before the Nursery, with red tiles and the reason", () => {
+    setHouseUpgrades([{ datePlaced: 0, level: 1 }]);
+    renderFarmOn(10, paintItem);
+
+    hoverOn(onHouse);
+
+    expect(getHighlightedTiles("red").toSorted(byRowThenColumn)).toEqual(
+      houseFootprint,
+    );
+    expect(getNoticeLines()).toEqual(["🍼 Paint needs the Nursery"]);
+
+    dragAcrossTiles(onHouse, onHouse);
+
+    expect(houseColorPaints()).toEqual([]);
+  });
+
+  it("refuses a cabin and a building with no paint data, with the reason", () => {
+    setBuildings([plannedCabin({ x: 10, y: 10 }), plannedCoop(1, 5)]);
+    renderFarmOn(10, paintItem);
+
+    hoverOn([11, 11]);
+
+    expect(getNoticeLines()).toEqual([
+      "🏠 Paint needs a Cabin upgrade (not in the planner)",
+    ]);
+
+    hoverOn([2, 6]);
+
+    expect(getNoticeLines()).toEqual([
+      "🎨 Paint needs the Deluxe Coop upgrade",
+    ]);
   });
 });

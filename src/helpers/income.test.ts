@@ -1,16 +1,22 @@
+import { atlasSprite } from "./atlas";
 import {
-  formatIncomeTooltip,
   getGoldPrice,
+  getIncomeTooltip,
   getPerDay,
   getPlanYearEnd,
   getShopCost,
+  type IShopCost,
 } from "./income";
+import { getTooltipText } from "./tooltip";
 
 const spring = 0;
 const summer = 28;
 const fall = 56;
 const winter = 84;
 const year = 112;
+
+const costLine = (cost: IShopCost) =>
+  getIncomeTooltip({ cost, income: { perDay: 0, total: 0 }, sell: 0 })[0];
 
 describe("Income helper", () => {
   describe("getGoldPrice", () => {
@@ -23,7 +29,10 @@ describe("Income helper", () => {
     it("skips a random price and a trade", () => {
       expect(
         getGoldPrice({
-          Raccoon: { price: 0, trade: { count: 5, item: "Moss" } },
+          Raccoon: {
+            price: 0,
+            trade: { count: 5, item: "Moss", itemId: "(O)Moss" },
+          },
           Traveler: { random: true },
         }),
       ).toBeUndefined();
@@ -45,9 +54,12 @@ describe("Income helper", () => {
     it("shows a trade and costs nothing when no shop sells it for gold", () => {
       expect(
         getShopCost({
-          IslandTrade: { price: 0, trade: { count: 5, item: "Dragon Tooth" } },
+          IslandTrade: {
+            price: 0,
+            trade: { count: 5, item: "Dragon Tooth", itemId: "(O)852" },
+          },
         }),
-      ).toEqual({ cost: 0, label: "Dragon Tooth ×5" });
+      ).toEqual({ cost: 0, itemId: "(O)852", label: "Dragon Tooth ×5" });
     });
 
     it("has no cost when it is only a random offer", () => {
@@ -80,15 +92,17 @@ describe("Income helper", () => {
     });
   });
 
-  describe("formatIncomeTooltip", () => {
+  describe("getIncomeTooltip", () => {
     it("shows all the lines in order", () => {
       expect(
-        formatIncomeTooltip({
-          cost: { cost: 20, label: "20g" },
-          income: { perDay: 7.5, total: 210 },
-          profit: { perDay: 3.21, total: 90 },
-          sell: 35,
-        }),
+        getTooltipText(
+          getIncomeTooltip({
+            cost: { cost: 20, label: "20g" },
+            income: { perDay: 7.5, total: 210 },
+            profit: { perDay: 3.21, total: 90 },
+            sell: 35,
+          }),
+        ),
       ).toBe(
         "Cost: 20g\nSell: 35g\nIncome: 210g\nIncome/day: 7.5g\nProfit: 90g\nProfit/day: 3.21g",
       );
@@ -96,11 +110,31 @@ describe("Income helper", () => {
 
     it("leaves out the cost and profit lines when there are none", () => {
       expect(
-        formatIncomeTooltip({
-          income: { perDay: 12.5, total: 1050 },
-          sell: 50,
-        }),
+        getTooltipText(
+          getIncomeTooltip({
+            income: { perDay: 12.5, total: 1050 },
+            sell: 50,
+          }),
+        ),
       ).toBe("Sell: 50g\nIncome: 1050g\nIncome/day: 12.5g");
+    });
+
+    it("draws the game icon of the item that a trade costs", () => {
+      expect(
+        costLine({ cost: 0, itemId: "(O)852", label: "Dragon Tooth ×5" }),
+      ).toEqual({
+        sprite: atlasSprite("materials", [304, 0, 16, 16]),
+        text: "Cost: Dragon Tooth ×5",
+      });
+    });
+
+    it("draws no icon for a gold cost, or for a trade item that has no game icon", () => {
+      expect(costLine({ cost: 20, label: "20g" })).toEqual({
+        text: "Cost: 20g",
+      });
+      expect(costLine({ cost: 0, itemId: "(O)0", label: "Weeds ×5" })).toEqual({
+        text: "Cost: Weeds ×5",
+      });
     });
   });
 });

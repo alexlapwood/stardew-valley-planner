@@ -71,9 +71,6 @@ exports[`<SeedMenu /> > renders correctly 1`] = `
     <div
       class="sdv-list-item"
       data-testid="seed--ancient_fruit"
-      title="Sell: 550g
-Income: 4400g
-Income/day: 52.38g"
     >
       <div
         class="sdv-list-item-icon"
@@ -149,12 +146,6 @@ Income/day: 52.38g"
     <div
       class="sdv-list-item"
       data-testid="seed--blue_jazz"
-      title="Cost: 30g
-Sell: 50g
-Income: 150g
-Income/day: 5.36g
-Profit: 60g
-Profit/day: 2.14g"
     >
       <div
         class="sdv-list-item-icon"
@@ -214,10 +205,6 @@ Profit/day: 2.14g"
     <div
       class="sdv-list-item"
       data-testid="seed--carrot"
-      title="Cost: Maple Seed ×1
-Sell: 35g
-Income: 315g
-Income/day: 11.25g"
     >
       <div
         class="sdv-list-item-icon"
@@ -265,12 +252,6 @@ Income/day: 11.25g"
     <div
       class="sdv-list-item"
       data-testid="seed--cauliflower"
-      title="Cost: 80g
-Sell: 175g
-Income: 350g
-Income/day: 12.5g
-Profit: 190g
-Profit/day: 6.79g"
     >
       <div
         class="sdv-list-item-icon"
@@ -338,12 +319,6 @@ Profit/day: 6.79g"
     <div
       class="sdv-list-item"
       data-testid="seed--coffee_bean"
-      title="Cost: 2500g
-Sell: 15g
-Income: 1380g
-Income/day: 24.64g
-Profit: -1120g
-Profit/day: -20g"
     >
       <div
         class="sdv-list-item-icon"
@@ -411,9 +386,6 @@ Profit/day: -20g"
     <div
       class="sdv-list-item"
       data-testid="seed--fiber"
-      title="Sell: 1g
-Income: 60g
-Income/day: 0.54g"
     >
       <div
         class="sdv-list-item-icon"
@@ -457,12 +429,6 @@ Income/day: 0.54g"
     <div
       class="sdv-list-item"
       data-testid="seed--garlic"
-      title="Cost: 40g
-Sell: 60g
-Income: 360g
-Income/day: 12.86g
-Profit: 120g
-Profit/day: 4.29g"
     >
       <div
         class="sdv-list-item-icon"
@@ -510,12 +476,6 @@ Profit/day: 4.29g"
     <div
       class="sdv-list-item"
       data-testid="seed--green_bean"
-      title="Cost: 60g
-Sell: 40g
-Income: 240g
-Income/day: 8.57g
-Profit: 180g
-Profit/day: 6.43g"
     >
       <div
         class="sdv-list-item-icon"
@@ -579,12 +539,6 @@ Profit/day: 6.43g"
     <div
       class="sdv-list-item"
       data-testid="seed--kale"
-      title="Cost: 70g
-Sell: 110g
-Income: 440g
-Income/day: 15.71g
-Profit: 160g
-Profit/day: 5.71g"
     >
       <div
         class="sdv-list-item-icon"
@@ -624,12 +578,6 @@ Profit/day: 5.71g"
     <div
       class="sdv-list-item"
       data-testid="seed--parsnip"
-      title="Cost: 20g
-Sell: 35g
-Income: 210g
-Income/day: 7.5g
-Profit: 90g
-Profit/day: 3.21g"
     >
       <div
         class="sdv-list-item-icon"
@@ -681,12 +629,6 @@ Profit/day: 3.21g"
     <div
       class="sdv-list-item"
       data-testid="seed--potato"
-      title="Cost: 50g
-Sell: 80g
-Income: 320g
-Income/day: 11.43g
-Profit: 120g
-Profit/day: 4.29g"
     >
       <div
         class="sdv-list-item-icon"
@@ -734,12 +676,6 @@ Profit/day: 4.29g"
     <div
       class="sdv-list-item"
       data-testid="seed--rhubarb"
-      title="Cost: 100g
-Sell: 220g
-Income: 440g
-Income/day: 15.71g
-Profit: 240g
-Profit/day: 8.57g"
     >
       <div
         class="sdv-list-item-icon"
@@ -791,12 +727,6 @@ Profit/day: 8.57g"
     <div
       class="sdv-list-item"
       data-testid="seed--strawberry"
-      title="Cost: 100g
-Sell: 120g
-Income: 600g
-Income/day: 21.43g
-Profit: 500g
-Profit/day: 17.86g"
     >
       <div
         class="sdv-list-item-icon"
@@ -860,12 +790,6 @@ Profit/day: 17.86g"
     <div
       class="sdv-list-item"
       data-testid="seed--tulip"
-      title="Cost: 20g
-Sell: 30g
-Income: 120g
-Income/day: 4.29g
-Profit: 40g
-Profit/day: 1.43g"
     >
       <div
         class="sdv-list-item-icon"
@@ -909,12 +833,6 @@ Profit/day: 1.43g"
     <div
       class="sdv-list-item"
       data-testid="seed--unmilled_rice"
-      title="Cost: 40g
-Sell: 30g
-Income: 90g
-Income/day: 3.21g
-Profit: -30g
-Profit/day: -1.07g"
     >
       <div
         class="sdv-list-item-icon"
